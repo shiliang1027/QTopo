@@ -15,8 +15,5 @@ module.exports = {
                 loader: "json"
             }
         ]
-    },
-    externals: {
-        jquery: 'window.$'
     }
 };

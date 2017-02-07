@@ -1,7 +1,7 @@
 /**
  * Created by qiyc on 2017/2/6.
  */
-var $ = require('jquery');
+window.$=window.jQuery=require('./lib/jquery/jquery.min.js');
 require("./lib/jtopo/jtopo-min.js");
 //模块
 var greeter = require('./tools.js');
