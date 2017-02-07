@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="css/Qtopo.css" rel="stylesheet">
+    <link href="css/Qtopo.min.css" rel="stylesheet">
     <script src="Qtopo.bundle.js"></script>
+    <style>
+    </style>
 </head>
 <body>
-<div id='root'>
-</div>
+<canvas class="topo_base"  width="1000px" height="1000px"></canvas>
 <script>
     window.onload=function(){
-        console.info(window.Qtopo);
-        Qtopo.init();
-        console.info(JTopo);
+        QTopo.init(document.getElementsByClassName("topo_base")[0],{
+            background:"img/bg1.jpg"
+        });
     }
 </script>
 </body>

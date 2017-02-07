@@ -8,7 +8,7 @@ var homePage = "./public/index.html";
 var scss = "./core/scss/Qtopo.scss";
 var dCss = "./public/css/";
 var root = './public';
-var watchPath = ['core/*',"./webpack.config.js"];
+var watchPath = ["core/*.js",'core/**/*.js',"./webpack.config.js"];
 
 gulp.task('default', ['watch', 'serve']);
 gulp.task('webpack', function () {
