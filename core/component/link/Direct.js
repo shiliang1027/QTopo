@@ -1,12 +1,11 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-//一般节点
+//直线
 function Direct(config) {
     var self=this;
     config=$.extend(defaults, config||{});
     self.attr=config;
-    self.jtopo = new JTopo.Node();
     //函数
     self.set=setJTopo;
     self.set(config);//初始化

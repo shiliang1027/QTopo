@@ -1,13 +1,18 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
+var common=require("../common.js");
+module.exports = Normal;
 var defaults={
     name: "node",
     image: "img/mo/wlan_4.png",
     size:[64,64],
     alpha: 1,
     position:[0,0],
-    font: '16px 微软雅黑',
+    font: {
+        size:16,
+        type:'微软雅黑'
+    },
     weight:10,
     zIndex: 200,//层级(10-999)
     id: "",
@@ -15,71 +20,35 @@ var defaults={
     color: JTopo.util.randomColor(),
     textPosition: 'Bottom_Center',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
     type: 'normal',
-    text: ''
+    text: '',
+    fontColor: '255,255,255'
 };
 //一般节点
 function Normal(config) {
     var self=this;
-    config=$.extend(defaults, config||{});
+    config=$.extend(true,defaults, config||{});
     self.attr=config;
     self.jtopo = new JTopo.Node();
     //函数
     self.set=setJTopo;
     self.set(config);//初始化
 }
-module.exports = Normal;
+function setJTopo(config){
+    if(config){
+        var self=this;
+        $.extend(true, self.attr, config||{});
+        //处理特殊属性的设置
+        if(config.image){
+            setImage.call(self,config.image);
+        }
+        //处理一般属性的设置
+        common.setAttr(self,["textPosition","size","position","alpha","font","fontColor","zIndex"],config);
+    }
+}
 
-function setJTopo(attr){
-    if(attr){
-        var jtopo=this.jtopo;
-        $.extend(true, this.attr, attr||{});
-        if(attr.image){
-            setImage(attr.image,this);
-        }
-        if(attr.textPosition||attr.namePosition){
-            setTextPosition(attr.textPosition||attr.namePosition,this);
-        }else if(attr.name){
-            setTextPosition('Bottom_Center',this);
-        }
-        if(attr.size){
-            jtopo.setSize(attr.size[0], attr.size[1]);
-        }
-        if(attr.position){
-            jtopo.setLocation(attr.position[0], attr.position[1]);
-        }
-        if(attr.alpha){
-            jtopo.alpha=attr.alpha;
-        }
-    }
-}
-function setImage(image,node) {
-    node.jtopo.setImage(image);
-}
-function setTextPosition(textPosition,node) {
-    var jtopo=node.jtopo;
-    jtopo.textPosition = textPosition;
-    jtopo.text = node.attr.name;
-    switch (textPosition) {
-        case 'Hidden':
-            jtopo.text = '';
-            break;
-        case 'Bottom_Center':
-            jtopo.textOffsetX = 0;
-            jtopo.textOffsetY = 0;
-            break;
-        case 'Top_Center':
-            jtopo.textOffsetX = 0;
-            jtopo.textOffsetY = 0;
-            break;
-        case 'Middle_Left':
-            jtopo.textOffsetX = -5;
-            jtopo.textOffsetY = 0;
-            break;
-        case 'Middle_Right':
-            jtopo.textOffsetX = 5;
-            jtopo.textOffsetY = 0;
-            break;
-    }
+//私有函数
+function setImage(image) {
+    this.jtopo.setImage(image);
 }
 function drawAlarm(set) {
     if(this.attr.scene){

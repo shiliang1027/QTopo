@@ -1,12 +1,18 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Node=require("./node/Node.js");
+var common=require("./common.js");
+var Node = require("./node/Node.js");
+module.exports = Scene;
 //画布对象
 function Scene(stage) {
     var self = this;
-    self.jtopo=new JTopo.Scene();
-    self.children=[];
+    self.jtopo = new JTopo.Scene();
+    self.children = {
+        node: [],
+        link: [],
+        group: []
+    };
     self.attr = {
         name: '',
         id: '',
@@ -16,44 +22,47 @@ function Scene(stage) {
         offsetX: 0,
         offsetY: 0
     };
-    self.createNode=createNode;
-    self.add=add;
-    self.set=setJTopo;
+    self.createNode = createNode;
+    self.add = add;
+    self.set = setJTopo;
     self.setMode=setMode;
-    self.on=addEventListener;
+    self.on = common.on;
     self.setMode("edit");
     stage.add(self.jtopo);
 }
-module.exports =Scene;
-
-function createNode(config){
+function createNode(config) {
     var newNode;
-    config=config||{};
-    switch (config.type){
-        case "text":newNode=new Node.Text(config);break;
-        default: newNode=new Node.Normal(config);
+    config = config || {};
+    switch (config.type) {
+        case "text":
+            newNode = new Node.Text(config);
+            break;
+        default:
+            newNode = new Node.Normal(config);
     }
     this.add(newNode.jtopo);
-    this.children.push(newNode);
+    this.children.node.push(newNode);
+    return newNode;
 }
-function add(element){
-    if(element){
+function add(element) {
+    if (element) {
         this.jtopo.add(element);
     }
 }
-function setJTopo(config){
-    if(config){
-        var jtopo=this.jtopo;
-        $.extend(true, this.attr, config||{});
-        if(config.mode){
+function setJTopo(config) {
+    if (config) {
+        var jtopo = this.jtopo;
+        $.extend(true, this.attr, config || {});
+        if (config.mode) {
             setMode(config.mode);
         }
-        jtopo.background=config.background;
+        if(config.background){
+            jtopo.background = config.background;
+        }
     }
 }
-function setMode(mode){
-    this.jtopo.mode=mode;
+function setMode(mode) {
+    this.attr.mode=mode;
+    this.jtopo.mode = mode;
 }
-function addEventListener(name,fn){
-    this.jtopo.addEventListener(name,fn);
-}
+//私有函数
