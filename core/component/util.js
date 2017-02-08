@@ -31,6 +31,11 @@ module.exports = {
             }
         }
     },
+    upFirst:function(string){
+        return string.replace(/(^|\s+)\w/g, function (s) {
+            return s.toUpperCase();//首字母大寫
+        })
+    },
     getParameter: function (param) {
         var query = window.location.search;//获取URL地址中？后的所有字符
         var iLen = param.length;//获取你的参数名称长度

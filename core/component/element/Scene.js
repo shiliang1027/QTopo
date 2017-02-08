@@ -1,8 +1,16 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var common=require("./common.js");
-var Node = require("./node/Node.js");
+var Node = {
+    Normal: require("./node/Normal.js"),
+    Text: require("./node/Text.js")
+};
+var Link={
+    Curve: require("./link/Curve.js"),
+    Direct: require("./link/Direct.js"),
+    Flexional:require("./link/Flexional.js"),
+    Fold:require("./link/Fold.js")
+};
 module.exports = Scene;
 //画布对象
 function Scene(stage) {
@@ -23,10 +31,10 @@ function Scene(stage) {
         offsetY: 0
     };
     self.createNode = createNode;
+    self.createLink=createLink;
     self.add = add;
     self.set = setJTopo;
     self.setMode=setMode;
-    self.on = common.on;
     self.setMode("edit");
     stage.add(self.jtopo);
 }
@@ -43,6 +51,29 @@ function createNode(config) {
     this.add(newNode.jtopo);
     this.children.node.push(newNode);
     return newNode;
+}
+function createLink(config){
+    var newLink;
+    config = config || {};
+    switch (config.type) {
+        case "direct":
+            newLink = new Link.Direct(config);
+            break;
+        case "curve":
+            newLink = new Link.Curve(config);
+            break;
+        case "flexional":
+            newLink = new Link.Flexional(config);
+            break;
+        case "fold":
+            newLink = new Link.Fold(config);
+            break;
+        default:
+            newLink = new Link.Direct(config);
+    }
+    this.add(newLink.jtopo);
+    this.children.link.push(newLink);
+    return newLink;
 }
 function add(element) {
     if (element) {
