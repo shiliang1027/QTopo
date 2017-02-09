@@ -49,9 +49,14 @@ function createNode(config) {
         default:
             newNode = new Node.Normal(config);
     }
-    this.add(newNode.jtopo);
-    this.children.node.push(newNode);
-    return newNode;
+    if(newNode.jtopo){
+        this.add(newNode.jtopo);
+        this.children.node.push(newNode);
+        return newNode;
+    }else{
+        console.error("create Node error",config);
+        return false;
+    }
 }
 function createLink(config){
     var newLink;
@@ -72,9 +77,14 @@ function createLink(config){
         default:
             newLink = new Link.Direct(config);
     }
-    this.add(newLink.jtopo);
-    this.children.link.push(newLink);
-    return newLink;
+    if(newLink.jtopo){
+        this.add(newLink.jtopo);
+        this.children.link.push(newLink);
+        return newLink;
+    }else{
+        console.error("create Link error",config);
+        return false;
+    }
 }
 function add(element) {
     if (element) {

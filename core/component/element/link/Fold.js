@@ -50,7 +50,6 @@ function Fold(config){
 function setJTopo(config) {
     if (config) {
         var self=this;
-        $.extend(true, this.attr, config || {});
         self._setLink(config,["direction"]);
     }
 }

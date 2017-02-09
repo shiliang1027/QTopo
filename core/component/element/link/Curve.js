@@ -50,11 +50,10 @@ function Curve(config){
 function setJTopo(config) {
     if (config) {
         var self=this;
-        $.extend(true, this.attr, config || {});
+        self._setLink(config);
         if(config.direction){
             setDirection.call(self,config.direction);
         }
-        self._setLink(config);
     }
 }
 function reset(link){

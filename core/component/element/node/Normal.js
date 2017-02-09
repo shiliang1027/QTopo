@@ -37,13 +37,12 @@ function Normal(config) {
 function setJTopo(config) {
     if (config) {
         var self = this;
-        $.extend(true, self.attr, config || {});
+        //处理一般属性的设置
+        self._setNode(config,["name","textPosition","size","color"]);
         //处理特殊属性的设置
         if (config.image) {
             setImage.call(self, config.image);
         }
-        //处理一般属性的设置
-        self._setNode(config,["name","textPosition","size","color"]);
     }
 }
 

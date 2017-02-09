@@ -89,11 +89,14 @@ function Element(){
     this._setAttr=function(arr,config){
         var self=this;
         try{
-            $.each(arr,function(k,v){
-                var fn=self['set'+QTopo.util.upFirst(v)];
-                var attr=config[v];
-                if(attr&&fn){
-                    fn.call(self,attr);
+            $.extend(true, this.attr, config || {});
+            $.each(config,function(k,v){
+                if(arr.indexOf(k)>-1){//配置验证
+                    var fn=self['set'+QTopo.util.upFirst(k)];
+                    var attr=v;
+                    if(attr&&fn){
+                        fn.call(self,attr);
+                    }
                 }
             });
         }catch (e){

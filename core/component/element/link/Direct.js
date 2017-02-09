@@ -51,12 +51,10 @@ function Direct(config) {
 function setJTopo(config) {
     if (config) {
         var self=this;
-        $.extend(true, this.attr, config || {});
+        self._setLink(config);
         if(config.bundleOffset){
             self.jtopo.bundleOffset=parseInt(config.bundleOffset);
         }
-
-        self._setLink(config);
     }
 }
 function reset(link){

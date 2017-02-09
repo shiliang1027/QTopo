@@ -6,6 +6,5 @@ Container.prototype = new Element();
 module.exports = Container;
 function Container() {
     this.type = "container";
-
 }
 

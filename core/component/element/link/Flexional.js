@@ -51,11 +51,10 @@ function Flexional(config){
 function setJTopo(config) {
     if (config) {
         var self=this;
-        $.extend(true, this.attr, config || {});
+        self._setLink(config,["direction"]);
         if(config.offsetGap){
             setOffsetGap.call(self,config.offsetGap);
         }
-        self._setLink(config,["direction"]);
     }
 }
 function setOffsetGap(offsetGap){
