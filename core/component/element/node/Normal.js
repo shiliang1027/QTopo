@@ -12,7 +12,8 @@ var defaults = function () {
         position: [0, 0],
         font: {
             size: 16,
-            type: '微软雅黑'
+            type: '微软雅黑',
+            color:"255,255,255"
         },
         weight: 10,
         zIndex: 200,//层级(10-999)
@@ -20,8 +21,7 @@ var defaults = function () {
         pid: '',
         color: JTopo.util.randomColor(),
         textPosition: 'Bottom_Center',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
-        type: 'normal',
-        fontColor: '255,255,255'
+        type: 'normal'
     }
 };
 //一般节点

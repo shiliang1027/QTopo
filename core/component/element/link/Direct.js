@@ -25,9 +25,9 @@ var defaults =function(){
         textOffset:[0,0],
         font:{
             size:16,
-            type:"微软雅黑"
+            type:"微软雅黑",
+            color:'255,255,255'
         },
-        fontColor: '255,255,255',
         type: 'direct',
         bundleOffset:60// 多条直线时，线条折线拐角处的长度
     };

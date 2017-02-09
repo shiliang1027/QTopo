@@ -18,8 +18,17 @@ function Element(){
     this.setZIndex=function (zIndex) {
         this.jtopo.zIndex = parseInt(zIndex);
     };
-    this.setFontColor=function (color) {
-        this.jtopo.fontColor = QTopo.util.transHex(color.toLowerCase());
+    this.setFont=function (font) {
+        if(font.size&&font.type){
+            this.jtopo.font = font.size + "px " + font.type;
+        }else{
+            console.error("setFont need size and type");
+        }
+        if(font.color){
+            this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
+        }else{
+            console.error("setFontColor has no param");
+        }
     };
     this.setAlpha=function (alpha) {
         if (alpha > 1 || alpha < 0) {
@@ -27,9 +36,6 @@ function Element(){
         } else {
             this.jtopo.alpha = alpha;
         }
-    };
-    this.setFont=function (font) {
-        this.jtopo.font = font.size + "px " + font.type;
     };
     this.setTextOffset=function(arr){
         if($.isArray(arr)&&arr.length>=2) {
@@ -52,6 +58,9 @@ function Element(){
         }else{
             console.error("size need be array and 2 length");
         }
+    };
+    this.setDragable=function(dragable){
+        this.jtopo.dragable=dragable;
     };
     this.setTextPosition = function (textPosition) {
         var jtopo = this.jtopo;

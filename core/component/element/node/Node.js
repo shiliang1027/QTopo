@@ -17,7 +17,7 @@ function Node() {
         }
     };
     this._setNode=function(config,arr){
-        var temp= ["font","position","alpha","fontColor","zIndex"];
+        var temp= ["font","position","alpha","zIndex"];
         if(arr){
             this._setAttr($.merge(temp,arr),config);
         }else{

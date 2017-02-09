@@ -40,7 +40,7 @@ function Link() {
         this.jtopo.direction=direction;
     };
     this._setLink=function(config,arr){
-        var temp= ["num","font","fontColor","color","alpha","arrow","gap","textOffset","width","dashed"];
+        var temp= ["num","font","color","alpha","arrow","gap","textOffset","width","dashed"];
         if(arr){
             this._setAttr($.merge(temp,arr),config);
         }else{

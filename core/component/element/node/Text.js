@@ -8,7 +8,8 @@ var defaults =function(){
         position:[0,0],
         font:{
             size:16,
-            type: '微软雅黑'
+            type: '微软雅黑',
+            color:"255,255,255"
         },
         zIndex: 200,//层级(10-999)
         alpha: 1,
@@ -16,8 +17,7 @@ var defaults =function(){
         pid: '',
         text: 'no text here',
         type: 'text',
-        weight: 1000000,
-        fontColor: '255,255,255'
+        weight: 1000000
     };
 };
 //一般节点
