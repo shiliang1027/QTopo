@@ -1,8 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Link=require("./Link.js");
-Fold.prototype=new Link();
+Fold.prototype=require("./Link.js");
 module.exports = Fold;
 //折线
 var defaults =function(){

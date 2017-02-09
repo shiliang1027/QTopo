@@ -1,9 +1,8 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Element = require("../Element.js");
-Link.prototype = new Element();
-module.exports = Link;
+Link.prototype =require("../Element.js");
+module.exports = new Link();
 function Link() {
     this.type = "link";
     this.setColor = function (color) {
@@ -29,16 +28,6 @@ function Link() {
     this.setGap=function(gap){
         this.jtopo.bundleGap = gap; // 线条之间的间隔
     };
-    this.setStart=function(start){
-        //nodeA
-        //todo bug
-        this.jtopo.nodeA=start.jtopo;
-    };
-    this.setEnd=function(end){
-        //nodeZ
-        //todo bug
-        this.jtopo.nodeZ=end.jtopo;
-    };
     this.setDashed=function(dashedPattern){
         if(dashedPattern&&dashedPattern>0){
             this.jtopo.dashedPattern=dashedPattern;
@@ -51,7 +40,7 @@ function Link() {
         this.jtopo.direction=direction;
     };
     this._setLink=function(config,arr){
-        var temp= ["num","font","fontColor","color","alpha","start","end","arrow","gap","textOffset","width","dashed"];
+        var temp= ["num","font","fontColor","color","alpha","arrow","gap","textOffset","width","dashed"];
         if(arr){
             this._setAttr($.merge(temp,arr),config);
         }else{

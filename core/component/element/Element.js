@@ -1,7 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-module.exports = Element;
+module.exports = new Element();
 function Element(){
     this.show=function() {
         this.jtopo.visible=true;
@@ -85,16 +85,20 @@ function Element(){
                 break;
         }
     };
-    //限制所能修改的属性
+    //限制所能修改的属性,arr为所能修改的属性列表
     this._setAttr=function(arr,config){
         var self=this;
-        $.each(arr,function(k,v){
-            var fn=self['set'+QTopo.util.upFirst(v)];
-            var attr=config[v];
-            if(attr&&fn){
-                fn.call(self,attr);
-            }
-        });
+        try{
+            $.each(arr,function(k,v){
+                var fn=self['set'+QTopo.util.upFirst(v)];
+                var attr=config[v];
+                if(attr&&fn){
+                    fn.call(self,attr);
+                }
+            });
+        }catch (e){
+            console.info("Element _setAttr error :"+e);
+        }
     }
 }
 

@@ -1,8 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Link=require("./Link.js");
-Curve.prototype=new Link();
+Curve.prototype=require("./Link.js");
 module.exports = Curve;
 //曲线
 var defaults =function(){

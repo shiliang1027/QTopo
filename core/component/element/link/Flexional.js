@@ -1,8 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Link=require("./Link.js");
-Flexional.prototype=new Link();
+Flexional.prototype=require("./Link.js");
 module.exports = Flexional;
 //二次折线
 var defaults =function(){

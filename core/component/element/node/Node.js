@@ -1,9 +1,8 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Element = require("../Element.js");
-Node.prototype = new Element();
-module.exports = Node;
+Node.prototype = require("../Element.js");
+module.exports = new Node();
 function Node() {
     this.type = "node";
     this.setColor = function (color) {

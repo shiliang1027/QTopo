@@ -33,6 +33,7 @@ function Scene(stage) {
     self.createNode = createNode;
     self.createLink=createLink;
     self.add = add;
+    self.on=addEventListener;
     self.set = setJTopo;
     self.setMode=setMode;
     self.setMode("edit");
@@ -95,5 +96,8 @@ function setJTopo(config) {
 function setMode(mode) {
     this.attr.mode=mode;
     this.jtopo.mode = mode;
+}
+function addEventListener(name,fn){
+    this.jtopo.addEventListener(name,fn);
 }
 //私有函数

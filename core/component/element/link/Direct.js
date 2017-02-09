@@ -1,8 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Link=require("./Link.js");
-Direct.prototype=new Link();
+Direct.prototype=require("./Link.js");
 module.exports = Direct;
 //直线
 var defaults =function(){

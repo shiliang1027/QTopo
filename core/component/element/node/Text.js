@@ -1,8 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Node=require("./Node.js");
-Text.prototype=new Node();
+Text.prototype=require("./Node.js");
 module.exports = Text;
 var defaults =function(){
     return {
