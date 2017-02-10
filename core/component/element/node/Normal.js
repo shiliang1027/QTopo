@@ -15,10 +15,7 @@ var defaults = function () {
             type: '微软雅黑',
             color:"255,255,255"
         },
-        weight: 10,
         zIndex: 200,//层级(10-999)
-        id: "",
-        pid: '',
         color: JTopo.util.randomColor(),
         textPosition: 'Bottom_Center',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
         type: 'normal'
@@ -29,6 +26,8 @@ function Normal(config) {
     var self = this;
     self.attr = $.extend(true, defaults(), config || {});
     self.jtopo = new JTopo.Node();
+    //封装对象之间相互保持引用
+    self.jtopo.qtopo=self;
     //函数
     self.set = setJTopo;
     //初始化

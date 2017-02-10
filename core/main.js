@@ -16,6 +16,9 @@ window.QTopo.init = function (canvas, config) {
     scene.set({
         background:config.background
     });
+    scene.on("dbclick",function(e){
+        console.info(e.target.qtopo);
+    });
     var text=scene.createNode({
         type:"text",
         position:[200,200],
@@ -62,4 +65,5 @@ window.QTopo.init = function (canvas, config) {
             textPosition:"Bottom_Center"
         });
     },3000);
+
 };

@@ -2,65 +2,65 @@
  * Created by qiyc on 2017/2/7.
  */
 module.exports = new Element();
-function Element(){
-    this.show=function() {
-        this.jtopo.visible=true;
+function Element() {
+    this.show = function () {
+        this.jtopo.visible = true;
     };
-    this.hide=function() {
-        this.jtopo.visible=false;
+    this.hide = function () {
+        this.jtopo.visible = false;
     };
-    this.setText=function (text) {
+    this.setText = function (text) {
         this.jtopo.text = text;
     };
-    this.on=function (name, fn) {
+    this.on = function (name, fn) {
         this.jtopo.addEventListener(name, fn);
     };
-    this.setZIndex=function (zIndex) {
+    this.setZIndex = function (zIndex) {
         this.jtopo.zIndex = parseInt(zIndex);
     };
-    this.setFont=function (font) {
-        if(font.size&&font.type){
+    this.setFont = function (font) {
+        if (font.size && font.type) {
             this.jtopo.font = font.size + "px " + font.type;
-        }else{
+        } else {
             console.error("setFont need size and type");
         }
-        if(font.color){
+        if (font.color) {
             this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
-        }else{
+        } else {
             console.error("setFontColor has no param");
         }
     };
-    this.setAlpha=function (alpha) {
+    this.setAlpha = function (alpha) {
         if (alpha > 1 || alpha < 0) {
             this.jtopo.alpha = 1;
         } else {
             this.jtopo.alpha = alpha;
         }
     };
-    this.setTextOffset=function(arr){
-        if($.isArray(arr)&&arr.length>=2) {
+    this.setTextOffset = function (arr) {
+        if ($.isArray(arr) && arr.length >= 2) {
             this.jtopo.textOffsetX = arr[0];
             this.jtopo.textOffsetY = arr[1];
-        }else{
+        } else {
             console.error("textOffset need be array and 2 length");
         }
     };
     this.setPosition = function (position, fix) {
-        if($.isArray(position)&&position.length>=2) {
+        if ($.isArray(position) && position.length >= 2) {
             this.jtopo.setLocation(position[0], position[1]);
-        }else{
+        } else {
             console.error("position need be array and 2 length");
         }
     };
     this.setSize = function (size) {
-        if($.isArray(size)&&size.length>=2){
+        if ($.isArray(size) && size.length >= 2) {
             this.jtopo.setSize(size[0], size[1]);
-        }else{
+        } else {
             console.error("size need be array and 2 length");
         }
     };
-    this.setDragable=function(dragable){
-        this.jtopo.dragable=dragable;
+    this.setDragable = function (dragable) {
+        this.jtopo.dragable = dragable;
     };
     this.setTextPosition = function (textPosition) {
         var jtopo = this.jtopo;
@@ -90,26 +90,24 @@ function Element(){
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
                 jtopo.text = this.attr.name;
-                jtopo.textPosition='Bottom_Center';
+                jtopo.textPosition = 'Bottom_Center';
                 break;
         }
     };
     //限制所能修改的属性,arr为所能修改的属性列表
-    this._setAttr=function(arr,config){
-        var self=this;
-        try{
-            $.extend(true, this.attr, config || {});
-            $.each(config,function(k,v){
-                if(arr.indexOf(k)>-1){//配置验证
-                    var fn=self['set'+QTopo.util.upFirst(k)];
-                    var attr=v;
-                    if(attr&&fn){
-                        fn.call(self,attr);
-                    }
+    this._setAttr = function (arr, config) {
+        var self = this;
+        try {
+            $.each(arr, function (i, v) {
+                var fn = self['set' + QTopo.util.upFirst(v)];
+                var attr = config[v];
+                if (attr && fn) {
+                    fn.call(self, attr);
+                    self.attr.v=attr;
                 }
             });
-        }catch (e){
-            console.info("Element _setAttr error :"+e);
+        } catch (e) {
+            console.info("Element _setAttr error :" + e);
         }
     }
 }

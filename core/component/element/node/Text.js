@@ -13,8 +13,6 @@ var defaults =function(){
         },
         zIndex: 200,//层级(10-999)
         alpha: 1,
-        id: "",
-        pid: '',
         text: 'no text here',
         type: 'text',
         weight: 1000000
@@ -25,6 +23,8 @@ function Text(config) {
     var self = this;
     self.attr = $.extend(true,defaults(), config || {});
     self.jtopo = new JTopo.TextNode();
+    //封装对象之间相互保持引用
+    self.jtopo.qtopo=self;
     //函数
     self.set = setJTopo;
     //初始化

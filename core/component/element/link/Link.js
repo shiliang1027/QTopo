@@ -2,6 +2,7 @@
  * Created by qiyc on 2017/2/7.
  */
 Link.prototype =require("../Element.js");
+Link.prototype.constructor=Link;
 module.exports = new Link();
 function Link() {
     this.type = "link";
@@ -12,7 +13,7 @@ function Link() {
         }
     };
     this.setNum = function (num) {
-        if (num > 0) {
+        if (num > 1) {
             this.jtopo.text = '(+' + num + ')';
         } else {
             this.jtopo.text = '';

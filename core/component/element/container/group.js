@@ -6,9 +6,7 @@ module.exports = Group;
 //曲线
 var defaults = function () {
     return {
-        name: '',
-        id: '',
-        pid: '',
+        name: 'group',
         font:{
             size:16,
             type:"微软雅黑",
@@ -32,6 +30,20 @@ var defaults = function () {
         showName: true
     };
 };
+
+function Group(config) {
+    var self = this;
+    self.jtopo = new JTopo.FoldLink(config.start.jtopo, config.end.jtopo);
+    //封装对象之间相互保持引用
+    self.jtopo.qtopo=self;
+    self.attr = $.extend(true, defaults(), config || {});
+    //函数
+    self.set = setJTopo;
+    //初始化
+    self.set(self.attr);
+    //改写源码绘制曲线,可由curveOffset指定弧度
+    reset(self);
+}
 var defaultLayout = function (container, children) {
     if (children.length > 0) {
         var left = 1e7,
@@ -55,16 +67,17 @@ var defaultLayout = function (container, children) {
         container.height = height;
     }
 };
-function Group(config) {
-    var self = this;
-    self.jtopo = new JTopo.FoldLink(config.start.jtopo, config.end.jtopo);
-    self.attr = $.extend(true, defaults(), config || {});
-    //函数
-    self.set = setJTopo;
-    //初始化
-    self.set(self.attr);
-    //改写源码绘制曲线,可由curveOffset指定弧度
-    reset(self);
+function setJTopo() {
+    if (config) {
+        var self=this;
+        self._setLink(config);
+        if(config.layout){
+            setLayout.call(self,config.layout);
+        }
+    }
+}
+function reset(group) {
+    group.layout=defaultLayout;
 }
 function setLayout(layout){
     var selected;
@@ -86,16 +99,4 @@ function setLayout(layout){
         this.attr.layout.type="set";
     }
     this.jtopo.layout = selected;
-}
-function setJTopo() {
-    if (config) {
-        var self=this;
-        self._setLink(config);
-        if(config.direction){
-            setDirection.call(self,config.direction);
-        }
-    }
-}
-function reset(group) {
-    group.layout=defaultLayout;
 }
