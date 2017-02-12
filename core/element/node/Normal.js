@@ -5,7 +5,7 @@ Normal.prototype=require("./Node.js");
 module.exports = Normal;
 var defaults = function () {
     return {
-        image: "img/mo/wlan_4.png",
+        image: "",
         size: [64, 64],
         name: "node",
         alpha: 1,

@@ -6,8 +6,8 @@ require('./lib/jquery-nicescroll/jquery.nicescroll.min.js');
 require("./lib/jtopo/jtopo-min.js");
 //模块
 window.QTopo = {};
-window.QTopo.util = require('./component/util.js');
-var Scene=require('./component/element/Scene.js');
+window.QTopo.util = require('./util.js');
+var Scene=require('./Scene.js');
 window.QTopo.init = function (canvas, config) {
     this.config=config;
     var stage = new JTopo.Stage(canvas);
@@ -32,6 +32,8 @@ window.QTopo.init = function (canvas, config) {
         font:{
             size:30
         },
+        image:"img/mo/wlan_4.png",
+        name:"test1",
         size:[100,100]
     });
     var normal2=scene.createNode({

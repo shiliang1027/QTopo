@@ -2,14 +2,17 @@
  * Created by qiyc on 2017/2/7.
  */
 var Node = {
-    Normal: require("./node/Normal.js"),
-    Text: require("./node/Text.js")
+    Normal: require("./element/node/Normal.js"),
+    Text: require("./element/node/Text.js")
 };
 var Link={
-    Curve: require("./link/Curve.js"),
-    Direct: require("./link/Direct.js"),
-    Flexional:require("./link/Flexional.js"),
-    Fold:require("./link/Fold.js")
+    Curve: require("./element/link/Curve.js"),
+    Direct: require("./element/link/Direct.js"),
+    Flexional:require("./element/link/Flexional.js"),
+    Fold:require("./element/link/Fold.js")
+};
+var Container={
+    Group:require("./element/container/Group.js")
 };
 module.exports = Scene;
 //画布对象
