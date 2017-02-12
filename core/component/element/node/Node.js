@@ -4,7 +4,9 @@
 Node.prototype = require("../Element.js");
 module.exports = new Node();
 function Node() {
-    this.type = "node";
+    this.getType=function(){
+        return "node";
+    };
     this.setColor = function (color) {
         if (color) {
             color = QTopo.util.transHex(color.toLowerCase());

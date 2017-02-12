@@ -2,9 +2,11 @@
  * Created by qiyc on 2017/2/7.
  */
 Container.prototype = require("../Element.js");
-module.exports = Container;
+module.exports = new Container();
 function Container() {
-    this.type = "container";
+    this.getType=function(){
+        return "container"
+    }
     this.setColor = function (color) {
         if (color) {
             color = QTopo.util.transHex(color.toLowerCase());

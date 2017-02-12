@@ -2,10 +2,11 @@
  * Created by qiyc on 2017/2/7.
  */
 Link.prototype =require("../Element.js");
-Link.prototype.constructor=Link;
 module.exports = new Link();
 function Link() {
-    this.type = "link";
+    this.getType=function(){
+        return "link";
+    }
     this.setColor = function (color) {
         if (color) {
             color = QTopo.util.transHex(color.toLowerCase());
