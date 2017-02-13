@@ -50,9 +50,11 @@ function Element() {
             console.error("textOffset need be array and 2 length");
         }
     };
-    this.setPosition = function (position, fix) {
+    this.setPosition = function (position) {
         if ($.isArray(position) && position.length >= 2) {
-            this.jtopo.setLocation(position[0], position[1]);
+            if($.isNumeric(position[0])&&$.isNumeric(position[1])){
+                this.jtopo.setLocation(parseInt(position[0]),parseInt(position[1]));
+            }
         } else {
             console.error("position need be array and 2 length");
         }

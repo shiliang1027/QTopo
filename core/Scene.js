@@ -47,6 +47,7 @@ function Scene(stage, config) {
     self.off = Element.off;
     self.set = setJTopo;
     self.set(config);
+    self.center=center;
     self.find = find;
     stage.add(self.jtopo);
 }
@@ -171,6 +172,9 @@ function setJTopo(config) {
             jtopo.background = config.background;
         }
     }
+}
+function center(){
+    this.jtopo.stage.centerAndZoom();
 }
 function setMode(mode) {
     this.attr.mode = mode;

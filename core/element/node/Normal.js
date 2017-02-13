@@ -6,7 +6,7 @@ module.exports = Normal;
 var defaults = function () {
     return {
         image: "",
-        size: [64, 64],
+        size: [30, 30],
         name: "node",
         alpha: 1,
         position: [0, 0],

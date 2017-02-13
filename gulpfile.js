@@ -14,7 +14,7 @@ gulp.task('default', ['watch', 'serve']);
 gulp.task('webpack', function () {
     return gulp.src('./core/main.js')
         .pipe(webpack(require('./webpack.config.js')))
-        .pipe(gulp.dest('./public/')).pipe(connect.reload());
+        .pipe(gulp.dest('./public/js')).pipe(connect.reload());
 });
 gulp.task('reload', function () {
     gulp.src(homePage).pipe(connect.reload());

@@ -2,34 +2,12 @@
  * Created by qiyc on 2017/2/6.
  */
 var ruler;
-var util={
-    ajax: function (options) {
-        var op = options || {};
-        if (op.url) {
-            var ajax = {
-                url: op.url,
-                type: "GET",
-                data: op.data || '',
-                success: function (v) {
-                    if (op.do && $.isFunction(op.do)) {
-                        op.do(v);
-                    }
-                },
-                error: function (e) {
-                    if (op.error && $.isFunction(op.error)) {
-                        op.error(e);
-                    } else {
-                        console.info("ajax failed");
-                        console.info(e);
-                    }
-                }
-            };
-            $.ajax(ajax);
-        } else {
-            if (op.do && $.isFunction(op.do)) {
-                op.do('');
-            }
+var util = {
+    toJson:function(json){
+        if (typeof json == 'string') {
+            json = $.parseJSON(json.replace(/'/g, '"'));
         }
+        return json;
     },
     upFirst: function (string) {
         return string.replace(/(^|\s+)\w/g, function (s) {
@@ -37,30 +15,31 @@ var util={
         })
     },
     extend: function (base, config) {
-        try{
-            if(typeof base =="object"&&typeof config =="object"){
+        try {
+            if (typeof base == "object" && typeof config == "object") {
                 deep(base, config);
-            }else{
-                console.error("some extend error:",base,config);
+            } else {
+                console.error("some extend error:", base, config);
             }
-        }catch (e){
-            console.error("extend error",e,base,config);
+        } catch (e) {
+            console.error("extend error", e, base, config);
         }
-        function deep(base, config){
+        function deep(base, config) {
             $.each(base, function (key, value) {
                 if (typeof base[key] == "object" && typeof config[key] == "object") {
-                    if($.isArray(base[key])&& $.isArray(config[key])){
+                    if ($.isArray(base[key]) && $.isArray(config[key])) {
                         base[key] = config[key];
-                    }else if($.isFunction(base[key])&&$.isFunction(config[key])){
+                    } else if ($.isFunction(base[key]) && $.isFunction(config[key])) {
                         base[key] = config[key];
-                    }else{
+                    } else {
                         deep(base[key], config[key]);
                     }
-                } else if (typeof base[key]!="undefined" && typeof config[key]!="undefined") {
+                } else if (typeof base[key] != "undefined" && typeof config[key] != "undefined") {
                     base[key] = config[key];
                 }
             });
         }
+
         return base;
     },
     getParameter: function (param) {
@@ -262,4 +241,4 @@ var util={
         return ruler[0].offsetWidth;
     }
 };
-module.exports =util;
+module.exports = util;

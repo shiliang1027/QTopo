@@ -16,7 +16,7 @@ var defaults =function(){
             end:true
         },
         gap:20,
-        width: 4,
+        width: 2,
         dashed:  null,
         zIndex : 100,
         textOffset:[0,0],
