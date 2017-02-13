@@ -17,14 +17,14 @@ var defaults = function () {
         },
         zIndex: 200,//层级(10-999)
         color: JTopo.util.randomColor(),
-        textPosition: 'Bottom_Center',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
+        textPosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
         type: 'normal'
     }
 };
 //一般节点
 function Normal(config) {
     var self = this;
-    self.attr = $.extend(true, defaults(), config || {});
+    self.attr = QTopo.util.extend(defaults(), config || {});
     self.jtopo = new JTopo.Node();
     //封装对象之间相互保持引用
     self.jtopo.qtopo=self;

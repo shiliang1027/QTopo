@@ -14,7 +14,7 @@ function Node() {
         }
     };
     this.setName=function(name){
-        if(this.attr.textPosition!="Hidden"){
+        if(this.attr.textPosition!="hide"){
             this.jtopo.text=name;
         }
     };

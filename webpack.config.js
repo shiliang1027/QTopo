@@ -18,6 +18,9 @@ module.exports = {
             }
         ]
     },
+    externals: {
+        jquery: 'window.$'
+    },
     plugins: [
         new webpack.optimize.UglifyJsPlugin()//压缩代码插件
     ]

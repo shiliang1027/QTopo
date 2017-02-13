@@ -8,7 +8,6 @@ var defaults =function(){
     return {
         num: 1,
         alpha:1,
-        weight: 1000,
         color: '22,124,255',
         arrow:{
             size:null,
@@ -39,7 +38,7 @@ function Curve(config){
     self.jtopo = new JTopo.FoldLink(config.start.jtopo, config.end.jtopo);
     //封装对象之间相互保持引用
     self.jtopo.qtopo=self;
-    self.attr = $.extend(true,defaults(), config || {});
+    self.attr =  QTopo.util.extend(defaults(), config || {});
     //函数
     self.set = setJTopo;
     //初始化

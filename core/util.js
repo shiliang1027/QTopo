@@ -2,7 +2,7 @@
  * Created by qiyc on 2017/2/6.
  */
 var ruler;
-module.exports = {
+var util={
     ajax: function (options) {
         var op = options || {};
         if (op.url) {
@@ -31,10 +31,37 @@ module.exports = {
             }
         }
     },
-    upFirst:function(string){
+    upFirst: function (string) {
         return string.replace(/(^|\s+)\w/g, function (s) {
             return s.toUpperCase();//首字母大寫
         })
+    },
+    extend: function (base, config) {
+        try{
+            if(typeof base =="object"&&typeof config =="object"){
+                deep(base, config);
+            }else{
+                console.error("some extend error:",base,config);
+            }
+        }catch (e){
+            console.error("extend error",e,base,config);
+        }
+        function deep(base, config){
+            $.each(base, function (key, value) {
+                if (typeof base[key] == "object" && typeof config[key] == "object") {
+                    if($.isArray(base[key])&& $.isArray(config[key])){
+                        base[key] = config[key];
+                    }else if($.isFunction(base[key])&&$.isFunction(config[key])){
+                        base[key] = config[key];
+                    }else{
+                        deep(base[key], config[key]);
+                    }
+                } else if (typeof base[key]!="undefined" && typeof config[key]!="undefined") {
+                    base[key] = config[key];
+                }
+            });
+        }
+        return base;
     },
     getParameter: function (param) {
         var query = window.location.search;//获取URL地址中？后的所有字符
@@ -235,3 +262,4 @@ module.exports = {
         return ruler[0].offsetWidth;
     }
 };
+module.exports =util;

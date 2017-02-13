@@ -13,13 +13,18 @@ function Element() {
         this.jtopo.text = text;
     };
     this.on = function (name, fn) {
-        this.jtopo.addEventListener(name, fn);
+        this.jtopo.addEventListener(name, function(e){
+            fn(e.target.qtopo,e);
+        });
+    };
+    this.off = function (name, fn) {
+        this.jtopo.removeEventListener(name);
     };
     this.setZIndex = function (zIndex) {
-        this.jtopo.zIndex = parseInt(zIndex);
+        this.jtopo.zIndex = parseInt($.isNumeric(zIndex) ? zIndex : 10);
     };
     this.setFont = function (font) {
-        if (font.size && font.type) {
+        if ($.isNumeric(font.size) && font.type) {
             this.jtopo.font = font.size + "px " + font.type;
         } else {
             console.error("setFont need size and type");
@@ -31,10 +36,10 @@ function Element() {
         }
     };
     this.setAlpha = function (alpha) {
-        if (alpha > 1 || alpha < 0) {
-            this.jtopo.alpha = 1;
-        } else {
+        if ($.isNumeric(alpha) && alpha <= 1 && alpha > 0) {
             this.jtopo.alpha = alpha;
+        } else {
+            this.jtopo.alpha = 1;
         }
     };
     this.setTextOffset = function (arr) {
@@ -64,33 +69,38 @@ function Element() {
     };
     this.setTextPosition = function (textPosition) {
         var jtopo = this.jtopo;
-        jtopo.textPosition = textPosition;
         jtopo.text = this.attr.name;
         switch (textPosition) {
-            case 'Hidden':
+            case 'hide':
                 jtopo.text = '';
                 break;
-            case 'Bottom_Center':
+            case 'bottom':
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
+                jtopo.textPosition = "Bottom_Center";
                 break;
-            case 'Top_Center':
+            case 'top':
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
+                jtopo.textPosition = "Top_Center";
                 break;
-            case 'Middle_Left':
+            case 'left':
                 jtopo.textOffsetX = -5;
                 jtopo.textOffsetY = 0;
+                jtopo.textPosition = "Middle_Left";
                 break;
-            case 'Middle_Right':
+            case 'right':
                 jtopo.textOffsetX = 5;
                 jtopo.textOffsetY = 0;
+                jtopo.textPosition = "Middle_Right";
                 break;
             default:
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
                 jtopo.text = this.attr.name;
                 jtopo.textPosition = 'Bottom_Center';
+                this.attr.textPosition="bottom";
+                console.error("set wrong textPosition,default is bottom");
                 break;
         }
     };
@@ -103,7 +113,7 @@ function Element() {
                 var attr = config[v];
                 if (attr && fn) {
                     fn.call(self, attr);
-                    self.attr.v=attr;
+                    self.attr[v] = attr;
                 }
             });
         } catch (e) {

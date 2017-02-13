@@ -6,7 +6,7 @@ module.exports = new Link();
 function Link() {
     this.getType=function(){
         return "link";
-    }
+    };
     this.setColor = function (color) {
         if (color) {
             color = QTopo.util.transHex(color.toLowerCase());
@@ -14,7 +14,7 @@ function Link() {
         }
     };
     this.setNum = function (num) {
-        if (num > 1) {
+        if ($.isNumeric(num)&&num > 1) {
             this.jtopo.text = '(+' + num + ')';
         } else {
             this.jtopo.text = '';
@@ -24,14 +24,14 @@ function Link() {
         this.jtopo.lineWidth = width; // 线宽
     };
     this.setArrow = function(arrow){
-        this.jtopo.arrowsRadius = arrow.size;
-        this.jtopo.arrowsOffset = arrow.offset;
+        this.jtopo.arrowsRadius = $.isNumeric(arrow.size)?arrow.size:0;
+        this.jtopo.arrowsOffset = $.isNumeric(arrow.offset)?arrow.offset:0;
     };
     this.setGap=function(gap){
-        this.jtopo.bundleGap = gap; // 线条之间的间隔
+        this.jtopo.bundleGap = $.isNumeric(gap)?gap:0; // 线条之间的间隔
     };
     this.setDashed=function(dashedPattern){
-        if(dashedPattern&&dashedPattern>0){
+        if($.isNumeric(dashedPattern)&&dashedPattern>0){
             this.jtopo.dashedPattern=dashedPattern;
         }else{
             this.jtopo.dashedPattern=null;
@@ -42,7 +42,7 @@ function Link() {
         this.jtopo.direction=direction;
     };
     this._setLink=function(config,arr){
-        var temp= ["num","font","color","alpha","arrow","gap","textOffset","width","dashed"];
+        var temp= ["num","font","color","alpha","arrow","gap","textOffset","width","dashed","zIndex"];
         if(arr){
             this._setAttr($.merge(temp,arr),config);
         }else{
