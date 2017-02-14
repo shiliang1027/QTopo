@@ -1,8 +1,9 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-Flexional.prototype=require("./Link.js");
-module.exports = Flexional;
+var Link=require("./Link.js");
+FlexionalLink.prototype=new Link();
+module.exports = FlexionalLink;
 //二次折线
 var defaults =function(){
     return {
@@ -30,7 +31,7 @@ var defaults =function(){
         offsetGap:60
     };
 };
-function Flexional(config){
+function FlexionalLink(config){
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
@@ -50,14 +51,8 @@ function Flexional(config){
 function setJTopo(config) {
     if (config) {
         var self=this;
-        self._setLink(config,["direction"]);
-        if(config.offsetGap){
-            setOffsetGap.call(self,config.offsetGap);
-        }
+        this._setAttr(config);
     }
-}
-function setOffsetGap(offsetGap){
-    this.jtopo.offsetGap = parseInt(offsetGap);// 折线拐角处的长度
 }
 function reset(link){
     //双向箭头
@@ -76,3 +71,12 @@ function reset(link){
         }
     };
 }
+FlexionalLink.prototype.setOffsetGap=function(offsetGap){
+    this.jtopo.offsetGap = parseInt(offsetGap);// 折线拐角处的长度
+    this.attr.offsetGap=this.jtopo.offsetGap;
+};
+FlexionalLink.prototype.setDirection=function(direction){
+    //折线方向 horizontal 水平 "vertical"垂直
+    this.jtopo.direction=direction;
+    this.attr.direction=this.jtopo.direction;
+};

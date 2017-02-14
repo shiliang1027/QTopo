@@ -1,8 +1,9 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-Fold.prototype=require("./Link.js");
-module.exports = Fold;
+var Link=require("./Link.js");
+FoldLink.prototype=new Link();
+module.exports = FoldLink;
 //折线
 var defaults =function(){
     return {
@@ -29,7 +30,7 @@ var defaults =function(){
         direction:"vertical"
     };
 };
-function Fold(config){
+function FoldLink(config){
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
@@ -49,7 +50,7 @@ function Fold(config){
 function setJTopo(config) {
     if (config) {
         var self=this;
-        self._setLink(config,["direction"]);
+        this._setAttr(config);
     }
 }
 function reset(link){
@@ -69,3 +70,8 @@ function reset(link){
         }
     };
 }
+FoldLink.prototype.setDirection=function(direction){
+    //折线方向 horizontal 水平 "vertical"垂直
+    this.jtopo.direction=direction;
+    this.attr.direction=this.jtopo.direction;
+};

@@ -1,8 +1,9 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-Direct.prototype=require("./Link.js");
-module.exports = Direct;
+var Link=require("./Link.js");
+DirectLink.prototype=new Link();
+module.exports = DirectLink;
 //直线
 var defaults =function(){
     return {
@@ -29,7 +30,7 @@ var defaults =function(){
         bundleOffset:60// 多条直线时，线条折线拐角处的长度
     };
 };
-function Direct(config) {
+function DirectLink(config) {
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
@@ -50,10 +51,7 @@ function Direct(config) {
 function setJTopo(config) {
     if (config) {
         var self=this;
-        self._setLink(config);
-        if(config.bundleOffset){
-            self.jtopo.bundleOffset=parseInt(config.bundleOffset);
-        }
+        self._setAttr(config);
     }
 }
 function reset(link){
@@ -89,3 +87,6 @@ function reset(link){
         }
     };
 }
+DirectLink.prototype.setBundleOffset=function(bundleOffset){
+    this.jtopo.bundleOffset=parseInt(bundleOffset);
+};

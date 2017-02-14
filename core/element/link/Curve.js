@@ -1,8 +1,9 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-Curve.prototype=require("./Link.js");
-module.exports = Curve;
+var Link=require("./Link.js");
+CurveLink.prototype=new Link();
+module.exports = CurveLink;
 //曲线
 var defaults =function(){
     return {
@@ -29,7 +30,7 @@ var defaults =function(){
         curveOffset:200
     };
 };
-function Curve(config){
+function CurveLink(config){
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
@@ -49,10 +50,7 @@ function Curve(config){
 function setJTopo(config) {
     if (config) {
         var self=this;
-        self._setLink(config);
-        if(config.direction){
-            setDirection.call(self,config.direction);
-        }
+        self._setAttr(config);
     }
 }
 function reset(link){

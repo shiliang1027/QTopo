@@ -18,7 +18,8 @@ var util = {
         try {
             if (typeof base == "object" && typeof config == "object") {
                 deep(base, config);
-            } else {
+            }
+            else {
                 console.error("some extend error:", base, config);
             }
         } catch (e) {
@@ -43,6 +44,25 @@ var util = {
         }
 
         return base;
+    },
+    merge:function(object,config){
+        if(object&&config&&typeof object=="object"&&typeof config=="object"){
+            deep(object,config);
+        }
+        function deep(source,target){
+            $.each(source,function(k,v){
+                if(v&&typeof v=="object"){
+                    if(!target[k]){
+                        target[k]={};
+                        deep(v,target[k]);
+                    }
+                }else
+                if(!target[k]){
+                    target[k]=v;
+                }
+            })
+        }
+        return config;
     },
     getParameter: function (param) {
         var query = window.location.search;//获取URL地址中？后的所有字符

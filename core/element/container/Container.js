@@ -1,12 +1,14 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-Container.prototype = require("../Element.js");
-module.exports = new Container();
+var Element=require("../Element.js");
+Container.prototype = new Element();
+module.exports =Container;
 function Container() {
     this.setName=function(name){
         if(this.attr.textPosition!="hide"){
             this.jtopo.text=name;
+            this.attr.name=name;
         }
     };
     this.add = function (element) {
@@ -32,7 +34,7 @@ function Container() {
                 if(v.qtopo){
                     children.push(v.qtopo);
                 }else{
-                    console.error("the child not wraped by qtopo",v);
+                    console.error(this,"the child not wraped by qtopo",v);
                 }
             });
         }
@@ -46,6 +48,7 @@ function Container() {
         if (color) {
             color = QTopo.util.transHex(color.toLowerCase());
             this.jtopo.fillColor = color;
+            this.attr.color=color;
         }
     };
     this.setBorder = function (border) {
@@ -53,22 +56,18 @@ function Container() {
             this.jtopo.borderColor = QTopo.util.transHex(border.color.toLowerCase());
             this.jtopo.borderWidth = parseInt(border.width);
             this.jtopo.borderRadius = parseInt(border.radius);
+            this.attr.border.color=this.jtopo.borderColor;
+            this.attr.border.width=this.jtopo.borderWidth;
+            this.attr.border.raidus=this.jtopo.borderRadius;
         } else {
-            console.error("setBorder need params", border);
+            console.error(this,"setBorder need params", border);
         }
     };
     this.setChildren = function (children) {
         if (children) {
             this.jtopo.childDragble = typeof children.dragble == "boolean" ? children.dragble : true;
+            this.attr.children.dragble=this.jtopo.childDragble;
         }
     };
-    this._setContainer = function (config, arr) {
-        var temp = ["children", "dragable", "color", "border", "font", "position", "alpha", "fontColor", "zIndex","name"];
-        if (arr) {
-            this._setAttr($.merge(temp, arr), config);
-        } else {
-            this._setAttr(temp, config);
-        }
-    }
 }
 

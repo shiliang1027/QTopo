@@ -16,6 +16,7 @@ var Container = {
 };
 module.exports = Scene;
 var Element = require("./element/Element.js");
+var ELementInstance=new Element();
 //画布对象
 var defaults = function () {
     return {
@@ -33,26 +34,27 @@ var defaults = function () {
 function Scene(stage, config) {
     var self = this;
     self.jtopo = new JTopo.Scene();
+    self.jtopo.qtopo=self;
     self.children = {
         node: [],
         link: [],
         container: []
     };
-    self.attr =  QTopo.util.extend(defaults(), config || {});
-    self.createNode = createNode;
-    self.createLink = createLink;
-    self.createContainer = createContainer;
-    self.add = add;
-    self.on = Element.on;
-    self.off = Element.off;
-    self.set = setJTopo;
-    self.set(config);
-    self.center=center;
-    self.find = find;
+    self.attr = defaults();
     stage.add(self.jtopo);
+    setTimeout(function(){
+        if(config.background){
+            self.setBackGround(config.background);
+        }
+        if(config.mode){
+            self.setMode(config.mode);
+        }
+    });
 }
 //scan 格式 aaa=bb,ccc=dd条件之间以,分隔
-function find(scan, type) {
+Scene.prototype.on = ELementInstance.on;
+Scene.prototype.off= ELementInstance.off;
+Scene.prototype.find=function(scan, type) {
     var children = this.children;
     var result = [];
     var condition = typeof scan == "string" ? scan.split(",") : [];
@@ -92,8 +94,8 @@ function find(scan, type) {
     function equal(object, key, value) {
         return object[key] && object[key] == value;
     }
-}
-function createNode(config) {
+};
+Scene.prototype.createNode=function(config) {
     var newNode;
     config = config || {};
     switch (config.type) {
@@ -111,8 +113,8 @@ function createNode(config) {
         console.error("create Node error", config);
         return false;
     }
-}
-function createLink(config) {
+};
+Scene.prototype.createLink=function(config) {
     var newLink;
     config = config || {};
     switch (config.type) {
@@ -139,8 +141,8 @@ function createLink(config) {
         console.error("create Link error", config);
         return false;
     }
-}
-function createContainer(config) {
+};
+Scene.prototype.createContainer=function(config) {
     var newContainer;
     config = config || {};
     switch (config.type) {
@@ -155,29 +157,20 @@ function createContainer(config) {
         console.error("create Container error", config);
         return false;
     }
-}
-function add(element) {
+};
+Scene.prototype.add=function(element) {
     if (element) {
         this.jtopo.add(element);
     }
-}
-function setJTopo(config) {
-    if (config) {
-        var jtopo = this.jtopo;
-        QTopo.util.extend(this.attr, config || {});
-        if (config.mode) {
-            setMode(config.mode);
-        }
-        if (config.background) {
-            jtopo.background = config.background;
-        }
-    }
-}
-function center(){
+};
+Scene.prototype.center=function(){
     this.jtopo.stage.centerAndZoom();
-}
-function setMode(mode) {
+};
+Scene.prototype.setMode=function(mode) {
     this.attr.mode = mode;
     this.jtopo.mode = mode;
-}
-//私有函数
+};
+Scene.prototype.setBackGround=function(background) {
+    this.jtopo.background = background;
+    this.attr.background=background;
+};

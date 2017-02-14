@@ -1,8 +1,10 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-Text.prototype=require("./Node.js");
-module.exports = Text;
+
+var Node=require("./Node.js");
+TextNode.prototype =new Node();
+module.exports = TextNode;
 var defaults =function(){
     return {
         position:[0,0],
@@ -18,9 +20,8 @@ var defaults =function(){
     };
 };
 //一般节点
-function Text(config) {
+function TextNode(config) {
     var self = this;
-    self.attr = QTopo.util.extend(defaults(), config || {});
     self.jtopo = new JTopo.TextNode();
     //封装对象之间相互保持引用
     self.jtopo.qtopo=self;
@@ -33,8 +34,7 @@ function setJTopo(config) {
     if (config) {
         var self=this;
         //处理一般属性的设置
-        self._setNode(config,["text"]);
-        //处理特殊属性的设置
+        this._setAttr(config);
     }
 }
 //私有函数

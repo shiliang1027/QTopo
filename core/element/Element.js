@@ -1,20 +1,27 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-module.exports = new Element();
+module.exports =Element;
 function Element() {
     this.show = function () {
         this.jtopo.visible = true;
+        this.attr.show=this.jtopo.visible;
     };
     this.hide = function () {
         this.jtopo.visible = false;
+        this.attr.show=this.jtopo.visible;
     };
     this.setText = function (text) {
         this.jtopo.text = text;
+        this.attr.text=text;
     };
     this.on = function (name, fn) {
         this.jtopo.addEventListener(name, function (e) {
-            fn(e.target.qtopo, e);
+            if(e.target&&e.target.qtopo){
+                fn(e.target.qtopo, e);
+            }else{
+                fn(e.scene.qtopo,e);
+            }
         });
     };
     this.off = function (name, fn) {
@@ -22,17 +29,23 @@ function Element() {
     };
     this.setZIndex = function (zIndex) {
         this.jtopo.zIndex = parseInt($.isNumeric(zIndex) ? zIndex : 10);
+        this.attr.zIndex=this.jtopo.zIndex;
     };
     this.setFont = function (font) {
-        if ($.isNumeric(font.size) && font.type) {
-            this.jtopo.font = font.size + "px " + font.type;
-        } else {
-            console.error("setFont need size and type");
-        }
-        if (font.color) {
-            this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
-        } else {
-            console.error("setFontColor has no param");
+        if(font){
+            if ($.isNumeric(font.size) && font.type) {
+                this.jtopo.font = font.size + "px " + font.type;
+                this.attr.font.size=font.size;
+                this.attr.font.type=font.type;
+            } else {
+                console.error(this,"setFont need size and type");
+            }
+            if (font.color) {
+                this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
+                this.attr.font.color=this.jtopo.fontColor;
+            } else {
+                console.error(this,"setFontColor has no param");
+            }
         }
     };
     this.setAlpha = function (alpha) {
@@ -41,33 +54,38 @@ function Element() {
         } else {
             this.jtopo.alpha = 1;
         }
+        this.attr.alpha= this.jtopo.alpha;
     };
     this.setTextOffset = function (arr) {
         if ($.isArray(arr) && arr.length >= 2) {
             this.jtopo.textOffsetX = arr[0];
             this.jtopo.textOffsetY = arr[1];
+            this.attr.textOffset=arr;
         } else {
-            console.error("textOffset need be array and 2 length");
+            console.error(this,"textOffset need be array and 2 length");
         }
     };
     this.setPosition = function (position) {
         if ($.isArray(position) && position.length >= 2) {
             if ($.isNumeric(position[0]) && $.isNumeric(position[1])) {
                 this.jtopo.setLocation(parseInt(position[0]), parseInt(position[1]));
+                this.attr.position=[this.jtopo.x, this.jtopo.y];
             }
         } else {
-            console.error("position need be array and 2 length");
+            console.error(this,"position need be array and 2 length");
         }
     };
     this.setSize = function (size) {
         if ($.isArray(size) && size.length >= 2) {
             this.jtopo.setSize(size[0], size[1]);
+            this.attr.size=[this.jtopo.width,this.jtopo.height];
         } else {
-            console.error("size need be array and 2 length");
+            console.error(this,"size need be array and 2 length");
         }
     };
     this.setDragable = function (dragable) {
         this.jtopo.dragable = dragable;
+        this.attr.dragable=this.jtopo.dragable;
     };
     this.setTextPosition = function (textPosition) {
         var jtopo = this.jtopo;
@@ -75,53 +93,56 @@ function Element() {
         switch (textPosition) {
             case 'hide':
                 jtopo.text = '';
+                this.attr.textPosition="hide";
                 break;
             case 'bottom':
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
                 jtopo.textPosition = "Bottom_Center";
+                this.attr.textPosition="bottom";
                 break;
             case 'top':
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
                 jtopo.textPosition = "Top_Center";
+                this.attr.textPosition="top";
                 break;
             case 'left':
                 jtopo.textOffsetX = -5;
                 jtopo.textOffsetY = 0;
                 jtopo.textPosition = "Middle_Left";
+                this.attr.textPosition="left";
                 break;
             case 'right':
                 jtopo.textOffsetX = 5;
                 jtopo.textOffsetY = 0;
                 jtopo.textPosition = "Middle_Right";
+                this.attr.textPosition="right";
                 break;
             default:
                 jtopo.textOffsetX = 0;
                 jtopo.textOffsetY = 0;
                 jtopo.text = this.attr.name;
                 jtopo.textPosition = 'Bottom_Center';
-                this.attr.textPosition = "bottom";
-                console.error("set wrong textPosition,default is bottom");
+                this.attr.textPosition="bottom";
+                console.error(this,"set wrong textPosition,default is bottom");
                 break;
         }
     };
-    //限制所能修改的属性,arr为所能修改的属性列表
-    this._setAttr = function (arr, config) {
+    //只要对应属性有方法则修改
+    this._setAttr = function (config) {
         var self = this;
-        $.each(arr, function (i, v) {
+        $.each(config, function (k, v) {
             try {
-                var fn = self['set' + QTopo.util.upFirst(v)];
-                var attr = config[v];
-                if (attr && fn) {
-                    fn.call(self, attr);
+                var fn = self['set' + QTopo.util.upFirst(k)];
+                if (fn) {
+                    //v=QTopo.util.merge(self.attr[k],v);
+                    fn.call(self, v);
                 }
             } catch (e) {
-                console.info("Element _setAttr error :" + v,config[v]);
+                console.error(self,"Element _setAttr error :" + k,e);
             }
         });
-        QTopo.util.extend(self.attr, config || {});
-
     }
 }
 

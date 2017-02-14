@@ -1,15 +1,15 @@
 /**
  * Created by qiyc on 2017/2/6.
  */
-require('./lib/jquery-nicescroll/jquery.nicescroll.min.js');
-require("./lib/jtopo/jtopo-min.js");
+require("./jtopo/jtopo-min.js");
 //模块
 window.QTopo = {};
+window.QTopo.instance=[];
 window.QTopo.util = require('./util.js');
 var Scene = require('./Scene.js');
 window.QTopo.init = function (canvas, config) {
-    this.config = config;
     var QtopoInstance = {};
+    this.instance.push(QtopoInstance);
     var stage = new JTopo.Stage(canvas);
     var scene = new Scene(stage, {
         background: config.background || ""
@@ -30,9 +30,6 @@ function setOption(option) {
     scene.center();
 }
 function test(scene) {
-    scene.on("dbclick", function (target, e) {
-        console.info(target);
-    });
     var text = scene.createNode({
         type: "text",
         position: [200, 200],

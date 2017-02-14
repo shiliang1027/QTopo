@@ -1,7 +1,8 @@
 /**
  * Created by qiyc on 2017/2/8.
  */
-Group.prototype = require("./Container.js");
+var Container=require("./Container.js");
+Group.prototype = new Container();
 module.exports = Group;
 //曲线
 var defaults = function () {
@@ -71,16 +72,13 @@ var defaultLayout = function (container, children) {
 function setJTopo(config) {
     if (config) {
         var self=this;
-        self._setContainer(config);
-        if(config.layout){
-            setLayout.call(self,config.layout);
-        }
+        self._setAttr(config);
     }
 }
 function reset(group) {
     group.jtopo.layout=defaultLayout;
 }
-function setLayout(layout){
+Group.prototype.setLayout=function(layout){
     var selected;
     if (layout) {
         switch (layout.type) {
@@ -105,4 +103,4 @@ function setLayout(layout){
         this.attr.layout.type="set";
     }
     this.jtopo.layout = selected;
-}
+};
