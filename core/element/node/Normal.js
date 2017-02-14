@@ -38,6 +38,8 @@ function NormalNode(config) {
     self.jtopo = new JTopo.Node();
     //封装对象之间相互保持引用
     self.jtopo.qtopo = self;
+    //告警闪烁
+    self.jtopo.alarmFlash=alarmFlash;
     //函数
     self.set = setJTopo;
     //初始化
@@ -51,14 +53,26 @@ function setJTopo(config) {
         //处理特殊属性的设置
     }
 }
+NormalNode.prototype.setImage=function(image) {
+    this.jtopo.setImage(image);
+    this.attr.image=image;
+};
 NormalNode.prototype.setAlarm=function(config) {
     var jtopo = this.jtopo;
-    var alarm=this.attr.alarm;
+    alarmAttr(jtopo,this.attr.alarm,config);
+};
+function alarmAttr(jtopo,alarm,config){
+    if(typeof config.show=="undefined"){
+        config.show=alarm.show;
+    }
     if (config.show) {
+        jtopo.shadow = true;
         jtopo.alarm = config.text || "";
         alarm.text=jtopo.alarm;
-        jtopo.alarmColor = QTopo.util.transHex(config.color.toLowerCase());
-        alarm.color=jtopo.alarmColor;
+        if(config.color){
+            jtopo.alarmColor = QTopo.util.transHex(config.color.toLowerCase());
+            alarm.color=jtopo.alarmColor;
+        }
         jtopo.alarmAlpha = 1;
         var size=alarm.font.size;
         var font=alarm.font.type;
@@ -71,11 +85,49 @@ NormalNode.prototype.setAlarm=function(config) {
         jtopo.alarmFont =  size+ 'px ' + font;
         alarm.font.size=size;
         alarm.font.type=font;
+        toggleAlarmFlash(jtopo,true);
     } else {
         jtopo.alarm = null;
+        toggleAlarmFlash(jtopo,false);
     }
-};
-NormalNode.prototype.setImage=function(image) {
-    this.jtopo.setImage(image);
-    this.attr.image=image;
-};
+    alarm.show=config.show;
+}
+function toggleAlarmFlash(node,show){
+    //切换闪烁
+    if(show){
+        node.shadowOffsetX = 0;
+        node.shadowOffsetY = 0;
+        node.shadowColor = "rgba(" + node.alarmColor + ",1)";
+        node.shadowBlur = 10;
+        node.allowAlarmFlash=true;
+    }else{
+        node.shadowOffsetX = 3;
+        node.shadowOffsetY = 6;
+        node.shadowColor="rgba(0,0,0,0.1)";
+        node.shadowBlur = 10;
+        node.allowAlarmFlash=false;
+    }
+}
+function alarmFlash() {
+    //修改源码部分
+    if(this.shadow&&this.allowAlarmFlash){
+        if(typeof this.shadowDirection=="undefined"){
+            this.shadowDirection=true;
+        }
+        move(this);
+        function move(node){
+            if (node.shadowDirection) {
+                node.shadowBlur += 10;
+                if(node.shadowBlur>100){
+                    node.shadowDirection=false;
+                }
+            }
+            else {
+                node.shadowBlur -= 10;
+                if(node.shadowBlur<=10){
+                    node.shadowDirection=true;
+                }
+            }
+        }
+    }
+}

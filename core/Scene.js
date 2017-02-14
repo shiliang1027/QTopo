@@ -52,6 +52,10 @@ function Scene(stage, config) {
     });
 }
 //scan 格式 aaa=bb,ccc=dd条件之间以,分隔
+Scene.prototype.clear=function(){
+    console.info("scene clear");
+    this.jtopo.clear();
+};
 Scene.prototype.on = ELementInstance.on;
 Scene.prototype.off= ELementInstance.off;
 Scene.prototype.find=function(scan, type) {

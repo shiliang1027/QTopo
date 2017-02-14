@@ -21,13 +21,13 @@
                 if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
             return fmt;
         };
-        var fn=window.console.info;
-        window.console.info=function(){
-            var data=[new Date().Format("hh:mm:ss")];
-            for(var i=0;i<arguments.length;i++){
+        var fn = window.console.info;
+        window.console.info = function () {
+            var data = [new Date().Format("hh:mm:ss")];
+            for (var i = 0; i < arguments.length; i++) {
                 data.push(arguments[i]);
             }
-            fn.apply(this,data);
+            fn.apply(this, data);
         };
     </script>
     <script src="js/jquery.min.js"></script>
@@ -37,105 +37,147 @@
     </style>
 </head>
 <body>
-<canvas class="topo_base"  width="1000px" height="1000px"></canvas>
+<canvas class="topo_base" width="1000px" height="1000px"></canvas>
 <script>
-    $(document).ready(function(){
-        var topo=QTopo.init(document.getElementsByClassName("topo_base")[0],{
-            background:"img/bg1.jpg"
+    $(document).ready(function () {
+        var topo = QTopo.init(document.getElementsByClassName("topo_base")[0], {
+            background: "img/bg1.jpg"
         });
         console.info(topo);
         $.ajax({
-            url:"./data/data.json",
-            success:function(data){
-                data=QTopo.util.toJson(data);
-                var node=data.WebTopo.NetView.Nodes.Node;
-                var group=data.WebTopo.NetView.Groups.Group;
-                var link=data.WebTopo.NetView.Links.Link;
-
-                var fixX=parseInt(data.WebTopo.NetView.XY["@iMinX"]);
-                var fixY=parseInt(data.WebTopo.NetView.XY["@iMinY"]);
-                //构造节点数据
-                var nodeData=[];
-                $.each(node,function(i,v){
-                    nodeData.push({
-                        name: v["@name"],
-                        image:"img/node.png",
-                        position:[parseInt(v["@x"])+fixX,parseInt(v["@y"])+fixY],
-                        id:v["@id"],
-                        pid:v["@pid"],
-
-                    });
-                });
-                //添加object数据到节点里
-                var object=data.WebTopo.NetView.Objects.Object;
-                nodeData.push({
-                    name: object["@name"],
-                    image:"img/node.png",
-                    position:[parseInt(object["@x"])+fixX,parseInt(object["@y"])+fixY],
-                    id:object["@id"],
-                    pid:object["@pid"]
-                });
-                //构造分组数据
-                var containerData=[];
-                $.each(group,function(i,v){
-                    var data=[];
-                    if($.isArray(v["Node"])){
-                        $.each(v["Node"],function(j,k){
-                            data.push(k["@id"]);
-                        });
-                    }else{
-                        data.push(v["Node"]["@id"]);
-                    }
-                    containerData.push({
-                        id:v["@id"],
-                        pid:v["@pid"],
-                        name:v["@name"],
-                        data:data
-                    });
-                });
-                //构造链接数据
-                var linkData=[];
-                $.each(link,function(i,v){
-                    linkData.push({
-                        pid:v["@pid"],
-                        start:v["@from"],
-                        end:v["@to"]
-                    });
-                });
-
-                topo.setOption({
-                    node:{
-                        exprop:["id","pid"],
-                        data:nodeData
-                    },
-                    container:{
-                        children:"id",
-                        exprop:["id","pid"],
-                        data:containerData
-                    },
-                    link:{
-                        path:["id"],
-                        exprop:["pid"],
-                        data:linkData
-                    }
-                });
-                var alarmNode=topo.scene.createNode({
-                    name:"告警测试",
-                    position:[600,0],
-                    image:"img/node.png",
-                    size:[100,100],
-                    font:{
-                        size:22
-                    }
-                });
-                alarmNode.set({
-                    alarm:{
-                        show:true,
-                        color:"255,204,0"
+            url: "./data/data.json",
+            success: function (data) {
+                $.ajax({
+                    url: "./data/alarm.json",
+                    success: function (alarm) {
+                        drawTopo(data, alarm);
                     }
                 });
             }
         });
+        function drawTopo(data, alarm) {
+            alarm = QTopo.util.toJson(alarm);
+            data = QTopo.util.toJson(data);
+            var node = data.WebTopo.NetView.Nodes.Node;
+            var group = data.WebTopo.NetView.Groups.Group;
+            var link = data.WebTopo.NetView.Links.Link;
+
+            var fixX = parseInt(data.WebTopo.NetView.XY["@iMinX"]);
+            var fixY = parseInt(data.WebTopo.NetView.XY["@iMinY"]);
+
+            //构造节点数据
+            var nodeData = [];
+            $.each(node, function (i, v) {
+                var newNode = {
+                    name: v["@name"],
+                    image: "img/node.png",
+                    position: [parseInt(v["@x"]) + fixX, parseInt(v["@y"]) + fixY],
+                    id: v["@id"],
+                    pid: v["@pid"]
+
+                };
+                if (v.p) {
+                    $.each(v.p, function (i, v) {
+                        if (v["@k"] == "mo_id") {
+                            newNode.alarmId = v["$"];
+                        }
+                    });
+                }
+                nodeData.push(newNode);
+            });
+            //添加object数据到节点里
+            var object = data.WebTopo.NetView.Objects.Object;
+            nodeData.push({
+                name: object["@name"],
+                image: "img/node.png",
+                position: [parseInt(object["@x"]) + fixX, parseInt(object["@y"]) + fixY],
+                id: object["@id"],
+                pid: object["@pid"]
+            });
+            //构造分组数据
+            var containerData = [];
+            $.each(group, function (i, v) {
+                var data = [];
+                if ($.isArray(v["Node"])) {
+                    $.each(v["Node"], function (j, k) {
+                        data.push(k["@id"]);
+                    });
+                } else {
+                    data.push(v["Node"]["@id"]);
+                }
+                containerData.push({
+                    id: v["@id"],
+                    pid: v["@pid"],
+                    name: v["@name"],
+                    data: data
+                });
+            });
+            //构造链接数据
+            var linkData = [];
+            $.each(link, function (i, v) {
+                linkData.push({
+                    pid: v["@pid"],
+                    start: v["@from"],
+                    end: v["@to"]
+                });
+            });
+            //构造告警
+            var alarmData = [];
+            var alarmColor = ["255,0,0", "255, 102, 0", "255,204,0", "0,0,255"];
+            $.each(alarm, function (i, v) {
+                alarmData.push({
+                    alarmId: v["alarmneid"],
+                    color: alarmColor[v["alarmcolor"]]
+                });
+            });
+            topo.setOption({
+                node: {
+                    exprop: ["id", "pid", "alarmId"],
+                    data: nodeData
+                },
+                container: {
+                    children: "id",
+                    exprop: ["id", "pid"],
+                    data: containerData
+                },
+                link: {
+                    path: ["id"],
+                    exprop: ["pid"],
+                    data: linkData
+                }
+            });
+            var alarmNode = topo.scene.createNode({
+                name: "告警测试",
+                position: [600, 0],
+                image: "img/node.png",
+                size: [100, 100],
+                font: {
+                    size: 22
+                }
+            });
+            alarmNode.set({
+                alarm: {
+                    show: true,
+                    color: "255,204,0"
+                }
+            });
+            setTimeout(function () {
+                alarmNode.set({
+                    size: [20, 20],
+                    position: [100, 100],
+                    alarm: {
+                        color: "255,0,0",
+                        text: "111"
+                    }
+                });
+                topo.setOption({
+                    alarm: {
+                        node: "alarmId",
+                        data: alarmData
+                    }
+                });
+            }, 5000);
+        }
     });
 </script>
 </body>

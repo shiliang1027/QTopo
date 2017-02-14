@@ -20,11 +20,15 @@ window.QTopo.init = function (canvas, config) {
     });
     return QtopoInstance;
 };
-function setOption(option) {
+function setOption(option,clear) {
     var scene = this.scene;
+    if(clear){
+        scene.clear();
+    }
     createNode(scene, option.node);
     createContainer(scene, option.container);
     createLink(scene, option.link);
+    drawAlarm(scene,option.alarm);
     scene.center();
 }
 function test(scene) {
@@ -100,9 +104,12 @@ function createNode(scene, config) {
         if ($.isArray(config.data)) {
             $.each(config.data, function (i, v) {
                 var node = scene.createNode(v);
+                //额外属性添加
                 if ($.isArray(config.exprop)) {
                     $.each(config.exprop, function (j, key) {
-                        node[key] = v[key];
+                        if( v[key]){
+                            node[key] = v[key];
+                        }
                     });
                 }
             });
@@ -120,9 +127,12 @@ function createContainer(scene, config) {
             $.each(config.data, function (i, cData) {
                 //无论是否有子元素，分组先创造出来
                 var container = scene.createContainer(cData);
+                //额外属性添加
                 if ($.isArray(config.exprop)) {
                     $.each(config.exprop, function (j, key) {
-                        container[key] = cData[key];
+                        if(cData[key]) {
+                            container[key] = cData[key];
+                        }
                     });
                 }
                 //确定查找子元素的标记
@@ -173,9 +183,12 @@ function createLink(scene, config) {
                         v.start = start;
                         v.end = end;
                         link = scene.createLink(v);
+                        //额外属性添加
                         if (link && $.isArray(config.exprop)) {
                             $.each(config.exprop, function (j, key) {
-                                link[key] = v[key];
+                                if(v[key]){
+                                    link[key] = v[key];
+                                }
                             });
                         }
                     } else {
@@ -192,5 +205,24 @@ function createLink(scene, config) {
         } else {
             console.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
         }
+    }
+}
+function drawAlarm(scene,config){
+    if(config){
+        var alarmData=config.data;
+        var findNode=config.node;
+        $.each(alarmData,function(k,v){
+            var node=scene.find(findNode + "=" + v[findNode],"node")[0];
+            if(node){
+                node.set({
+                    alarm:{
+                        show: typeof v.show=="undefined"?true: v.show,
+                        text: v.text,
+                        color: v.color,
+                        font: v.font
+                    }
+                });
+            }
+        });
     }
 }
