@@ -26,6 +26,7 @@ function TextNode(config) {
     //封装对象之间相互保持引用
     self.jtopo.qtopo=self;
     //函数
+    self.attr= QTopo.util.extend(defaults(), config || {});
     self.set = setJTopo;
     //初始化
     self.set(self.attr);
