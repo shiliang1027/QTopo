@@ -33,18 +33,20 @@ function Element() {
     };
     this.setFont = function (font) {
         if(font){
-            if ($.isNumeric(font.size) && font.type) {
-                this.jtopo.font = font.size + "px " + font.type;
+            var type= this.attr.font.type;
+            var size=this.attr.font.size;
+            if ($.isNumeric(font.size)) {
                 this.attr.font.size=font.size;
-                this.attr.font.type=font.type;
-            } else {
-                console.error(this,"setFont need size and type");
+                size=font.size;
             }
+            if(font.type){
+                this.attr.font.type=font.type;
+                type=font.type;
+            }
+            this.jtopo.font = size + "px " + type;
             if (font.color) {
                 this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
                 this.attr.font.color=this.jtopo.fontColor;
-            } else {
-                console.error(this,"setFontColor has no param");
             }
         }
     };

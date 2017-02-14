@@ -11,9 +11,7 @@ window.QTopo.init = function (canvas, config) {
     var QtopoInstance = {};
     this.instance.push(QtopoInstance);
     var stage = new JTopo.Stage(canvas);
-    var scene = new Scene(stage, {
-        background: config.background || ""
-    });
+    var scene = new Scene(stage,config);
     QtopoInstance.scene = scene;
     QtopoInstance.setOption = setOption;
     //test(scene);
