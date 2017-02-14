@@ -24,18 +24,20 @@ var util = {
         } catch (e) {
             console.error("extend error", e, base, config);
         }
-        function deep(base, config) {
-            $.each(base, function (key, value) {
-                if (typeof base[key] == "object" && typeof config[key] == "object") {
-                    if ($.isArray(base[key]) && $.isArray(config[key])) {
-                        base[key] = config[key];
-                    } else if ($.isFunction(base[key]) && $.isFunction(config[key])) {
-                        base[key] = config[key];
+        function deep(attr, config) {
+            $.each(attr, function (key, value) {
+                if(base.arrow&&key=="size"){
+                }
+                if (attr[key]&&typeof attr[key] == "object" && typeof config[key] == "object") {
+                    if ($.isArray(attr[key]) && $.isArray(config[key])) {
+                        attr[key] = config[key];
+                    } else if ($.isFunction(attr[key]) && $.isFunction(config[key])) {
+                        attr[key] = config[key];
                     } else {
-                        deep(base[key], config[key]);
+                        deep(attr[key], config[key]);
                     }
-                } else if (typeof base[key] != "undefined" && typeof config[key] != "undefined") {
-                    base[key] = config[key];
+                } else if (typeof attr[key] != "undefined" && typeof config[key] != "undefined") {
+                    attr[key] = config[key];
                 }
             });
         }

@@ -27,7 +27,7 @@
             for(var i=0;i<arguments.length;i++){
                 data.push(arguments[i]);
             }
-            fn.apply(this,arguments);
+            fn.apply(this,data);
         };
     </script>
     <script src="js/jquery.min.js"></script>
@@ -53,17 +53,28 @@
 
                 var fixX=parseInt(data.WebTopo.NetView.XY["@iMinX"]);
                 var fixY=parseInt(data.WebTopo.NetView.XY["@iMinY"]);
-                console.info(data);
-                console.info(node,group,link);
+                //构造节点数据
                 var nodeData=[];
                 $.each(node,function(i,v){
                     nodeData.push({
                         name: v["@name"],
+                        image:"img/node.png",
                         position:[parseInt(v["@x"])+fixX,parseInt(v["@y"])+fixY],
                         id:v["@id"],
-                        pid:v["@pid"]
+                        pid:v["@pid"],
+
                     });
                 });
+                //添加object数据到节点里
+                var object=data.WebTopo.NetView.Objects.Object;
+                nodeData.push({
+                    name: object["@name"],
+                    image:"img/node.png",
+                    position:[parseInt(object["@x"])+fixX,parseInt(object["@y"])+fixY],
+                    id:object["@id"],
+                    pid:object["@pid"]
+                });
+                //构造分组数据
                 var containerData=[];
                 $.each(group,function(i,v){
                     var data=[];
@@ -78,19 +89,19 @@
                         id:v["@id"],
                         pid:v["@pid"],
                         name:v["@name"],
-                        data:data,
-                        dataIndex:i
+                        data:data
                     });
                 });
+                //构造链接数据
                 var linkData=[];
                 $.each(link,function(i,v){
                     linkData.push({
                         pid:v["@pid"],
                         start:v["@from"],
-                        end:v["@to"],
-                        dataIndex:i
+                        end:v["@to"]
                     });
                 });
+
                 topo.setOption({
                     node:{
                         exprop:["id","pid"],
@@ -98,6 +109,7 @@
                     },
                     container:{
                         children:"id",
+                        exprop:["id","pid"],
                         data:containerData
                     },
                     link:{

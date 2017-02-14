@@ -24,9 +24,9 @@ window.QTopo.init = function (canvas, config) {
 };
 function setOption(option) {
     var scene = this.scene;
-    createNode(scene,option.node);
-    createContainer(scene,option.container);
-    createLink(scene,option.link);
+    createNode(scene, option.node);
+    createContainer(scene, option.container);
+    createLink(scene, option.link);
     scene.center();
 }
 function test(scene) {
@@ -100,8 +100,8 @@ function test(scene) {
         group.add(normal2);
     }, 4000);
 }
-function createNode(scene,config) {
-    if(config){
+function createNode(scene, config) {
+    if (config) {
         if ($.isArray(config.data)) {
             $.each(config.data, function (i, v) {
                 var node = scene.createNode(v);
@@ -114,79 +114,83 @@ function createNode(scene,config) {
         }
     }
 }
-function createContainer(scene,config) {
-    if(config){
+function createContainer(scene, config) {
+    if (config) {
         var findChild;
-        if(config.children){
-            findChild=config.children;
+        if (config.children) {
+            findChild = config.children;
         }
         if ($.isArray(config.data)) {
+            //开始构造分组
             $.each(config.data, function (i, cData) {
+                //无论是否有子元素，分组先创造出来
                 var container = scene.createContainer(cData);
                 if ($.isArray(config.exprop)) {
                     $.each(config.exprop, function (j, key) {
                         container[key] = cData[key];
                     });
                 }
-                //塞入元素
-                var findChild_exact=findChild;
+                //确定查找子元素的标记
+                var findChild_exact = findChild;
                 if (cData.children) {
-                    findChild_exact= cData.children;
+                    findChild_exact = cData.children;
                 }
-                if(findChild_exact){
-                    $.each(cData.data,function(j,children){
-                        var child=scene.find(findChild_exact+"="+children);
-                        if(child&&child.length>0){
-                            $.each(child,function(m,one){
+                //查找子元素并塞入
+                if (findChild_exact) {
+                    $.each(cData.data, function (j, children) {
+                        var child = scene.find(findChild_exact + "=" + children);
+                        if (child && child.length > 0) {
+                            $.each(child, function (m, one) {
                                 container.add(one);
                             });
-                        }else{
-                            if(cData.dataIndex){
-                                console.error("dataIndex "+cData.dataIndex);
-                            }
-                            console.error("some child not found:",findChild_exact+"="+children);
+                        } else {
+                            console.error("some child not found : " + j, findChild_exact + "=" + children);
                         }
                     });
-                }else{
+                } else {
                     console.error("can't find children,need config children");
                 }
             });
         }
     }
 }
-function createLink(scene,config) {
-    if(config){
+function createLink(scene, config) {
+    if (config) {
         var path = config.path;
-        if ($.isArray(path)&&path.length>0) {
+        if ($.isArray(path) && path.length > 0) {
             var findStart;
             var findEnd;
-            //确定搜索条件,起始点条件可不同
-            if(path.length == 1){
-                findEnd =path[0];
+            //path为数组，0为起点条件1为终点条件,确定搜索条件,起始点条件可不同
+            if (path.length == 1) {
+                findEnd = path[0];
                 findStart = findEnd;
-            }else{
+            } else {
                 findStart = path[0];
                 findEnd = path[1];
             }
             if ($.isArray(config.data)) {
                 $.each(config.data, function (i, v) {
                     var link;
+                    //根据确定的条件进行搜索
                     var start = scene.find(findStart + "=" + v.start)[0];
                     var end = scene.find(findEnd + "=" + v.end)[0];
                     if (start && end) {
                         v.start = start;
                         v.end = end;
                         link = scene.createLink(v);
-                        if (link&&$.isArray(config.exprop)) {
+                        if (link && $.isArray(config.exprop)) {
                             $.each(config.exprop, function (j, key) {
                                 link[key] = v[key];
                             });
                         }
                     } else {
-                        if(typeof v.dataIndex!=="undefined"){
-                            console.error("dataIndex "+v.dataIndex);
+                        console.error("some link path invalid : "+ i, v);
+                        if(!start){
+                            console.error("start not found : ",v.start);
                         }
-                        console.error("some link path invalid", v);
+                        if(!end){
+                            console.error("end not found : ",v.end);
+                        }
                     }
                 });
             }

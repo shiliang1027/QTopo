@@ -13,8 +13,8 @@ function Element() {
         this.jtopo.text = text;
     };
     this.on = function (name, fn) {
-        this.jtopo.addEventListener(name, function(e){
-            fn(e.target.qtopo,e);
+        this.jtopo.addEventListener(name, function (e) {
+            fn(e.target.qtopo, e);
         });
     };
     this.off = function (name, fn) {
@@ -52,8 +52,8 @@ function Element() {
     };
     this.setPosition = function (position) {
         if ($.isArray(position) && position.length >= 2) {
-            if($.isNumeric(position[0])&&$.isNumeric(position[1])){
-                this.jtopo.setLocation(parseInt(position[0]),parseInt(position[1]));
+            if ($.isNumeric(position[0]) && $.isNumeric(position[1])) {
+                this.jtopo.setLocation(parseInt(position[0]), parseInt(position[1]));
             }
         } else {
             console.error("position need be array and 2 length");
@@ -101,7 +101,7 @@ function Element() {
                 jtopo.textOffsetY = 0;
                 jtopo.text = this.attr.name;
                 jtopo.textPosition = 'Bottom_Center';
-                this.attr.textPosition="bottom";
+                this.attr.textPosition = "bottom";
                 console.error("set wrong textPosition,default is bottom");
                 break;
         }
@@ -109,18 +109,19 @@ function Element() {
     //限制所能修改的属性,arr为所能修改的属性列表
     this._setAttr = function (arr, config) {
         var self = this;
-        try {
-            $.each(arr, function (i, v) {
+        $.each(arr, function (i, v) {
+            try {
                 var fn = self['set' + QTopo.util.upFirst(v)];
                 var attr = config[v];
                 if (attr && fn) {
                     fn.call(self, attr);
-                    self.attr[v] = attr;
                 }
-            });
-        } catch (e) {
-            console.info("Element _setAttr error :" + e);
-        }
+            } catch (e) {
+                console.info("Element _setAttr error :" + v,config[v]);
+            }
+        });
+        QTopo.util.extend(self.attr, config || {});
+
     }
 }
 
