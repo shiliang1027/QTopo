@@ -109,7 +109,7 @@ function toggleAlarmFlash(node,show){
     }
 }
 function alarmFlash() {
-    //修改源码部分
+    //插入源码部分代码
     if(this.shadow&&this.allowAlarmFlash){
         if(typeof this.shadowDirection=="undefined"){
             this.shadowDirection=true;

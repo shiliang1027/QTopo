@@ -31,7 +31,7 @@
         };
     </script>
     <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-nicescroll/jquery.nicescroll.min.js"></script>
+    <!--<script src="js/jquery-nicescroll/jquery.nicescroll.min.js"></script>-->
     <script src="js/Qtopo.bundle.js"></script>
     <style>
     </style>
@@ -43,17 +43,12 @@
         var topo = QTopo.init(document.getElementsByClassName("topo_base")[0], {
             background: "img/bg1.jpg"
         });
-        console.info(topo);
-        $.ajax({
-            url: "./data/data.json",
-            success: function (data) {
-                $.ajax({
-                    url: "./data/alarm.json",
-                    success: function (alarm) {
-                        drawTopo(data, alarm);
-                    }
-                });
-            }
+        var dataUrl="./data/data.json";
+        var alarmUrl="./data/alarm.json";
+        $.ajax(dataUrl).done(function(data){
+            $.ajax(alarmUrl).done(function(alarm){
+                drawTopo(data, alarm);
+            });
         });
         function drawTopo(data, alarm) {
             alarm = QTopo.util.toJson(alarm);
@@ -69,6 +64,7 @@
             var nodeData = [];
             $.each(node, function (i, v) {
                 var newNode = {
+                    size:[64,64],
                     name: v["@name"],
                     image: "img/node.png",
                     position: [parseInt(v["@x"]) + fixX, parseInt(v["@y"]) + fixY],
@@ -144,39 +140,18 @@
                     path: ["id"],
                     exprop: ["pid"],
                     data: linkData
-                }
-            });
-            var alarmNode = topo.scene.createNode({
-                name: "告警测试",
-                position: [600, 0],
-                image: "img/node.png",
-                size: [100, 100],
-                font: {
-                    size: 22
-                }
-            });
-            alarmNode.set({
+                },
                 alarm: {
-                    show: true,
-                    color: "255,204,0"
+                    node: "alarmId",
+                    data: alarmData,
+                    animate:{
+                        time:1000,
+                        callBack:function(node){
+                            console.info(node);
+                        }
+                    }
                 }
             });
-            setTimeout(function () {
-                alarmNode.set({
-                    size: [20, 20],
-                    position: [100, 100],
-                    alarm: {
-                        color: "255,0,0",
-                        text: "111"
-                    }
-                });
-                topo.setOption({
-                    alarm: {
-                        node: "alarmId",
-                        data: alarmData
-                    }
-                });
-            }, 5000);
         }
     });
 </script>

@@ -209,20 +209,63 @@ function createLink(scene, config) {
 }
 function drawAlarm(scene,config){
     if(config){
-        var alarmData=config.data;
-        var findNode=config.node;
-        $.each(alarmData,function(k,v){
-            var node=scene.find(findNode + "=" + v[findNode],"node")[0];
-            if(node){
-                node.set({
-                    alarm:{
-                        show: typeof v.show=="undefined"?true: v.show,
-                        text: v.text,
-                        color: v.color,
-                        font: v.font
-                    }
+        if ($.isArray(config.data)&&config.node) {
+            var alarmData=config.data;
+            var findNode=config.node;
+            var alarmNodes=[];
+            $.each(alarmData,function(k,v){
+                var node=scene.find(findNode + "=" + v[findNode],"node")[0];
+                if(node){
+                    alarmNodes.push({
+                        node:node,
+                        alarm:{
+                            show: typeof v.show=="undefined"?true: v.show,
+                            text: v.text,
+                            color: v.color,
+                            font: v.font
+                        }
+                    });
+                }
+            });
+            if(config.animate){
+                alarmAnimate(config.animate,alarmNodes);
+            }else{
+                console.info("alarm nodes : "+alarmNodes.length);
+                $.each(alarmNodes,function(i,v){
+                    v.node.set({
+                        alarm:v.alarm
+                    });
                 });
             }
-        });
+        }
+    }
+}
+var animateRuning;
+function alarmAnimate(animate,alarmNodes){
+    if(animate){
+        if($.isNumeric(animate.time)){
+            clearAnimat();
+            console.info("begin alarm animate times : "+alarmNodes.length);
+            animateRuning=setInterval(function(){
+                if(alarmNodes.length>0){
+                    var data=alarmNodes.pop();
+                    data.node.set({
+                        alarm:data.alarm
+                    });
+                    if($.isFunction(animate.callBack)){
+                        animate.callBack(data.node);
+                    }
+                }else{
+                    clearAnimat();
+                }
+            },parseInt(animate.time));
+        }
+    }
+}
+function clearAnimat(){
+    if(animateRuning){
+        console.info("end alarm animate");
+        clearInterval(animateRuning);
+        animateRuning="";
     }
 }
