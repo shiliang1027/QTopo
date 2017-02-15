@@ -214,7 +214,7 @@ function drawAlarm(scene,config){
             var findNode=config.node;
             var alarmNodes=[];
             $.each(alarmData,function(k,v){
-                var node=scene.find(findNode + "=" + v[findNode],"node")[0];
+                var node=scene.find(findNode + "=" + v["node"],"node")[0];
                 if(node){
                     alarmNodes.push({
                         node:node,

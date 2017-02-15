@@ -117,13 +117,13 @@ function alarmFlash() {
         move(this);
         function move(node){
             if (node.shadowDirection) {
-                node.shadowBlur += 10;
+                node.shadowBlur += 5;
                 if(node.shadowBlur>100){
                     node.shadowDirection=false;
                 }
             }
             else {
-                node.shadowBlur -= 10;
+                node.shadowBlur -= 5;
                 if(node.shadowBlur<=10){
                     node.shadowDirection=true;
                 }
