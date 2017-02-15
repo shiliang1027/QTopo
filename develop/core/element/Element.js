@@ -18,9 +18,9 @@ function Element() {
     this.on = function (name, fn) {
         this.jtopo.addEventListener(name, function (e) {
             if(e.target&&e.target.qtopo){
-                fn(e.target.qtopo, e);
+                fn(e,e.target.qtopo);
             }else{
-                fn(e.scene.qtopo,e);
+                fn(e);
             }
         });
     };

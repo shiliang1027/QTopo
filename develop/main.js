@@ -1,23 +1,18 @@
 /**
  * Created by qiyc on 2017/2/6.
  */
-require("./jtopo/jtopo-min.js");
+require("./core/jtopo/jtopo-min.js");
 //模块
 window.QTopo = {};
 window.QTopo.instance=[];
 window.QTopo.util = require('./util.js');
-var Scene = require('./Scene.js');
+var Scene = require('./core/Scene.js');
 window.QTopo.init = function (canvas, config) {
-    var QtopoInstance = {};
+    var QtopoInstance = {
+        scene:new Scene(new JTopo.Stage(canvas),config),
+        setOption : setOption
+    };
     this.instance.push(QtopoInstance);
-    var stage = new JTopo.Stage(canvas);
-    var scene = new Scene(stage,config);
-    QtopoInstance.scene = scene;
-    QtopoInstance.setOption = setOption;
-    //test(scene);
-    scene.on("dbclick", function (target, e) {
-        console.info(target);
-    });
     return QtopoInstance;
 };
 function setOption(option,clear) {
@@ -30,74 +25,6 @@ function setOption(option,clear) {
     createLink(scene, option.link);
     drawAlarm(scene,option.alarm);
     scene.center();
-}
-function test(scene) {
-    var text = scene.createNode({
-        type: "text",
-        position: [200, 200],
-        font: {
-            size: 30
-        }
-    });
-    var normal = scene.createNode({
-        type: "normal",
-        position: [200, 100],
-        font: {
-            size: 30
-        },
-        image: "img/mo/wlan_4.png",
-        name: "test1",
-        size: [100, 100]
-    });
-    normal.id = "avsa...";
-    var normal2 = scene.createNode({
-        type: "normal",
-        position: [200, 100],
-        font: {
-            size: 30
-        }
-    });
-    normal2.id = "avsa...";
-    var group = scene.createContainer({
-        name: "test Group",
-        font: {
-            size: 30
-        }
-    });
-    var link = scene.createLink({
-        type: "flexional",
-        start: text,
-        end: normal
-    });
-    link.id = "avsa...";
-    normal.set({
-        position: [500, 200]
-    });
-    setTimeout(function () {
-        text.set({
-            text: "aaaa"
-        });
-        normal.set({
-            name: "aaa",
-            textPosition: "hide"
-        });
-        group.add(normal);
-    }, 2000);
-    setTimeout(function () {
-        normal.set({
-            name: "bbb",
-            textPosition: "left"
-        });
-        group.add(text);
-    }, 3000);
-    setTimeout(function () {
-        normal.set({
-            name: "ccc",
-            textPosition: "top"
-        });
-        group.remove(text);
-        group.add(normal2);
-    }, 4000);
 }
 function createNode(scene, config) {
     if (config) {

@@ -5,14 +5,14 @@ var rename = require('gulp-rename');
 var connect = require('gulp-connect');
 var webpack = require('gulp-webpack');
 var homePage = "./public/index.html";
-var scss = "./core/scss/Qtopo.scss";
+var scss = "./develop/scss/Qtopo.scss";
 var dCss = "./public/css/";
 var root = './public';
-var watchPath = ["core/*.js",'core/**/*.js',"./webpack.config.js"];
+var watchPath = ["develop/*.js",'develop/**/*.js',"./webpack.config.js"];
 
 gulp.task('default', ['watch', 'serve']);
 gulp.task('webpack', function () {
-    return gulp.src('./core/main.js')
+    return gulp.src('./develop/main.js')
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('./public/js')).pipe(connect.reload());
 });

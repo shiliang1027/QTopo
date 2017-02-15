@@ -44,6 +44,13 @@
         var topo = QTopo.init(document.getElementsByClassName("topo_base")[0], {
             background: "img/bg1.jpg"
         });
+        topo.scene.on("dbclick",function(e,target){
+            if(target){
+                console.info(target);
+            }else{
+                console.info(topo.scene);
+            }
+        });
         //init返回一个QTopo对象，可用该对象的setOption方法绘图
         var dataUrl="./data/data.json";
         var alarmUrl="./data/alarm.json";
@@ -117,6 +124,7 @@
             //添加object数据到节点里
             var object = data.WebTopo.NetView.Objects.Object;
             nodeData.push({
+                size:[64,64],
                 name: object["@name"],
                 image: "img/node.png",
                 position: [parseInt(object["@x"]) + fixX, parseInt(object["@y"]) + fixY],

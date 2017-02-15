@@ -15,8 +15,6 @@ var Container = {
     Group: require("./element/container/Group.js")
 };
 module.exports = Scene;
-var Element = require("./element/Element.js");
-var ELementInstance=new Element();
 //画布对象
 var defaults = function () {
     return {
@@ -56,8 +54,18 @@ Scene.prototype.clear=function(){
     console.info("scene clear");
     this.jtopo.clear();
 };
-Scene.prototype.on = ELementInstance.on;
-Scene.prototype.off= ELementInstance.off;
+Scene.prototype.on = function (name, fn) {
+    this.jtopo.addEventListener(name, function (e) {
+        if(e.target&&e.target.qtopo){
+            fn(e,e.target.qtopo);
+        }else{
+            fn(e);
+        }
+    });
+};
+Scene.prototype.off= function (name, fn) {
+    this.jtopo.removeEventListener(name);
+};
 Scene.prototype.find=function(scan, type) {
     var children = this.children;
     var result = [];
