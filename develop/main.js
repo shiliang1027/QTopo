@@ -7,10 +7,15 @@ window.QTopo = {};
 window.QTopo.instance=[];
 window.QTopo.util = require('./util.js');
 var Scene = require('./core/Scene.js');
-window.QTopo.init = function (canvas, config) {
+var RightMenu=require("./component/RightMenu.js");
+window.QTopo.init = function (dom, config) {
+    dom = dom instanceof Array ? dom[0] : dom;
+    var canvas=initCanvas(dom,$(dom).width(),$(dom).height());
     var QtopoInstance = {
         scene:new Scene(new JTopo.Stage(canvas),config),
-        setOption : setOption
+        setOption : setOption,
+        document:dom,
+        resize:resize(dom,canvas)
     };
     this.instance.push(QtopoInstance);
     return QtopoInstance;
@@ -25,6 +30,29 @@ function setOption(option,clear) {
     createLink(scene, option.link);
     drawAlarm(scene,option.alarm);
     scene.center();
+}
+function resize(dom,canvas){
+    return function(){
+        canvas.setAttribute('width', $(dom).width());
+        canvas.setAttribute('height',$(dom).height());
+    }
+}
+function initCanvas(dom,width,height){
+    if(width<=0||height<=0){
+        console.error("The topo need config width and height!");
+    }
+    dom.style.position='relative';
+    dom.style.overflow='hidden';
+    var canvas=document.createElement('canvas');
+    dom.appendChild(canvas);
+    canvas.setAttribute('width', width);
+    canvas.setAttribute('height',height);
+    canvas.style.position="absolute";
+    canvas.style.top=0;
+    canvas.style.left=0;
+    canvas.style['user-select']= 'none';
+    canvas.style['-webkit-tap-highlight-color']= 'rgba(0, 0, 0, 0)';
+    return canvas;
 }
 function createNode(scene, config) {
     if (config) {

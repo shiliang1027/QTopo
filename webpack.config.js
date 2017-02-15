@@ -15,7 +15,12 @@ module.exports = {
             {
                 test: /\.json$/,
                 loader: "json"
-            }
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css?modules'//添加对样式表的处理
+            },
+            { test: /\.html$/,loader: 'raw'}
         ]
     },
     externals: {
