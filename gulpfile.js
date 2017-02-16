@@ -3,6 +3,8 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var connect = require('gulp-connect');
+var concat = require('gulp-concat');//合并
+var uglify = require('gulp-uglify');//压缩
 var webpack = require('gulp-webpack');
 var homePage = "./public/index.html";
 var scss = "./develop/scss/Qtopo.scss";
@@ -30,6 +32,20 @@ gulp.task('sass', function (done) {
         .pipe(connect.reload())
         .on('end', done);
 });
+//合并压缩依赖的js
+var yilaiJs=['public/lib/jquery/jquery.min.js','public/lib/flat-ui/js/flat-ui.min.js'];
+gulp.task("concatJs",function(){
+    gulp.src(yilaiJs).pipe(concat('concat.js')).pipe(uglify()).pipe(gulp.dest('./public/lib/concat'));
+});
+//合并压缩依赖的css
+var yilaiCss=["public/lib/flat-ui/css/flat-ui.min.css"];
+gulp.task('concatCss', function() {                                //- 创建一个名为 concat 的 task
+    gulp.src(yilaiCss)                                          //- 需要处理的css文件，放到一个字符串数组里
+        .pipe(concat('concat.min.css'))                            //- 合并后的文件名
+        .pipe(minifyCss())                                      //- 压缩处理成一行
+        .pipe(gulp.dest('./public/lib/concat/css'));                         //- 输出文件本地
+});
+
 gulp.task('watch', function () {
     gulp.watch(homePage, ['reload']);
     gulp.watch(scss, ['sass']);
