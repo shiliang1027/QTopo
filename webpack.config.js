@@ -33,7 +33,7 @@ module.exports = {
     plugins: [
         new webpack.optimize.UglifyJsPlugin(),//压缩代码插件
         new ExtractTextPlugin({
-            filename:"qtopo.min.css",allChunks: true
+            filename:"qtopo.css",allChunks: true
         }),//合并并压缩输出到目录
     ]
 };
