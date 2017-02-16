@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="css/Qtopo.min.css" rel="stylesheet">
     <script>
         //重写日志函数，加入时间标记
         Date.prototype.Format = function (fmt) { //author: meizz
@@ -30,9 +29,8 @@
             fn.apply(this, data);
         };
     </script>
-    <script src="js/jquery.min.js"></script>
-    <!--<script src="js/jquery-nicescroll/jquery.nicescroll.min.js"></script>-->
-    <script src="js/Qtopo.bundle.js"></script>
+    <link href="qtopo/qtopo.min.css" rel="stylesheet">
+    <script src="qtopo/qtopo.bundle.js"></script>
     <style>
         #topo_base{
             width: 100%;
@@ -85,7 +83,6 @@
                         animate:{//可设置动画，每个点亮之间延迟多少毫秒，回调函数中能获取到点亮的节点信息
                             time:1000,
                             callBack:function(node){
-                                console.info(node);
                             }
                         }
                     }
