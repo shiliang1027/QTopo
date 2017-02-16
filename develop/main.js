@@ -2,7 +2,7 @@
  * Created by qiyc on 2017/2/6.
  */
     //核心依赖
-require("./core/lib/jtopo-min.js");
+require("./core/jtopo/jtopo-min.js");
 //QTopo
 window.QTopo = {};
 window.QTopo.instance=[];
