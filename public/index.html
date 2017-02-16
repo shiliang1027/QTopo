@@ -29,17 +29,17 @@
             fn.apply(this, data);
         };
     </script>
+    <link href="qtopo/css/flat-ui.min.css" rel="stylesheet">
+    <script src="qtopo/jquery.min.js"></script>
+    <script src="qtopo/flat-ui.min.js"></script>
     <link href="qtopo/qtopo.min.css" rel="stylesheet">
     <script src="qtopo/qtopo.bundle.js"></script>
-    <style>
-        #topo_base{
-            width: 100%;
-            height:1000px;
-        }
-    </style>
+    <link href="./style.css" rel="stylesheet">
 </head>
 <body>
 <div id="topo_base"></div>
+<table id="alarm_detail" class="table table-condensed table-bordered">
+</table>
 <script>
     $(document).ready(function () {
         //使用QTopo先用init生成一个QTopo对象，要传入一个设好长宽的dom
@@ -57,6 +57,7 @@
         var dataUrl="./data/data.json";
         var alarmUrl="./data/alarm.json";
         //自定义获取数据，Qtopo只管根据setOption内的参数绘图
+        var table=$("#alarm_detail");
         $.ajax(dataUrl).done(function(data){
             $.ajax(alarmUrl).done(function(alarm){
                 var myData=getTopoData(data, alarm);
@@ -83,6 +84,7 @@
                         animate:{//可设置动画，每个点亮之间延迟多少毫秒，回调函数中能获取到点亮的节点信息
                             time:1000,
                             callBack:function(node){
+                                table.append("<tr><td>"+node.attr.name+"</td><td style='color:rgb("+node.attr.alarm.color+")'"+">"+node.attr.alarm.text+"</td></tr>");
                             }
                         }
                     }
@@ -165,7 +167,8 @@
             $.each(alarm, function (i, v) {
                 alarmData.push({
                     node: v["alarmneid"],
-                    color: alarmColor[v["alarmcolor"]]
+                    color: alarmColor[v["alarmcolor"]],
+                    text:v["alarmcnt"]
                 });
             });
             return {

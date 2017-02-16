@@ -2,18 +2,14 @@
  * Created by qiyc on 2017/2/6.
  */
     //核心依赖
-var $=require("./core/lib/jquery.min.js");
-require("./component/lib/jquery-nicescroll/jquery.nicescroll.min.js");
-window.$=window.jQuery=window.jquery=$;
 require("./core/lib/jtopo-min.js");
 //QTopo
 window.QTopo = {};
 window.QTopo.instance=[];
 window.QTopo.util = require('./util.js');
 var Scene = require('./core/Scene.js');
-var RightMenu=require("./component/RightMenu.js");
+var windows=require("./component/windows.js");
 window.QTopo.init = function (dom, config) {
-    RightMenu();
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas=initCanvas(dom,$(dom).width(),$(dom).height());
     var QtopoInstance = {
