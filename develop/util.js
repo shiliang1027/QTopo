@@ -183,13 +183,6 @@ var util = {
         }
         clazz.constructor = clazz;
     },
-    //显示名字
-    showName: function (element) {
-        element.text = element.prop.name;
-    },
-    hideName: function (element) {
-        element.text = '';
-    },
     //深度克隆对象
     deepClone: function (obj) {
         var result, oClass = isClass(obj);
@@ -249,18 +242,6 @@ var util = {
                 util.nodeFlash(node, 6);
             }
         }
-    },//获取字符串长度
-    getStringWidth: function (text, size) {
-        if (!ruler) {
-            ruler = $("span[name=topo_get_string_Width]");
-        }
-        ruler.text(text);
-        if (size) {
-            ruler.css("fontSize", size);
-        } else {
-            ruler.css("fontSize", "14px");
-        }
-        return ruler[0].offsetWidth;
     }
 };
 module.exports = util;

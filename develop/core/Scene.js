@@ -186,3 +186,10 @@ Scene.prototype.setBackGround=function(background) {
     this.jtopo.background = background;
     this.attr.background=background;
 };
+Scene.prototype.upZindex=function(element){
+    var jtopo=element.jtopo;
+    var scene=this.jtopo;
+    if(jtopo&&scene){
+
+    }
+};

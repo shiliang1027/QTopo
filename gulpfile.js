@@ -5,18 +5,24 @@ var rename = require('gulp-rename');
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');//合并
 var uglify = require('gulp-uglify');//压缩
-var webpack = require('gulp-webpack');
+var runSequence=require("run-sequence");//同步执行gulp任务
+//var webpack = require('gulp-webpack');
 var homePage = "./public/index.html";
 var scss = "./develop/scss/Qtopo.scss";
 var dCss = "./public/css/";
 var root = './public';
-var watchPath = ["develop/*.js",'develop/**/*.js',"./webpack.config.js"];
+var watchPath = ["develop/*.js", 'develop/**/*.js', "./webpack.config.js"];
 
 gulp.task('default', ['watch', 'serve']);
-gulp.task('webpack', function () {
-    return gulp.src('./develop/main.js')
-        .pipe(webpack(require('./webpack.config.js')))
-        .pipe(gulp.dest('./public/qtopo')).pipe(connect.reload());
+//gulp.task('webpack', function () {
+//    return gulp.src('./develop/main.js')
+//        .pipe(webpack(require('./webpack.config.js')))
+//        .pipe(gulp.dest('./public/qtopo'));
+//});
+var shell = require('gulp-shell');
+gulp.task('webpack', shell.task(['webpack --config webpack.config.js']));
+gulp.task('build', function(callback) {
+    runSequence('webpack',"reload",callback);
 });
 gulp.task('reload', function () {
     gulp.src(homePage).pipe(connect.reload());
@@ -33,14 +39,14 @@ gulp.task('sass', function (done) {
         .on('end', done);
 });
 //合并压缩依赖的js
-var lib="public/lib/";
-var yilaiJs=[lib+'jquery/jquery.min.js',lib+'jquery-nicescroll/jquery.nicescroll.min.js',lib+'flat-ui/js/flat-ui.min.js'];
-gulp.task("concatJs",function(){
+var lib = "public/lib/";
+var yilaiJs = [lib + 'jquery/jquery.min.js', lib + 'jquery-nicescroll/jquery.nicescroll.min.js', lib + 'flat-ui/js/flat-ui.min.js'];
+gulp.task("concatJs", function () {
     gulp.src(yilaiJs).pipe(concat('concat.js')).pipe(uglify()).pipe(gulp.dest('./public/lib/concat'));
 });
 //合并压缩依赖的css
-var yilaiCss=[lib+"flat-ui/css/flat-ui.min.css"];
-gulp.task('concatCss', function() {                                //- 创建一个名为 concat 的 task
+var yilaiCss = [lib + "flat-ui/css/flat-ui.min.css"];
+gulp.task('concatCss', function () {                                //- 创建一个名为 concat 的 task
     gulp.src(yilaiCss)                                          //- 需要处理的css文件，放到一个字符串数组里
         .pipe(concat('concat.min.css'))                            //- 合并后的文件名
         .pipe(minifyCss())                                      //- 压缩处理成一行
@@ -50,7 +56,7 @@ gulp.task('concatCss', function() {                                //- 创建一
 gulp.task('watch', function () {
     gulp.watch(homePage, ['reload']);
     gulp.watch(scss, ['sass']);
-    gulp.watch(watchPath, ['webpack']);
+    gulp.watch(watchPath, ['build']);
 });
 //服务器任务，提供在线查看功能
 gulp.task('serve', function () {

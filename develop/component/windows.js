@@ -5,5 +5,4 @@
 require("./test.css");
 module.exports = windows;
 function windows(){
-
 }
