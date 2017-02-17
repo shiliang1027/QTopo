@@ -88,5 +88,8 @@ function reset(link){
     };
 }
 DirectLink.prototype.setBundleOffset=function(bundleOffset){
-    this.jtopo.bundleOffset=parseInt(bundleOffset);
+    if($.isNumeric(bundleOffset)){
+        this.jtopo.bundleOffset=parseInt(bundleOffset);
+    }
+    this.jtopo.bundleOffset=this.jtopo.bundleOffset;
 };

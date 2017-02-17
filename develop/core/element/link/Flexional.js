@@ -72,11 +72,15 @@ function reset(link){
     };
 }
 FlexionalLink.prototype.setOffsetGap=function(offsetGap){
-    this.jtopo.offsetGap = parseInt(offsetGap);// 折线拐角处的长度
+    if($.isNumeric(offsetGap)){
+        this.jtopo.offsetGap = parseInt(offsetGap);// 折线拐角处的长度
+    }
     this.attr.offsetGap=this.jtopo.offsetGap;
 };
 FlexionalLink.prototype.setDirection=function(direction){
     //折线方向 horizontal 水平 "vertical"垂直
-    this.jtopo.direction=direction;
+    if(direction){
+        this.jtopo.direction=direction;
+    }
     this.attr.direction=this.jtopo.direction;
 };

@@ -8,7 +8,7 @@ window.QTopo = {};
 window.QTopo.instance=[];
 window.QTopo.util = require('./util.js');
 var Scene = require('./core/Scene.js');
-var windows=require("./component/windows.js");
+var component=require("./component/component.js");
 window.QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas=initCanvas(dom,$(dom).width(),$(dom).height());
@@ -19,6 +19,7 @@ window.QTopo.init = function (dom, config) {
         resize:resize(dom,canvas)
     };
     this.instance.push(QtopoInstance);
+    component.assemble(QtopoInstance);
     return QtopoInstance;
 };
 function setOption(option,clear) {

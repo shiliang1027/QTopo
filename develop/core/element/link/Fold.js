@@ -72,6 +72,8 @@ function reset(link){
 }
 FoldLink.prototype.setDirection=function(direction){
     //折线方向 horizontal 水平 "vertical"垂直
-    this.jtopo.direction=direction;
+    if(direction){
+        this.jtopo.direction=direction;
+    }
     this.attr.direction=this.jtopo.direction;
 };

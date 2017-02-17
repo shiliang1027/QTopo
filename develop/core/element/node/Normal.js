@@ -38,7 +38,7 @@ function NormalNode(config) {
     self.jtopo = new JTopo.Node();
     //封装对象之间相互保持引用
     self.jtopo.qtopo = self;
-    //告警闪烁
+    //告警闪烁 ...paintChilds函数内,638行附近调用
     self.jtopo.alarmFlash=alarmFlash;
     //函数
     self.set = setJTopo;
@@ -54,8 +54,10 @@ function setJTopo(config) {
     }
 }
 NormalNode.prototype.setImage=function(image) {
-    this.jtopo.setImage(image);
-    this.attr.image=image;
+    if(image){
+        this.jtopo.setImage(image);
+        this.attr.image=image;
+    }
 };
 NormalNode.prototype.setAlarm=function(config) {
     var jtopo = this.jtopo;
@@ -76,7 +78,7 @@ function alarmAttr(jtopo,alarm,config){
         jtopo.alarmAlpha = 1;
         var size=alarm.font.size;
         var font=alarm.font.type;
-        if(config.font&&config.font.size){
+        if(config.font&&$.isNumeric(config.font.size)){
             size=config.font.size;
         }
         if(config.font&&config.font.type){
