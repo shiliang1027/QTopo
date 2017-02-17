@@ -55,5 +55,13 @@ function Link() {
         }
         this.attr.dashed=this.jtopo.dashedPattern;
     };
+    this.getPath=function(){
+        var path={
+            start:this.jtopo.nodeA.qtopo,
+            end:this.jtopo.nodeZ.qtopo
+        };
+        this.path=path;
+        return path;
+    }
 }
 

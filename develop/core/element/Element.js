@@ -4,12 +4,28 @@
 module.exports = Element;
 function Element() {
     this.show = function () {
-        this.jtopo.visible = true;
-        this.attr.show = this.jtopo.visible;
+        switch (this.getType()) {
+            case "node":
+                toggleNode.call(this, true);
+                break;
+            case "container":
+                toggleContainer.call(this, true);
+                break;
+            case "link":
+                toggleLink.call(this, true);
+        }
     };
     this.hide = function () {
-        this.jtopo.visible = false;
-        this.attr.show = this.jtopo.visible;
+        switch (this.getType()) {
+            case "node":
+                toggleNode.call(this, false);
+                break;
+            case "container":
+                toggleContainer.call(this, false);
+                break;
+            case "link":
+                toggleLink.call(this, false);
+        }
     };
     this.setText = function (text) {
         if (text) {
@@ -145,5 +161,43 @@ function Element() {
             }
         });
     }
+}
+function toggle(arr, fn) {
+    for (var i = 0; i < arr.length; i++) {
+        arr[i][fn]();
+    }
+}
+function toggleLink(flag) {
+    this.getPath();
+    if(flag){//线的显示只有当其两端节点都显示时才显示
+        if (this.path.start.jtopo && this.path.end.jtopo) {
+            if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {
+                this.jtopo.visible = true;
+                this.attr.show = this.jtopo.visible;
+            }
+        }
+    }else{
+        this.jtopo.visible = false;
+        this.attr.show = this.jtopo.visible;
+    }
+
+}
+function toggleNode(flag) {
+    this.jtopo.visible = flag;
+    this.attr.show = this.jtopo.visible;
+    this.getLinks();
+    var string=flag?"show":"hide";
+    toggle(this.links.in, string);
+    toggle(this.links.out, string);
+}
+function toggleContainer(flag) {
+    this.jtopo.visible = flag;
+    this.attr.show = this.jtopo.visible;
+    this.getChildren();
+    this.getLinks();
+    var string=flag?"show":"hide";
+    toggle(this.children, string);
+    toggle(this.links.in, string);
+    toggle(this.links.out, string);
 }
 

@@ -6,7 +6,7 @@ Container.prototype = new Element();
 module.exports = Container;
 function Container() {
     this.setName = function (name) {
-        if(name){
+        if (name) {
             if (this.attr.textPosition != "hide") {
                 this.jtopo.text = name;
             }
@@ -69,7 +69,7 @@ function Container() {
         this.attr.border.raidus = jtopo.borderRadius;
     };
     this.setChildren = function (children) {
-        var jtopo=this.jtopo;
+        var jtopo = this.jtopo;
         if (children) {
             this.jtopo.childDragble = typeof children.dragble == "boolean" ? children.dragble : true;
         }
@@ -91,8 +91,11 @@ function Container() {
                 links.out.push(jtopo.outLinks[j].qtopo);
             }
         }
-        this.links=links;
+        this.links = links;
         return links;
+    };
+    this.toggle=function(){
+        
     }
 }
 

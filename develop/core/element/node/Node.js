@@ -39,7 +39,8 @@ function Node() {
                 links.out.push(jtopo.outLinks[j].qtopo);
             }
         }
+        this.links=links;
         return links;
-    }
+    };
 }
 
