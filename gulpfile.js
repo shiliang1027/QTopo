@@ -33,12 +33,13 @@ gulp.task('sass', function (done) {
         .on('end', done);
 });
 //合并压缩依赖的js
-var yilaiJs=['public/lib/jquery/jquery.min.js','public/lib/flat-ui/js/flat-ui.min.js'];
+var lib="public/lib/";
+var yilaiJs=[lib+'jquery/jquery.min.js',lib+'jquery-nicescroll/jquery.nicescroll.min.js',lib+'flat-ui/js/flat-ui.min.js'];
 gulp.task("concatJs",function(){
     gulp.src(yilaiJs).pipe(concat('concat.js')).pipe(uglify()).pipe(gulp.dest('./public/lib/concat'));
 });
 //合并压缩依赖的css
-var yilaiCss=["public/lib/flat-ui/css/flat-ui.min.css"];
+var yilaiCss=[lib+"flat-ui/css/flat-ui.min.css"];
 gulp.task('concatCss', function() {                                //- 创建一个名为 concat 的 task
     gulp.src(yilaiCss)                                          //- 需要处理的css文件，放到一个字符串数组里
         .pipe(concat('concat.min.css'))                            //- 合并后的文件名
