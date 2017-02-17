@@ -3,7 +3,6 @@
  */
 
 var Node=require("./Node.js");
-TextNode.prototype =new Node();
 module.exports = TextNode;
 var defaults =function(){
     return {
@@ -21,19 +20,16 @@ var defaults =function(){
 };
 //一般节点
 function TextNode(config) {
-    var self = this;
-    self.jtopo = new JTopo.TextNode();
-    //封装对象之间相互保持引用
-    self.jtopo.qtopo=self;
+    Node.call(this,new JTopo.TextNode());
     //函数
-    self.attr= QTopo.util.extend(defaults(), config || {});
-    self.set = setJTopo;
+    this.attr= QTopo.util.extend(defaults(), config || {});
+    this.set = setJTopo;
     //初始化
-    self.set(self.attr);
+    this.set(this.attr);
 }
+QTopo.util.inherits(TextNode,Node);
 function setJTopo(config) {
     if (config) {
-        var self=this;
         //处理一般属性的设置
         this._setAttr(config);
     }

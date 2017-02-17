@@ -2,7 +2,6 @@
  * Created by qiyc on 2017/2/7.
  */
 var Node=require("./Node.js");
-NormalNode.prototype =new Node();
 module.exports = NormalNode;
 var defaults = function () {
     return {
@@ -33,21 +32,18 @@ var defaults = function () {
 };
 //一般节点
 function NormalNode(config) {
-    var self = this;
-    self.attr = QTopo.util.extend(defaults(), config || {});
-    self.jtopo = new JTopo.Node();
-    //封装对象之间相互保持引用
-    self.jtopo.qtopo = self;
+    Node.call(this,new JTopo.Node());
+    this.attr = QTopo.util.extend(defaults(), config || {});
     //告警闪烁 ...paintChilds函数内,638行附近调用
-    self.jtopo.alarmFlash=alarmFlash;
+    this.jtopo.alarmFlash=alarmFlash;
     //函数
-    self.set = setJTopo;
+    this.set = setJTopo;
     //初始化
-    self.set(self.attr);
+    this.set(this.attr);
 }
+QTopo.util.inherits(NormalNode,Node);
 function setJTopo(config) {
     if (config) {
-        var self = this;
         //处理一般属性的设置
         this._setAttr(config);
         //处理特殊属性的设置

@@ -2,7 +2,6 @@
  * Created by qiyc on 2017/2/8.
  */
 var Container=require("./Container.js");
-Group.prototype = new Container();
 module.exports = Group;
 //曲线
 var defaults = function () {
@@ -33,19 +32,16 @@ var defaults = function () {
 };
 
 function Group(config) {
-    var self = this;
-    self.jtopo = new JTopo.Container();
-    //封装对象之间相互保持引用
-    self.jtopo.qtopo=self;
-    self.attr =  QTopo.util.extend(defaults(), config || {});
+    Container.call(this, new JTopo.Container());
+    this.attr =  QTopo.util.extend(defaults(), config || {});
     //函数
-    self.set = setJTopo;
+    this.set = setJTopo;
     //初始化
-    self.children=[];
-    self.set(self.attr);
+    this.set(this.attr);
     //改写源码绘制曲线,可由curveOffset指定弧度
-    reset(self);
+    reset(this);
 }
+QTopo.util.inherits(Group,Container);
 var defaultLayout = function (container, children) {
     if (children.length > 0) {
         var left = 1e7,

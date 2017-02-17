@@ -2,7 +2,6 @@
  * Created by qiyc on 2017/2/7.
  */
 var Link=require("./Link.js");
-FoldLink.prototype=new Link();
 module.exports = FoldLink;
 //折线
 var defaults =function(){
@@ -35,18 +34,16 @@ function FoldLink(config){
         console.error("Create Link need start and end");
         return;
     }
-    var self = this;
-    self.jtopo = new JTopo.FoldLink(config.start.jtopo, config.end.jtopo);
-    //封装对象之间相互保持引用
-    self.jtopo.qtopo=self;
-    self.attr =  QTopo.util.extend(defaults(), config || {});
+    Link.call(this, new JTopo.FoldLink(config.start.jtopo, config.end.jtopo));
+    this.attr =  QTopo.util.extend(defaults(), config || {});
     //函数
-    self.set = setJTopo;
+    this.set = setJTopo;
     //初始化
-    self.set(self.attr);
+    this.set(this.attr);
     //修改源码
-    reset(self);
+    reset(this);
 }
+QTopo.util.inherits(FoldLink,Link);
 function setJTopo(config) {
     if (config) {
         var self=this;

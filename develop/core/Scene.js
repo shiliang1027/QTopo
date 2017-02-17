@@ -193,7 +193,7 @@ Scene.prototype.remove = function (element) {
                 break;
             case "link":
                 if(QTopo.util.arrayDelete(this.children.link, element)){
-                    this.jtopo.remove(element.jtopo);
+                    removeLink.call(this,element);
                 }
                 break;
             case "container":
@@ -204,33 +204,57 @@ Scene.prototype.remove = function (element) {
         }
     }
 };
-function removeNode(node){
-    var links=node.getLinks();
-    if(links.in.length>0){
-        for(var i=0;i<links.in.length;i++){
-            this.remove(links.in[i]);
+function upDataLinks(element){
+    var links=element.links;
+    if(links){
+        //更新其上连线的另一方的links属性
+        while(links.in.length>0){
+            this.remove(links.in.pop());
+        }
+        while(links.out.length>0){
+            this.remove(links.out.pop());
         }
     }
-    if(links.out.length>0){
-        for(var j=0;j<links.out.length;j++){
-            this.remove(links.out[j]);
-        }
-    }
-    this.jtopo.remove(node.jtopo);
 }
+//线上删除时候,要更新node和container中的links属性
+function removeLink(link){
+    try{
+        QTopo.util.arrayDelete(link.path.start.links.out,link);
+        QTopo.util.arrayDelete(link.path.end.links.in,link);
+        this.jtopo.remove(link.jtopo);
+    }catch (e){
+        console.error("Scene removeLink error",e);
+    }
+}
+function removeNode(node){
+    //刷新一下现有的线
+    try{
+        //更新其上线另一头的links属性
+        upDataLinks.call(this,node);
+        //要更新其父的children属性
+        if(node.parent&& $.isArray(node.parent.children)){
+            QTopo.util.arrayDelete(node.parent.children,node);
+        }
+        this.jtopo.remove(node.jtopo);
+    }catch (e){
+        console.error("Scene removeNode error",e);
+    }
+}
+//容器删除时,要更与其相连的线的另一端的links属性,要更新其子类的parent属性
 function removeContainer(container){
-    var links=container.getLinks();
-    if(links.in.length>0){
-        for(var i=0;i<links.in.length;i++){
-            this.remove(links.in[i]);
+    try{
+        //更新其上线另一头的links属性
+        upDataLinks.call(this,container);
+        //更新子元素的Parent属性
+        if($.isArray(container.children)&&container.children.length>0){
+            for(var i=0;i<container.children.length;i++){
+                container.children[i].parent=null;
+            }
         }
+        this.jtopo.remove(container.jtopo);
+    }catch (e){
+        console.error("Scene removeContainer error",e);
     }
-    if(links.out.length>0){
-        for(var j=0;j<links.out.length;j++){
-            this.remove(links.out[j]);
-        }
-    }
-    this.jtopo.remove(container.jtopo);
 }
 Scene.prototype.center = function () {
     this.jtopo.stage.centerAndZoom();
