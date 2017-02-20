@@ -1,0 +1,51 @@
+.qtopo-windows label{
+    word-break:keep-all;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.qtopo-windows .panel {
+    position: absolute;
+    width: 300px;
+}
+.qtopo-windows .w-label{
+    display: inline-block;
+    width: 100px;
+}
+.qtopo-windows .w-width{
+    display: inline-block;
+    width: 150px;
+}
+/*颜色选择框*/
+.qtopo-windows .color_selected{
+    position:absolute;
+    top:-150px
+}
+.qtopo-windows .bootstrap-colorpalette {
+    padding-left:4px;
+    padding-right:4px;
+    white-space: normal;
+    line-height:1;
+}
+
+.qtopo-windows .bootstrap-colorpalette div {
+    line-height:0;
+}
+
+.qtopo-windows .bootstrap-colorpalette .btn-color {
+    width: 17px;
+    height: 17px;
+    border: 1px solid #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.qtopo-windows .bootstrap-colorpalette .btn-color:hover {
+    border: 1px solid #000;
+}
+.qtopo-windows .color-btn{
+    position: absolute;right: 0;
+}
+.qtopo-windows .color-label{
+    position: relative;
+    top: -10px;
+}

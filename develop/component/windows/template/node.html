@@ -1,0 +1,46 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">节点</div>
+    <div class="panel-body">
+        <form>
+            <div class="form-group">
+                <label class="w-label">名称</label>
+                <input name="name" type="text" class="form-control w-width" placeholder="节点名">
+            </div>
+            <div class="form-group">
+                <label class="w-label">文字大小</label>
+                <input name="nameSize" type="number" class="form-control w-width" placeholder="节点宽高">
+            </div>
+            <div class="form-group">
+                <label class="w-label">
+                    名称位置
+                </label>
+                <select name="textPosition" class="form-control w-width">
+                    <option value="top">上</option>
+                    <option value="bottom">下</option>
+                    <option value="left">左</option>
+                    <option value="right">右</option>
+                    <option value="hide">隐藏</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="w-label color-label">文字颜色</label>
+                <div class="input-group w-width">
+                    <input type="text" name="color" class="form-control color-selected"  readonly="true">
+                    <span class="input-group-btn">
+                        <button  class="btn btn-default color-btn" type="button" data-toggle="dropdown"><span class='glyphicon glyphicon-search'></span></button>
+                        <ul class="dropdown-menu color_selected">
+                            <li>
+                                <div name="color_palette"></div>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">大小</label>
+                <input name="size" type="number" class="form-control w-width" placeholder="节点宽高">
+            </div>
+            <button type="submit" class="btn btn-default">确认</button>
+        </form>
+    </div>
+</div>
