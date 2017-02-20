@@ -11,7 +11,6 @@ var QTopo = {
 };
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
-var component = require("./component/component.js");
 QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
@@ -22,7 +21,6 @@ QTopo.init = function (dom, config) {
         resize: resize(dom, canvas)
     };
     this.instance.push(QtopoInstance);
-    component.init(QtopoInstance);
     return QtopoInstance;
 };
 function setOption(option, clear) {

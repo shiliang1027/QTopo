@@ -33,7 +33,8 @@
     <link href="qtopo/qtopo.css" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
     <script src="lib/concat/concat.js"></script>
-    <script src="qtopo/qtopo.min.js"></script>
+    <script src="qtopo/qtopo.core.min.js"></script>
+    <script src="qtopo/qtopo.component.min.js"></script>
 </head>
 <body>
 <div id="topo_base"></div>
@@ -45,6 +46,7 @@
         var topo = QTopo.init(document.getElementById("topo_base"), {
             background: "img/bg1.jpg"
         });
+        QTopo.component(topo);
         //init返回一个QTopo对象，可用该对象的setOption方法绘图
         var dataUrl="./data/data.json";
         var alarmUrl="./data/alarm.json";
