@@ -16,7 +16,7 @@ function Node(jtopo) {
 }
 QTopo.util.inherits(Node,Element);
 Node.prototype.getType=function(){
-    return "node";
+    return QTopo.constant.NODE;
 };
 Node.prototype.setColor = function (color) {
     if (color) {

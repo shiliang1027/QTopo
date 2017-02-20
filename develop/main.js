@@ -9,6 +9,12 @@ window.QTopo.instance=[];
 window.QTopo.util = require('./util.js');
 var Scene = require('./core/Scene.js');
 var component=require("./component/component.js");
+var constant={
+    SCENE:'10',
+    CONTAINER:"100",
+    LINK:"1000",
+    NODE:'10000'
+};
 window.QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas=initCanvas(dom,$(dom).width(),$(dom).height());
@@ -16,6 +22,7 @@ window.QTopo.init = function (dom, config) {
         scene:new Scene(new JTopo.Stage(canvas),config),
         setOption : setOption,
         document:dom,
+        constant:constant,
         resize:resize(dom,canvas)
     };
     this.instance.push(QtopoInstance);

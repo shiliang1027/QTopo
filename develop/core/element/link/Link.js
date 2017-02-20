@@ -26,7 +26,7 @@ function Link(jtopo) {
 }
 QTopo.util.inherits(Link,Element);
 Link.prototype.getType=function(){
-    return "link";
+    return QTopo.constant.LINK;
 };
 Link.prototype.setColor = function (color) {
     if (color) {

@@ -19,7 +19,7 @@ module.exports={
                     menu.scene.remove(menu.target);
                 },
                 filter: function (target) {
-                    return target.getType()!="scene";
+                    return target.getType()!=QTopo.constant.SCENE;
                 }
             }
         },

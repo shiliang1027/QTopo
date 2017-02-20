@@ -60,7 +60,7 @@ Scene.prototype.clear = function () {
     this.jtopo.clear();
 };
 Scene.prototype.getType = function () {
-    return "scene";
+    return QTopo.constant.SCENE;
 };
 Scene.prototype.on = function (name, fn) {
     this.jtopo.addEventListener(name, function (e) {
@@ -186,17 +186,17 @@ Scene.prototype.createContainer = function (config) {
 Scene.prototype.remove = function (element) {
     if (element && element.jtopo) {
         switch (element.getType()) {
-            case "node":
+            case QTopo.constant.NODE:
                 if(QTopo.util.arrayDelete(this.children.node, element)){
                     removeNode.call(this,element);
                 }
                 break;
-            case "link":
+            case QTopo.constant.LINK:
                 if(QTopo.util.arrayDelete(this.children.link, element)){
                     removeLink.call(this,element);
                 }
                 break;
-            case "container":
+            case QTopo.constant.CONTAINER:
                 if(QTopo.util.arrayDelete(this.children.container, element)){
                     removeContainer.call(this,element);
                 }

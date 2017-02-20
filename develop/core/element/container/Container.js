@@ -57,7 +57,7 @@ Container.prototype.getChildren = function () {
     return children;
 };
 Container.prototype.getType = function () {
-    return "container"
+    return QTopo.constant.CONTAINER;
 };
 Container.prototype.setColor = function (color) {
     if (color) {

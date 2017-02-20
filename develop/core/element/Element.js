@@ -10,25 +10,25 @@ function Element(jtopo) {
 }
 Element.prototype.show = function () {
     switch (this.getType()) {
-        case "node":
+        case QTopo.constant.NODE:
             toggleNode.call(this, true);
             break;
-        case "container":
+        case QTopo.constant.CONTAINER:
             toggleContainer.call(this, true);
             break;
-        case "link":
+        case QTopo.constant.LINK:
             toggleLink.call(this, true);
     }
 };
 Element.prototype.hide = function () {
     switch (this.getType()) {
-        case "node":
+        case QTopo.constant.NODE:
             toggleNode.call(this, false);
             break;
-        case "container":
+        case QTopo.constant.CONTAINER:
             toggleContainer.call(this, false);
             break;
-        case "link":
+        case QTopo.constant.LINK:
             toggleLink.call(this, false);
     }
 };
@@ -166,14 +166,25 @@ Element.prototype._setAttr = function (config) {
         }
     });
 };
-function toggle(arr, fn) {
-    for (var i = 0; i < arr.length; i++) {
-        arr[i][fn]();
+/**对象links属性内的所有线进行切换
+ *@links node/container的links属性
+ * @fn 'show'/'hide'方法名
+ */
+function toggle(links, fn) {
+    try{
+        $.each(links,function(name,arr){
+            for (var i = 0; i < arr.length; i++) {
+                arr[i][fn]();
+            }
+        })
+    }catch (e){
+        console.error("切换隐藏/显示时错误",e);
     }
 }
+//线的显示只有当其两端节点都显示时才显示
 function toggleLink(flag) {
     this.getPath();
-    if(flag){//线的显示只有当其两端节点都显示时才显示
+    if(flag){
         if (this.path.start.jtopo && this.path.end.jtopo) {
             if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {
                 this.jtopo.visible = true;
@@ -184,21 +195,21 @@ function toggleLink(flag) {
         this.jtopo.visible = false;
         this.attr.show = this.jtopo.visible;
     }
-
 }
 function toggleNode(flag) {
     this.jtopo.visible = flag;
     this.attr.show = this.jtopo.visible;
     var string=flag?"show":"hide";
-    toggle(this.links.in, string);
-    toggle(this.links.out, string);
+    toggle(this.links, string);
 }
 function toggleContainer(flag) {
     this.jtopo.visible = flag;
     this.attr.show = this.jtopo.visible;
     var string=flag?"show":"hide";
-    toggle(this.children, string);
-    toggle(this.links.in, string);
-    toggle(this.links.out, string);
+    //切换子类显示隐藏
+    for (var i = 0; i < this.children.length; i++) {
+        this.children[i][string]();
+    }
+    toggle(this.links, string);
 }
 
