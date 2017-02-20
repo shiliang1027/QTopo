@@ -25,7 +25,7 @@ var defaults =function(){
             type:"微软雅黑",
             color:'255,255,255'
         },
-        type: 'curve',
+        useType: 'curve',
         curveOffset:200
     };
 };

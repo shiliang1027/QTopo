@@ -14,23 +14,19 @@ var Link = {
 var Container = {
     Group: require("./element/container/Group.js")
 };
+var events=require("./events.js");
 module.exports = Scene;
 //画布对象
 var defaults = function () {
     return {
         name: '',
-        id: '',
-        pid: '',
-        weight: 1,
         path: [],
-        offsetX: 0,
-        offsetY: 0,
-        mode: "edit",
+        mode: "normal",
         background: ""
     };
 };
 function Scene(stage, config) {
-    var self = this;
+    var self=this;
     self.jtopo = new JTopo.Scene();
     self.jtopo.qtopo = self;
     self.children = {
@@ -40,6 +36,8 @@ function Scene(stage, config) {
     };
     self.attr = defaults();
     stage.add(self.jtopo);
+    events.init(self);
+    //延时执行
     setTimeout(function () {
         if (config.background) {
             self.setBackGround(config.background);
@@ -52,7 +50,7 @@ function Scene(stage, config) {
 //scan 格式 aaa=bb,ccc=dd条件之间以,分隔
 Scene.prototype.clear = function () {
     console.info("scene clear");
-    this.children={
+    this.children = {
         node: [],
         link: [],
         container: []
@@ -115,9 +113,18 @@ Scene.prototype.find = function (scan, type) {
         return object[key] && object[key] == value;
     }
 };
-function add (element) {
-    if (element) {
-        this.jtopo.add(element);
+function addJTopo(element) {
+    try{
+        this.jtopo.add(element.jtopo);
+    }catch (e){
+        console.error("In Scene, jtopo add error : ",e);
+    }
+}
+function removeJTopo(element){
+    try{
+        this.jtopo.remove(element.jtopo);
+    }catch (e){
+        console.error("In Scene, jtopo remove error : ",e);
     }
 }
 Scene.prototype.createNode = function (config) {
@@ -130,8 +137,8 @@ Scene.prototype.createNode = function (config) {
         default:
             newNode = new Node.Normal(config);
     }
-    if (newNode&&newNode.jtopo) {
-        add.call(this,newNode.jtopo);
+    if (newNode && newNode.jtopo) {
+        addJTopo.call(this, newNode);
         this.children.node.push(newNode);
         return newNode;
     } else {
@@ -158,8 +165,8 @@ Scene.prototype.createLink = function (config) {
         default:
             newLink = new Link.Direct(config);
     }
-    if (newLink&&newLink.jtopo) {
-        add.call(this,newLink.jtopo);
+    if (newLink && newLink.jtopo) {
+        addJTopo.call(this, newLink);
         this.children.link.push(newLink);
         return newLink;
     } else {
@@ -174,9 +181,18 @@ Scene.prototype.createContainer = function (config) {
         default:
             newContainer = new Container.Group(config);
     }
-    if (newContainer&&newContainer.jtopo) {
-        add.call(this,newContainer.jtopo);
+    if (newContainer && newContainer.jtopo) {
+            //分组只加入其本身，切换节点不作数
+            newContainer.toggleTo = new Node.Normal({
+                image: config.image,
+                useType:QTopo.constant.CASUAL
+            });
+            newContainer.toggleTo.toggleTo=newContainer;//互相索引
+            newContainer.toggleTo.hide();
+            addJTopo.call(this, newContainer.toggleTo);
+
         this.children.container.push(newContainer);
+        addJTopo.call(this, newContainer);
         return newContainer;
     } else {
         console.error("create Container error", config);
@@ -187,73 +203,86 @@ Scene.prototype.remove = function (element) {
     if (element && element.jtopo) {
         switch (element.getType()) {
             case QTopo.constant.NODE:
-                if(QTopo.util.arrayDelete(this.children.node, element)){
-                    removeNode.call(this,element);
+                //临时工不在列表中
+                if (QTopo.util.arrayDelete(this.children.node, element)||element.getUseType()==QTopo.constant.CASUAL) {
+                    removeNode.call(this, element);
                 }
                 break;
             case QTopo.constant.LINK:
-                if(QTopo.util.arrayDelete(this.children.link, element)){
-                    removeLink.call(this,element);
+                if (QTopo.util.arrayDelete(this.children.link, element)||element.getUseType()==QTopo.constant.CASUAL) {
+                    removeLink.call(this, element);
                 }
                 break;
             case QTopo.constant.CONTAINER:
-                if(QTopo.util.arrayDelete(this.children.container, element)){
-                    removeContainer.call(this,element);
+                if (QTopo.util.arrayDelete(this.children.container, element)||element.getUseType()==QTopo.constant.CASUAL) {
+                    removeContainer.call(this, element);
                 }
                 break;
         }
     }
 };
-function upDataLinks(element){
-    var links=element.links;
-    if(links){
+function upDataLinks(element) {
+    var links = element.links;
+    if (links) {
         //更新其上连线的另一方的links属性
-        while(links.in.length>0){
+        while (links.in.length > 0) {
             this.remove(links.in.pop());
         }
-        while(links.out.length>0){
+        while (links.out.length > 0) {
             this.remove(links.out.pop());
         }
     }
 }
 //线上删除时候,要更新node和container中的links属性
-function removeLink(link){
-    try{
-        QTopo.util.arrayDelete(link.path.start.links.out,link);
-        QTopo.util.arrayDelete(link.path.end.links.in,link);
-        this.jtopo.remove(link.jtopo);
-    }catch (e){
-        console.error("Scene removeLink error",e);
+function removeLink(link) {
+    try {
+        QTopo.util.arrayDelete(link.path.start.links.out, link);
+        QTopo.util.arrayDelete(link.path.end.links.in, link);
+        removeJTopo.call(this,link);
+    } catch (e) {
+        console.error("Scene removeLink error", e);
     }
 }
-function removeNode(node){
+function removeNode(node) {
     //刷新一下现有的线
-    try{
+    try {
         //更新其上线另一头的links属性
-        upDataLinks.call(this,node);
+        upDataLinks.call(this, node);
         //要更新其父的children属性
-        if(node.parent&& $.isArray(node.parent.children)){
-            QTopo.util.arrayDelete(node.parent.children,node);
+        if (node.parent && $.isArray(node.parent.children)) {
+            QTopo.util.arrayDelete(node.parent.children, node);
         }
-        this.jtopo.remove(node.jtopo);
-    }catch (e){
-        console.error("Scene removeNode error",e);
+        //删除分组切换的节点时同时删除其切换的分组
+        if(node.toggleTo){
+            //分组若隐藏了,应该展示
+            node.toggleTo.toggle();
+            this.remove(node.toggleTo);
+        }
+        removeJTopo.call(this,node);
+    } catch (e) {
+        console.error("Scene removeNode error", e);
     }
 }
 //容器删除时,要更与其相连的线的另一端的links属性,要更新其子类的parent属性
-function removeContainer(container){
-    try{
+function removeContainer(container) {
+    try {
+        //分组若隐藏了,应该展示
+        container.toggle(true);
         //更新其上线另一头的links属性
-        upDataLinks.call(this,container);
+        upDataLinks.call(this, container);
         //更新子元素的Parent属性
-        if($.isArray(container.children)&&container.children.length>0){
-            for(var i=0;i<container.children.length;i++){
-                container.children[i].parent=null;
+        if ($.isArray(container.children) && container.children.length > 0) {
+            for (var i = 0; i < container.children.length; i++) {
+                container.children[i].parent = null;
             }
         }
-        this.jtopo.remove(container.jtopo);
-    }catch (e){
-        console.error("Scene removeContainer error",e);
+        //删除分组同时删除其切换节点
+        if(container.toggleTo){
+            this.remove(container.toggleTo);
+        }
+        removeJTopo.call(this,container);
+    } catch (e) {
+        console.error("Scene removeContainer error", e);
     }
 }
 Scene.prototype.center = function () {
@@ -267,20 +296,20 @@ Scene.prototype.setBackGround = function (background) {
     this.jtopo.background = background;
     this.attr.background = background;
 };
-Scene.prototype.toggleZIndex = function (element,flag) {
-    if(element){
+Scene.prototype.toggleZIndex = function (element, flag) {
+    if (element) {
         var jtopo = element.jtopo;
         var scene = this.jtopo;
         if (jtopo && scene) {
-            var map=scene.zIndexMap[jtopo.zIndex];
-            var index=map.indexOf(jtopo);
-            if(!flag){
+            var map = scene.zIndexMap[jtopo.zIndex];
+            var index = map.indexOf(jtopo);
+            if (!flag) {
                 map.push(map[index]);
-                map.splice(index,1);
+                map.splice(index, 1);
 
-            }else{
-                map.splice(0,0,map[index]);
-                map.splice(index+1,1);
+            } else {
+                map.splice(0, 0, map[index]);
+                map.splice(index + 1, 1);
             }
         }
     }

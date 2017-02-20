@@ -27,7 +27,8 @@ var defaults = function () {
             showLink: false,
             showName: true,
             dragble: true
-        }
+        },
+        useType:"group"
     };
 };
 

@@ -15,7 +15,7 @@ var defaults =function(){
         zIndex: 200,//层级(10-999)
         alpha: 1,
         text: 'no text here',
-        type: 'text'
+        useType: 'text'
     };
 };
 //一般节点

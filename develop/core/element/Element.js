@@ -32,6 +32,12 @@ Element.prototype.hide = function () {
             toggleLink.call(this, false);
     }
 };
+Element.prototype.setUseType=function(type){
+    this.attr.useType=type;
+};
+Element.prototype.getUseType=function(){
+    return this.attr.useType;
+};
 Element.prototype.setText = function (text) {
     if (text) {
         this.jtopo.text = text;
@@ -183,7 +189,6 @@ function toggle(links, fn) {
 }
 //线的显示只有当其两端节点都显示时才显示
 function toggleLink(flag) {
-    this.getPath();
     if(flag){
         if (this.path.start.jtopo && this.path.end.jtopo) {
             if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {

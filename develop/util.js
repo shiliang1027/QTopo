@@ -157,12 +157,6 @@ var util = {
             return true;
         }
         return false;
-    },
-    //批量设值
-    setAttr: function (element, object) {
-        $.each(object, function (key, value) {
-            element.prop[key] = value;
-        });
     }, /**
      * 构造类继承关系
      * @memberOf module:zrender/tool/util

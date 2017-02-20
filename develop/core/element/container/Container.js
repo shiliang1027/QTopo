@@ -107,6 +107,21 @@ Container.prototype.getLinks = function () {
     this.links = links;
     return links;
 };
-Container.prototype.toggle=function(){
-
+Container.prototype.toggle=function(flag){
+    if(this.toggleTo){
+        var gJtopo=this.jtopo;
+        var nJtopo=this.toggleTo.jtopo;
+        var todo=typeof flag=="boolean"?flag:gJtopo.visible;
+        if(todo){
+            //缩放
+            this.hide();
+            this.toggleTo.show();
+            this.toggleTo.setPosition([gJtopo.cx-nJtopo.width/2, gJtopo.cy- nJtopo.height / 2]);
+        }else{
+            //展开
+            this.show();
+            this.toggleTo.hide();
+            this.setPosition([nJtopo.cx - gJtopo.width / 2, nJtopo.cy - gJtopo.height / 2]);
+        }
+    }
 };

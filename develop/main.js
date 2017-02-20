@@ -4,25 +4,21 @@
     //核心依赖
 require("./core/jtopo/jtopo-min.js");
 //QTopo
-window.QTopo = {};
-window.QTopo.instance=[];
-window.QTopo.util = require('./util.js');
+var QTopo={
+    instance:[],
+    util:require('./util.js'),
+    constant:require('./constant.js')
+};
+window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
 var component=require("./component/component.js");
-var constant={
-    SCENE:'10',
-    CONTAINER:"100",
-    LINK:"1000",
-    NODE:'10000'
-};
-window.QTopo.init = function (dom, config) {
+QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas=initCanvas(dom,$(dom).width(),$(dom).height());
     var QtopoInstance = {
         scene:new Scene(new JTopo.Stage(canvas),config),
         setOption : setOption,
         document:dom,
-        constant:constant,
         resize:resize(dom,canvas)
     };
     this.instance.push(QtopoInstance);
