@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class='panel panel-default t-body'>
+    <div class='panel-body'>
+        <div class='btn-group'>
+            <button name='return' type='button' class='btn btn-sm btn-primary' data-toggle='tooltip'
+                    title='返回' data-placement='bottom'>
+                <span class='glyphicon glyphicon-share-alt'></span>
+            </button>
+            <div class='btn-group' data-toggle='buttons'>
+                <label class='btn btn-sm btn-primary' name='topo_mode' data-toggle='tooltip' title='平移'
+                       data-placement='bottom'>
+                    <input type='radio' value='drag'>
+                    <span class='glyphicon glyphicon-log-out'></span>
+                </label>
+                <label class='btn btn-sm btn-primary ' name='topo_mode' data-toggle='tooltip' title='框选'
+                       data-placement='bottom'>
+                    <input type='radio' value='select'>
+                    <span class='glyphicon glyphicon-check'></span>
+                </label>
+                <label class='btn btn-sm btn-primary mode-edit' name='topo_mode' data-toggle='tooltip' title='编辑'
+                       data-placement='bottom'>
+                    <input type='radio' value='edit'><span class='glyphicon glyphicon-edit'></span>
+                </label>
+            </div>
+            <button name='full_screen' type='button' class='btn btn-sm btn-primary' data-toggle='button;tooltip'
+                    title='全屏' data-placement='bottom'>
+                <span class='glyphicon glyphicon-fullscreen'></span>
+            </button>
+            <button name='center' type='button' class='btn btn-sm btn-primary' data-toggle='tooltip'
+                    title='居中缩放' data-placement='bottom'>
+                <span class='glyphicon glyphicon-screenshot'></span>
+            </button>
+            <button name='common' type='button' class='btn btn-sm btn-primary'
+                    data-toggle='tooltip'
+                    title='正常展示' data-placement='bottom'>
+                <span class='glyphicon glyphicon-move'></span>
+            </button>
+            <button name='zoom_checkbox' type='button' class='btn btn-sm btn-primary'
+                    data-toggle='button;tooltip'
+                    title='鼠标缩放' data-placement='bottom'>
+                <span class='glyphicon glyphicon-resize-small'></span>
+            </button>
+            <button name='zoom_out' type='button' class='btn btn-sm btn-primary' data-toggle='tooltip'
+                    title='放大'
+                    data-placement='bottom'>
+                <span class='glyphicon glyphicon-zoom-in'></span>
+            </button>
+            <button name='zoom_in' type='button' class='btn btn-sm btn-primary' data-toggle='tooltip'
+                    title='缩小'
+                    data-placement='bottom'>
+                <span class='glyphicon glyphicon-zoom-out'></span>
+            </button>
+            <button name='export_image' type='button' class='btn btn-sm btn-primary' data-toggle='tooltip'
+                    title='导出PNG' data-placement='bottom'>
+                <span class='glyphicon glyphicon-picture'></span>
+            </button>
+            <button name='print' type='button' class='btn btn-sm btn-primary' data-toggle='tooltip'
+                    title='打印' data-placement='bottom'>
+                <span class='glyphicon glyphicon-print'></span>
+            </button>
+            <button name='eagle_eye' type='button' class='btn btn-sm btn-primary'
+                    data-toggle='button;tooltip'
+                    title='鹰眼' data-placement='bottom'>
+                <span class='glyphicon glyphicon-eye-open'></span>
+            </button>
+            <select name='search_mode' class='form-control t-search-mode'>
+            </select>
+            <input type='text' class='form-control t-search-input' placeholder='属性搜索为key=value'>
+            <button name='search' class='btn btn-primary t-search-btn' type='button' data-toggle='tooltip' title='搜索' data-placement='bottom'>
+                <span class='glyphicon glyphicon-search'></span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -7,8 +7,9 @@ module.exports={
             return {
                 name: "Debug",
                 click: function (e) {
-                    console.info(menu.target);
-                    menu.target.getLinks();
+                    if(menu.target){
+                        console.info(menu.target);
+                    }
                 }
             }
         },

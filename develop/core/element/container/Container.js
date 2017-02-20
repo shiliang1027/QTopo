@@ -90,10 +90,12 @@ Container.prototype.setChildren = function (children) {
 };
 Container.prototype.getLinks = function () {
     var jtopo = this.jtopo;
-    var links = {
-        in: [],
-        out: []
-    };
+    if(!this.links){
+        this.links = {};
+    }
+    var links=this.links;
+    links.in=[];
+    links.out=[];
     if (jtopo.inLinks && jtopo.inLinks.length > 0) {
         for (var i = 0; i < jtopo.inLinks.length; i++) {
             links.in.push(jtopo.inLinks[i].qtopo);
@@ -104,7 +106,6 @@ Container.prototype.getLinks = function () {
             links.out.push(jtopo.outLinks[j].qtopo);
         }
     }
-    this.links = links;
     return links;
 };
 Container.prototype.toggle=function(flag){

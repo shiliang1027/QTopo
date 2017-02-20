@@ -1,10 +1,14 @@
 /**
  * Created by qiyc on 2017/2/16.
  */
+//自写的jquery插件
+require("./jquery-tools");
 var rightMenu=require("./rightMenu/rightMenu.js");
+var toolBar=require("./toolBar/toolBar.js");
 module.exports ={
     //组装
-    assemble:function(QtopoInstance){
-        rightMenu.init(QtopoInstance.document,QtopoInstance.scene);
+    init:function(instance){
+        rightMenu.init(instance.document,instance.scene);
+        toolBar.init(instance.document,instance.scene);
     }
 };

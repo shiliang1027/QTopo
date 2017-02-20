@@ -14,7 +14,7 @@ var Link = {
 var Container = {
     Group: require("./element/container/Group.js")
 };
-var events=require("./events.js");
+var events = require("./events.js");
 module.exports = Scene;
 //画布对象
 var defaults = function () {
@@ -26,7 +26,7 @@ var defaults = function () {
     };
 };
 function Scene(stage, config) {
-    var self=this;
+    var self = this;
     self.jtopo = new JTopo.Scene();
     self.jtopo.qtopo = self;
     self.children = {
@@ -114,17 +114,17 @@ Scene.prototype.find = function (scan, type) {
     }
 };
 function addJTopo(element) {
-    try{
+    try {
         this.jtopo.add(element.jtopo);
-    }catch (e){
-        console.error("In Scene, jtopo add error : ",e);
+    } catch (e) {
+        console.error("In Scene, jtopo add error : ", e);
     }
 }
-function removeJTopo(element){
-    try{
+function removeJTopo(element) {
+    try {
         this.jtopo.remove(element.jtopo);
-    }catch (e){
-        console.error("In Scene, jtopo remove error : ",e);
+    } catch (e) {
+        console.error("In Scene, jtopo remove error : ", e);
     }
 }
 Scene.prototype.createNode = function (config) {
@@ -182,14 +182,16 @@ Scene.prototype.createContainer = function (config) {
             newContainer = new Container.Group(config);
     }
     if (newContainer && newContainer.jtopo) {
-            //分组只加入其本身，切换节点不作数
-            newContainer.toggleTo = new Node.Normal({
-                image: config.image,
-                useType:QTopo.constant.CASUAL
-            });
-            newContainer.toggleTo.toggleTo=newContainer;//互相索引
-            newContainer.toggleTo.hide();
-            addJTopo.call(this, newContainer.toggleTo);
+        //分组只加入其本身，切换节点不作数
+        var nodeConfig = {};
+        if (config.toggle) {
+            nodeConfig = config.toggle
+        }
+        nodeConfig.useType = QTopo.constant.CASUAL;
+        newContainer.toggleTo = new Node.Normal(nodeConfig);
+        newContainer.toggleTo.toggleTo = newContainer;//互相索引
+        newContainer.toggleTo.hide();
+        addJTopo.call(this, newContainer.toggleTo);
 
         this.children.container.push(newContainer);
         addJTopo.call(this, newContainer);
@@ -204,17 +206,17 @@ Scene.prototype.remove = function (element) {
         switch (element.getType()) {
             case QTopo.constant.NODE:
                 //临时工不在列表中
-                if (QTopo.util.arrayDelete(this.children.node, element)||element.getUseType()==QTopo.constant.CASUAL) {
+                if (QTopo.util.arrayDelete(this.children.node, element) || element.getUseType() == QTopo.constant.CASUAL) {
                     removeNode.call(this, element);
                 }
                 break;
             case QTopo.constant.LINK:
-                if (QTopo.util.arrayDelete(this.children.link, element)||element.getUseType()==QTopo.constant.CASUAL) {
+                if (QTopo.util.arrayDelete(this.children.link, element) || element.getUseType() == QTopo.constant.CASUAL) {
                     removeLink.call(this, element);
                 }
                 break;
             case QTopo.constant.CONTAINER:
-                if (QTopo.util.arrayDelete(this.children.container, element)||element.getUseType()==QTopo.constant.CASUAL) {
+                if (QTopo.util.arrayDelete(this.children.container, element) || element.getUseType() == QTopo.constant.CASUAL) {
                     removeContainer.call(this, element);
                 }
                 break;
@@ -238,7 +240,7 @@ function removeLink(link) {
     try {
         QTopo.util.arrayDelete(link.path.start.links.out, link);
         QTopo.util.arrayDelete(link.path.end.links.in, link);
-        removeJTopo.call(this,link);
+        removeJTopo.call(this, link);
     } catch (e) {
         console.error("Scene removeLink error", e);
     }
@@ -253,12 +255,12 @@ function removeNode(node) {
             QTopo.util.arrayDelete(node.parent.children, node);
         }
         //删除分组切换的节点时同时删除其切换的分组
-        if(node.toggleTo){
+        if (node.toggleTo) {
             //分组若隐藏了,应该展示
             node.toggleTo.toggle();
             this.remove(node.toggleTo);
         }
-        removeJTopo.call(this,node);
+        removeJTopo.call(this, node);
     } catch (e) {
         console.error("Scene removeNode error", e);
     }
@@ -277,10 +279,10 @@ function removeContainer(container) {
             }
         }
         //删除分组同时删除其切换节点
-        if(container.toggleTo){
+        if (container.toggleTo) {
             this.remove(container.toggleTo);
         }
-        removeJTopo.call(this,container);
+        removeJTopo.call(this, container);
     } catch (e) {
         console.error("Scene removeContainer error", e);
     }

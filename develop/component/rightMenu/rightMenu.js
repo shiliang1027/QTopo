@@ -1,6 +1,7 @@
 /**
  * Created by qiyc on 2017/2/17.
  */
+require("./rightMenu.css");
 var Menu=require("./Menu.js");
 var fns=require("./repertory.js");//右键菜单函数仓库
 module.exports = {

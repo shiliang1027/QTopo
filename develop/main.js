@@ -1,62 +1,62 @@
 /**
  * Created by qiyc on 2017/2/6.
  */
-    //核心依赖
+//核心依赖
 require("./core/jtopo/jtopo-min.js");
 //QTopo
-var QTopo={
-    instance:[],
-    util:require('./util.js'),
-    constant:require('./constant.js')
+var QTopo = {
+    instance: [],
+    util: require('./util.js'),
+    constant: require('./constant.js')
 };
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
-var component=require("./component/component.js");
+var component = require("./component/component.js");
 QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
-    var canvas=initCanvas(dom,$(dom).width(),$(dom).height());
+    var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
     var QtopoInstance = {
-        scene:new Scene(new JTopo.Stage(canvas),config),
-        setOption : setOption,
-        document:dom,
-        resize:resize(dom,canvas)
+        scene: new Scene(new JTopo.Stage(canvas), config),
+        setOption: setOption,
+        document: dom,
+        resize: resize(dom, canvas)
     };
     this.instance.push(QtopoInstance);
-    component.assemble(QtopoInstance);
+    component.init(QtopoInstance);
     return QtopoInstance;
 };
-function setOption(option,clear) {
+function setOption(option, clear) {
     var scene = this.scene;
-    if(clear){
+    if (clear) {
         scene.clear();
     }
     createNode(scene, option.node);
     createContainer(scene, option.container);
     createLink(scene, option.link);
-    drawAlarm(scene,option.alarm);
+    drawAlarm(scene, option.alarm);
     scene.center();
 }
-function resize(dom,canvas){
-    return function(){
+function resize(dom, canvas) {
+    return function () {
         canvas.setAttribute('width', $(dom).width());
-        canvas.setAttribute('height',$(dom).height());
+        canvas.setAttribute('height', $(dom).height());
     }
 }
-function initCanvas(dom,width,height){
-    if(width<=0||height<=0){
+function initCanvas(dom, width, height) {
+    if (width <= 0 || height <= 0) {
         console.error("The topo need config width and height!");
     }
-    dom.style.position='relative';
-    dom.style.overflow='hidden';
-    var canvas=document.createElement('canvas');
+    dom.style.position = 'relative';
+    dom.style.overflow = 'hidden';
+    var canvas = document.createElement('canvas');
     dom.appendChild(canvas);
     canvas.setAttribute('width', width);
-    canvas.setAttribute('height',height);
-    canvas.style.position="absolute";
-    canvas.style.top=0;
-    canvas.style.left=0;
-    canvas.style['user-select']= 'none';
-    canvas.style['-webkit-tap-highlight-color']= 'rgba(0, 0, 0, 0)';
+    canvas.setAttribute('height', height);
+    canvas.style.position = "absolute";
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.style['user-select'] = 'none';
+    canvas.style['-webkit-tap-highlight-color'] = 'rgba(0, 0, 0, 0)';
     return canvas;
 }
 function createNode(scene, config) {
@@ -67,12 +67,25 @@ function createNode(scene, config) {
                 //额外属性添加
                 if ($.isArray(config.exprop)) {
                     $.each(config.exprop, function (j, key) {
-                        if( v[key]){
+                        if (v[key]) {
                             node[key] = v[key];
                         }
                     });
                 }
             });
+        }
+    }
+}
+//排除临时元素
+function notCasual(arr) {
+    if(arr.length==1){
+        return arr[0];
+    }else{
+        for(var i = 0; i < arr.length; i++) {
+            if (arr[i].getUseType() != QTopo.constant.CASUAL) {
+                arr = arr[i];
+                return arr;
+            }
         }
     }
 }
@@ -90,7 +103,7 @@ function createContainer(scene, config) {
                 //额外属性添加
                 if ($.isArray(config.exprop)) {
                     $.each(config.exprop, function (j, key) {
-                        if(cData[key]) {
+                        if (cData[key]) {
                             container[key] = cData[key];
                         }
                     });
@@ -106,7 +119,9 @@ function createContainer(scene, config) {
                         var child = scene.find(findChild_exact + "=" + children);
                         if (child && child.length > 0) {
                             $.each(child, function (m, one) {
-                                container.add(one);
+                                if(one.getUseType() != QTopo.constant.CASUAL){
+                                    container.add(one);
+                                }
                             });
                         } else {
                             console.error("some child not found : " + j, findChild_exact + "=" + children);
@@ -137,8 +152,8 @@ function createLink(scene, config) {
                 $.each(config.data, function (i, v) {
                     var link;
                     //根据确定的条件进行搜索
-                    var start = scene.find(findStart + "=" + v.start)[0];
-                    var end = scene.find(findEnd + "=" + v.end)[0];
+                    var start = notCasual(scene.find(findStart + "=" + v.start));
+                    var end = notCasual(scene.find(findEnd + "=" + v.end));
                     if (start && end) {
                         v.start = start;
                         v.end = end;
@@ -146,18 +161,18 @@ function createLink(scene, config) {
                         //额外属性添加
                         if (link && $.isArray(config.exprop)) {
                             $.each(config.exprop, function (j, key) {
-                                if(v[key]){
+                                if (v[key]) {
                                     link[key] = v[key];
                                 }
                             });
                         }
                     } else {
-                        console.error("some link path invalid : "+ i, v);
-                        if(!start){
-                            console.error("start not found : ",v.start);
+                        console.error("some link path invalid : " + i, v);
+                        if (!start) {
+                            console.error("start not found : ", v.start);
                         }
-                        if(!end){
-                            console.error("end not found : ",v.end);
+                        if (!end) {
+                            console.error("end not found : ", v.end);
                         }
                     }
                 });
@@ -167,19 +182,19 @@ function createLink(scene, config) {
         }
     }
 }
-function drawAlarm(scene,config){
-    if(config){
-        if ($.isArray(config.data)&&config.node) {
-            var alarmData=config.data;
-            var findNode=config.node;
-            var alarmNodes=[];
-            $.each(alarmData,function(k,v){
-                var node=scene.find(findNode + "=" + v["node"],"node")[0];
-                if(node){
+function drawAlarm(scene, config) {
+    if (config) {
+        if ($.isArray(config.data) && config.node) {
+            var alarmData = config.data;
+            var findNode = config.node;
+            var alarmNodes = [];
+            $.each(alarmData, function (k, v) {
+                var node = notCasual(scene.find(findNode + "=" + v["node"], "node"));
+                if (node) {
                     alarmNodes.push({
-                        node:node,
-                        alarm:{
-                            show: typeof v.show=="undefined"?true: v.show,
+                        node: node,
+                        alarm: {
+                            show: typeof v.show == "boolean" ? v.show : true,
                             text: v.text,
                             color: v.color,
                             font: v.font
@@ -187,13 +202,13 @@ function drawAlarm(scene,config){
                     });
                 }
             });
-            if(config.animate){
-                alarmAnimate(config.animate,alarmNodes);
-            }else{
-                console.info("alarm nodes : "+alarmNodes.length);
-                $.each(alarmNodes,function(i,v){
+            if (config.animate) {
+                alarmAnimate(config.animate, alarmNodes);
+            } else {
+                console.info("alarm nodes : " + alarmNodes.length);
+                $.each(alarmNodes, function (i, v) {
                     v.node.set({
-                        alarm:v.alarm
+                        alarm: v.alarm
                     });
                 });
             }
@@ -201,31 +216,31 @@ function drawAlarm(scene,config){
     }
 }
 var animateRuning;
-function alarmAnimate(animate,alarmNodes){
-    if(animate){
-        if($.isNumeric(animate.time)){
+function alarmAnimate(animate, alarmNodes) {
+    if (animate) {
+        if ($.isNumeric(animate.time)) {
             clearAnimat();
-            console.info("begin alarm animate times : "+alarmNodes.length);
-            animateRuning=setInterval(function(){
-                if(alarmNodes.length>0){
-                    var data=alarmNodes.pop();
+            console.info("begin alarm animate times : " + alarmNodes.length);
+            animateRuning = setInterval(function () {
+                if (alarmNodes.length > 0) {
+                    var data = alarmNodes.pop();
                     data.node.set({
-                        alarm:data.alarm
+                        alarm: data.alarm
                     });
-                    if($.isFunction(animate.callBack)){
+                    if ($.isFunction(animate.callBack)) {
                         animate.callBack(data.node);
                     }
-                }else{
+                } else {
                     clearAnimat();
                 }
-            },parseInt(animate.time));
+            }, parseInt(animate.time));
         }
     }
 }
-function clearAnimat(){
-    if(animateRuning){
+function clearAnimat() {
+    if (animateRuning) {
         console.info("end alarm animate");
         clearInterval(animateRuning);
-        animateRuning="";
+        animateRuning = "";
     }
 }

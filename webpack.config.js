@@ -23,7 +23,7 @@ module.exports = {
                     fallback:"style-loader",use:"css-loader"
                 })//添加对样式表的处理
             },
-            {test: /\.html$/, loader: 'raw'}
+            {test: /\.html$/, loader: 'raw-loader'}
         ]
     },
     externals: {

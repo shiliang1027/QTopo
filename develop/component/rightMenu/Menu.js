@@ -2,7 +2,6 @@
  * Created by qiyc on 2017/2/17.
  */
 module.exports = Menu;//菜单对象
-require("./rightMenu.css");
 function Menu(dom) {
     var self=this;
     self.body = $("<ul class='dropdown-menu'></ul>");
