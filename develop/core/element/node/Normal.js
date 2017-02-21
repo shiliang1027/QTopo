@@ -41,6 +41,7 @@ function NormalNode(config) {
     //初始化
     this.set(this.attr);
 }
+
 QTopo.util.inherits(NormalNode,Node);
 function setJTopo(config) {
     if (config) {

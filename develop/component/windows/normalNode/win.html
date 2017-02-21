@@ -1,0 +1,67 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">节点
+        <button type="button" class="close" aria-hidden="true">
+            &times;
+        </button>
+    </div>
+    <div class="panel-body">
+        <form>
+            <div class="form-group">
+                <label class="w-label">名称</label>
+                <div class=" w-width">
+                    <input name="name" type="text" class="form-control" placeholder="节点名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">文字大小</label>
+                <div class=" w-width">
+                    <input name="nameSize" type="number" class="form-control" placeholder="节点宽高">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">
+                    名称位置
+                </label>
+                <div class=" w-width">
+                    <select name="textPosition" class="form-control w-width">
+                        <option value="top">上</option>
+                        <option value="bottom">下</option>
+                        <option value="left">左</option>
+                        <option value="right">右</option>
+                        <option value="hide">隐藏</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">文字颜色</label>
+                <div class="input-group w-width">
+                    <input type="text" name="color" class="form-control color-selected" readonly="true">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default color-btn" type="button" data-toggle="dropdown"><span class='glyphicon glyphicon-search'></span></button>
+                        <ul class="dropdown-menu select-color">
+                            <li>
+                                <div name="color_palette"></div>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">大小</label>
+                <div class=" w-width">
+                    <input name="size" type="number" class="form-control w-width" placeholder="节点宽高">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='w-label'>图标</label>
+                <div class='w-width image-select-group'>
+                    <input name="image" class="form-control" value="img/mo/wlan_4.png" title="img/mo/wlan_4.png" readonly="true">
+                    <img src='img/mo/wlan_4.png'>
+                </div>
+            </div>
+            <div class='submit-group'>
+                <button type="submit" class="btn btn-default">确认</button>
+            </div>
+        </form>
+    </div>
+</div>

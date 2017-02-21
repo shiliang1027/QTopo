@@ -2,7 +2,7 @@
 工具栏
 */
 .qtopo-toolBar .t-body{
-    position: fixed;
+    position: absolute;
     right:0;
     top:0;
 }
@@ -17,8 +17,8 @@
     background: transparent;
     height:33px;
 }
-.qtopo-toolBar .btn,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input{
-    height:100%;
+.qtopo-toolBar .btn.btn-sm,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input{
+    height:33px;
 }
 .qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-mode{
     display: inline-block;

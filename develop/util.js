@@ -205,13 +205,6 @@ var util = {
             return Object.prototype.toString.call(o).slice(8, -1);
         }
     },
-    //获取当前屏幕正中心
-    getCenterPosition: function (scene) {
-        return {
-            x: -scene.translateX + $(window).width() / 2,
-            y: -scene.translateY + $(window).height() / 2
-        }
-    },
     //闪烁
     nodeFlash: function (node, n) {
         if (n == 0) {

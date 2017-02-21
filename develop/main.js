@@ -32,7 +32,7 @@ function setOption(option, clear) {
     createContainer(scene, option.container);
     createLink(scene, option.link);
     drawAlarm(scene, option.alarm);
-    scene.center();
+    scene.goCenter();
 }
 function resize(dom, canvas) {
     return function () {

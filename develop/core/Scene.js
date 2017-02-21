@@ -287,7 +287,7 @@ function removeContainer(container) {
         console.error("Scene removeContainer error", e);
     }
 }
-Scene.prototype.center = function () {
+Scene.prototype.goCenter = function () {
     this.jtopo.stage.centerAndZoom();
 };
 Scene.prototype.setMode = function (mode) {
@@ -315,4 +315,10 @@ Scene.prototype.toggleZIndex = function (element, flag) {
             }
         }
     }
+};
+Scene.prototype.getCenter=function(){
+    return this.jtopo.getCenterLocation();
+};
+Scene.prototype.getSelected=function(){
+    return this.jtopo.selectedElements;
 };

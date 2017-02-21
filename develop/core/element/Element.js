@@ -72,7 +72,7 @@ Element.prototype.setFont = function (font) {
         if (font.type) {
             type = font.type;
         }
-        this.jtopo.font = size + "px " + type;
+        this.jtopo.font = (size?size:14) + "px " + type;
         if (font.color) {
             this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
         }
@@ -105,8 +105,10 @@ Element.prototype.setPosition = function (position) {
     this.attr.position = [this.jtopo.x, this.jtopo.y];
 };
 Element.prototype.setSize = function (size) {
-    if ($.isArray(size) && size.length >= 2) {
+    if ($.isArray(size) && size.length >= 2&&size[0]&&size[1]) {
         this.jtopo.setSize(size[0], size[1]);
+    }else{
+        this.jtopo.setSize(64, 64);
     }
     this.attr.size = [this.jtopo.width, this.jtopo.height];
 };
