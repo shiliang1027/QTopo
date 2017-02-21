@@ -1,0 +1,138 @@
+/*
+    右键菜单栏显示
+*/
+.qtopo-rightMenu .dropdown-menu li{
+    position: relative;
+    cursor: pointer;
+}
+.qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
+    display: block;
+    left:100%;
+    top:0;
+}
+/*
+    子菜单栏箭头
+*/
+.qtopo-rightMenu .subMenu:after{
+    content: "";
+    border: 5px solid transparent;
+    border-left-color: black;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}/*
+工具栏
+*/
+.qtopo-toolBar .t-body{
+    position: absolute;
+    right:0;
+    top:0;
+}
+.t-children{
+    display: none;
+    position: absolute;
+}
+.qtopo-toolBar .panel,.qtopo-toolBar .panel-body{
+    margin: 0;
+    padding:0;
+    border:0;
+    background: transparent;
+    height:33px;
+}
+.qtopo-toolBar .btn.btn-sm,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input{
+    height:33px;
+}
+.qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-mode{
+    display: inline-block;
+    float: left;
+    border-radius:0;
+}
+.qtopo-toolBar .t-search-input{
+    width: 200px;
+}
+.qtopo-toolBar .t-search-mode{
+    width:80px;
+}.qtopo-windows{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+.qtopo-windows input{
+    word-break:keep-all;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+.qtopo-windows .form-group{
+    position: relative;
+    height: 40px;
+    line-height: 35px;
+}
+.qtopo-windows .panel {
+    position: absolute;
+    width: 300px;
+}
+.qtopo-windows .w-label{
+    display: inline-block;
+    width: 100px;
+    position: absolute;
+    left:0;
+    top:0;
+    text-align: center;
+}
+.qtopo-windows .w-width{
+    display: inline-block;
+    width: 150px;
+    position: absolute;
+    right:0;
+    top:0;
+}
+/*图片选择*/
+.qtopo-windows .image-select-group input{
+    width: 110px;
+    display: inline-block;
+}
+.qtopo-windows .image-select-group img{
+    width: 35px;
+    display: inline-block;
+    cursor: pointer;
+}
+/*颜色选择*/
+.qtopo-windows .select-color{
+    position:absolute;
+    top:-150px
+}
+.qtopo-windows .color-selected{
+    width: 110px;
+}
+.qtopo-windows .bootstrap-colorpalette {
+    padding-left:4px;
+    padding-right:4px;
+    white-space: normal;
+    line-height:1;
+}
+
+.qtopo-windows .bootstrap-colorpalette div {
+    line-height:0;
+}
+
+.qtopo-windows .bootstrap-colorpalette .btn-color {
+    width: 17px;
+    height: 17px;
+    border: 1px solid #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.qtopo-windows .bootstrap-colorpalette .btn-color:hover {
+    border: 1px solid #000;
+}
+.qtopo-windows .color-btn{
+    position: absolute;
+    right: -40px;
+}
+/**/
+.qtopo-windows .submit-group{
+    display: table;
+    margin: auto;
+}

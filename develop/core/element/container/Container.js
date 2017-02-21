@@ -32,6 +32,10 @@ Container.prototype.add = function (element) {
         this.children.push(element);
         element.parent=this;
         this.jtopo.add(element.jtopo);
+        if(this.attr.children&&typeof this.attr.children.dragble=="boolean"){
+            //若分组不允许移动组内元素，手动设置元素不可移动
+            element.setDragable(this.attr.children.dragble);
+        }
     }
 };
 Container.prototype.remove = function (element) {
@@ -39,6 +43,8 @@ Container.prototype.remove = function (element) {
         this.children.splice(this.children.indexOf(element), 1);
         element.parent=null;
         this.jtopo.remove(element.jtopo);
+        //移除元素，应手动设回元素可移动
+        element.setDragable(true);
     }
 };
 Container.prototype.getChildren = function () {
@@ -66,25 +72,15 @@ Container.prototype.setColor = function (color) {
     }
     this.attr.color = this.jtopo.fillColor;
 };
-Container.prototype.setBorder = function (border) {
-    var jtopo = this.jtopo;
-    if (border.color) {
-        jtopo.borderColor = QTopo.util.transHex(border.color.toLowerCase());
-    }
-    if ($.isNumeric(border.width)) {
-        jtopo.borderWidth = parseInt(border.width);
-    }
-    if ($.isNumeric(border.radius)) {
-        jtopo.borderRadius = parseInt(border.radius);
-    }
-    this.attr.border.color = jtopo.borderColor;
-    this.attr.border.width = jtopo.borderWidth;
-    this.attr.border.raidus = jtopo.borderRadius;
-};
 Container.prototype.setChildren = function (children) {
     var jtopo = this.jtopo;
     if (children) {
-        this.jtopo.childDragble = typeof children.dragble == "boolean" ? children.dragble : true;
+        if(typeof children.dragble == "boolean"){
+            this.jtopo.childDragble=children.dragble;
+            for(var i=0;i<this.children.length;i++){
+                this.children[i].setDragable(children.dragble);
+            }
+        }
     }
     this.attr.children.dragble = jtopo.childDragble;
 };

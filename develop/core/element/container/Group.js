@@ -21,6 +21,8 @@ var defaults = function () {
             radius:30,//最大160 最小0
             color:"255,0,0"
         },
+        size:[0,0],
+        position:[0,0],
         textPosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
         layout: "",
         children:{
@@ -37,10 +39,9 @@ function Group(config) {
     this.attr =  QTopo.util.extend(defaults(), config || {});
     //函数
     this.set = setJTopo;
+    reset(this);
     //初始化
     this.set(this.attr);
-    //改写源码绘制曲线,可由curveOffset指定弧度
-    reset(this);
 }
 QTopo.util.inherits(Group,Container);
 var defaultLayout = function (container, children) {
@@ -66,6 +67,26 @@ var defaultLayout = function (container, children) {
         container.height = height;
     }
 };
+var fixedLayout=function(container, children){
+    if(this.qtopo){
+        var attr=this.qtopo.attr;
+        if($.isArray(attr.size)&& $.isArray(attr.position)){
+            //this.qtopo.setChildren({
+            //    dragble:false
+            //});
+            if (children.length > 0) {
+                container.width = attr.size[0];
+                container.height = attr.size[1];
+            }
+        }else{
+            defaultLayout(container, children);
+            console.error("the fixedLayout need set size and position,now change to defaultLayout");
+        }
+    }else{
+        console.error("the container not wrap with qtopo",this);
+    }
+
+};
 function setJTopo(config) {
     if (config) {
         var self=this;
@@ -89,10 +110,15 @@ Group.prototype.setLayout=function(layout){
                 selected = JTopo.layout.GridLayout(layout.row, layout.column);
                 this.attr.layout=layout;
                 break;
+            case 'fixed':
+                //固定长宽布局
+                selected = fixedLayout;
+                this.attr.layout=layout;
+                break;
             default:
                 selected = defaultLayout;
                 this.attr.layout={};
-                this.attr.layout.type="set";
+                this.attr.layout.type="default";
         }
     } else {
         selected = defaultLayout;

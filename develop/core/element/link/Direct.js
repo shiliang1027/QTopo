@@ -19,7 +19,6 @@ var defaults =function(){
         width: 2,
         dashed:  null,
         zIndex : 100,
-        textOffset:[0,0],
         font:{
             size:16,
             type:"微软雅黑",

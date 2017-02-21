@@ -15,6 +15,11 @@ var defaults = function () {
             type: '微软雅黑',
             color: "255,255,255"
         },
+        border:{
+            width:0,
+            radius:0,//最大160 最小0
+            color:"255,0,0"
+        },
         zIndex: 200,//层级(10-999)
         color: JTopo.util.randomColor(),
         textPosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden

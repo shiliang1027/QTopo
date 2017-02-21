@@ -3,6 +3,9 @@
  */
 //核心依赖
 require("./core/jtopo/jtopo-min.js");
+if(typeof jQuery =="undefined"){
+    throw new Error("need jquery");
+}
 //QTopo
 var QTopo = {
     instance: [],
@@ -24,6 +27,7 @@ QTopo.init = function (dom, config) {
     return QtopoInstance;
 };
 function setOption(option, clear) {
+    option=option||{};
     var scene = this.scene;
     if (clear) {
         scene.clear();
@@ -42,7 +46,7 @@ function resize(dom, canvas) {
 }
 function initCanvas(dom, width, height) {
     if (width <= 0 || height <= 0) {
-        console.error("The topo need config width and height!");
+        throw new Error("The dom is not exist /not config width and height!");
     }
     dom.style.position = 'relative';
     dom.style.overflow = 'hidden';

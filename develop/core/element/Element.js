@@ -44,6 +44,21 @@ Element.prototype.setText = function (text) {
     }
     this.attr.text = this.jtopo.text;
 };
+Element.prototype.setBorder = function (border) {
+    var jtopo = this.jtopo;
+    if (border.color) {
+        jtopo.borderColor = QTopo.util.transHex(border.color.toLowerCase());
+    }
+    if ($.isNumeric(border.width)) {
+        jtopo.borderWidth = parseInt(border.width);
+    }
+    if ($.isNumeric(border.radius)) {
+        jtopo.borderRadius = parseInt(border.radius);
+    }
+    this.attr.border.color = jtopo.borderColor;
+    this.attr.border.width = jtopo.borderWidth;
+    this.attr.border.raidus = jtopo.borderRadius;
+};
 Element.prototype.on = function (name, fn) {
     this.jtopo.addEventListener(name, function (e) {
         if (e.target && e.target.qtopo) {
@@ -88,13 +103,6 @@ Element.prototype.setAlpha = function (alpha) {
         this.jtopo.alpha = 1;
     }
     this.attr.alpha = this.jtopo.alpha;
-};
-Element.prototype.setTextOffset = function (arr) {
-    if ($.isArray(arr) && arr.length >= 2) {
-        this.jtopo.textOffsetX = arr[0];
-        this.jtopo.textOffsetY = arr[1];
-    }
-    this.attr.textOffset = [this.jtopo.textOffsetX, this.jtopo.textOffsetY];
 };
 Element.prototype.setPosition = function (position) {
     if ($.isArray(position) && position.length >= 2) {
@@ -149,6 +157,12 @@ Element.prototype.setTextPosition = function (textPosition) {
             jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Right";
             this.attr.textPosition = "right";
+            break;
+        case "center":
+            jtopo.textOffsetX = 0;
+            jtopo.textOffsetY = 0;
+            jtopo.textPosition = "Middle_Center";
+            this.attr.textPosition = "center";
             break;
         default:
             jtopo.textOffsetX = 0;
