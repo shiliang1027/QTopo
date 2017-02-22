@@ -6,6 +6,19 @@ function Element(jtopo) {
     if(jtopo){
         this.jtopo=jtopo;
         jtopo.qtopo=this;
+        reset(this);
+    }
+}
+function reset(element){
+    //同步位置属性
+    var preSetLocation=element.jtopo.setLocation;
+    element.jtopo.setLocation=function (a, b) {
+        if(this.qtopo&&this.qtopo.attr&&this.qtopo.attr.position){
+            this.qtopo.attr.position[0]=a;
+            this.qtopo.attr.position[1]=b;
+        }
+        preSetLocation.call(this,a, b);
+        return this;
     }
 }
 Element.prototype.show = function () {
@@ -104,13 +117,13 @@ Element.prototype.setAlpha = function (alpha) {
     }
     this.attr.alpha = this.jtopo.alpha;
 };
+//已重写同步
 Element.prototype.setPosition = function (position) {
     if ($.isArray(position) && position.length >= 2) {
         if ($.isNumeric(position[0]) && $.isNumeric(position[1])) {
             this.jtopo.setLocation(parseInt(position[0]), parseInt(position[1]));
         }
     }
-    this.attr.position = [this.jtopo.x, this.jtopo.y];
 };
 Element.prototype.setSize = function (size) {
     if ($.isArray(size) &&$.isNumeric(size[0])&&$.isNumeric(size[1])) {

@@ -62,7 +62,7 @@ module.exports = {
     },
     //使窗体可以移动,dom topo:外包裹的div,win:窗体
     callImageSelect: function (trigger, click) {
-        var imageWin = $(".qtopo-windows-common .image_select");
+        var imageWin = $(".qtopo-windows-common .image-select");
         if (imageWin.length == 0) {
             console.error("not found image_select window");
         } else {
@@ -77,5 +77,17 @@ module.exports = {
         for (var i = 0; i < inputs.length; i++) {
             inputs.val('');
         }
+    },
+    addScroll:function(element){
+        $(element).niceScroll({
+            cursorcolor: "#659ae6",//滚动滑块颜色
+            cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
+            touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备
+            cursorwidth: "5px", //像素光标的宽度
+            cursorborderradius: "6px",//以像素为光标边界半径
+            autohidemode: false, //是否隐藏滚动条,
+            background: "#0e1c39",
+            cursorborder: "1px solid #0e1c39"
+        });
     }
 };

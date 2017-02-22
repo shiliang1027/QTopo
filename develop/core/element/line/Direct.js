@@ -87,20 +87,6 @@ function reset(Line){
         }
     };
 }
-DirectLine.prototype.setPosition=function(position){
-    var start=this.attr.path.start;
-    var end=this.attr.path.end;
-    if($.isArray(position.start)&&$.isNumeric(position.start[0])&&$.isNumeric(position.start[1])){
-        start.setLocation(parseInt(position.start[0]), parseInt(position.start[1]));
-    }
-    if($.isArray(position.end)&&$.isNumeric(position.end[0])&&$.isNumeric(position.end[1])){
-        end.setLocation(parseInt(position.end[0]), parseInt(position.end[1]));
-    }
-    this.attr.position={
-        start:[start.x,start.y],
-        end:[end.x,end.y]
-    };
-};
 DirectLine.prototype.setBundleOffset=function(bundleOffset){
     if($.isNumeric(bundleOffset)){
         this.jtopo.bundleOffset=parseInt(bundleOffset);

@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
+//var sass = require('gulp-sass');//依赖 node-sass
 var minifyCss = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var connect = require('gulp-connect');
