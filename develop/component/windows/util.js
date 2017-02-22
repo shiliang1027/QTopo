@@ -60,17 +60,6 @@ module.exports = {
             //}
         }
     },
-    //使窗体可以移动,dom topo:外包裹的div,win:窗体
-    callImageSelect: function (trigger, click) {
-        var imageWin = $(".qtopo-windows-common .image-select");
-        if (imageWin.length == 0) {
-            console.error("not found image_select window");
-        } else {
-            trigger.click(function (e) {
-                imageWin.modal('toggle');
-            });
-        }
-    },
     //清理窗口中的input内的值
     clearWin: function (win) {
         var inputs=win.find("input");

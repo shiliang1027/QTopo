@@ -35,8 +35,10 @@ function init(dom,scene){
     var wrap=getWrap(dom,"qtopo-windows");
     var commonWrap=getWrap(wrap,"qtopo-windows-common");
     var nodeWrap=getWrap(wrap,"qtopo-windows-node");
-    commonWrap.append(imageSelect.init(images));
-    var normalNodeWin=normalNode.init(dom,scene);
+    //公用窗口
+    var imageSelectWin=imageSelect.init(images);
+    commonWrap.append(imageSelectWin);
+    var normalNodeWin=normalNode.init(dom,scene,imageSelectWin);
     nodeWrap.append(normalNodeWin.win);
 }
 function getWrap(dom,clazz){
