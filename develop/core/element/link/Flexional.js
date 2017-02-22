@@ -80,3 +80,31 @@ FlexionalLink.prototype.setDirection=function(direction){
     }
     this.attr.direction=this.jtopo.direction;
 };
+/*一种绘制固定在节点右侧的二次线*/
+//resetFold.jtopo.getPath =poinst;
+function poinst() {
+    //重写线的绘制路径
+    var littleSize=50;
+    var startRight = {
+        x: start.x + start.width,
+        y: start.y + start.height / 2
+    };
+    var endRight = {
+        x: end.x + end.width,
+        y: end.y + end.height / 2
+    };
+    var middleA = {};
+    var middleB={};
+    if (startRight.x > endRight.x) {
+        middleA.x = startRight.x+littleSize;
+        middleA.y = startRight.y;
+        middleB.x=startRight.x+littleSize;
+        middleB.y = endRight.y;
+    } else {
+        middleA.x = endRight.x+littleSize;
+        middleA.y = startRight.y;
+        middleB.x=endRight.x+littleSize;
+        middleB.y = endRight.y;
+    }
+    return [startRight,middleA,middleB,endRight];
+}

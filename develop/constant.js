@@ -5,6 +5,7 @@ module.exports = {
     SCENE:'10',
     CONTAINER:"100",
     LINK:"1000",
+    LINE:"1100",
     NODE:'10000',
     CASUAL:"临时工",//
     mode:{

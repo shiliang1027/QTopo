@@ -35,6 +35,7 @@ function setOption(option, clear) {
     createNode(scene, option.node);
     createContainer(scene, option.container);
     createLink(scene, option.link);
+    createLine(scene,option.line);
     drawAlarm(scene, option.alarm);
     scene.goCenter();
 }
@@ -181,6 +182,25 @@ function createLink(scene, config) {
             }
         } else {
             console.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
+        }
+    }
+}
+function createLine(scene, config){
+    if(config){
+        if ($.isArray(config.data)) {
+            $.each(config.data,function(i,v){
+                var line = scene.createLine(v);
+                //额外属性添加
+                if (line && $.isArray(config.exprop)) {
+                    $.each(config.exprop, function (j, key) {
+                        if (v[key]) {
+                            line[key] = v[key];
+                        }
+                    });
+                }
+            });
+        } else {
+            console.error("can not draw line,need config 'path' and 'path' is Array and not empty,path's element need config x y, path used to find start and end");
         }
     }
 }

@@ -1,8 +1,8 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
-var Link=require("./Link.js");
-module.exports = DirectLink;
+var Line=require("./Line.js");
+module.exports = DirectLine;
 //直线
 var defaults =function(){
     return {
@@ -16,9 +16,17 @@ var defaults =function(){
             end:true
         },
         gap:20,
+        position:{
+            start:[0,0],
+            end:[0,100]
+        },
+        path:{
+            start:{},
+            end:{}
+        },
         width: 2,
         dashed:  null,
-        zIndex : 100,
+        zIndex : 80,
         font:{
             size:16,
             type:"微软雅黑",
@@ -28,13 +36,10 @@ var defaults =function(){
         bundleOffset:60// 多条直线时，线条折线拐角处的长度
     };
 };
-function DirectLink(config) {
-    if(!config.start||!config.end){
-        console.error("Create Link need start and end");
-        return;
-    }
-    Link.call(this,new JTopo.Link(config.start.jtopo, config.end.jtopo));
+function DirectLine(config) {
     this.attr =  QTopo.util.extend(defaults(), config || {});
+    //line基于不加入画布的节点之间的线生成
+    Line.call(this,new JTopo.Link(new JTopo.Node(), new JTopo.Node()));
     //函数
     this.set = setJTopo;
     //初始化
@@ -42,16 +47,16 @@ function DirectLink(config) {
     //源码修改
     reset(this);
 }
-QTopo.util.inherits(DirectLink,Link);
+QTopo.util.inherits(DirectLine,Line);
 function setJTopo(config) {
     if (config) {
         var self=this;
         self._setAttr(config);
     }
 }
-function reset(link){
+function reset(Line){
     //双向箭头
-    link.jtopo.getStartPosition = function () {
+    Line.jtopo.getStartPosition = function () {
         var a;
         return null != this.arrowsRadius && (a = (function (thisl) {
             var b = thisl.nodeA, c = thisl.nodeZ;
@@ -63,7 +68,7 @@ function reset(link){
             y: this.nodeA.cy
         }), a;
     };
-    link.jtopo.paintPath = function (a, b) {
+    Line.jtopo.paintPath = function (a, b) {
         if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
         a.beginPath(),
             a.moveTo(b[0].x, b[0].y);
@@ -73,16 +78,30 @@ function reset(link){
             ) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
         }
         if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
-            if (link.attr.arrow.end) {
+            if (Line.attr.arrow.end) {
                 this.paintArrow(a, b[0], b[b.length - 1]);
             }//终点箭头
-            if (link.attr.arrow.start) {
+            if (Line.attr.arrow.start) {
                 this.paintArrow(a, b[b.length - 1], b[0]);
             }//起点箭头
         }
     };
 }
-DirectLink.prototype.setBundleOffset=function(bundleOffset){
+DirectLine.prototype.setPosition=function(position){
+    var start=this.attr.path.start;
+    var end=this.attr.path.end;
+    if($.isArray(position.start)&&$.isNumeric(position.start[0])&&$.isNumeric(position.start[1])){
+        start.setLocation(parseInt(position.start[0]), parseInt(position.start[1]));
+    }
+    if($.isArray(position.end)&&$.isNumeric(position.end[0])&&$.isNumeric(position.end[1])){
+        end.setLocation(parseInt(position.end[0]), parseInt(position.end[1]));
+    }
+    this.attr.position={
+        start:[start.x,start.y],
+        end:[end.x,end.y]
+    };
+};
+DirectLine.prototype.setBundleOffset=function(bundleOffset){
     if($.isNumeric(bundleOffset)){
         this.jtopo.bundleOffset=parseInt(bundleOffset);
     }

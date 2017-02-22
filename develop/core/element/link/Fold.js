@@ -50,18 +50,23 @@ function setJTopo(config) {
     }
 }
 function reset(link){
-    //双向箭头
-    link.jtopo.paintPath = function (a, b) {
-        if (this.nodeA === this.nodeZ)return void this.paintLoop(a);
-        a.beginPath(), a.moveTo(b[0].x, b[0].y);
-        for (var c = 1; c < b.length; c++)
-            null == this.dashedPattern ? a.lineTo(b[c].x, b[c].y) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern);
-        if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+    //双向箭头,添加左右边概念
+    link.jtopo.paintPath = function (context2D, pointsArray) {
+        if (this.nodeA === this.nodeZ)return void this.paintLoop(context2D);
+        context2D.beginPath();
+        context2D.moveTo(pointsArray[0].x, pointsArray[0].y);
+        for (var c = 1; c < pointsArray.length; c++)
+            if(null == this.dashedPattern){
+                 context2D.lineTo(pointsArray[c].x, pointsArray[c].y);
+            }else{
+                context2D.JTopoDashedLineTo(pointsArray[c - 1].x, pointsArray[c - 1].y, pointsArray[c].x, pointsArray[c].y, this.dashedPattern);
+            }
+        if (context2D.stroke(), context2D.closePath(), null != this.arrowsRadius) {
             if (link.attr.arrow.end) {
-                this.paintArrow(a, b[b.length - 2], b[b.length - 1]);
+                this.paintArrow(context2D, pointsArray[pointsArray.length - 2], pointsArray[pointsArray.length - 1]);
             }
             if (link.attr.arrow.start) {
-                this.paintArrow(a, b[1], b[0]);//添加双向箭头
+                this.paintArrow(context2D, pointsArray[1], pointsArray[0]);//添加双向箭头
             }
         }
     };

@@ -11,6 +11,9 @@ var Link = {
     Flexional: require("./element/link/Flexional.js"),
     Fold: require("./element/link/Fold.js")
 };
+var Line={
+    Direct:require("./element/line/Direct.js")
+};
 var Container = {
     Group: require("./element/container/Group.js")
 };
@@ -32,18 +35,21 @@ function Scene(stage, config) {
     self.children = {
         node: [],
         link: [],
-        container: []
+        container: [],
+        line:[]
     };
     self.attr = defaults();
     stage.add(self.jtopo);
     events.init(self);
     //延时执行
     setTimeout(function () {
-        if (config.background) {
-            self.setBackGround(config.background);
-        }
-        if (config.mode) {
-            self.setMode(config.mode);
+        if(config){
+            if (config.background) {
+                self.setBackGround(config.background);
+            }
+            if (config.mode) {
+                self.setMode(config.mode);
+            }
         }
     });
 }
@@ -53,7 +59,8 @@ Scene.prototype.clear = function () {
     this.children = {
         node: [],
         link: [],
-        container: []
+        container: [],
+        line:[]
     };
     this.jtopo.clear();
 };
@@ -90,6 +97,9 @@ Scene.prototype.find = function (scan, type) {
                         break;
                     case "container":
                         scanArr(children.container, term[0], term[1]);
+                        break;
+                    case "line":
+                        scanArr(children.line, term[0], term[1]);
                         break;
                 }
             } else {
@@ -174,6 +184,22 @@ Scene.prototype.createLink = function (config) {
         return false;
     }
 };
+Scene.prototype.createLine = function (config) {
+    var newLine;
+    config = config || {};
+    switch (config.type) {
+        default:
+            newLine = new Line.Direct(config);
+    }
+    if (newLine && newLine.jtopo) {
+        addJTopo.call(this, newLine);
+        this.children.line.push(newLine);
+        return newLine;
+    } else {
+        console.error("create Link error", config);
+        return false;
+    }
+};
 Scene.prototype.createContainer = function (config) {
     var newContainer;
     config = config || {};
@@ -215,6 +241,11 @@ Scene.prototype.remove = function (element) {
                     removeLink.call(this, element);
                 }
                 break;
+            case QTopo.constant.LINE:
+                if (QTopo.util.arrayDelete(this.children.line, element) || element.getUseType() == QTopo.constant.CASUAL) {
+                    removeLine.call(this, element);
+                }
+                break;
             case QTopo.constant.CONTAINER:
                 if (QTopo.util.arrayDelete(this.children.container, element) || element.getUseType() == QTopo.constant.CASUAL) {
                     removeContainer.call(this, element);
@@ -243,6 +274,13 @@ function removeLink(link) {
         removeJTopo.call(this, link);
     } catch (e) {
         console.error("Scene removeLink error", e);
+    }
+}
+function removeLine(line){
+    try {
+        removeJTopo.call(this, line);
+    } catch (e) {
+        console.error("Scene removeLine error", e);
     }
 }
 function removeNode(node) {
@@ -316,9 +354,9 @@ Scene.prototype.toggleZIndex = function (element, flag) {
         }
     }
 };
-Scene.prototype.getCenter=function(){
+Scene.prototype.getCenter = function () {
     return this.jtopo.getCenterLocation();
 };
-Scene.prototype.getSelected=function(){
+Scene.prototype.getSelected = function () {
     return this.jtopo.selectedElements;
 };

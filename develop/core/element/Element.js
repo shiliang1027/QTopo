@@ -113,8 +113,8 @@ Element.prototype.setPosition = function (position) {
     this.attr.position = [this.jtopo.x, this.jtopo.y];
 };
 Element.prototype.setSize = function (size) {
-    if ($.isArray(size) && size.length >= 2&&size[0]&&size[1]) {
-        this.jtopo.setSize(size[0], size[1]);
+    if ($.isArray(size) &&$.isNumeric(size[0])&&$.isNumeric(size[1])) {
+        this.jtopo.setSize(parseInt(size[0]), parseInt(size[1]));
     }else{
         this.jtopo.setSize(64, 64);
     }
