@@ -39,7 +39,8 @@ function init(dom,scene){
     var imageSelectWin=imageSelect.init(images);
     commonWrap.append(imageSelectWin);
     var normalNodeWin=normalNode.init(dom,scene,imageSelectWin);
-    nodeWrap.append(normalNodeWin.win);
+    nodeWrap.append(normalNodeWin);
+
 }
 function getWrap(dom,clazz){
     dom=$(dom);

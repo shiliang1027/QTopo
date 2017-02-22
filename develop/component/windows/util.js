@@ -22,12 +22,10 @@ module.exports = {
         });
 
     },
-    initBase:function(dom, win,close){
+    initBase:function(dom, win){
         var head=win.find(".panel-heading");
         head.find(".close").click(function(e){
-            if($.isFunction(close)){
-                close(e);
-            }
+            win.trigger("window.close");
         });
         moveAble(dom, win,head);
         function moveAble(dom, win,head) {
