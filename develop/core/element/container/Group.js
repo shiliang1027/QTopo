@@ -30,7 +30,7 @@ var defaults = function () {
             showName: true,
             dragble: true
         },
-        useType:"group"
+        useType:QTopo.constant.container.GROUP
     };
 };
 

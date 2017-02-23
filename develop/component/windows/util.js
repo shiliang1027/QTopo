@@ -1,15 +1,22 @@
 /**
  * Created by qiyc on 2017/2/21.
  */
-module.exports = {
+    var mutex=[];
+var util={
+    defaultPosition:function(dom){
+        dom.css({
+            top:($(window).height()-$(dom).height())/2,
+            left:0
+        });
+    },
     //颜色选择框绑定
-    colorSelect: function (input, div) {
+    initColorSelect: function (input, div) {
         div.colorPalette().on('selectColor', function (e) {
             input.val(e.color);
         });
     },
     //阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key
-    formSubmit: function (dom, fn) {
+    initFormSubmit: function (dom, fn) {
         dom.submit(function (e) {
             try {
                 if ($.isFunction(fn)) {
@@ -20,14 +27,34 @@ module.exports = {
             }
             return false;
         });
-
+    },
+    setFormInput:function(dom,json){
+        dom.setForm(json);
     },
     initBase:function(dom, win){
+        win.hide();
         var head=win.find(".panel-heading");
         head.find(".close").click(function(e){
             win.trigger("window.close");
         });
+        //窗体可移动
         moveAble(dom, win,head);
+        //窗口互斥
+        mutex.push(win);
+        win.on("window.open",function () {
+            $.each(mutex, function (i, v) {
+                if (win != v&& v.css("display")!="none") {
+                    v.trigger("window.close");
+                }
+            });
+        });
+        //提供api触发窗口开关
+        win.close=function(data){
+            win.trigger("window.close",data);
+        };
+        win.open=function(data){
+            win.trigger("window.open",data);
+        };
         function moveAble(dom, win,head) {
             win.movement = false;
             head.mousedown(function (e) {
@@ -46,16 +73,6 @@ module.exports = {
                     });
                 }
             });
-            //互斥
-            //base.mutex.push(win);
-            //win.show = function () {
-            //    $(win).show();
-            //    $.each(base.mutex, function (i, v) {
-            //        if (win != v&& v.css("display")!="none") {
-            //            v.find(".close").click();
-            //        }
-            //    });
-            //}
         }
     },
     //清理窗口中的input内的值
@@ -78,3 +95,4 @@ module.exports = {
         });
     }
 };
+module.exports = util;

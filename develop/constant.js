@@ -8,6 +8,22 @@ module.exports = {
     LINE:"1100",
     NODE:'10000',
     CASUAL:"临时工",//
+    node:{
+        IMAGE:"10010",
+        TEXT:"10001"
+    },
+    container:{
+        GROUP:"101"
+    },
+    link:{
+        CURVE:"1001",
+        DIRECT:"1002",
+        FLEXIONAL:"1003",
+        FOLD:"1004"
+    },
+    line:{
+        DIRECT:"1101"
+    },
     mode:{
         NORMAL:"normal",
         EDIT:"edit",

@@ -33,15 +33,19 @@
     right:0;
     top:0;
 }
+.qtopo-windows .panel-primary{
+    color: white;
+    background: rgba(51, 122, 183, 0.8);
+}
 /*图片选择*/
 .qtopo-windows .image-select-group input{
     width: 110px;
     display: inline-block;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
 }
 .qtopo-windows .image-select-group img{
     width: 35px;
-    display: inline-block;
-    cursor: pointer;
 }
 /*颜色选择*/
 .qtopo-windows .select-color{
@@ -72,10 +76,6 @@
 
 .qtopo-windows .bootstrap-colorpalette .btn-color:hover {
     border: 1px solid #000;
-}
-.qtopo-windows .color-btn{
-    position: absolute;
-    right: -40px;
 }
 /**/
 .qtopo-windows .submit-group{

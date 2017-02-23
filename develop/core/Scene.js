@@ -2,7 +2,7 @@
  * Created by qiyc on 2017/2/7.
  */
 var Node = {
-    Normal: require("./element/node/Normal.js"),
+    Image: require("./element/node/Image.js"),
     Text: require("./element/node/Text.js")
 };
 var Link = {
@@ -11,6 +11,7 @@ var Link = {
     Flexional: require("./element/link/Flexional.js"),
     Fold: require("./element/link/Fold.js")
 };
+
 var Line={
     Direct:require("./element/line/Direct.js")
 };
@@ -65,6 +66,9 @@ Scene.prototype.clear = function () {
     this.jtopo.clear();
 };
 Scene.prototype.getType = function () {
+    return QTopo.constant.SCENE;
+};
+Scene.prototype.getUseType = function () {
     return QTopo.constant.SCENE;
 };
 Scene.prototype.on = function (name, fn) {
@@ -145,7 +149,7 @@ Scene.prototype.createNode = function (config) {
             newNode = new Node.Text(config);
             break;
         default:
-            newNode = new Node.Normal(config);
+            newNode = new Node.Image(config);
     }
     if (newNode && newNode.jtopo) {
         addJTopo.call(this, newNode);
@@ -214,7 +218,7 @@ Scene.prototype.createContainer = function (config) {
             nodeConfig = config.toggle
         }
         nodeConfig.useType = QTopo.constant.CASUAL;
-        newContainer.toggleTo = new Node.Normal(nodeConfig);
+        newContainer.toggleTo = new Node.Image(nodeConfig);
         newContainer.toggleTo.toggleTo = newContainer;//互相索引
         newContainer.toggleTo.hide();
         addJTopo.call(this, newContainer.toggleTo);

@@ -7,8 +7,8 @@
 }
 .qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
     display: block;
-    left:100%;
-    top:0;
+    left:95%;
+    top:-7px;
 }
 /*
     子菜单栏箭头

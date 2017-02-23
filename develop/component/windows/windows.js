@@ -3,7 +3,7 @@
  */
 require("./common/style.css");
 require("./windows.css");
-var normalNode=require("./normalNode/win.js");
+var imageNode=require("./imageNode/win.js");
 var imageSelect=require("./common/imageSelect.js");
 module.exports={
     init:init
@@ -38,8 +38,14 @@ function init(dom,scene){
     //公用窗口
     var imageSelectWin=imageSelect.init(images);
     commonWrap.append(imageSelectWin);
-    var normalNodeWin=normalNode.init(dom,scene,imageSelectWin);
-    nodeWrap.append(normalNodeWin);
+    if(!scene.windows){
+        scene.windows={}
+    }
+    var imageNodeWin=imageNode.init(dom,scene,imageSelectWin);
+    scene.windows.node={
+        image:imageNodeWin
+    };
+    nodeWrap.append(imageNodeWin);
 
 }
 function getWrap(dom,clazz){

@@ -105,8 +105,8 @@ Element.prototype.setFont = function (font) {
             this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
         }
     }
-    this.attr.font.type = font.type;
-    this.attr.font.size = font.size;
+    this.attr.font.type = type;
+    this.attr.font.size = size;
     this.attr.font.color = this.jtopo.fontColor;
 };
 Element.prototype.setAlpha = function (alpha) {

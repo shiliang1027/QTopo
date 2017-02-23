@@ -24,7 +24,7 @@ var defaults =function(){
             type:"微软雅黑",
             color:'255,255,255'
         },
-        useType: 'fold',
+        useType: QTopo.constant.link.FOLD,
         direction:"vertical"
     };
 };

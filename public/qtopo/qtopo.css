@@ -7,8 +7,8 @@
 }
 .qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
     display: block;
-    left:100%;
-    top:0;
+    left:95%;
+    top:-7px;
 }
 /*
     子菜单栏箭头
@@ -37,10 +37,10 @@
     padding:0;
     border:0;
     background: transparent;
-    height:33px;
+    height:32px;
 }
-.qtopo-toolBar .btn.btn-sm,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input{
-    height:33px;
+.qtopo-toolBar .btn.btn-sm,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-btn{
+    height:32px;
 }
 .qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-mode{
     display: inline-block;
@@ -108,15 +108,27 @@
     right:0;
     top:0;
 }
+.qtopo-windows .panel-primary{
+    color: white;
+    background: rgba(51, 122, 183, 0.8);
+}
 /*图片选择*/
 .qtopo-windows .image-select-group input{
     width: 110px;
     display: inline-block;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
 }
 .qtopo-windows .image-select-group img{
     width: 35px;
-    display: inline-block;
-    cursor: pointer;
+    margin-left: 10px;
+}
+.qtopo-windows .image-select-group button{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 /*颜色选择*/
 .qtopo-windows .select-color{
@@ -125,6 +137,10 @@
 }
 .qtopo-windows .color-selected{
     width: 110px;
+}
+.qtopo-windows .input-group-btn>.select-color-btn {
+    border-bottom-right-radius: 4px !important;
+    border-top-right-radius: 4px !important;
 }
 .qtopo-windows .bootstrap-colorpalette {
     padding-left:4px;
@@ -147,10 +163,6 @@
 
 .qtopo-windows .bootstrap-colorpalette .btn-color:hover {
     border: 1px solid #000;
-}
-.qtopo-windows .color-btn{
-    position: absolute;
-    right: -40px;
 }
 /**/
 .qtopo-windows .submit-group{

@@ -10,35 +10,35 @@ module.exports={
 function init(images){
     temp=$(temp);
     var body=temp.find(".modal-body");
+    //构造图片按钮们
     if($.isArray(images)){
         $.each(images,function(i,v){
             body.append(imageButton(v));
         });
     }
-    util.addScroll(body);
+    //隐藏时清空active类
+    temp.on("hide.bs.modal",function(e){
+        body.find(".active").removeClass("active");
+    });
+    //选中图片之间互斥
     body.find(".img-btn").on("click",function(e){
         body.find(".active").removeClass("active");
         $(this).addClass("active");
     });
+    util.addScroll(body);
+    //------
     var deferred;
-    temp.on("window.open",function(e,fn){
+    temp.open=function(){
         deferred=$.Deferred();
-        if($.isFunction(fn)){
-            deferred.done(fn);
-        }
         temp.modal('show');
-    });
-    temp.on("window.close",function(e,data){
+        return deferred;
+    };
+    //点击确认按钮后用选中图片释放延迟函数
+    temp.find("button").on("click",function(){
         if(deferred&&deferred.state()=="pending"){
-            deferred.resolve(data);
+            deferred.resolve(body.find(".active img").attr("src"));
         }
         temp.modal('hide');
-    });
-    temp.on("hide.bs.modal",function(e){
-        body.find(".active").removeClass("active");
-    });
-    temp.find("button").on("click",function(){
-        temp.trigger("window.close",body.find(".active img").attr("src"));
     });
     return temp;
 }

@@ -2,7 +2,7 @@
  * Created by qiyc on 2017/2/7.
  */
 var Node=require("./Node.js");
-module.exports = NormalNode;
+module.exports = ImageNode;
 var defaults = function () {
     return {
         image: "",
@@ -23,7 +23,7 @@ var defaults = function () {
         zIndex: 200,//层级(10-999)
         color: JTopo.util.randomColor(),
         textPosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
-        useType: 'normal',
+        useType: QTopo.constant.node.IMAGE,
         alarm: {
             show: false,
             text: "",
@@ -36,7 +36,7 @@ var defaults = function () {
     }
 };
 //一般节点
-function NormalNode(config) {
+function ImageNode(config) {
     Node.call(this,new JTopo.Node());
     this.attr = QTopo.util.extend(defaults(), config || {});
     //告警闪烁 ...paintChilds函数内,638行附近调用
@@ -47,7 +47,7 @@ function NormalNode(config) {
     this.set(this.attr);
 }
 
-QTopo.util.inherits(NormalNode,Node);
+QTopo.util.inherits(ImageNode,Node);
 function setJTopo(config) {
     if (config) {
         //处理一般属性的设置
@@ -55,21 +55,22 @@ function setJTopo(config) {
         //处理特殊属性的设置
     }
 }
-NormalNode.prototype.setImage=function(image) {
+ImageNode.prototype.setImage=function(image) {
     if(image){
         this.jtopo.setImage(image);
         this.attr.image=image;
     }
 };
-NormalNode.prototype.setAlarm=function(config) {
+ImageNode.prototype.setAlarm=function(config) {
     var jtopo = this.jtopo;
+    this.setAlpha(1);
     alarmAttr(jtopo,this.attr.alarm,config);
 };
 function alarmAttr(jtopo,alarm,config){
     if(typeof config.show=="undefined"){
         config.show=alarm.show;
     }
-    if (config.show) {
+    if (typeof config.show=="boolean"&&config.show) {
         jtopo.shadow = true;
         jtopo.alarm = config.text || "";
         alarm.text=jtopo.alarm;

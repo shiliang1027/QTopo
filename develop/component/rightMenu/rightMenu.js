@@ -23,4 +23,23 @@ function initRigheMenu(dom,scene){
             filter:menu.filter
         });
     });
+    if($.isArray(fns.subMenu)){
+        $.each(fns.subMenu,function(i,v){
+            var subMenu=rightMenu.addSubMenu({
+                name: v.name,
+                click:v.click,
+                filter:v.filter
+            });
+            if(v.item){
+                $.each(v.item,function(j,item){
+                    var menu=item(rightMenu);//按钮获取父对象
+                    subMenu.addItem({
+                        name:menu.name,
+                        click:menu.click,
+                        filter:menu.filter
+                    });
+                });
+            }
+        });
+    }
 }

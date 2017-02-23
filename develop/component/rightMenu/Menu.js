@@ -19,6 +19,8 @@ Menu.prototype.init=function(scene){
                 left: e.pageX - 20,
                 top: e.pageY - 20
             }).show();
+            self.x=e.x;
+            self.y=e.y;
             //按钮的事件需要知道触发的对象
             if(e.target){
                 self.target=e.target.qtopo;
@@ -52,7 +54,7 @@ Menu.prototype.addItem=function(options){
 Menu.prototype.addSubMenu=function(options){
     if(options){
         var item=$("<li class='subMenu'><a>"+options.name+"</a></li>");
-        if(options.click){
+        if($.isFunction(options.click)){
             item.click(options.click);
         }
         var subMenu=new Menu(item);
@@ -69,10 +71,10 @@ Menu.prototype.addSubMenu=function(options){
 };
 function showItem(array, target){
     $.each(array, function (i, v) {
-        if (v.filter && v.type == 'item') {
+        if ($.isFunction(v.filter) && v.type == 'item') {
             v.filter(target)?v.body.show(): v.body.hide();
         } else if (v.type == 'subMenu') {
-            if (v.filter) {
+            if ($.isFunction(v.filter)) {
                 if (v.filter(target)) {
                     v.body.show();
                     showItem(v.subMenu.item, target);//递归子项

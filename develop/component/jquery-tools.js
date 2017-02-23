@@ -63,6 +63,9 @@ $.fn.setForm = function (jsonValue) {
     })
 };
 inteColorPalette();
+/**
+ * 颜色选择器插件初始化
+ * */
 function inteColorPalette() {
     "use strict";
     var aaColor = [

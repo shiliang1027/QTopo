@@ -24,13 +24,6 @@ module.exports={
                 }
             }
         },
-        CREATE:function(menu){
-            return {
-                name:"创建节点",
-                click:function(){
-                }
-            }
-        },
         UPZINDEX:function(menu){
             return {
                 name:"提升层级",
@@ -47,5 +40,35 @@ module.exports={
                 }
             }
         }
-    }
+    },
+    subMenu:[{
+        name:"节点操作",
+        item:{
+            CREATE:function(menu){
+                return {
+                    name:"创建图片节点",
+                    click:function(){
+                        menu.scene.windows.node.image.open({
+                            type:"create",
+                            position:[menu.x,menu.y]
+                        });
+                    }
+                }
+            },
+            EDIT:function(menu){
+                return {
+                    name:"修改图片节点",
+                    click:function(){
+                        menu.scene.windows.node.image.open({
+                            type:"edit",
+                            target:menu.target
+                        });
+                    },
+                    filter:function(target){
+                        return target&&target.getType()==QTopo.constant.NODE&&target.getUseType()==QTopo.constant.node.IMAGE;
+                    }
+                }
+            }
+        }
+    }]
 };

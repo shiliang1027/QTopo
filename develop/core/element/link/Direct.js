@@ -24,7 +24,7 @@ var defaults =function(){
             type:"微软雅黑",
             color:'255,255,255'
         },
-        useType: 'direct',
+        useType: QTopo.constant.link.DIRECT,
         bundleOffset:60// 多条直线时，线条折线拐角处的长度
     };
 };

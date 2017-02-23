@@ -24,7 +24,7 @@ var defaults =function(){
             type:"微软雅黑",
             color:'255,255,255'
         },
-        useType: 'curve',
+        useType: QTopo.constant.link.CURVE,
         curveOffset:200
     };
 };
