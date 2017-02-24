@@ -7,6 +7,11 @@ var fns=require("./repertory.js");//右键菜单函数仓库
 module.exports = {
         init:initRigheMenu
 };
+/**
+ * 从函数仓库中取数据构造菜单栏
+ * @param dom topo的包裹外壳
+ * @param scene topo图层
+ */
 function initRigheMenu(dom,scene){
     var wrap=$(dom).find(".qtopo-rightMenu");
     if(wrap.length==0){

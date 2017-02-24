@@ -15,10 +15,17 @@ var defaultAttr={
     size:70,
     image:""
 };
+/**
+ * 初始化图片节点的属性操作窗口
+ * @param dom  topo对象包裹外壳
+ * @param scene topo对象图层
+ * @param imageSelect 需要支持的一般窗口组件
+ * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
+ */
 function main(dom, scene, imageSelect){
     var win=$(temp);
-    //窗口打开和关闭事件
-    initEvent(win);
+    //注册窗口打开和关闭事件
+    initEvent(dom,win);
     //基本窗口属性初始化
     util.initBase(dom,win);
     //颜色选择框初始化
@@ -32,7 +39,7 @@ function main(dom, scene, imageSelect){
     doWithImageSelect(win,imageSelect);
     return win;
 }
-function initEvent(win){
+function initEvent(dom,win){
     win.on("window.open",function(e,data){
         if(data){
             switch (data.type){
@@ -42,10 +49,17 @@ function initEvent(win){
                 case "edit":
                     editWindow(win,data.target);
                     break;
-                default:delete win.todo;
+                default:
+                    console.error("invalid type of imageWindow,open function need to config like { type:'create' or 'edit'}");
+                    if(win.todo){
+                        //错误开启窗口，则仅警告且什么也不做
+                        delete win.todo;
+                    }
             }
+        }else{
+            console.error("invalid open imageWindow");
         }
-        util.defaultPosition(win);
+        util.defaultPosition(dom,win);
         win.show();
     });
     win.on("window.close",function(e,data){
@@ -100,6 +114,9 @@ function doWithForm(config, scene, data){
     }
 }
 function createWindow(win,position){
+    if(!position){
+        console.error("invalid open imageWindow,need set position to create");
+    }
     win.todo={
         type:"create",
         position:position
@@ -107,6 +124,9 @@ function createWindow(win,position){
     util.setFormInput(win.find("form"),defaultAttr)
 }
 function editWindow(win,target){
+    if(!target){
+        console.error("invalid open imageWindow,need set target to edit");
+    }
     win.todo={
         type:"edit",
         target:target

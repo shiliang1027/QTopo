@@ -3,19 +3,33 @@
  */
     var mutex=[];
 var util={
-    defaultPosition:function(dom){
-        dom.css({
-            top:($(window).height()-$(dom).height())/2,
+    /**
+     * 根据窗口以及topo包裹外壳的高度确认窗口的默认位置
+     * @param dom topo外层包裹
+     * @param win 设定高度的窗口
+     */
+    defaultPosition:function(dom,win){
+        win.css({
+            top:($(dom).height()-$(win).height())/2,
             left:0
         });
     },
-    //颜色选择框绑定
+    /**基于Bootstrap下拉列表的颜色选择框绑定
+     * @input 选中颜色按钮后将值赋予的input框
+     * @div 被控制的下拉列表中的div,用以插入颜色按钮
+     */
     initColorSelect: function (input, div) {
         div.colorPalette().on('selectColor', function (e) {
             input.val(e.color);
         });
     },
-    //阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key
+    /**
+     * 阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key
+     * 需要jquery-tools中的插件支持
+     * 需要jquery-tools中的插件支持
+     * @param dom form表单的jquery对象
+     * @param fn 处理json对象的函数
+     */
     initFormSubmit: function (dom, fn) {
         dom.submit(function (e) {
             try {
@@ -28,9 +42,20 @@ var util={
             return false;
         });
     },
+    /**
+     * json组装form表单
+     * 需要jquery-tools中的插件支持
+     * @param dom form表单的jquery对象
+     * @param json 对象中的键对应表单中的name，自动将值赋上
+     */
     setFormInput:function(dom,json){
         dom.setForm(json);
     },
+    /**
+     * 初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动
+     * @dom topo存在的包裹dom,用以注册包裹空间内窗口移动
+     * @win 需要初始化的窗口
+     */
     initBase:function(dom, win){
         win.hide();
         var head=win.find(".panel-heading");
@@ -75,15 +100,21 @@ var util={
             });
         }
     },
-    //清理窗口中的input内的值
+    /**清空窗口中的input内的值
+     * @win 待清理的窗口
+     */
     clearWin: function (win) {
         var inputs=win.find("input");
         for (var i = 0; i < inputs.length; i++) {
             inputs.val('');
         }
     },
-    addScroll:function(element){
-        $(element).niceScroll({
+    /**
+     * 封装统一的jquery-niceScroll插件的设定值
+     * @param win 需要添加滚动条的窗口
+     */
+    addScroll:function(win){
+        $(win).niceScroll({
             cursorcolor: "#659ae6",//滚动滑块颜色
             cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
             touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备

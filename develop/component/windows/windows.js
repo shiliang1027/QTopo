@@ -30,7 +30,11 @@ var images=[
     "img/mo/eNodeB.png","img/mo/eNodeB_1.png","img/mo/eNodeB_2.png","img/mo/eNodeB_3.png","img/mo/eNodeB_4.png",
     "img/mo/eNodeB.png","img/mo/eNodeB_1.png","img/mo/eNodeB_2.png","img/mo/eNodeB_3.png","img/mo/eNodeB_4.png"
 ];
-
+/**
+ * 初始化窗口组件
+ * @param dom topo外层包裹
+ * @param scene topo图层对象
+ */
 function init(dom,scene){
     var wrap=getWrap(dom,"qtopo-windows");
     var commonWrap=getWrap(wrap,"qtopo-windows-common");

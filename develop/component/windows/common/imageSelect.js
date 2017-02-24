@@ -6,7 +6,11 @@ var util=require("../util.js");
 module.exports={
     init:init
 };
-
+/**
+ * 公用的图片选择窗口
+ * @param images
+ * @returns {*}窗口的Jquery对象 包含open函数，函数返回一个延迟函数，在确认按钮点击后释放
+ */
 function init(images){
     temp=$(temp);
     var body=temp.find(".modal-body");
@@ -39,7 +43,7 @@ function init(images){
     temp.open=function(){
         deferred=$.Deferred();
         temp.modal('show');
-        return deferred;
+        return deferred.promise();
     };
     return temp;
 }

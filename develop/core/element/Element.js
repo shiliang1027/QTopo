@@ -203,14 +203,14 @@ Element.prototype._setAttr = function (config) {
 };
 /**对象links属性内的所有线进行切换
  *@links node/container的links属性
- * @fn 'show'/'hide'方法名
+ * @fnName 'show'/'hide'方法名
  */
-function toggle(links, fn) {
+function toggle(links, fnName) {
     try{
         $.each(links,function(name,arr){
-            for (var i = 0; i < arr.length; i++) {
-                arr[i][fn]();
-            }
+            arr.forEach(function(item){
+                item[fnName]();
+            });
         })
     }catch (e){
         console.error("切换隐藏/显示时错误",e);

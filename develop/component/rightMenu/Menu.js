@@ -36,6 +36,10 @@ Menu.prototype.init=function(scene){
         self.body.hide();
     });
 };
+/**
+ * 在菜单中添加子栏目
+ * @param options 应包含name 菜单名,可选：click点击后处理事件filter 过滤条件
+ */
 Menu.prototype.addItem=function(options){
     if(options){
         var item=$("<li><a>"+options.name+"</a></li>");
@@ -51,6 +55,11 @@ Menu.prototype.addItem=function(options){
         });
     }
 };
+/**
+ * 在菜单中添加子菜单栏,返回新Menu对象，可迭代添加
+ * @param options 应包含name 菜单名，可选：click点击后处理事件filter 过滤条件
+ * @returns {Menu}
+ */
 Menu.prototype.addSubMenu=function(options){
     if(options){
         var item=$("<li class='subMenu'><a>"+options.name+"</a></li>");
@@ -69,6 +78,11 @@ Menu.prototype.addSubMenu=function(options){
         return subMenu;
     }
 };
+/**
+ * 过滤显示的菜单栏
+ * @param array 保存的菜单栏列表
+ * @param target 触发的对象
+ */
 function showItem(array, target){
     $.each(array, function (i, v) {
         if ($.isFunction(v.filter) && v.type == 'item') {

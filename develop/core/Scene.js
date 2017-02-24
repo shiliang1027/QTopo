@@ -348,10 +348,12 @@ Scene.prototype.toggleZIndex = function (element, flag) {
             var map = scene.zIndexMap[jtopo.zIndex];
             var index = map.indexOf(jtopo);
             if (!flag) {
+                //提升层次
                 map.push(map[index]);
                 map.splice(index, 1);
 
             } else {
+                //降低层次
                 map.splice(0, 0, map[index]);
                 map.splice(index + 1, 1);
             }
