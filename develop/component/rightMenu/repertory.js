@@ -1,10 +1,10 @@
 /**
  * Created by qiyc on 2017/2/17.
  */
-function getMenus(windows) {
+function getMenus(menu,scene,windows) {
     return {
         item: {
-            DEBUG: function (menu) {
+            DEBUG: function () {
                 return {
                     name: "Debug",
                     click: function (e) {
@@ -14,30 +14,30 @@ function getMenus(windows) {
                     }
                 }
             },
-            DELETE: function (menu) {
+            DELETE: function () {
                 return {
                     name: '删除对象',
                     click: function () {
-                        menu.scene.remove(menu.target);
+                        scene.remove(menu.target);
                     },
                     filter: function (target) {
                         return target.getType() != QTopo.constant.SCENE;
                     }
                 }
             },
-            UPZINDEX: function (menu) {
+            UPZINDEX: function () {
                 return {
                     name: "提升层级",
                     click: function () {
-                        menu.scene.toggleZIndex(menu.target);
+                        scene.toggleZIndex(menu.target);
                     }
                 }
             },
-            DOWNZINDEX: function (menu) {
+            DOWNZINDEX: function () {
                 return {
                     name: "降低层级",
                     click: function () {
-                        menu.scene.toggleZIndex(menu.target, true);
+                        scene.toggleZIndex(menu.target, true);
                     }
                 }
             }
@@ -45,7 +45,7 @@ function getMenus(windows) {
         subMenu: [{
             name: "节点操作",
             item: {
-                CREATE: function (menu) {
+                CREATE_IMAGE_NODE: function () {
                     return {
                         name: "创建图片节点",
                         click: function () {
@@ -58,7 +58,7 @@ function getMenus(windows) {
                         }
                     }
                 },
-                EDIT: function (menu) {
+                EDIT_IMAGE_NODE: function () {
                     return {
                         name: "修改图片节点",
                         click: function () {
@@ -71,6 +71,35 @@ function getMenus(windows) {
                         },
                         filter: function (target) {
                             return target && target.getType() == QTopo.constant.NODE && target.getUseType() == QTopo.constant.node.IMAGE;
+                        }
+                    }
+                },
+                CREATE_TEXT_NODE:function(){
+                    return {
+                        name: "创建文字节点",
+                        click: function () {
+                            if (windows && windows.node && windows.node.text) {
+                                windows.node.text.open({
+                                    type: "create",
+                                    position: [menu.x, menu.y]
+                                });
+                            }
+                        }
+                    }
+                },
+                EDIT_TEXT_NODE: function () {
+                    return {
+                        name: "修改文字节点",
+                        click: function () {
+                            if (windows && windows.node && windows.node.text) {
+                                windows.node.text.open({
+                                    type: "edit",
+                                    target: menu.target
+                                });
+                            }
+                        },
+                        filter: function (target) {
+                            return target && target.getType() == QTopo.constant.NODE && target.getUseType() == QTopo.constant.node.TEXT;
                         }
                     }
                 }

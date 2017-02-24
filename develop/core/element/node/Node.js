@@ -27,10 +27,10 @@ Node.prototype.setColor = function (color) {
 };
 Node.prototype.setName=function(name){
     if(name){
-        if (this.attr.textPosition != "hide") {
-            this.jtopo.text = name;
+        if (this.attr.namePosition != "hide") {
+            this.jtopo.text = name.trim();
         }
-        this.attr.name = name;
+        this.attr.name = name.trim();
     }
 };
 Node.prototype.getLinks=function(){

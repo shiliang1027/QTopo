@@ -8,9 +8,9 @@ module.exports={
 };
 var defaultAttr={
     name:"",
-    color:"255,255,255",
-    nameSize:14,
-    textPosition:"bottom",
+    fontColor:"255,255,255",
+    fontSize:14,
+    namePosition:"bottom",
     size:70,
     image:""
 };
@@ -32,7 +32,7 @@ function main(dom, scene, imageSelect){
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
         doWithForm(win.todo,scene,data);
-        win.trigger("window.close");
+        win.close();
     });
     //绑定图片选择框
     doWithImageSelect(win,imageSelect);
@@ -51,7 +51,7 @@ function initEvent(dom,win){
                     editWindow(win,data.target);
                     break;
                 default:
-                    console.error("invalid type of imageWindow,open function need to config like { type:'create' or 'edit'}");
+                    console.error("invalid type of imageNodeWindow,open function need to config like { type:'create' or 'edit'}");
                     if(win.todo){
                         //错误开启窗口，则仅警告且什么也不做
                         delete win.todo;
@@ -59,7 +59,7 @@ function initEvent(dom,win){
             }
         }else{
             win.find(".panel-title").html("图片节点");
-            console.error("invalid open imageWindow");
+            console.error("invalid open imageNodeWindow");
         }
         util.defaultPosition(dom,win);
         win.show();
@@ -90,10 +90,10 @@ function doWithForm(config, scene, data){
                     position:config.position,
                     name:data.name,
                     font:{
-                        color:data.color,
-                        size:data.nameSize
+                        color:data.fontColor,
+                        size:data.fontSize
                     },
-                    textPosition:data.textPosition,
+                    namePosition:data.namePosition,
                     size:[data.size,data.size],
                     image:data.image
                 });
@@ -103,10 +103,10 @@ function doWithForm(config, scene, data){
                     config.target.set({
                         name:data.name,
                         font:{
-                            color:data.color,
-                            size:data.nameSize
+                            color:data.fontColor,
+                            size:data.fontSize
                         },
-                        textPosition:data.textPosition,
+                        namePosition:data.namePosition,
                         size:[data.size,data.size],
                         image:data.image
                     });
@@ -117,7 +117,7 @@ function doWithForm(config, scene, data){
 }
 function createWindow(win,position){
     if(!position){
-        console.error("invalid open imageWindow,need set position to create");
+        console.error("invalid open imageNodeWindow,need set position to create");
     }
     win.todo={
         type:"create",
@@ -127,7 +127,7 @@ function createWindow(win,position){
 }
 function editWindow(win,target){
     if(!target){
-        console.error("invalid open imageWindow,need set target to edit");
+        console.error("invalid open imageNodeWindow,need set target to edit");
     }
     win.todo={
         type:"edit",
@@ -137,9 +137,9 @@ function editWindow(win,target){
     util.setFormInput(win.find("form"),{
         position:attr.position,
         name:attr.name,
-        color:attr.font.color,
-        nameSize:attr.font.size,
-        textPosition:attr.textPosition,
+        fontColor:attr.font.color,
+        fontSize:attr.font.size,
+        namePosition:attr.namePosition,
         size:attr.size[0],
         image:attr.image
     });

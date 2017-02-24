@@ -7,12 +7,9 @@ module.exports={
     init:main
 };
 var defaultAttr={
-    name:"",
-    color:"255,255,255",
-    nameSize:14,
-    textPosition:"bottom",
-    size:70,
-    image:""
+    text:"",
+    fontColor:"255,255,255",
+    fontSize:20
 };
 /**
  * 初始化文字节点的属性操作窗口
@@ -31,7 +28,7 @@ function main(dom, scene){
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
         doWithForm(win.todo,scene,data);
-        win.trigger("window.close");
+        win.close();
     });
     return win;
 }
@@ -40,20 +37,20 @@ function initEvent(dom,win){
         if(data){
             switch (data.type){
                 case "create":
-                    createWindow(win,data.position);
+                    openCreateWindow(win,data.position);
                     break;
                 case "edit":
-                    editWindow(win,data.target);
+                    openEditWindow(win,data.target);
                     break;
                 default:
-                    console.error("invalid type of imageWindow,open function need to config like { type:'create' or 'edit'}");
+                    console.error("invalid type of textNodeWindow,open function need to config like { type:'create' or 'edit'}");
                     if(win.todo){
                         //错误开启窗口，则仅警告且什么也不做
                         delete win.todo;
                     }
             }
         }else{
-            console.error("invalid open imageWindow");
+            console.error("invalid open textNodeWindow");
         }
         util.defaultPosition(dom,win);
         win.show();
@@ -62,43 +59,37 @@ function initEvent(dom,win){
         win.hide();
     });
 }
-
 function doWithForm(config, scene, data){
     if(config){
         switch (config.type){
             case "create":
                 scene.createNode({
+                    type:"text",
                     position:config.position,
-                    name:data.name,
+                    text:data.text,
                     font:{
-                        color:data.color,
-                        size:data.nameSize
-                    },
-                    textPosition:data.textPosition,
-                    size:[data.size,data.size],
-                    image:data.image
+                        color:data.fontColor,
+                        size:data.fontSize
+                    }
                 });
                 break;
             case "edit":
-                if(config.target&&config.target.getUseType()==QTopo.constant.node.IMAGE){
+                if(config.target&&config.target.getUseType()==QTopo.constant.node.TEXT){
                     config.target.set({
-                        name:data.name,
+                        text:data.text,
                         font:{
-                            color:data.color,
-                            size:data.nameSize
-                        },
-                        textPosition:data.textPosition,
-                        size:[data.size,data.size],
-                        image:data.image
+                            color:data.fontColor,
+                            size:data.fontSize
+                        }
                     });
                 }
                 break;
         }
     }
 }
-function createWindow(win,position){
+function openCreateWindow(win, position){
     if(!position){
-        console.error("invalid open imageWindow,need set position to create");
+        console.error("invalid open textNodeWindow,need set position to create");
     }
     win.todo={
         type:"create",
@@ -106,9 +97,9 @@ function createWindow(win,position){
     };
     util.setFormInput(win.find("form"),defaultAttr)
 }
-function editWindow(win,target){
+function openEditWindow(win, target){
     if(!target){
-        console.error("invalid open imageWindow,need set target to edit");
+        console.error("invalid open textNodeWindow,need set target to edit");
     }
     win.todo={
         type:"edit",
@@ -116,13 +107,8 @@ function editWindow(win,target){
     };
     var attr=target.attr;
     util.setFormInput(win.find("form"),{
-        position:attr.position,
-        name:attr.name,
-        color:attr.font.color,
-        nameSize:attr.font.size,
-        textPosition:attr.textPosition,
-        size:attr.size[0],
-        image:attr.image
+        text:attr.text,
+        fontColor:attr.font.color,
+        fontSize:attr.font.size
     });
-    win.find(".image-select-group img").attr("src",attr.image);
 }

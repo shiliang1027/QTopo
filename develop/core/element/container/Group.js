@@ -23,7 +23,7 @@ var defaults = function () {
         },
         size:[0,0],
         position:[0,0],
-        textPosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
+        namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
         layout: "",
         children:{
             showLink: false,

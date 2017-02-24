@@ -2,15 +2,15 @@
  * Created by qiyc on 2017/2/7.
  */
 
-var Node=require("./Node.js");
+var Node = require("./Node.js");
 module.exports = TextNode;
-var defaults =function(){
+var defaults = function () {
     return {
-        position:[0,0],
-        font:{
-            size:16,
+        position: [0, 0],
+        font: {
+            size: 16,
             type: '微软雅黑',
-            color:"255,255,255"
+            color: "255,255,255"
         },
         zIndex: 200,//层级(10-999)
         alpha: 1,
@@ -20,50 +20,49 @@ var defaults =function(){
 };
 //一般节点
 function TextNode(config) {
-    Node.call(this,new JTopo.TextNode());
+    Node.call(this, new JTopo.TextNode());
     //函数
-    this.attr= QTopo.util.extend(defaults(), config || {});
+    this.attr = QTopo.util.extend(defaults(), config || {});
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
     reset(this);
 }
-QTopo.util.inherits(TextNode,Node);
+QTopo.util.inherits(TextNode, Node);
 function setJTopo(config) {
     if (config) {
         //处理一般属性的设置
+        if (!config.text) {
+            config.text = "not set text";
+        }
         this._setAttr(config);
     }
 }
 //重写源码
-function reset(node){
+function reset(node) {
     //支持自动换行
     node.jtopo.paint = function (a) {
         //自动换行
         var texts = this.text.split("\n");
         a.beginPath();
         a.font = this.font;
-        var fontWidth=a.measureText("田").width;
+        var fontWidth = a.measureText("田").width;
         this.width = 0;
-        if(texts.length>1){
-            for(var j=0;j<texts.length;j++){
-                var width=a.measureText(texts[j]).width;
-                if( width>this.width){
-                    this.width=width;
-                }
+        for (var j = 0; j < texts.length; j++) {
+            var width = a.measureText(texts[j]).width;
+            if (width > this.width) {
+                this.width = width;
             }
-        }else{
-            this.width=a.measureText(texts).width;
         }
-        this.height = texts.length*fontWidth;
+        this.height = texts.length * fontWidth;
         a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
         a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
-        if(texts.length>1){
-            for(var i=0;i<texts.length;i++){
-                a.fillText(texts[i], -this.width/2, fontWidth*(i-1)+5);
+        if (texts.length > 1) {
+            for (var i = 0; i < texts.length; i++) {
+                a.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
             }
-        }else{
-            a.fillText(texts, -this.width/2, 5);
+        } else {
+            a.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
         }
         a.closePath();
         this.paintBorder(a);

@@ -24,31 +24,43 @@ function initRigheMenu(dom,scene,windows){
     if(!windows){
         console.error("windows is not init ,menu options about windows may not work");
     }
-    var menus=getMenus(windows);
+    var menus=getMenus(rightMenu,scene,windows);
     $.each(menus.item,function(name,fn){
         var menu=fn(rightMenu);//按钮获取父对象
-        rightMenu.addItem({
-            name:menu.name,
-            click:menu.click,
-            filter:menu.filter
-        });
+        if(menu){
+            rightMenu.addItem({
+                name:menu.name,
+                click:menu.click,
+                filter:menu.filter
+            });
+        }else{
+            console.error(name+" invalid menu define");
+        }
     });
     if($.isArray(menus.subMenu)){
-        $.each(menus.subMenu,function(i,v){
-            var subMenu=rightMenu.addSubMenu({
-                name: v.name,
-                click:v.click,
-                filter:v.filter
-            });
-            if(v.item){
-                $.each(v.item,function(j,item){
-                    var menu=item(rightMenu);//按钮获取父对象
-                    subMenu.addItem({
-                        name:menu.name,
-                        click:menu.click,
-                        filter:menu.filter
-                    });
+        $.each(menus.subMenu,function(i,sub){
+            if(sub){
+                var subMenu=rightMenu.addSubMenu({
+                    name: sub.name,
+                    click:sub.click,
+                    filter:sub.filter
                 });
+                if(sub.item){
+                    $.each(sub.item,function(name,item){
+                        var menu=item(rightMenu);//按钮获取父对象
+                        if(menu){
+                            subMenu.addItem({
+                                name:menu.name,
+                                click:menu.click,
+                                filter:menu.filter
+                            });
+                        }else{
+                            console.error(name+" invalid menu define in subMenu "+sub.name);
+                        }
+                    });
+                }
+            }else{
+                console.error("index: "+i+" is invalid subMenu define");
             }
         });
     }

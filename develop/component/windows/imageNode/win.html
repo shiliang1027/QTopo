@@ -10,13 +10,13 @@
             <div class="form-group">
                 <label class="w-label">名称</label>
                 <div class=" w-width">
-                    <input name="name" type="text" class="form-control" placeholder="节点名">
+                    <textarea class="form-control" rows="2" name="name" placeholder="节点名"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="w-label">文字大小</label>
                 <div class=" w-width">
-                    <input name="nameSize" type="number" class="form-control" placeholder="名称字体大小">
+                    <input name="fontSize" type="number" class="form-control" placeholder="名称字体大小">
                 </div>
             </div>
             <div class="form-group">
@@ -24,7 +24,7 @@
                     名称位置
                 </label>
                 <div class=" w-width">
-                    <select name="textPosition" class="form-control w-width">
+                    <select name="namePosition" class="form-control w-width">
                         <option value="top">上</option>
                         <option value="bottom">下</option>
                         <option value="left">左</option>
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label class="w-label">文字颜色</label>
                 <div class="input-group w-width">
-                    <input type="text" name="color" class="form-control color-selected" readonly="true">
+                    <input type="text" name="fontColor" class="form-control color-selected" readonly="true">
                     <span class="input-group-btn">
                         <button class="btn btn-default select-color-btn" type="button" data-toggle="dropdown"><span class='glyphicon glyphicon-search'></span></button>
                         <ul class="dropdown-menu select-color">
@@ -57,7 +57,7 @@
             <div class='form-group image-select-group'>
                 <label class='w-label'>图标<img src=''></label>
                 <div class='w-width'>
-                    <input name="image" class="form-control" value="" title="" readonly="true">
+                    <input name="image" class="form-control" value="" title="" readonly="true" required="true">
                     <button class="btn btn-default" type="button" data-toggle="dropdown"><span class='glyphicon glyphicon-search'></span></button>
                 </div>
             </div>

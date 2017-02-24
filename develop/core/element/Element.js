@@ -3,22 +3,51 @@
  */
 module.exports = Element;
 function Element(jtopo) {
-    if(jtopo){
-        this.jtopo=jtopo;
-        jtopo.qtopo=this;
+    if (jtopo) {
+        this.jtopo = jtopo;
+        jtopo.qtopo = this;
         reset(this);
     }
 }
-function reset(element){
+function reset(element) {
     //同步位置属性
-    var preSetLocation=element.jtopo.setLocation;
-    element.jtopo.setLocation=function (a, b) {
-        if(this.qtopo&&this.qtopo.attr&&this.qtopo.attr.position){
-            this.qtopo.attr.position[0]=a;
-            this.qtopo.attr.position[1]=b;
+    var preSetLocation = element.jtopo.setLocation;
+    element.jtopo.setLocation = function (a, b) {
+        if (this.qtopo && this.qtopo.attr && this.qtopo.attr.position) {
+            this.qtopo.attr.position[0] = a;
+            this.qtopo.attr.position[1] = b;
         }
-        preSetLocation.call(this,a, b);
+        preSetLocation.call(this, a, b);
         return this;
+    };
+    //线或链接不需要重写
+    if(element.getType!==QTopo.constant.LINK||element.getType!==QTopo.constant.LINE){
+        //名称换行，布局居中
+        element.jtopo.paintText = function (a) {
+            var text = this.text;
+            if (null != text && "" != text) {
+                a.beginPath();
+                a.font = this.font;
+                var fontWidth = a.measureText("田").width;
+                var maxWidth = fontWidth;
+                a.fillStyle = "rgba(" + this.fontColor + ",1)"; //", " + this.alpha + ")";名称永远不透明
+                //换行检测
+                var texts = text.split("\n");
+                for (var i = 0; i < texts.length; i++) {
+                    var width = a.measureText(texts[i]).width;
+                    if (width > maxWidth) {
+                        maxWidth = width;
+                    }
+                }
+                var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth);
+                for(var j = 0; j < texts.length; j++){
+                    var textWidth=a.measureText(texts[j]).width;
+                    a.fillText(texts[j], e.x+(maxWidth-textWidth)/2, e.y+j*fontWidth);
+                }
+
+                a.closePath();
+            }
+        };
     }
 }
 Element.prototype.show = function () {
@@ -45,15 +74,15 @@ Element.prototype.hide = function () {
             toggleLink.call(this, false);
     }
 };
-Element.prototype.setUseType=function(type){
-    this.attr.useType=type;
+Element.prototype.setUseType = function (type) {
+    this.attr.useType = type;
 };
-Element.prototype.getUseType=function(){
+Element.prototype.getUseType = function () {
     return this.attr.useType;
 };
 Element.prototype.setText = function (text) {
     if (text) {
-        this.jtopo.text = text;
+        this.jtopo.text = text.trim();
     }
     this.attr.text = this.jtopo.text;
 };
@@ -100,7 +129,7 @@ Element.prototype.setFont = function (font) {
         if (font.type) {
             type = font.type;
         }
-        this.jtopo.font = (size?size:14) + "px " + type;
+        this.jtopo.font = (size ? size : 14) + "px " + type;
         if (font.color) {
             this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
         }
@@ -126,9 +155,9 @@ Element.prototype.setPosition = function (position) {
     }
 };
 Element.prototype.setSize = function (size) {
-    if ($.isArray(size) &&$.isNumeric(size[0])&&$.isNumeric(size[1])) {
+    if ($.isArray(size) && $.isNumeric(size[0]) && $.isNumeric(size[1])) {
         this.jtopo.setSize(parseInt(size[0]), parseInt(size[1]));
-    }else{
+    } else {
         this.jtopo.setSize(64, 64);
     }
     this.attr.size = [this.jtopo.width, this.jtopo.height];
@@ -139,50 +168,50 @@ Element.prototype.setDragable = function (dragable) {
     }
     this.attr.dragable = this.jtopo.dragable;
 };
-Element.prototype.setTextPosition = function (textPosition) {
+Element.prototype.setNamePosition = function (namePosition) {
     var jtopo = this.jtopo;
     jtopo.text = this.attr.name || "";
-    switch (textPosition) {
+    switch (namePosition) {
         case 'hide':
             jtopo.text = '';
-            this.attr.textPosition = "hide";
+            this.attr.namePosition = "hide";
             break;
         case 'bottom':
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
             jtopo.textPosition = "Bottom_Center";
-            this.attr.textPosition = "bottom";
+            this.attr.namePosition = "bottom";
             break;
         case 'top':
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
             jtopo.textPosition = "Top_Center";
-            this.attr.textPosition = "top";
+            this.attr.namePosition = "top";
             break;
         case 'left':
             jtopo.textOffsetX = -5;
             jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Left";
-            this.attr.textPosition = "left";
+            this.attr.namePosition = "left";
             break;
         case 'right':
             jtopo.textOffsetX = 5;
             jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Right";
-            this.attr.textPosition = "right";
+            this.attr.namePosition = "right";
             break;
         case "center":
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Center";
-            this.attr.textPosition = "center";
+            this.attr.namePosition = "center";
             break;
         default:
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
             jtopo.textPosition = 'Bottom_Center';
-            this.attr.textPosition = "bottom";
-            console.error(this, "set wrong textPosition,default is bottom");
+            this.attr.namePosition = "bottom";
+            console.error(this, "set wrong namePosition,default is bottom");
             break;
     }
 };
@@ -206,26 +235,26 @@ Element.prototype._setAttr = function (config) {
  * @fnName 'show'/'hide'方法名
  */
 function toggle(links, fnName) {
-    try{
-        $.each(links,function(name,arr){
-            arr.forEach(function(item){
+    try {
+        $.each(links, function (name, arr) {
+            arr.forEach(function (item) {
                 item[fnName]();
             });
         })
-    }catch (e){
-        console.error("切换隐藏/显示时错误",e);
+    } catch (e) {
+        console.error("切换隐藏/显示时错误", e);
     }
 }
 //线的显示只有当其两端节点都显示时才显示
 function toggleLink(flag) {
-    if(flag){
+    if (flag) {
         if (this.path.start.jtopo && this.path.end.jtopo) {
             if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {
                 this.jtopo.visible = true;
                 this.attr.show = this.jtopo.visible;
             }
         }
-    }else{
+    } else {
         this.jtopo.visible = false;
         this.attr.show = this.jtopo.visible;
     }
@@ -233,13 +262,13 @@ function toggleLink(flag) {
 function toggleNode(flag) {
     this.jtopo.visible = flag;
     this.attr.show = this.jtopo.visible;
-    var string=flag?"show":"hide";
+    var string = flag ? "show" : "hide";
     toggle(this.links, string);
 }
 function toggleContainer(flag) {
     this.jtopo.visible = flag;
     this.attr.show = this.jtopo.visible;
-    var string=flag?"show":"hide";
+    var string = flag ? "show" : "hide";
     //切换子类显示隐藏
     for (var i = 0; i < this.children.length; i++) {
         this.children[i][string]();

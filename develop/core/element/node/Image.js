@@ -22,7 +22,7 @@ var defaults = function () {
         },
         zIndex: 200,//层级(10-999)
         color: JTopo.util.randomColor(),
-        textPosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
+        namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
         useType: QTopo.constant.node.IMAGE,
         alarm: {
             show: false,

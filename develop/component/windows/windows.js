@@ -3,8 +3,11 @@
  */
 require("./common/style.css");
 require("./windows.css");
-var imageNode = require("./imageNode/win.js");
+//-----
 var imageSelect = require("./common/imageSelect.js");
+//-----
+var imageNode = require("./imageNode/win.js");
+var textNode=require("./textNode/win.js");
 module.exports = {
     init: init
 };
@@ -54,10 +57,14 @@ function initPrivateWin(wrap,tools,dom,scene){
     var nodeWrap = getWrap(wrap, "qtopo-windows-node");
     var imageNodeWin = imageNode.init(dom, scene, tools.imageSelect);
     nodeWrap.append(imageNodeWin);
+
+    var textNodeWin= textNode.init(dom, scene);
+    nodeWrap.append(textNodeWin);
     //---
     return {
         node:{
-            image:imageNodeWin
+            image:imageNodeWin,
+            text:textNodeWin
         }
     }
 }
