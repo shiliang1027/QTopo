@@ -37,9 +37,11 @@ function initEvent(dom,win){
         if(data){
             switch (data.type){
                 case "create":
+                    win.find(".panel-title").html("创建文本节点");
                     openCreateWindow(win,data.position);
                     break;
                 case "edit":
+                    win.find(".panel-title").html("修改文本节点");
                     openEditWindow(win,data.target);
                     break;
                 default:
@@ -50,6 +52,7 @@ function initEvent(dom,win){
                     }
             }
         }else{
+            win.find(".panel-title").html("文本节点非正常打开");
             console.error("invalid open textNodeWindow");
         }
         util.defaultPosition(dom,win);

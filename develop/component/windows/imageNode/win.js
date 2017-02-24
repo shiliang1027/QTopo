@@ -8,7 +8,6 @@ module.exports={
 };
 var defaultAttr={
     name:"",
-    fontColor:"255,255,255",
     fontSize:14,
     namePosition:"bottom",
     size:70,
@@ -58,7 +57,7 @@ function initEvent(dom,win){
                     }
             }
         }else{
-            win.find(".panel-title").html("图片节点");
+            win.find(".panel-title").html("图片节点非正常打开");
             console.error("invalid open imageNodeWindow");
         }
         util.defaultPosition(dom,win);
@@ -90,7 +89,6 @@ function doWithForm(config, scene, data){
                     position:config.position,
                     name:data.name,
                     font:{
-                        color:data.fontColor,
                         size:data.fontSize
                     },
                     namePosition:data.namePosition,
@@ -103,7 +101,6 @@ function doWithForm(config, scene, data){
                     config.target.set({
                         name:data.name,
                         font:{
-                            color:data.fontColor,
                             size:data.fontSize
                         },
                         namePosition:data.namePosition,
@@ -137,7 +134,6 @@ function editWindow(win,target){
     util.setFormInput(win.find("form"),{
         position:attr.position,
         name:attr.name,
-        fontColor:attr.font.color,
         fontSize:attr.font.size,
         namePosition:attr.namePosition,
         size:attr.size[0],

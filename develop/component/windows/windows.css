@@ -9,6 +9,9 @@
     text-overflow:ellipsis;
     overflow: hidden;
 }
+.qtopo-windows textarea{
+    resize: none;
+}
 .qtopo-windows .form-group{
     position: relative;
     height: 40px;
@@ -93,4 +96,14 @@
 .qtopo-windows .submit-group{
     display: table;
     margin: auto;
+}
+.qtopo-windows .checkbox-wrap{
+    margin-right: 6px;
+    display: inline-block;
+}
+.qtopo-windows .checkbox-wrap input{
+    margin: 0;
+}
+.qtopo-windows .checkbox-wrap div{
+    margin-top: -20px;
 }

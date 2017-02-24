@@ -1,17 +1,17 @@
 /**
  * Created by qiyc on 2017/2/21.
  */
-    var mutex=[];
-var util={
+var mutex = [];
+var util = {
     /**
      * 根据窗口以及topo包裹外壳的高度确认窗口的默认位置
      * @param dom topo外层包裹
      * @param win 设定高度的窗口
      */
-    defaultPosition:function(dom,win){
+    defaultPosition: function (dom, win) {
         win.css({
-            top:($(dom).height()-$(win).height())/2,
-            left:0
+            top: ($(dom).height() - $(win).height()) / 2,
+            left: 0
         });
     },
     /**基于Bootstrap下拉列表的颜色选择框绑定
@@ -19,8 +19,12 @@ var util={
      */
     initColorSelect: function (win) {
         //被控制的下拉列表中的div,用以插入颜色按钮
-        win.find("[name=color_palette]").colorPalette().on('selectColor', function (e) {
-            win.find(".color-selected").val(e.color);//选中颜色按钮后将值赋予的input框
+        win.find("[name=color_palette]").each(function(){
+            var self=$(this);
+            var input=self.closest(".input-group").find(".color-selected");
+            self.colorPalette().on('selectColor', function (e) {
+                input.val(e.color);//选中颜色按钮后将值赋予的input框
+            });
         });
     },
     /**
@@ -48,7 +52,7 @@ var util={
      * @param dom form表单的jquery对象
      * @param json 对象中的键对应表单中的name，自动将值赋上
      */
-    setFormInput:function(dom,json){
+    setFormInput: function (dom, json) {
         dom.setForm(json);
     },
     /**
@@ -56,31 +60,40 @@ var util={
      * @dom topo存在的包裹dom,用以注册包裹空间内窗口移动
      * @win 需要初始化的窗口
      */
-    initBase:function(dom, win){
+    initBase: function (dom, win) {
         win.hide();
-        var head=win.find(".panel-heading");
-        head.find(".close").click(function(e){
+        var head = win.find(".panel-heading");
+        head.find(".close").click(function (e) {
             win.trigger("window.close");
         });
         //窗体可移动
-        moveAble(dom, win,head);
+        moveAble(dom, win, head);
         //窗口互斥
         mutex.push(win);
-        win.on("window.open",function () {
+        win.on("window.open", function () {
             $.each(mutex, function (i, v) {
-                if (win != v&& v.css("display")!="none") {
+                if (win != v && v.css("display") != "none") {
                     v.trigger("window.close");
                 }
             });
         });
         //提供api触发窗口开关
-        win.close=function(data){
-            win.trigger("window.close",data);
+        var name = head.text().trim();
+        win.close = function (data) {
+            try {
+                win.trigger("window.close", data);
+            } catch (e) {
+                console.error("window close error : " + name,e);
+            }
         };
-        win.open=function(data){
-            win.trigger("window.open",data);
+        win.open = function (data) {
+            try {
+                win.trigger("window.open", data);
+            } catch (e) {
+                console.error("window open error : " + name,e);
+            }
         };
-        function moveAble(dom, win,head) {
+        function moveAble(dom, win, head) {
             win.movement = false;
             head.mousedown(function (e) {
                 win.movePageX = e.pageX - win.offset().left;
@@ -104,7 +117,7 @@ var util={
      * @win 待清理的窗口
      */
     clearWin: function (win) {
-        var inputs=win.find("input");
+        var inputs = win.find("input");
         for (var i = 0; i < inputs.length; i++) {
             inputs.val('');
         }
@@ -113,7 +126,7 @@ var util={
      * 封装统一的jquery-niceScroll插件的设定值
      * @param win 需要添加滚动条的窗口
      */
-    addScroll:function(win){
+    addScroll: function (win) {
         $(win).niceScroll({
             cursorcolor: "#659ae6",//滚动滑块颜色
             cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0

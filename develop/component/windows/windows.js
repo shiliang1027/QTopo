@@ -8,6 +8,7 @@ var imageSelect = require("./common/imageSelect.js");
 //-----
 var imageNode = require("./imageNode/win.js");
 var textNode=require("./textNode/win.js");
+var linkAttr=require("./link/win.js");
 module.exports = {
     init: init
 };
@@ -57,15 +58,18 @@ function initPrivateWin(wrap,tools,dom,scene){
     var nodeWrap = getWrap(wrap, "qtopo-windows-node");
     var imageNodeWin = imageNode.init(dom, scene, tools.imageSelect);
     nodeWrap.append(imageNodeWin);
-
+    //---
     var textNodeWin= textNode.init(dom, scene);
     nodeWrap.append(textNodeWin);
     //---
+    var linkWin=linkAttr.init(dom, scene);
+    nodeWrap.append(linkWin);
     return {
         node:{
             image:imageNodeWin,
             text:textNodeWin
-        }
+        },
+        link:linkWin
     }
 }
 function getWrap(dom, clazz) {

@@ -54,10 +54,10 @@ $.fn.setForm = function (jsonValue) {
                 }
             });
         }
-        else if ($oinput.attr("type") == "textarea") {
+        else if ($oinput.attr("type") == "textarea"&&ival) {
             obj.find("[name=" + name + "]").html(ival);
         }
-        else {
+        else if(ival){
             obj.find("[name=" + name + "]").val(ival);
         }
     })
