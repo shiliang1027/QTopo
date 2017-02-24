@@ -28,11 +28,6 @@ function init(images){
     util.addScroll(body);
     //------
     var deferred;
-    temp.open=function(){
-        deferred=$.Deferred();
-        temp.modal('show');
-        return deferred;
-    };
     //点击确认按钮后用选中图片释放延迟函数
     temp.find("button").on("click",function(){
         if(deferred&&deferred.state()=="pending"){
@@ -40,6 +35,12 @@ function init(images){
         }
         temp.modal('hide');
     });
+    //暴露的接口
+    temp.open=function(){
+        deferred=$.Deferred();
+        temp.modal('show');
+        return deferred;
+    };
     return temp;
 }
 function imageButton(src){

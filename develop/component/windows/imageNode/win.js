@@ -12,7 +12,7 @@ var defaultAttr={
     color:"255,255,255",
     nameSize:14,
     textPosition:"bottom",
-    size:100,
+    size:70,
     image:""
 };
 function main(dom, scene, imageSelect){
@@ -25,10 +25,11 @@ function main(dom, scene, imageSelect){
     util.initColorSelect(win.find(".color-selected"),win.find("[name=color_palette]"));
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
-        subBtn(win,scene,data);
+        doWithForm(win.todo,scene,data);
+        win.trigger("window.close");
     });
     //绑定图片选择框
-    bindImage(win,imageSelect);
+    doWithImageSelect(win,imageSelect);
     return win;
 }
 function initEvent(win){
@@ -52,7 +53,7 @@ function initEvent(win){
     });
 }
 
-function bindImage(win,imageSelect){
+function doWithImageSelect(win, imageSelect){
     var btn=win.find(".image-select-group button");
     var input=win.find(".image-select-group input");
     var img=win.find(".image-select-group img");
@@ -65,13 +66,12 @@ function bindImage(win,imageSelect){
     });
 }
 
-function subBtn(win,scene,data){
-    var todo=win.todo;
-    if(todo){
-        switch (todo.type){
+function doWithForm(config, scene, data){
+    if(config){
+        switch (config.type){
             case "create":
                 scene.createNode({
-                    position:todo.position,
+                    position:config.position,
                     name:data.name,
                     font:{
                         color:data.color,
@@ -83,8 +83,8 @@ function subBtn(win,scene,data){
                 });
                 break;
             case "edit":
-                if(todo.target&&todo.target.getUseType()==QTopo.constant.node.IMAGE){
-                    todo.target.set({
+                if(config.target&&config.target.getUseType()==QTopo.constant.node.IMAGE){
+                    config.target.set({
                         name:data.name,
                         font:{
                             color:data.color,
@@ -98,7 +98,6 @@ function subBtn(win,scene,data){
                 break;
         }
     }
-    win.trigger("window.close");
 }
 function createWindow(win,position){
     win.todo={
