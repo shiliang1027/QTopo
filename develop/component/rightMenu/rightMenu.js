@@ -3,7 +3,7 @@
  */
 require("./rightMenu.css");
 var Menu=require("./Menu.js");
-var fns=require("./repertory.js");//右键菜单函数仓库
+var getMenus=require("./repertory.js");//右键菜单函数仓库
 module.exports = {
         init:initRigheMenu
 };
@@ -11,8 +11,9 @@ module.exports = {
  * 从函数仓库中取数据构造菜单栏
  * @param dom topo的包裹外壳
  * @param scene topo图层
+ * @param windows 可能操作到的窗口
  */
-function initRigheMenu(dom,scene){
+function initRigheMenu(dom,scene,windows){
     var wrap=$(dom).find(".qtopo-rightMenu");
     if(wrap.length==0){
         wrap=$("<div class='qtopo-rightMenu'></div>");
@@ -20,7 +21,11 @@ function initRigheMenu(dom,scene){
     }
     var rightMenu=new Menu(wrap);
     rightMenu.init(scene);
-    $.each(fns.item,function(name,fn){
+    if(!windows){
+        console.error("windows is not init ,menu options about windows may not work");
+    }
+    var menus=getMenus(windows);
+    $.each(menus.item,function(name,fn){
         var menu=fn(rightMenu);//按钮获取父对象
         rightMenu.addItem({
             name:menu.name,
@@ -28,8 +33,8 @@ function initRigheMenu(dom,scene){
             filter:menu.filter
         });
     });
-    if($.isArray(fns.subMenu)){
-        $.each(fns.subMenu,function(i,v){
+    if($.isArray(menus.subMenu)){
+        $.each(menus.subMenu,function(i,v){
             var subMenu=rightMenu.addSubMenu({
                 name: v.name,
                 click:v.click,

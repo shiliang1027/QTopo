@@ -13,7 +13,7 @@ $(document).ready(function () {
     }
 });
 function init(instance) {
-    rightMenu.init(instance.document, instance.scene);
-    toolBar.init(instance.document, instance.scene);
-    windows.init(instance.document, instance.scene);
+    var wins=windows.init(instance);
+    rightMenu.init(instance.document, instance.scene,wins);
+    toolBar.init(instance.document, instance.scene,wins);
 }

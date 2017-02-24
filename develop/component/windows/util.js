@@ -15,12 +15,12 @@ var util={
         });
     },
     /**基于Bootstrap下拉列表的颜色选择框绑定
-     * @input 选中颜色按钮后将值赋予的input框
-     * @div 被控制的下拉列表中的div,用以插入颜色按钮
+     * @win 初始化的窗口
      */
-    initColorSelect: function (input, div) {
-        div.colorPalette().on('selectColor', function (e) {
-            input.val(e.color);
+    initColorSelect: function (win) {
+        //被控制的下拉列表中的div,用以插入颜色按钮
+        win.find("[name=color_palette]").colorPalette().on('selectColor', function (e) {
+            win.find(".color-selected").val(e.color);//选中颜色按钮后将值赋予的input框
         });
     },
     /**
@@ -52,7 +52,7 @@ var util={
         dom.setForm(json);
     },
     /**
-     * 初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动
+     * 初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化
      * @dom topo存在的包裹dom,用以注册包裹空间内窗口移动
      * @win 需要初始化的窗口
      */

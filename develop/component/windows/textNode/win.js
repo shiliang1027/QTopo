@@ -15,13 +15,12 @@ var defaultAttr={
     image:""
 };
 /**
- * 初始化图片节点的属性操作窗口
+ * 初始化文字节点的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层
- * @param imageSelect 需要支持的一般窗口组件
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene, imageSelect){
+function main(dom, scene){
     var win=$(temp);
     //注册窗口打开和关闭事件
     initEvent(dom,win);
@@ -34,8 +33,6 @@ function main(dom, scene, imageSelect){
         doWithForm(win.todo,scene,data);
         win.trigger("window.close");
     });
-    //绑定图片选择框
-    doWithImageSelect(win,imageSelect);
     return win;
 }
 function initEvent(dom,win){
@@ -43,11 +40,9 @@ function initEvent(dom,win){
         if(data){
             switch (data.type){
                 case "create":
-                    win.find(".panel-title").html("创建图片节点");
                     createWindow(win,data.position);
                     break;
                 case "edit":
-                    win.find(".panel-title").html("修改图片节点");
                     editWindow(win,data.target);
                     break;
                 default:
@@ -58,7 +53,6 @@ function initEvent(dom,win){
                     }
             }
         }else{
-            win.find(".panel-title").html("图片节点");
             console.error("invalid open imageWindow");
         }
         util.defaultPosition(dom,win);
@@ -66,19 +60,6 @@ function initEvent(dom,win){
     });
     win.on("window.close",function(e,data){
         win.hide();
-    });
-}
-
-function doWithImageSelect(win, imageSelect){
-    var btn=win.find(".image-select-group button");
-    var input=win.find(".image-select-group input");
-    var img=win.find(".image-select-group img");
-    btn.click(function(){
-        imageSelect.open().then(function(data){
-            input.val(data);
-            input.attr("title",data);
-            img.attr("src",data);
-        });
     });
 }
 
