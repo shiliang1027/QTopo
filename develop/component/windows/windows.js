@@ -7,6 +7,7 @@ require("./windows.css");
 var imageSelect = require("./tools/imageSelect.js");
 var confirm=require("./tools/confirm.js");
 var tips=require("./tools/tips.js");
+var progress=require("./tools/progress.js");
 //-----设置类窗口
 var imageNode = require("./imageNode/win.js");
 var textNode=require("./textNode/win.js");
@@ -56,13 +57,16 @@ function initToolsWindow(wrap,dom,scene){
     var imageSelectWin = imageSelect.init(images);
     var confirmWin=confirm.init(dom);
     var tipsWin=tips.init(scene);
+    var progressWin=progress.init();
     commonWrap.append(imageSelectWin);
     commonWrap.append(confirmWin);
     commonWrap.append(tipsWin);
+    commonWrap.append(progressWin);
     return{
         imageSelect:imageSelectWin,
         confirm:confirmWin,
-        tips:tipsWin
+        tips:tipsWin,
+        progress:progressWin
     }
 }
 function initPrivateWin(wrap,tools,dom,scene){

@@ -47,6 +47,7 @@
             background: "img/bg1.jpg"
         });
         var tools=QTopo.component(topo);
+        tools.progress.open({now: 10, text: '10%'});
         tools.tips.open(function(target){
             return "<div>"+target.attr.name+"</div>"+"<div>"+target.id+"</div>"
         },function(target){
@@ -99,6 +100,7 @@
                 });
             });
         });
+        tools.progress.open({now: 100, text: '100%'});
         function getTopoData(data, alarm) {
             //这部分是构造数据，怎么获取数据自己定义，只要调用topo对象的setOption方法塞入对应的数据就行
             alarm = QTopo.util.toJson(alarm);

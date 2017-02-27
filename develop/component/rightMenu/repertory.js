@@ -64,23 +64,6 @@ function getMenus(menu, scene, windows,tools) {
                     }
                 }
             },
-            TEST: function () {
-                return {
-                    name: "测试",
-                    click: function (e) {
-                        tools.confirm.open({
-                            title:"确认",
-                            content:"<div>hahahah</div>",
-                            ok:function(){
-                                console.info("ok");
-                            },
-                            cancel:function(){
-                                console.info("cancel");
-                            }
-                        });
-                    }
-                }
-            },
             EDIT: function () {
                 return {
                     name: "编辑",
@@ -110,7 +93,17 @@ function getMenus(menu, scene, windows,tools) {
                 return {
                     name: '删除',
                     click: function () {
-                        scene.remove(menu.target);
+                        tools.confirm.open({
+                            title:"删除确认",
+                            content:"确认删除？",
+                            width:200,
+                            ok:function(){
+                                scene.remove(menu.target);
+                            },
+                            cancel:function(){
+                                console.info("cancel");
+                            }
+                        });
                     },
                     filter: function (target) {
                         return target.getType() != QTopo.constant.SCENE;

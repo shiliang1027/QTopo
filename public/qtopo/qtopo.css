@@ -82,6 +82,21 @@
 .qtopo-windows .tools-tips .panel-body{
     display: inline-block;
     padding:0;
+}
+.qtopo-windows .tools-progress{
+    top:40%;
+}
+.qtopo-windows .tools-progress .modal-content,.qtopo-windows .tools-progress .progress{
+    height:30px;
+    border-radius: 15px;
+}
+.qtopo-windows .tools-progress .progress-bar{
+    font-size: 20px;
+    line-height: 30px;
+    height:100%;
+}
+.qtopo-windows .tools-confirm .modal-dialog{
+    margin-top: 30%;
 }.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */

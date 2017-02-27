@@ -11,15 +11,17 @@ function init(dom){
     var title = temp.find('.modal-title');
     var okBtn = temp.find('.ok');
     var cancelBtn = temp.find('.cancel');
-    var cssMaker = temp.find('.modal-content');//窗体大小和位置只有修改content才有效
+    var cssMaker = temp.find('.modal-dialog');//窗体大小和位置只有修改content才有效
     var deferred;
     temp.open=function(config){
         temp.removeAttr("style");
         if(config.content){
             body.html(config.content);
         }
-        if(config.css){
-            temp.css(config.css);
+        if($.isNumeric(config.width)){
+            cssMaker.css({
+                width:config.width+"px"
+            });
         }
         if(config.title){
             title.html(config.title);
