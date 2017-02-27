@@ -58,18 +58,27 @@
                 //正式绘制topo图，传入参数绘图,setOption 接受2个参数，第一个为图的绘制，第2个为boolean类型,true则清空当前图重绘，false则在原图上添加,默认为false
                 topo.setOption({
                     node: {
-                        exprop: ["id", "pid", "alarmId"],//exprop属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
+                        style:{
+                            size:[60,60],
+                            image: "img/node.png",
+                            font:{
+                            }
+                        },
+                        extra: ["id", "pid", "alarmId"],//exprop属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
                         data: myData.node //数组，每个成员为一个节点
                     },
                     container: {
+                        style:{
+
+                        },
                         children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的exprop中有配置
-                        exprop: ["id", "pid"],
+                        extra: ["id", "pid"],
                         data: myData.container//数组 每个成员为一个分组，成员的data属性表明要检索的属性对应的子，如children设定为id,那么data数组内的数据该是对应的id值以查找
                         // 分组中可单独设置children属性指明该分组按什么属性查找插入的子。
                     },
                     link: {
                         path: ["id"],//决定了线的起始节点由什么属性决定,数组长度为1则起始节点按统一属性查找，可分别设不同，0为起始节点属性.1为终点,该属性应在node中的exprop中有配置
-                        exprop: ["pid"],
+                        extra: ["pid"],
                         data: myData.link//数组，每个成员表明一条线，线的start和end的值应对应path中的设定
                     },
                     alarm: {
@@ -101,13 +110,10 @@
             var nodeData = [];
             $.each(node, function (i, v) {
                 var newNode = {
-                    size:[64,64],
                     name: v["@name"],
-                    image: "img/node.png",
                     position: [parseInt(v["@x"]) + fixX, parseInt(v["@y"]) + fixY],
                     id: v["@id"],
                     pid: v["@pid"]
-
                 };
                 if (v.p) {
                     $.each(v.p, function (i, v) {
@@ -121,9 +127,7 @@
             //添加object数据到节点里
             var object = data.WebTopo.NetView.Objects.Object;
             nodeData.push({
-                size:[64,64],
                 name: object["@name"],
-                image: "img/node.png",
                 position: [parseInt(object["@x"]) + fixX, parseInt(object["@y"]) + fixY],
                 id: object["@id"],
                 pid: object["@pid"]

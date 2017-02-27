@@ -14,6 +14,7 @@ var QTopo = {
 };
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
+require("./core/tools.js");//加载scene的工具api
 QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
@@ -62,19 +63,43 @@ function initCanvas(dom, width, height) {
     canvas.style['-webkit-tap-highlight-color'] = 'rgba(0, 0, 0, 0)';
     return canvas;
 }
+function setBaseStyle(base,set){
+    if(base){
+        deep(base,set);
+    }
+    return set;
+
+    function deep(base,set){
+        $.each(base,function(key,value){
+            if(typeof value=="object"){
+                if(!set[key]){
+                    set[key]={}
+                }
+                deep(value,set[key]);
+            }else
+            if(!set[key]){
+                set[key]=value;
+            }
+        });
+    }
+}
+function setExtra(list,element,data){
+    if ($.isArray(list)&&element&&data) {
+        $.each(list, function (j, key) {
+            if (data[key]) {
+                element[key] = data[key];
+            }
+        });
+    }
+}
 function createNode(scene, config) {
     if (config) {
         if ($.isArray(config.data)) {
-            $.each(config.data, function (i, v) {
-                var node = scene.createNode(v);
+            $.each(config.data, function (i, item) {
+                var set=setBaseStyle(config.style,item);
+                var node = scene.createNode(set);
                 //额外属性添加
-                if ($.isArray(config.exprop)) {
-                    $.each(config.exprop, function (j, key) {
-                        if (v[key]) {
-                            node[key] = v[key];
-                        }
-                    });
-                }
+                setExtra(config.extra,node,item);
             });
         }
     }
@@ -100,25 +125,20 @@ function createContainer(scene, config) {
         }
         if ($.isArray(config.data)) {
             //开始构造分组
-            $.each(config.data, function (i, cData) {
+            $.each(config.data, function (i, item) {
                 //无论是否有子元素，分组先创造出来
-                var container = scene.createContainer(cData);
+                var set=setBaseStyle(config.style,item);
+                var container = scene.createContainer(set);
                 //额外属性添加
-                if ($.isArray(config.exprop)) {
-                    $.each(config.exprop, function (j, key) {
-                        if (cData[key]) {
-                            container[key] = cData[key];
-                        }
-                    });
-                }
+                setExtra(config.extra,container,item);
                 //确定查找子元素的标记
                 var findChild_exact = findChild;
-                if (cData.children) {
-                    findChild_exact = cData.children;
+                if (item.children) {
+                    findChild_exact = item.children;
                 }
                 //查找子元素并塞入
                 if (findChild_exact) {
-                    $.each(cData.data, function (j, children) {
+                    $.each(item.data, function (j, children) {
                         var child = scene.find(findChild_exact + "=" + children);
                         if (child && child.length > 0) {
                             $.each(child, function (m, one) {
@@ -152,34 +172,30 @@ function createLink(scene, config) {
                 findEnd = path[1];
             }
             if ($.isArray(config.data)) {
-                $.each(config.data, function (i, v) {
+                $.each(config.data, function (i, item) {
                     var link;
                     //根据确定的条件进行搜索
-                    var start = notCasual(scene.find(findStart + "=" + v.start));
-                    var end = notCasual(scene.find(findEnd + "=" + v.end));
+                    var start = notCasual(scene.find(findStart + "=" + item.start));
+                    var end = notCasual(scene.find(findEnd + "=" + item.end));
                     if (start && end) {
-                        v.start = start;
-                        v.end = end;
-                        link = scene.createLink(v);
+                        item.start = start;
+                        item.end = end;
+                        var set=setBaseStyle(config.style,item);
+                        link = scene.createLink(set);
                         //额外属性添加
-                        if (link && $.isArray(config.exprop)) {
-                            $.each(config.exprop, function (j, key) {
-                                if (v[key]) {
-                                    link[key] = v[key];
-                                }
-                            });
-                        }
+                        setExtra(config.extra,link,item);
                     } else {
-                        console.error("some link path invalid : " + i, v);
+                        console.error("some link path invalid : " + i, item);
                         if (!start) {
-                            console.error("start not found : ", v.start);
+                            console.error("start not found : ", item.start);
                         }
                         if (!end) {
-                            console.error("end not found : ", v.end);
+                            console.error("end not found : ", item.end);
                         }
                     }
                 });
             }
+
         } else {
             console.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
         }
@@ -191,13 +207,7 @@ function createLine(scene, config){
             $.each(config.data,function(i,v){
                 var line = scene.createLine(v);
                 //额外属性添加
-                if (line && $.isArray(config.exprop)) {
-                    $.each(config.exprop, function (j, key) {
-                        if (v[key]) {
-                            line[key] = v[key];
-                        }
-                    });
-                }
+                setExtra(config.extra,line,v);
             });
         } else {
             console.error("can not draw line,need config 'path' and 'path' is Array and not empty,path's element need config x y, path used to find start and end");
@@ -216,7 +226,7 @@ function drawAlarm(scene, config) {
                     alarmNodes.push({
                         node: node,
                         alarm: {
-                            show: typeof v.show == "boolean" ? v.show : v.show =="true",
+                            show: typeof v.show == "boolean" ? v.show : true,
                             text: v.text,
                             color: v.color,
                             font: v.font

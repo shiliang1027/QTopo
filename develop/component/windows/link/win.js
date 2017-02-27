@@ -100,7 +100,6 @@ function doWithForm(config, scene, data) {
     if (config) {
         switch (config.type) {
             case "create":
-                debugger;
                 var set=getSet(data);
                 if(!data.type){
                     set.type="direct";

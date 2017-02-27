@@ -55,6 +55,18 @@ function Scene(stage, config) {
     });
 }
 //scan 格式 aaa=bb,ccc=dd条件之间以,分隔
+Scene.prototype.setBackGround = function (background) {
+    this.jtopo.background = background;
+    this.attr.background = background;
+};
+Scene.prototype.setMode = function (mode) {
+    if(["normal","edit","drag","select"].indexOf(mode)>-1){
+        this.attr.mode = mode;
+        this.jtopo.mode = mode;
+    }else{
+        console.error("set wrong mode :",mode);
+    }
+};
 Scene.prototype.clear = function () {
     console.info("scene clear");
     this.children = {
@@ -127,6 +139,7 @@ Scene.prototype.find = function (scan, type) {
         return object[key] && object[key] == value;
     }
 };
+//---------
 function addJTopo(element) {
     try {
         this.jtopo.add(element.jtopo);
@@ -231,6 +244,7 @@ Scene.prototype.createContainer = function (config) {
         return false;
     }
 };
+//---------
 Scene.prototype.remove = function (element) {
     if (element && element.jtopo) {
         switch (element.getType()) {
@@ -329,40 +343,5 @@ function removeContainer(container) {
         console.error("Scene removeContainer error", e);
     }
 }
-Scene.prototype.goCenter = function () {
-    this.jtopo.stage.centerAndZoom();
-};
-Scene.prototype.setMode = function (mode) {
-    this.attr.mode = mode;
-    this.jtopo.mode = mode;
-};
-Scene.prototype.setBackGround = function (background) {
-    this.jtopo.background = background;
-    this.attr.background = background;
-};
-Scene.prototype.toggleZIndex = function (element, flag) {
-    if (element) {
-        var jtopo = element.jtopo;
-        var scene = this.jtopo;
-        if (jtopo && scene) {
-            var map = scene.zIndexMap[jtopo.zIndex];
-            var index = map.indexOf(jtopo);
-            if (!flag) {
-                //提升层次
-                map.push(map[index]);
-                map.splice(index, 1);
+//----------
 
-            } else {
-                //降低层次
-                map.splice(0, 0, map[index]);
-                map.splice(index + 1, 1);
-            }
-        }
-    }
-};
-Scene.prototype.getCenter = function () {
-    return this.jtopo.getCenterLocation();
-};
-Scene.prototype.getSelected = function () {
-    return this.jtopo.selectedElements;
-};

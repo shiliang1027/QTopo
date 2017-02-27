@@ -27,8 +27,6 @@ var util = {
         }
         function deep(attr, config) {
             $.each(attr, function (key, value) {
-                if(base.arrow&&key=="size"){
-                }
                 if (attr[key]&&typeof attr[key] == "object" && typeof config[key] == "object") {
                     if ($.isArray(attr[key]) && $.isArray(config[key])) {
                         attr[key] = config[key];
@@ -207,14 +205,16 @@ var util = {
     },
     //闪烁
     nodeFlash: function (node, n) {
-        if (n == 0) {
-            node.selected = false;
-            return;
+        if($.isNumeric(n)){
+            if (n == 0) {
+                node.selected = false;
+                return;
+            }
+            node.selected = !node.selected;
+            setTimeout(function () {
+                util.nodeFlash(node, n - 1);
+            }, 300);
         }
-        node.selected = !node.selected;
-        setTimeout(function () {
-            util.nodeFlash(node, n - 1);
-        }, 300);
     },
     //图层平移到节点上
     nodeAsCenter: function (scene, node) {

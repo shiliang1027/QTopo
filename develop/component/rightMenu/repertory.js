@@ -2,10 +2,56 @@
  * Created by qiyc on 2017/2/17.
  */
 function getMenus(menu, scene, windows) {
-    var link={
-        start:"",
-        end:""
+    var link = {
+        start: "",
+        end: ""
     };
+
+    function editImageNode() {
+        if (windows && windows.node && windows.node.image) {
+            windows.node.image.open({
+                type: "edit",
+                target: menu.target
+            });
+        }
+    }
+
+    function createImageNode() {
+        if (windows && windows.node && windows.node.image) {
+            windows.node.image.open({
+                type: "create",
+                position: [menu.x, menu.y]
+            });
+        }
+    }
+
+    function editTextNode() {
+        if (windows && windows.node && windows.node.text) {
+            windows.node.text.open({
+                type: "edit",
+                target: menu.target
+            });
+        }
+    }
+
+    function createTextNode() {
+        if (windows && windows.node && windows.node.text) {
+            windows.node.text.open({
+                type: "create",
+                position: [menu.x, menu.y]
+            });
+        }
+    }
+
+    function editLink() {
+        if (windows && windows.node && windows.node.image) {
+            windows.link.open({
+                type: "edit",
+                target: menu.target
+            });
+        }
+    }
+
     return {
         item: {
             DEBUG: function () {
@@ -18,9 +64,34 @@ function getMenus(menu, scene, windows) {
                     }
                 }
             },
+            EDIT: function () {
+                return {
+                    name: "编辑",
+                    click: function () {
+                        switch (menu.target.getType()) {
+                            case QTopo.constant.NODE:
+                                switch (menu.target.getUseType()) {
+                                    case QTopo.constant.node.IMAGE:
+                                        editImageNode();
+                                        break;
+                                    case QTopo.constant.node.TEXT:
+                                        editTextNode();
+                                        break;
+                                }
+                                break;
+                            case QTopo.constant.LINK:
+                                editLink();
+                                break;
+                        }
+                    },
+                    filter: function (target) {
+                        return target &&target.getType() != QTopo.constant.SCENE&& target.getUseType() != QTopo.constant.CASUAL;
+                    }
+                }
+            },
             DELETE: function () {
                 return {
-                    name: '删除对象',
+                    name: '删除',
                     click: function () {
                         scene.remove(menu.target);
                     },
@@ -34,6 +105,9 @@ function getMenus(menu, scene, windows) {
                     name: "提升层级",
                     click: function () {
                         scene.toggleZIndex(menu.target);
+                    },
+                    filter:function(target){
+                        return target &&target.getType() != QTopo.constant.SCENE&& target.getUseType() != QTopo.constant.CASUAL;
                     }
                 }
             },
@@ -42,129 +116,74 @@ function getMenus(menu, scene, windows) {
                     name: "降低层级",
                     click: function () {
                         scene.toggleZIndex(menu.target, true);
+                    },
+                    filter:function(target){
+                        return target &&target.getType() != QTopo.constant.SCENE&& target.getUseType() != QTopo.constant.CASUAL;
                     }
                 }
             }
         },
         subMenu: [
             {
-                name: "节点操作",
+                name: "创建节点",
                 item: {
                     CREATE_IMAGE_NODE: function () {
                         return {
-                            name: "创建图片节点",
+                            name: "图片节点",
                             click: function () {
-                                if (windows && windows.node && windows.node.image) {
-                                    windows.node.image.open({
-                                        type: "create",
-                                        position: [menu.x, menu.y]
-                                    });
-                                }
-                            }
-                        }
-                    },
-                    EDIT_IMAGE_NODE: function () {
-                        return {
-                            name: "修改图片节点",
-                            click: function () {
-                                if (windows && windows.node && windows.node.image) {
-                                    windows.node.image.open({
-                                        type: "edit",
-                                        target: menu.target
-                                    });
-                                }
-                            },
-                            filter: function (target) {
-                                return target.getType() == QTopo.constant.NODE && target.getUseType() == QTopo.constant.node.IMAGE;
+                                createImageNode();
                             }
                         }
                     },
                     CREATE_TEXT_NODE: function () {
                         return {
-                            name: "创建文字节点",
+                            name: "文字节点",
                             click: function () {
-                                if (windows && windows.node && windows.node.text) {
-                                    windows.node.text.open({
-                                        type: "create",
-                                        position: [menu.x, menu.y]
-                                    });
-                                }
-                            }
-                        }
-                    },
-                    EDIT_TEXT_NODE: function () {
-                        return {
-                            name: "修改文字节点",
-                            click: function () {
-                                if (windows && windows.node && windows.node.text) {
-                                    windows.node.text.open({
-                                        type: "edit",
-                                        target: menu.target
-                                    });
-                                }
-                            },
-                            filter: function (target) {
-                                return target && target.getType() == QTopo.constant.NODE && target.getUseType() == QTopo.constant.node.TEXT;
+                                createTextNode();
                             }
                         }
                     }
+                },
+                filter: function (target) {
+                    return !target || target.getType() == QTopo.constant.SCENE;
                 }
             },
             {
-                name:"链接操作",
-                item:{
-                    SET_START:function(){
+                name: "创建链接",
+                item: {
+                    SET_START: function () {
                         return {
-                            name:"设为起点",
-                            click:function(){
-                                link.start=menu.target;
-                                if(link&&link.start&&link.end){
-                                    windows.link.open({
-                                        type:"create",
-                                        path:link
-                                    });
-                                    link={};
-                                }
-                            },
-                            filter:function(target){
-                                return target && (target.getType() == QTopo.constant.NODE ||target.getType() == QTopo.constant.CONTAINER)&&target.getUseType() != QTopo.constant.CASUAL;
-                            }
-                        }
-                    },
-                    SET_END:function(){
-                        return {
-                            name:"设为终点",
-                            click:function(){
-                                link.end=menu.target;
-                                if(link&&link.start&&link.end){
-                                    windows.link.open({
-                                        type:"create",
-                                        path:link
-                                    });
-                                    link={};
-                                }
-                            },
-                            filter:function(target){
-                                return target && (target.getType() == QTopo.constant.NODE ||target.getType() == QTopo.constant.CONTAINER)&&target.getUseType() != QTopo.constant.CASUAL;
-                            }
-                        }
-                    },
-                    EDIT_LINKS: function () {
-                        return {
-                            name: "修改链接",
+                            name: "设为起点",
                             click: function () {
-                                if (windows && windows.node && windows.node.image) {
+                                link.start = menu.target;
+                                if (link && link.start && link.end) {
                                     windows.link.open({
-                                        type: "edit",
-                                        target: menu.target
+                                        type: "create",
+                                        path: link
                                     });
+                                    link = {};
                                 }
-                            },
-                            filter: function (target) {
-                                return target.getType() == QTopo.constant.LINK&&target.getUseType() != QTopo.constant.CASUAL;
+                            }
+                        }
+                    },
+                    SET_END: function () {
+                        return {
+                            name: "设为终点",
+                            click: function () {
+                                link.end = menu.target;
+                                if (link && link.start && link.end) {
+                                    windows.link.open({
+                                        type: "create",
+                                        path: link
+                                    });
+                                    link = {};
+                                }
                             }
                         }
                     }
+                },
+                filter: function (target) {
+                    return target && (target.getType() == QTopo.constant.NODE || target.getType() == QTopo.constant.CONTAINER) && target.getUseType() != QTopo.constant.CASUAL;
                 }
             }
         ]
