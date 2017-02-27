@@ -17,7 +17,7 @@
     height: 40px;
     line-height: 35px;
 }
-.qtopo-windows .panel {
+.qtopo-windows-elements .panel {
     position: absolute;
     width: 300px;
 }
@@ -36,7 +36,7 @@
     right:0;
     top:0;
 }
-.qtopo-windows .panel-primary{
+.qtopo-windows .panel-primary,.qtopo-windows .modal-content{
     color: white;
     background: rgba(51, 122, 183, 0.8);
 }

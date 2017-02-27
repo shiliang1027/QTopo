@@ -1,11 +1,13 @@
 /**
  * Created by qiyc on 2017/2/20.
  */
-require("./common/style.css");
+require("./tools/style.css");
 require("./windows.css");
-//-----
-var imageSelect = require("./common/imageSelect.js");
-//-----
+//-----工具类窗口
+var imageSelect = require("./tools/imageSelect.js");
+var confirm=require("./tools/confirm.js");
+var tips=require("./tools/tips.js");
+//-----设置类窗口
 var imageNode = require("./imageNode/win.js");
 var textNode=require("./textNode/win.js");
 var linkAttr=require("./link/win.js");
@@ -41,7 +43,7 @@ var images = [
 function init(instance) {
     var wrap = getWrap(instance.document, "qtopo-windows");
     //公用窗口
-    var tools=initToolsWindow(wrap);
+    var tools=initToolsWindow(wrap,instance.document,instance.scene);
     //私有窗口
     var wins=initPrivateWin(wrap,tools,instance.document,instance.scene);
     return {
@@ -49,12 +51,18 @@ function init(instance) {
         tool:tools
     };
 }
-function initToolsWindow(wrap){
-    var commonWrap = getWrap(wrap, "qtopo-windows-common");
+function initToolsWindow(wrap,dom,scene){
+    var commonWrap = getWrap(wrap, "qtopo-windows-tools");
     var imageSelectWin = imageSelect.init(images);
+    var confirmWin=confirm.init(dom);
+    var tipsWin=tips.init(scene);
     commonWrap.append(imageSelectWin);
+    commonWrap.append(confirmWin);
+    commonWrap.append(tipsWin);
     return{
-        imageSelect:imageSelectWin
+        imageSelect:imageSelectWin,
+        confirm:confirmWin,
+        tips:tipsWin
     }
 }
 function initPrivateWin(wrap,tools,dom,scene){

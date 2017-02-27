@@ -1,7 +1,7 @@
 /**
  * Created by qiyc on 2017/2/17.
  */
-function getMenus(menu, scene, windows) {
+function getMenus(menu, scene, windows,tools) {
     var link = {
         start: "",
         end: ""
@@ -61,6 +61,23 @@ function getMenus(menu, scene, windows) {
                         if (menu.target) {
                             console.info(menu.target);
                         }
+                    }
+                }
+            },
+            TEST: function () {
+                return {
+                    name: "测试",
+                    click: function (e) {
+                        tools.confirm.open({
+                            title:"确认",
+                            content:"<div>hahahah</div>",
+                            ok:function(){
+                                console.info("ok");
+                            },
+                            cancel:function(){
+                                console.info("cancel");
+                            }
+                        });
                     }
                 }
             },

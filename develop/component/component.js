@@ -14,6 +14,7 @@ $(document).ready(function () {
 });
 function init(instance) {
     var wins=windows.init(instance);
-    rightMenu.init(instance.document, instance.scene,wins.win);
-    toolBar.init(instance.document, instance.scene,wins.win);
+    rightMenu.init(instance.document, instance.scene,wins);
+    toolBar.init(instance.document, instance.scene,wins);
+    return wins.tool;
 }
