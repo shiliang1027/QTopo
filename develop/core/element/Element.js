@@ -20,35 +20,6 @@ function reset(element) {
         preSetLocation.call(this, a, b);
         return this;
     };
-    //线或链接不需要重写
-    if(element.getType!==QTopo.constant.LINK||element.getType!==QTopo.constant.LINE){
-        //名称换行，布局居中
-        element.jtopo.paintText = function (a) {
-            var text = this.text;
-            if (null != text && "" != text) {
-                a.beginPath();
-                a.font = this.font;
-                var fontWidth = a.measureText("田").width;
-                var maxWidth = fontWidth;
-                a.fillStyle = "rgba(" + this.fontColor + ",1)"; //", " + this.alpha + ")";名称永远不透明
-                //换行检测
-                var texts = text.split("\n");
-                for (var i = 0; i < texts.length; i++) {
-                    var width = a.measureText(texts[i]).width;
-                    if (width > maxWidth) {
-                        maxWidth = width;
-                    }
-                }
-                var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth);
-                for(var j = 0; j < texts.length; j++){
-                    var textWidth=a.measureText(texts[j]).width;
-                    a.fillText(texts[j], e.x+(maxWidth-textWidth)/2, e.y+j*fontWidth);
-                }
-
-                a.closePath();
-            }
-        };
-    }
 }
 Element.prototype.show = function () {
     switch (this.getType()) {

@@ -216,7 +216,7 @@ function drawAlarm(scene, config) {
                     alarmNodes.push({
                         node: node,
                         alarm: {
-                            show: typeof v.show == "boolean" ? v.show : true,
+                            show: typeof v.show == "boolean" ? v.show : v.show =="true",
                             text: v.text,
                             color: v.color,
                             font: v.font

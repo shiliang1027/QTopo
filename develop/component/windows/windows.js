@@ -43,7 +43,11 @@ function init(instance) {
     //公用窗口
     var tools=initToolsWindow(wrap);
     //私有窗口
-    return initPrivateWin(wrap,tools,instance.document,instance.scene);
+    var wins=initPrivateWin(wrap,tools,instance.document,instance.scene);
+    return {
+        win:wins,
+        tool:tools
+    };
 }
 function initToolsWindow(wrap){
     var commonWrap = getWrap(wrap, "qtopo-windows-common");
@@ -55,7 +59,7 @@ function initToolsWindow(wrap){
 }
 function initPrivateWin(wrap,tools,dom,scene){
     //---node windows
-    var nodeWrap = getWrap(wrap, "qtopo-windows-node");
+    var nodeWrap = getWrap(wrap, "qtopo-windows-elements");
     var imageNodeWin = imageNode.init(dom, scene, tools.imageSelect);
     nodeWrap.append(imageNodeWin);
     //---

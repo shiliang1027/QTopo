@@ -70,7 +70,7 @@ function alarmAttr(jtopo,alarm,config){
     if(typeof config.show=="undefined"){
         config.show=alarm.show;
     }
-    if (typeof config.show=="boolean"&&config.show) {
+    if ((typeof config.show=="boolean"&&config.show)||(config.show=="true")) {
         jtopo.shadow = true;
         jtopo.alarm = config.text || "";
         alarm.text=jtopo.alarm;

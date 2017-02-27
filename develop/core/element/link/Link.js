@@ -34,14 +34,14 @@ Link.prototype.setColor = function (color) {
     }
     this.attr.color=this.jtopo.strokeColor;
 };
-Link.prototype.setNum = function (num) {
-    if ($.isNumeric(num)) {
-        if(num > 1){
-            this.jtopo.text = '(+' + num + ')';
+Link.prototype.setNumber = function (number) {
+    if ($.isNumeric(number)) {
+        if(number > 1){
+            this.jtopo.text = '(+' + number + ')';
         }else {
             this.jtopo.text = '';
         }
-        this.attr.num=num;
+        this.attr.number=number;
     }
 };
 Link.prototype.setWidth=function(width){
@@ -58,6 +58,8 @@ Link.prototype.setArrow = function(arrow){
     if(!this.attr.arrow){
         this.attr.arrow={};
     }
+    this.attr.arrow.start=typeof arrow.start=="boolean"?arrow.start:arrow.start=="true";
+    this.attr.arrow.end=typeof arrow.end=="boolean"?arrow.end:arrow.end=="true";
     this.attr.arrow.size=this.jtopo.arrowsRadius;
     this.attr.arrow.offset=this.jtopo.arrowsOffset;
 };

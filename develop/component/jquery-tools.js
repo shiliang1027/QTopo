@@ -38,7 +38,7 @@ $.fn.setForm = function (jsonValue) {
                 for (var i = 0; i < checkboxObj.length; i++) {
                     for (var j = 0; j < checkArray.length; j++) {
                         if (checkboxObj[i].value == checkArray[j]) {
-                            checkboxObj[i].click();
+                            $(checkboxObj[i]).attr("checked",true);
                         }
                     }
                 }

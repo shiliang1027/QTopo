@@ -2,6 +2,10 @@
  * Created by qiyc on 2017/2/17.
  */
 function getMenus(menu, scene, windows) {
+    var link={
+        start:"",
+        end:""
+    };
     return {
         item: {
             DEBUG: function () {
@@ -109,6 +113,42 @@ function getMenus(menu, scene, windows) {
             {
                 name:"链接操作",
                 item:{
+                    SET_START:function(){
+                        return {
+                            name:"设为起点",
+                            click:function(){
+                                link.start=menu.target;
+                                if(link&&link.start&&link.end){
+                                    windows.link.open({
+                                        type:"create",
+                                        path:link
+                                    });
+                                    link={};
+                                }
+                            },
+                            filter:function(target){
+                                return target && (target.getType() == QTopo.constant.NODE ||target.getType() == QTopo.constant.CONTAINER)&&target.getUseType() != QTopo.constant.CASUAL;
+                            }
+                        }
+                    },
+                    SET_END:function(){
+                        return {
+                            name:"设为终点",
+                            click:function(){
+                                link.end=menu.target;
+                                if(link&&link.start&&link.end){
+                                    windows.link.open({
+                                        type:"create",
+                                        path:link
+                                    });
+                                    link={};
+                                }
+                            },
+                            filter:function(target){
+                                return target && (target.getType() == QTopo.constant.NODE ||target.getType() == QTopo.constant.CONTAINER)&&target.getUseType() != QTopo.constant.CASUAL;
+                            }
+                        }
+                    },
                     EDIT_LINKS: function () {
                         return {
                             name: "修改链接",
@@ -118,7 +158,6 @@ function getMenus(menu, scene, windows) {
                                         type: "edit",
                                         target: menu.target
                                     });
-                                    //windows.link.open();
                                 }
                             },
                             filter: function (target) {
@@ -126,9 +165,6 @@ function getMenus(menu, scene, windows) {
                             }
                         }
                     }
-                },
-                filter:function(target){
-                    return target.getType() != QTopo.constant.SCENE&&target.getUseType() != QTopo.constant.CASUAL;
                 }
             }
         ]

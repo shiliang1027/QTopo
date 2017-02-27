@@ -6,14 +6,14 @@ module.exports = DirectLink;
 //直线
 var defaults =function(){
     return {
-        num: 1,
+        number: 1,
         alpha:1,
         color: '22,124,255',
         arrow:{
             size:null,
             offset:0,
             start:false,
-            end:true
+            end:false
         },
         gap:20,
         width: 2,
