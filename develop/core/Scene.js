@@ -23,8 +23,6 @@ module.exports = Scene;
 //画布对象
 var defaults = function () {
     return {
-        name: '',
-        path: [],
         mode: "normal",
         background: ""
     };
@@ -137,6 +135,12 @@ Scene.prototype.find = function (scan, type) {
 
     function equal(object, key, value) {
         return object[key] && object[key] == value;
+    }
+};
+Scene.prototype.getOrigin=function(){
+    return {
+        x: 0 - this.jtopo.translateX,
+        y: 0 - this.jtopo.translateY
     }
 };
 //---------

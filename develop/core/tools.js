@@ -116,4 +116,92 @@ Scene.prototype.toggleLight = function (target) {
         }
     }
 };
+Scene.prototype.moveToNode = function (node) {
+    var location = node.jtopo.getCenterLocation();
+    // 查询到的节点居中显示
+    if (this.children.node.indexOf(node) > -1) {
+        this.resize(1);
+        this.jtopo.setCenter(location.x, location.y);
+        // 闪烁几下
+        nodeFlash(node.jtopo, 5);
+    }
+    function nodeFlash(node,num){
+        if($.isNumeric(num)){
+            if (num == 0) {
+                node.selected = false;
+            }else{
+                node.selected = !node.selected;
+                setTimeout(function () {
+                    nodeFlash(node, num - 1);
+                }, 300);
+            }
+        }
+    }
+};
+/**
+ * 自动布局
+ * @param config 参数
+ */
+Scene.prototype.autoLayout = function (config) {
+    debugger;
+    if (config && config.type) {
+        var needSort = [];
+        var jtopos = [];
+        this.children.node.forEach(function (v) {
+            if (!v.parent) {
+                needSort.push(v);
+                jtopos.push(v.jtopo);
+            }
+        });
+        switch (config.type) {
+            case "round":
+                layout_round(this.jtopo, jtopos);
+                break;
+            case "default":
+                layout_default(needSort, parseInt(config.rows), parseInt(config.rowSpace), parseInt(config.columnSpace), this.getOrigin());
+                break;
+        }
+    }
+};
+function layout_round(scene, jtopos) {
+    JTopo.layout.circleLayoutNodes(jtopos, {animate: {time: 1000}});
+}
+function layout_default(elements, rows, rowSpace, columnSpace, begin) {
+    $.each(elements.sort(function (a, b) {
+        return getDegree(b) - getDegree(a);
+    }), function (i, v) {
+        //v.setLocation(begin.x + (i % rows) * columnSpace, begin.y);
+        move(v, begin.x + (i % rows) * columnSpace, begin.y);
+        if ((i + 1) % rows == 0) {
+            begin.y += rowSpace;
+        }
+    });
+}
+//-------工具函数
+//获取节点的度
+function getDegree(node) {
+    return node.links.in.length + node.links.out.length;
+}
+//移动动画
+function move(node, targetX, targetY) {
+    targetX = parseInt(targetX);
+    targetY = parseInt(targetY);
+    var x = node.attr.position[0];
+    var y = node.attr.position[1];
+    var partX = parseInt((targetX - x)) / 10;
+    var partY = parseInt((targetY - y)) / 10;
+    var temp = setInterval(function () {
+        if (Math.abs(targetX - x) > 1) {
+            x += partX;
+        }
+        if (Math.abs(targetY - y) > 1) {
+            y += partY;
+        }
+        node.setPosition([parseInt(x), parseInt(y)]);
+        if (Math.abs(targetX - x) <= 1 && Math.abs(targetY - y) <= 1) {
+            clearInterval(temp);
+        }
+    }, 100);
+}
+//--------
 module.exports = Scene;

@@ -3,15 +3,19 @@
  */
 $(document).ready(function () {
     //使用QTopo先用init生成一个QTopo对象，要传入一个设好长宽的dom
-    var topo = QTopo.init(document.getElementById("topo_base"), {
-        background: "img/bg1.jpg"
-    });
+    var topo = QTopo.init(document.getElementById("topo_base"));
+    //可激活组件部分，包含右键菜单，工具条，窗口
     var tools=QTopo.component(topo);
     tools.progress.open({now: 10, text: '10%'});
+    //设置鼠标提示框显示内容，以及响应的元素
     tools.tips.open(function(target){
         return "<div>"+target.attr.name+"</div>"+"<div>"+target.id+"</div>"
     },function(target){
         return target.getType()==QTopo.constant.NODE;
+    });
+    //自动设置大小
+    $(window).resize(function(){
+        topo.resize();
     });
     //init返回一个QTopo对象，可用该对象的setOption方法绘图
     var dataUrl="./data/data.json";

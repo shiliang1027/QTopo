@@ -70,6 +70,7 @@ function getMenus(menu, scene, windows,tools) {
                 return {
                     name:"test",
                     click:function(e){
+                        windows.autoLayout.open();
                     }
                 }
             },

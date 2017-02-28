@@ -192,39 +192,6 @@ var util = {
             if (o === undefined) return "Undefined";
             return Object.prototype.toString.call(o).slice(8, -1);
         }
-    },
-    /** 操作节点的选中和未选中状态闪烁节点
-     * @param node 操作的节点
-     * @param n 闪烁次数
-     */
-    nodeFlash: function (node, n) {
-        if($.isNumeric(n)){
-            flash(n);
-        }
-        function flash(n){
-            if (n == 0) {
-                node.selected = false;
-            }else{
-                node.selected = !node.selected;
-                setTimeout(function () {
-                    flash(node, n - 1);
-                }, 300);
-            }
-        }
-    },
-    //图层平移到节点上
-    nodeAsCenter: function (scene, node) {
-        if (node) {
-            var location = node.getCenterLocation();
-            // 查询到的节点居中显示
-            if (scene.childs.indexOf(node) > -1) {
-                scene.scaleX = 1;
-                scene.scaleY = 1;
-                scene.setCenter(location.x, location.y);
-                // 闪烁几下
-                util.nodeFlash(node, 6);
-            }
-        }
     }
 };
 module.exports = util;

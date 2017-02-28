@@ -16,6 +16,9 @@ function init(dom) {
     var deferred;
     temp.open = function (config) {
         temp.removeAttr("style");
+        cssMaker.removeAttr("style");
+        config=config||{};
+
         if (config.content) {
             body.html(config.content);
         }

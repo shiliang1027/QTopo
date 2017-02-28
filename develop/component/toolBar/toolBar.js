@@ -51,7 +51,17 @@ function init(dom,scene){
     toolBar.find("button[name=export_image]").click(function(){
         scene.getPicture();
     });
-
+    var addMode=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"));
+    addMode({
+        type:"node",
+        name:"节点",
+        search:function(val){
+            var node=scene.find(val,"node");
+            if(node.length>0){
+                scene.moveToNode(node[0]);
+            }
+        }
+    });
 }
 function toggleClick(botton, aClass, bClass) {
     botton.click(function () {
@@ -63,4 +73,19 @@ function toggleClick(botton, aClass, bClass) {
             botton._isClick = false;
         }
     });
+}
+function addSearchMode(selectWin,searchBtn,input){
+    selectWin.mode={};
+    searchBtn.click(function(){
+        if(selectWin.val()){
+            var doSearch=selectWin.mode[selectWin.val()];
+            if($.isFunction(doSearch)){
+                doSearch(input.val());
+            }
+        }
+    });
+    return function(config){
+        selectWin.mode[config.type]=config.search;
+        selectWin.append("<option value='"+config.type+"'>"+config.name||config.type+"</option>");
+    }
 }

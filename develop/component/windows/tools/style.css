@@ -41,7 +41,7 @@
 .qtopo-windows .tools-progress .modal-dialog{
     width: 600px;
 }
-.qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
+.qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-view .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
     position: absolute;
     margin: 0;
 }

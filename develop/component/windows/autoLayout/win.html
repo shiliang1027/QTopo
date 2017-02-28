@@ -1,0 +1,66 @@
+<div class="panel panel-primary auto-layout">
+    <div class="panel-heading">
+        <span class="panel-title">自动布局</span>
+        <button type="button" class="close" aria-hidden="true">
+            &times;
+        </button>
+    </div>
+    <div class="panel-body">
+        <form>
+            <div class="form-group">
+                <label class="w-label">
+                    布局方式
+                </label>
+                <div class=" w-width">
+                    <select name="type" class="form-control w-width">
+                        <option value="default">自定义</option>
+                        <!--<option value="star">群星</option>-->
+                        <option value="round">环形</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">每行个数</label>
+                <div class=" w-width">
+                    <input name="rows" type="number" class="form-control w-width" title="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">行间距</label>
+                <div class=" w-width">
+                    <input name="rowSpace" type="number" class="form-control w-width" title="">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='w-label'>列间距</label>
+                <div class='w-width'>
+                    <input name="columnSpace" type="number" class="form-control w-width" title="">
+                </div>
+            </div>
+            <div class='form-group'>
+                <label class='w-label'>最小半径</label>
+                <div class='w-width'>
+                    <input name="radius" type="number" class="form-control w-width" title="">
+                </div>
+            </div>
+            <div class="form-group order">
+                <label class="w-label">
+                    排序
+                </label>
+                <div class=" w-width">
+                    <div class="checkbox-wrap">
+                        <input type="radio" name="order" value="asc">
+                        <div>升序</div>
+                    </div>
+                    <div class="checkbox-wrap">
+                        <input type="radio" name="order" value="des">
+                        <div>降序</div>
+                    </div>
+                </div>
+            </div>
+            <div class='submit-group'>
+                <button type="submit" class="btn btn-default">启用</button>
+            </div>
+        </form>
+    </div>
+</div>

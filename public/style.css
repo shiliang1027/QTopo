@@ -1,6 +1,11 @@
 #topo_base{
     width: 100%;
     height:800px;
+    background:url("./img/bg1.jpg") no-repeat;
+    -moz-background-size:cover;
+    -ms-background-size:cover;
+    -webkit-background-size:cover;
+    background-size:cover;
 }
 #alarm_detail{
     position: absolute;

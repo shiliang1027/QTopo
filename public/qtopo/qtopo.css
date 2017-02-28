@@ -6,7 +6,7 @@
     min-width: 120px;
 }
 .qtopo-rightMenu .dropdown-menu li{
-    font-size: 12px;
+    font-size: 13px;
     position: relative;
     cursor: pointer;
     height: 20px;
@@ -111,7 +111,7 @@
 .qtopo-windows .tools-progress .modal-dialog{
     width: 600px;
 }
-.qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
+.qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-view .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
     position: absolute;
     margin: 0;
 }.qtopo-windows{

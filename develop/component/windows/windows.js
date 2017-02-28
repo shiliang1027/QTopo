@@ -6,12 +6,14 @@ require("./windows.css");
 //-----工具类窗口
 var imageSelect = require("./tools/imageSelect.js");
 var confirm=require("./tools/confirm.js");
+var view=require("./tools/view.js");
 var tips=require("./tools/tips.js");
 var progress=require("./tools/progress.js");
 //-----设置类窗口
 var imageNode = require("./imageNode/win.js");
 var textNode=require("./textNode/win.js");
 var linkAttr=require("./link/win.js");
+var autoLayout=require("./autoLayout/win.js");
 module.exports = {
     init: init
 };
@@ -48,26 +50,29 @@ function init(instance) {
     //私有窗口
     var wins=initPrivateWin(wrap,tools,instance.document,instance.scene);
     return {
-        win:wins,
-        tool:tools
+        windows:wins,
+        tools:tools
     };
 }
 
 function initToolsWindow(wrap,dom,scene){
     var commonWrap = getWrap(wrap, "qtopo-windows-tools");
     var imageSelectWin = imageSelect.init(images);
-    var confirmWin=confirm.init(dom);
-    var tipsWin=tips.init(scene);
     var progressWin=progress.init(dom);
+    var confirmWin=confirm.init(dom);
+    var viewWin=view.init(dom);
+    var tipsWin=tips.init(scene);
     commonWrap.append(imageSelectWin);
-    commonWrap.append(confirmWin);
-    commonWrap.append(tipsWin);
     commonWrap.append(progressWin);
+    commonWrap.append(confirmWin);
+    commonWrap.append(viewWin);
+    commonWrap.append(tipsWin);
     return{
         imageSelect:imageSelectWin,
         confirm:confirmWin,
         tips:tipsWin,
-        progress:progressWin
+        progress:progressWin,
+        view:viewWin
     }
 }
 function initPrivateWin(wrap,tools,dom,scene){
@@ -81,14 +86,19 @@ function initPrivateWin(wrap,tools,dom,scene){
     //---
     var linkWin=linkAttr.init(dom, scene);
     nodeWrap.append(linkWin);
+    //---
+    var autoLayoutWin=autoLayout.init(dom, scene);
+    nodeWrap.append(autoLayoutWin);
     return {
         node:{
             image:imageNodeWin,
             text:textNodeWin
         },
-        link:linkWin
+        link:linkWin,
+        autoLayout:autoLayoutWin
     }
 }
+
 function getWrap(dom, clazz) {
     //添加外壳
     dom = $(dom);
