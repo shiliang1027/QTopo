@@ -7,7 +7,7 @@ var editBar=require("./editBar.html");
 module.exports={
     init:init
 };
-function init(dom,scene){
+function init(dom,scene,windows){
     var wrap=$(dom).find(".qtopo-toolBar");
     if(wrap.length==0){
         wrap=$("<div class='qtopo-toolBar'></div>");
@@ -50,6 +50,10 @@ function init(dom,scene){
     //导出png
     toolBar.find("button[name=export_image]").click(function(){
         scene.getPicture();
+    });
+    //自动布局
+    editBar.find("button[name=auto_layout]").click(function(){
+        windows.windows.autoLayout.open();
     });
     var addMode=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"));
     addMode({

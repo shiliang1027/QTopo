@@ -31,6 +31,8 @@ function main(dom, scene) {
     util.initBase(dom, win);
     //选择框切换
     initSelect(win);
+    //初始化颜色选择
+    util.initColorSelect(win);
     //劫持表单
     util.initFormSubmit(win.find("form"), function (data) {
         doWithForm(win.todo, scene, data);
@@ -124,6 +126,7 @@ function getSet(data) {
             start: data.arrow_start,
             end: data.arrow_end
         },
+        color:data.color,
         width: data.width,
         direction: data.direction,
         curveOffset: data.curveOffset,

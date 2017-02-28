@@ -39,7 +39,11 @@ $(document).ready(function () {
                 },
                 container: {
                     style:{
-
+                        color:"#165782",
+                        alpha:0.3,
+                        border:{
+                            radius:10
+                        }
                     },
                     children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的exprop中有配置
                     extra: ["id", "pid"],
@@ -47,6 +51,9 @@ $(document).ready(function () {
                     // 分组中可单独设置children属性指明该分组按什么属性查找插入的子。
                 },
                 link: {
+                    style:{
+                        color:"#00FFFF"
+                    },
                     path: ["id"],//决定了线的起始节点由什么属性决定,数组长度为1则起始节点按统一属性查找，可分别设不同，0为起始节点属性.1为终点,该属性应在node中的exprop中有配置
                     extra: ["pid"],
                     data: myData.link//数组，每个成员表明一条线，线的start和end的值应对应path中的设定
