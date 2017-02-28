@@ -66,6 +66,7 @@ function init(dom,scene,windows){
             }
         }
     });
+    return addMode;
 }
 function toggleClick(botton, aClass, bClass) {
     botton.click(function () {

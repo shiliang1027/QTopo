@@ -15,7 +15,10 @@ $(document).ready(function () {
 function init(instance) {
     var wins=windows.init(instance);
     rightMenu.init(instance.document, instance.scene,wins);
-    toolBar.init(instance.document, instance.scene,wins);
-    instance.tools=wins.tools;
-    return wins.tools;
+    var addSearch=toolBar.init(instance.document, instance.scene,wins);
+    instance.component={
+        tools:wins.tools,
+        addSearch:addSearch
+    };
+    return instance.component;
 }

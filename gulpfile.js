@@ -20,7 +20,7 @@ gulp.task('default', ['watch', 'serve']);
 //});
 var shell = require('gulp-shell');
 gulp.task('webpack', shell.task(['webpack --config webpack.config.js']));
-gulp.task('webpack-ready', shell.task(['webpack --config webpack.config.ready.js']));
+gulp.task('ready', shell.task(['webpack --config webpack.config.ready.js']));
 gulp.task('build', function(callback) {
     runSequence('webpack',"reload",callback);
 });
