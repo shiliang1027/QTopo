@@ -15,10 +15,10 @@
     padding:0;
     border:0;
     background: transparent;
-    height:32px;
+    height:30px;
 }
 .qtopo-toolBar .btn.btn-sm,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-btn{
-    height:32px;
+    height:30px;
 }
 .qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-mode{
     display: inline-block;

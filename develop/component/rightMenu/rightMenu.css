@@ -1,9 +1,22 @@
 /*
     右键菜单栏显示
 */
+.qtopo-rightMenu ul.dropdown-menu{
+    background: rgba(51, 122, 183, 0.9);
+    min-width: 120px;
+}
 .qtopo-rightMenu .dropdown-menu li{
+    font-size: 12px;
     position: relative;
     cursor: pointer;
+    height: 20px;
+}
+.qtopo-rightMenu .dropdown-menu li a{
+    color:white;
+}
+.qtopo-rightMenu .dropdown-menu li:hover>a{
+    background: none;
+    color:black;
 }
 .qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
     display: block;
@@ -16,8 +29,11 @@
 .qtopo-rightMenu .subMenu:after{
     content: "";
     border: 5px solid transparent;
-    border-left-color: black;
+    border-left-color: white;
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
+}
+.qtopo-rightMenu .subMenu:hover:after{
+    border-left-color: black;
 }

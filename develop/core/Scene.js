@@ -306,9 +306,9 @@ function removeNode(node) {
     try {
         //更新其上线另一头的links属性
         upDataLinks.call(this, node);
-        //要更新其父的children属性
+        //要更新其父的children属性,父删除子
         if (node.parent && $.isArray(node.parent.children)) {
-            QTopo.util.arrayDelete(node.parent.children, node);
+            node.parent.remove(node);
         }
         //删除分组切换的节点时同时删除其切换的分组
         if (node.toggleTo) {

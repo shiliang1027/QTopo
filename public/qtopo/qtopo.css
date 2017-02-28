@@ -1,9 +1,22 @@
 /*
     右键菜单栏显示
 */
+.qtopo-rightMenu ul.dropdown-menu{
+    background: rgba(51, 122, 183, 0.9);
+    min-width: 120px;
+}
 .qtopo-rightMenu .dropdown-menu li{
+    font-size: 12px;
     position: relative;
     cursor: pointer;
+    height: 20px;
+}
+.qtopo-rightMenu .dropdown-menu li a{
+    color:white;
+}
+.qtopo-rightMenu .dropdown-menu li:hover>a{
+    background: none;
+    color:black;
 }
 .qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
     display: block;
@@ -16,10 +29,13 @@
 .qtopo-rightMenu .subMenu:after{
     content: "";
     border: 5px solid transparent;
-    border-left-color: black;
+    border-left-color: white;
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
+}
+.qtopo-rightMenu .subMenu:hover:after{
+    border-left-color: black;
 }/*
 工具栏
 */
@@ -37,10 +53,10 @@
     padding:0;
     border:0;
     background: transparent;
-    height:32px;
+    height:30px;
 }
 .qtopo-toolBar .btn.btn-sm,.qtopo-toolBar .t-search-mode,.qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-btn{
-    height:32px;
+    height:30px;
 }
 .qtopo-toolBar .t-search-input,.qtopo-toolBar .t-search-mode{
     display: inline-block;
@@ -83,9 +99,6 @@
     display: inline-block;
     padding:0;
 }
-.qtopo-windows .tools-progress{
-    top:40%;
-}
 .qtopo-windows .tools-progress .modal-content,.qtopo-windows .tools-progress .progress{
     height:30px;
     border-radius: 15px;
@@ -95,12 +108,19 @@
     line-height: 30px;
     height:100%;
 }
-.qtopo-windows .tools-confirm .modal-dialog{
-    margin-top: 30%;
+.qtopo-windows .tools-progress .modal-dialog{
+    width: 600px;
+}
+.qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
+    position: absolute;
+    margin: 0;
 }.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
+}
+.qtopo-windows .modal{
+    position: absolute;
 }
 .qtopo-windows input{
     word-break:keep-all;

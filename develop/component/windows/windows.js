@@ -52,12 +52,13 @@ function init(instance) {
         tool:tools
     };
 }
+
 function initToolsWindow(wrap,dom,scene){
     var commonWrap = getWrap(wrap, "qtopo-windows-tools");
     var imageSelectWin = imageSelect.init(images);
     var confirmWin=confirm.init(dom);
     var tipsWin=tips.init(scene);
-    var progressWin=progress.init();
+    var progressWin=progress.init(dom);
     commonWrap.append(imageSelectWin);
     commonWrap.append(confirmWin);
     commonWrap.append(tipsWin);

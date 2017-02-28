@@ -6,9 +6,10 @@ var util=require("../util.js");
 module.exports={
     init:init
 };
-function init(){
+function init(dom){
     temp=$(temp);
     var bar=temp.find('.progress-bar');
+    var position=temp.find(".modal-dialog");
     temp.open=function(config){
         if (config) {
             var now = config.now;
@@ -24,6 +25,10 @@ function init(){
                 }
                 bar.css({width: now + '%'});
                 bar.html(text);
+                util.makeCenter(dom,position,{
+                    height:30,
+                    width:600
+                });
                 temp.modal({
                     keyboard: false,
                     backdrop: 'static',

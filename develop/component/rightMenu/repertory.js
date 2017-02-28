@@ -2,11 +2,13 @@
  * Created by qiyc on 2017/2/17.
  */
 function getMenus(menu, scene, windows,tools) {
+    //画链接控制
     var link = {
         start: "",
         end: ""
     };
-
+    //高亮控制
+    var lighting=false;
     function editImageNode() {
         if (windows && windows.node && windows.node.image) {
             windows.node.image.open({
@@ -61,6 +63,13 @@ function getMenus(menu, scene, windows,tools) {
                         if (menu.target) {
                             console.info(menu.target);
                         }
+                    }
+                }
+            },
+            TEST:function(){
+                return {
+                    name:"test",
+                    click:function(e){
                     }
                 }
             },
@@ -129,6 +138,41 @@ function getMenus(menu, scene, windows,tools) {
                     },
                     filter:function(target){
                         return target &&target.getType() != QTopo.constant.SCENE&& target.getUseType() != QTopo.constant.CASUAL;
+                    }
+                }
+            },
+            LIGHTING:function(){
+                return {
+                    name:"相关高亮",
+                    click:function(){
+                        scene.toggleLight(menu.target);
+                        lighting=true;
+                    },
+                    filter:function(target){
+                        return !lighting&&target &&target.getType() == QTopo.constant.NODE&& target.getUseType() != QTopo.constant.CASUAL;
+                    }
+                }
+            },
+            NOTLIGHTING:function(){
+                return {
+                    name:"取消高亮",
+                    click:function(){
+                        scene.toggleLight();
+                        lighting=false;
+                    },
+                    filter:function(target){
+                        return lighting;
+                    }
+                }
+            },
+            REMOVEFROMGROUP:function(){
+                return {
+                    name:"移出分组",
+                    click:function(){
+                        menu.target.parent.remove(menu.target);
+                    },
+                    filter:function(target){
+                        return target.parent&&true;
                     }
                 }
             }

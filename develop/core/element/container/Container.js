@@ -66,10 +66,14 @@ Container.prototype.add = function (element) {
         }
     }
 };
+/**
+ * 将子元素从分组中删除
+ * @param element
+ */
 Container.prototype.remove = function (element) {
-    if ($.isArray(this.children) && this.children.indexOf(element) > 0) {
+    if ($.isArray(this.children) && this.isChild(element)) {
         this.children.splice(this.children.indexOf(element), 1);
-        element.parent = null;
+        delete element.parent;
         this.jtopo.remove(element.jtopo);
         //移除元素，应手动设回元素可移动
         element.setDragable(true);
@@ -149,4 +153,32 @@ Container.prototype.toggle = function (flag) {
             this.setPosition([nJtopo.cx - gJtopo.width / 2, nJtopo.cy - gJtopo.height / 2]);
         }
     }
+};
+/**
+ * 判断元素是否已是子元素
+ * @param element 判断的子元素
+ */
+Container.prototype.isChild=function(element){
+    if($.isArray(this.children)){
+        if(element.parent!=this){
+            console.error("some group get error,the child's parent is not it and the child in its children ",this,element);
+        }
+        return this.children.indexOf(element) > 0;
+    }else{
+        return false;
+    }
+};
+/**
+ * 判断元素是否在分组覆盖的范围内,临时元素不考虑
+ * @param element
+ * @returns {boolean}
+ */
+Container.prototype.isInside = function (element) {
+    if(element&&element.getType()!=QTopo.constant.CASUAL){
+        var center = element.getCenter();
+        return !this.isChild(element) && center.x > this.x && center.x < (this.x + this.width) && center.y > this.y && center.y < (this.y + this.height);
+    }else{
+        return false;
+    }
+    
 };

@@ -29,9 +29,6 @@
     display: inline-block;
     padding:0;
 }
-.qtopo-windows .tools-progress{
-    top:40%;
-}
 .qtopo-windows .tools-progress .modal-content,.qtopo-windows .tools-progress .progress{
     height:30px;
     border-radius: 15px;
@@ -41,6 +38,10 @@
     line-height: 30px;
     height:100%;
 }
-.qtopo-windows .tools-confirm .modal-dialog{
-    margin-top: 30%;
+.qtopo-windows .tools-progress .modal-dialog{
+    width: 600px;
+}
+.qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
+    position: absolute;
+    margin: 0;
 }

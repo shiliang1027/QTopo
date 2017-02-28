@@ -137,6 +137,28 @@ var util = {
             background: "#0e1c39",
             cursorborder: "1px solid #0e1c39"
         });
+    },
+    /**
+     * 让子窗口在父窗口的正中
+     * @param dom 父窗口
+     * @param win 子窗口
+     * @param fixed 固定计算的窗口高宽
+     */
+    makeCenter:function(dom,win,fixed){
+        var height=win.height();
+        var width=win.width();
+        if(fixed){
+            if($.isNumeric(fixed.height)){
+                height=fixed.height;
+            }
+            if($.isNumeric(fixed.width)){
+                width=fixed.width;
+            }
+        }
+        win.css({
+            top:($(dom).height()-height)/2,
+            left:($(dom).width()-width)/2
+        });
     }
 };
 module.exports = util;

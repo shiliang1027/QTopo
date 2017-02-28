@@ -193,7 +193,6 @@ Element.prototype._setAttr = function (config) {
         try {
             var fn = self['set' + QTopo.util.upFirst(k)];
             if (fn) {
-                //v=QTopo.util.merge(self.attr[k],v);
                 fn.call(self, v);
             }
         } catch (e) {
@@ -246,4 +245,9 @@ function toggleContainer(flag) {
     }
     toggle(this.links, string);
 }
-
+Element.prototype.getCenter=function(){
+    return {
+        x:this.jtopo.cx,
+        y:this.jtopo.cy
+    }
+};

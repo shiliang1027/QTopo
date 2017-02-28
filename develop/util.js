@@ -3,12 +3,22 @@
  */
 var ruler;
 var util = {
+    /**
+     * 字符串转化json
+     * @param json
+     * @returns {*}
+     */
     toJson:function(json){
         if (typeof json == 'string') {
             json = $.parseJSON(json.replace(/'/g, '"'));
         }
         return json;
     },
+    /**
+     * 首字母大写
+     * @param string
+     * @returns {XML|*|void}
+     */
     upFirst: function (string) {
         return string.replace(/(^|\s+)\w/g, function (s) {
             return s.toUpperCase();//首字母大寫
@@ -43,25 +53,11 @@ var util = {
 
         return base;
     },
-    merge:function(object,config){
-        if(object&&config&&typeof object=="object"&&typeof config=="object"){
-            deep(object,config);
-        }
-        function deep(source,target){
-            $.each(source,function(k,v){
-                if(v&&typeof v=="object"){
-                    if(!target[k]){
-                        target[k]={};
-                        deep(v,target[k]);
-                    }
-                }else
-                if(!target[k]){
-                    target[k]=v;
-                }
-            })
-        }
-        return config;
-    },
+    /**
+     * 获取浏览器连接上的参数
+     * @param param 参数名
+     * @returns {*}
+     */
     getParameter: function (param) {
         var query = window.location.search;//获取URL地址中？后的所有字符
         var iLen = param.length;//获取你的参数名称长度
@@ -127,19 +123,10 @@ var util = {
             return color;
         }
     },
-    //切换隐藏
-    toggleElemnts: function (arr, visiable) {
-        if (arr && arr instanceof Array) {
-            $.each(arr, function (i, v) {
-                if (typeof(visiable) == 'boolean') {
-                    visiable ? v.show() : v.hide();
-                } else {
-                    v.visible ? v.hide() : v.show();
-                }
-            });
-        }
-    },
-    //如果数组中不存在则存入，否则不做操作
+    /** 数组添加元素,如果数组中不存在则存入，否则不做操作
+     *  @param arr 操作的数组
+     *  @param value 操作的元素
+     */
     arrayPush: function (arr, value) {
         if (arr.indexOf(value) < 0) {
             arr.push(value);
@@ -147,7 +134,10 @@ var util = {
         }
         return false;
     },
-    //如果数组中不存在则删除，否则不做操作
+    /** 数组删除元素,如果数组中不存在则删除，否则不做操作
+     *  @param arr 操作的数组
+     *  @param value 操作的元素
+     */
     arrayDelete: function (arr, value) {
         var i = arr.indexOf(value);
         if (i >= 0) {
@@ -203,17 +193,23 @@ var util = {
             return Object.prototype.toString.call(o).slice(8, -1);
         }
     },
-    //闪烁
+    /** 操作节点的选中和未选中状态闪烁节点
+     * @param node 操作的节点
+     * @param n 闪烁次数
+     */
     nodeFlash: function (node, n) {
         if($.isNumeric(n)){
+            flash(n);
+        }
+        function flash(n){
             if (n == 0) {
                 node.selected = false;
-                return;
+            }else{
+                node.selected = !node.selected;
+                setTimeout(function () {
+                    flash(node, n - 1);
+                }, 300);
             }
-            node.selected = !node.selected;
-            setTimeout(function () {
-                util.nodeFlash(node, n - 1);
-            }, 300);
         }
     },
     //图层平移到节点上

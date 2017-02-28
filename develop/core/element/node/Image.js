@@ -78,7 +78,6 @@ function alarmAttr(jtopo,alarm,config){
             jtopo.alarmColor = QTopo.util.transHex(config.color.toLowerCase());
             alarm.color=jtopo.alarmColor;
         }
-        jtopo.alarmAlpha = 1;
         var size=alarm.font.size;
         var font=alarm.font.type;
         if(config.font&&$.isNumeric(config.font.size)){

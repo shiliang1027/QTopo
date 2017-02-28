@@ -3,6 +3,9 @@
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
 }
+.qtopo-windows .modal{
+    position: absolute;
+}
 .qtopo-windows input{
     word-break:keep-all;
     white-space:nowrap;
