@@ -138,6 +138,7 @@ Scene.prototype.moveToNode = function (node) {
         }
     }
 };
+//---------自动布局
 /**
  * 自动布局
  * @param config 参数
@@ -203,5 +204,5 @@ function move(node, targetX, targetY) {
         }
     }, 100);
 }
-//--------
+//---------自动布局
 module.exports = Scene;

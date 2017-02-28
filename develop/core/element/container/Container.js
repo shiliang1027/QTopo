@@ -52,6 +52,10 @@ Container.prototype.setName = function (name) {
         this.attr.name = name.trim();
     }
 };
+/**
+ * 将元素加入分组内
+ * @param element
+ */
 Container.prototype.add = function (element) {
     if (!$.isArray(this.children)) {
         this.children = [];
@@ -136,6 +140,10 @@ Container.prototype.getLinks = function () {
     }
     return links;
 };
+/**
+ * 分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作
+ * @param flag 为true则缩放为false则展开，无值则根据现状切换,
+ */
 Container.prototype.toggle = function (flag) {
     if (this.toggleTo) {
         var gJtopo = this.jtopo;

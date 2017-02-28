@@ -55,7 +55,7 @@ function init(dom,scene,windows){
     editBar.find("button[name=auto_layout]").click(function(){
         windows.windows.autoLayout.open();
     });
-    var addMode=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"));
+    var addMode=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"),toolBar.find(".clear-input"));
     addMode({
         type:"node",
         name:"节点",
@@ -79,16 +79,30 @@ function toggleClick(botton, aClass, bClass) {
         }
     });
 }
-function addSearchMode(selectWin,searchBtn,input){
+function addSearchMode(selectWin,searchBtn,input,clear){
     selectWin.mode={};
+    clear.hide();
+    clear.click(function(){
+        input.val("");
+        clear.hide();
+    });
+    input.keydown(function(e){
+        if(e.keyCode==13){
+            doSearch();
+        }
+        clear.show();
+    });
     searchBtn.click(function(){
+        doSearch();
+    });
+    function doSearch(){
         if(selectWin.val()){
             var doSearch=selectWin.mode[selectWin.val()];
             if($.isFunction(doSearch)){
                 doSearch(input.val());
             }
         }
-    });
+    }
     return function(config){
         selectWin.mode[config.type]=config.search;
         selectWin.append("<option value='"+config.type+"'>"+config.name||config.type+"</option>");

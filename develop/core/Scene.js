@@ -234,12 +234,10 @@ Scene.prototype.createContainer = function (config) {
         if (config.toggle) {
             nodeConfig = config.toggle
         }
-        nodeConfig.useType = QTopo.constant.CASUAL;
-        newContainer.toggleTo = new Node.Image(nodeConfig);
-        newContainer.toggleTo.toggleTo = newContainer;//互相索引
-        newContainer.toggleTo.hide();
-        addJTopo.call(this, newContainer.toggleTo);
-
+        //可选禁用分组切换
+        if(!(typeof config.toggle.close=="boolean"&&config.toggle.close)){
+            addToggle(this,newContainer,nodeConfig);
+        }
         this.children.container.push(newContainer);
         addJTopo.call(this, newContainer);
         return newContainer;
@@ -248,6 +246,13 @@ Scene.prototype.createContainer = function (config) {
         return false;
     }
 };
+function addToggle(scene,container,configToggle){
+    configToggle.useType = QTopo.constant.CASUAL;//标记用途
+    container.toggleTo = new Node.Image(configToggle);
+    container.toggleTo.toggleTo = container;//互相索引
+    container.toggleTo.hide();//初始隐藏
+    addJTopo.call(scene, container.toggleTo);//加入画布
+}
 //---------
 Scene.prototype.remove = function (element) {
     if (element && element.jtopo) {

@@ -46,7 +46,10 @@
             </button>
             <select name='search_mode' class='form-control t-search-mode'>
             </select>
-            <input name="search_value" type='text' class='form-control t-search-input' placeholder='输入值格式key=value'>
+            <div class="t-search-input">
+                <input name="search_value" type='text' class='form-control' placeholder='输入值格式key=value'>
+                <span class="clear-input glyphicon glyphicon-remove"></span>
+            </div>
             <button name='search' class='btn btn-primary t-search-btn' type='button' data-toggle='tooltip' title='搜索' data-placement='bottom'>
                 <span class='glyphicon glyphicon-search'></span>
             </button>
