@@ -202,6 +202,17 @@ Element.prototype._setAttr = function (config) {
         }
     });
 };
+Element.prototype.getAttr=function(name){
+    var result;
+    if(name){
+        if(this.attr[name]){
+            result=this.attr[name];
+        }else if(this.extra[name]){
+            result=this.extra[name];
+        }
+    }
+    return result;
+};
 /**对象links属性内的所有线进行切换
  *@links node/container的links属性
  * @fnName 'show'/'hide'方法名

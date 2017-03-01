@@ -3,7 +3,9 @@
  */
 $(document).ready(function () {
     //使用QTopo先用init生成一个QTopo对象，要传入一个设好长宽的dom
-    var topo = QTopo.init(document.getElementById("topo_base"));
+    var topo = QTopo.init(document.getElementById("topo_base"),{
+        backgroundColor:"#06243e"
+    });
     //可激活组件部分，包含右键菜单，工具条，窗口
     var component=QTopo.component(topo);
     var tools=component.tools;

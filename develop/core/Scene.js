@@ -26,7 +26,7 @@ module.exports = Scene;
 var defaults = function () {
     return {
         mode: QTopo.constant.mode.NORMAL,
-        background: ""
+        backgroundImage: ""
     };
 };
 function Scene(stage, config) {
@@ -45,8 +45,11 @@ function Scene(stage, config) {
     //延时执行
     setTimeout(function () {
         if (config) {
-            if (config.background) {
-                self.setBackGround(config.background);
+            if (config.backgroundImage) {
+                self.setBackgroundImage(config.backgroundImage);
+            }
+            if (config.backgroundColor) {
+                self.setBackgroundColor(config.backgroundColor);
             }
             if (config.mode) {
                 self.setMode(config.mode);
@@ -57,7 +60,7 @@ function Scene(stage, config) {
 //-
 //scan 格式 aaa=bb,ccc=dd条件之间以,分隔
 Scene.prototype.setDefault = function (type, config) {
-    if(config){
+    if (config) {
         var constant = QTopo.constant;
         switch (type) {
             case constant.node.IMAGE:
@@ -87,42 +90,47 @@ Scene.prototype.setDefault = function (type, config) {
         }
     }
 };
-Scene.prototype.getDefault=function(type){
-    if(type){
+Scene.prototype.getDefault = function (type) {
+    if (type) {
         var result;
         var constant = QTopo.constant;
         switch (type) {
             case constant.node.IMAGE:
-                result=Node.Image.getDefault();
+                result = Node.Image.getDefault();
                 break;
             case constant.node.TEXT:
-                result=Node.Text.getDefault();
+                result = Node.Text.getDefault();
                 break;
             case constant.link.DIRECT:
-                result=Link.Direct.getDefault();
+                result = Link.Direct.getDefault();
                 break;
             case constant.link.CURVE:
-                result=Link.Curve.getDefault();
+                result = Link.Curve.getDefault();
                 break;
             case constant.link.FLEXIONAL:
-                result=Link.Flexional.getDefault();
+                result = Link.Flexional.getDefault();
                 break;
             case constant.link.FOLD:
-                result=Link.Fold.getDefault();
+                result = Link.Fold.getDefault();
                 break;
             case constant.line.DIRECT:
-                result=Line.Direct.getDefault();
+                result = Line.Direct.getDefault();
                 break;
             case constant.container.GROUP:
-                result=Container.Group.getDefault();
+                result = Container.Group.getDefault();
                 break;
         }
         return result;
     }
 };
-Scene.prototype.setBackGround = function (background) {
-    this.jtopo.background = background;
-    this.attr.background = background;
+Scene.prototype.setBackgroundImage = function (image) {
+    this.jtopo.background = image;
+    this.attr.background = image;
+};
+Scene.prototype.setBackgroundColor = function (color) {
+    this.jtopo.backgroundColor = QTopo.util.transHex(color);
+    this.jtopo.alpha = 1;
+    this.attr.background = QTopo.util.transHex(color);
 };
 Scene.prototype.setMode = function (mode) {
     if (["normal", "edit", "drag", "select"].indexOf(mode) > -1) {
@@ -197,15 +205,16 @@ Scene.prototype.find = function (scan, type) {
             //只扫描对象的attr和extra中的属性
             if (equal(item.extra, key, value) || equal(item.attr, key, value)) {
                 //排除重复的
-                if(result.indexOf(item)<0){
+                if (result.indexOf(item) < 0) {
                     result.push(item);
                 }
             }
         });
         return result;
     }
+
     function equal(object, key, value) {
-        return object&&object[key] && object[key] == value;
+        return object && object[key] && object[key] == value;
     }
 };
 Scene.prototype.getOrigin = function () {
@@ -249,6 +258,11 @@ Scene.prototype.createNode = function (config) {
         return false;
     }
 };
+/**
+ * 根据配置在两个元素之间创建新的链接
+ * @param config
+ * @returns {*}
+ */
 Scene.prototype.createLink = function (config) {
     var newLink;
     var constant = QTopo.constant.link;
@@ -275,6 +289,51 @@ Scene.prototype.createLink = function (config) {
         return false;
     }
 };
+//--
+/**
+ * 根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,提供线路展开
+ * @param config
+ * @returns {*}
+ */
+Scene.prototype.addLink = function (config) {
+    if (config && config.start && config.end) {
+        var links = this.linksBetween(config.start, config.end);//按number属性从大到小排列
+        if (links.length > 0) {
+            var number = 1;
+            if ($.isNumeric(config.number)) {
+                number = parseInt(config.number);
+            }
+            links[0].set({
+                number: links[0].getAttr("number") + number
+            });
+        } else {
+            this.createLink(config);
+        }
+    }
+};
+Scene.prototype.linksBetween = function (start, end) {
+    var result = [];
+    var links = start.links;
+    //检测两元素间的连线是否已有
+    if ($.isArray(links.out)) {
+        $.each(links.out, function (i, linkOut) {
+            if (linkOut.path.end == end) {
+                result.push(linkOut);
+            }
+        });
+    }
+    if ($.isArray(links.in)) {
+        $.each(links.in, function (j, linkIn) {
+            if (linkIn.path.start == end) {
+                result.push(linkIn);
+            }
+        });
+    }
+    return result.sort(function (a, b) {
+        return b.attr.number - a.attr.number;
+    });
+};
+//--
 Scene.prototype.createLine = function (config) {
     var newLine;
     var constant = QTopo.constant.line;
@@ -329,29 +388,40 @@ function addToggle(scene, container, configToggle) {
 //--
 //-
 Scene.prototype.remove = function (element) {
-    if (element && element.jtopo) {
-        switch (element.getType()) {
-            case QTopo.constant.NODE:
-                //临时工不在列表中
-                if (QTopo.util.arrayDelete(this.children.node, element) || element.getUseType() == QTopo.constant.CASUAL) {
-                    removeNode.call(this, element);
+    var self=this;
+    if (element) {
+        if ($.isArray(element)) {
+            $.each(element, function (i, item) {
+                removeOnce(item);
+            });
+        } else {
+            removeOnce(element);
+        }
+        function removeOnce(oneElement) {
+            if (oneElement.jtopo) {
+                switch (oneElement.getType()) {
+                    case QTopo.constant.NODE:
+                        if (QTopo.util.arrayDelete(self.children.node, oneElement) || oneElement.getUseType() == QTopo.constant.CASUAL) {
+                            removeNode.call(self, oneElement);
+                        }
+                        break;
+                    case QTopo.constant.LINK:
+                        if (QTopo.util.arrayDelete(self.children.link, oneElement) || oneElement.getUseType() == QTopo.constant.CASUAL) {
+                            removeLink.call(self, oneElement);
+                        }
+                        break;
+                    case QTopo.constant.LINE:
+                        if (QTopo.util.arrayDelete(self.children.line, oneElement) || oneElement.getUseType() == QTopo.constant.CASUAL) {
+                            removeLine.call(self, oneElement);
+                        }
+                        break;
+                    case QTopo.constant.CONTAINER:
+                        if (QTopo.util.arrayDelete(self.children.container, oneElement) || oneElement.getUseType() == QTopo.constant.CASUAL) {
+                            removeContainer.call(self, oneElement);
+                        }
+                        break;
                 }
-                break;
-            case QTopo.constant.LINK:
-                if (QTopo.util.arrayDelete(this.children.link, element) || element.getUseType() == QTopo.constant.CASUAL) {
-                    removeLink.call(this, element);
-                }
-                break;
-            case QTopo.constant.LINE:
-                if (QTopo.util.arrayDelete(this.children.line, element) || element.getUseType() == QTopo.constant.CASUAL) {
-                    removeLine.call(this, element);
-                }
-                break;
-            case QTopo.constant.CONTAINER:
-                if (QTopo.util.arrayDelete(this.children.container, element) || element.getUseType() == QTopo.constant.CASUAL) {
-                    removeContainer.call(this, element);
-                }
-                break;
+            }
         }
     }
 };

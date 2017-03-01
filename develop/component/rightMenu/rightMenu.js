@@ -24,7 +24,19 @@ function initRigheMenu(dom,scene,windows){
     if(!windows){
         console.error("windows is not init ,menu options about windows may not work");
     }
-    var menus=getMenus(rightMenu,scene,windows.windows,windows.tools);
+    var add=makeAdd(scene,rightMenu,windows.windows,windows.tools);
+    add(getMenus);
+    return add;
+}
+function makeAdd(scene, rightMenu, windows, tools){
+    return function(fn){
+        if($.isFunction(fn)){
+            var menus=fn(scene,rightMenu,windows,tools);
+            makeMenus(rightMenu,menus);
+        }
+    }
+}
+function makeMenus(rightMenu, menus){
     $.each(menus.item,function(name,fn){
         var menu=fn(rightMenu);//按钮获取父对象
         if(menu){

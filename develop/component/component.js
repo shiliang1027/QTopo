@@ -14,11 +14,12 @@ $(document).ready(function () {
 });
 function init(instance) {
     var wins=windows.init(instance);
-    rightMenu.init(instance.document, instance.scene,wins);
+    var addRightMenu=rightMenu.init(instance.document, instance.scene,wins);
     var addSearch=toolBar.init(instance.document, instance.scene,wins);
     instance.component={
         tools:wins.tools,
-        addSearch:addSearch
+        addSearch:addSearch,
+        addRightMenu:addRightMenu
     };
     return instance.component;
 }

@@ -9,10 +9,12 @@ function Link(jtopo) {
     }else{
         console.error("create Link without jtopo",this);
     }
+    //记录两端的节点
     this.path={
         start:this.jtopo.nodeA.qtopo,
         end:this.jtopo.nodeZ.qtopo
     };
+    //在线路两端的对象上的links属性中更新自己
     if(this.path.start.links&& $.isArray(this.path.start.links.out)){
         if(this.path.start.links.out.indexOf(this)<0){
             this.path.start.links.out.push(this);
@@ -41,7 +43,7 @@ Link.prototype.setNumber = function (number) {
         }else {
             this.jtopo.text = '';
         }
-        this.attr.number=number;
+        this.attr.number=parseInt(number);
     }
 };
 Link.prototype.setWidth=function(width){

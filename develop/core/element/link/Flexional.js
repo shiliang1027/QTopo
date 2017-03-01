@@ -39,7 +39,7 @@ function getDefault(){
 }
 //-
 function FlexionalLink(config){
-    if(!config.start||!config.end){
+    if(!config.start||!config.end||!config.start.jtopo||!config.end.jtopo){
         console.error("Create Link need start and end");
         return;
     }

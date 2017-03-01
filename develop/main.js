@@ -155,7 +155,7 @@ function createLink(scene, config) {
                     if (start && end) {
                         item.start = start;
                         item.end = end;
-                        link = scene.createLink(item);
+                        link = scene.addLink(item);
                         //额外属性添加
                         setExtra(config.extra,link,item);
                     } else {

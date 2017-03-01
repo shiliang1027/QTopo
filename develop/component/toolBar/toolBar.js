@@ -55,8 +55,8 @@ function init(dom,scene,windows){
     editBar.find("button[name=auto_layout]").click(function(){
         windows.windows.autoLayout.open();
     });
-    var addMode=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"),toolBar.find(".clear-input"));
-    addMode({
+    var addSearch=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"),toolBar.find(".clear-input"));
+    addSearch({
         type:"node",
         name:"节点",
         search:function(val){
@@ -66,7 +66,7 @@ function init(dom,scene,windows){
             }
         }
     });
-    return addMode;
+    return addSearch;
 }
 function toggleClick(botton, aClass, bClass) {
     botton.click(function () {
