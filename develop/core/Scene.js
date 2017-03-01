@@ -1,6 +1,7 @@
 /**
  * Created by qiyc on 2017/2/7.
  */
+//-
 var Node = {
     Image: require("./element/node/Image.js"),
     Text: require("./element/node/Text.js")
@@ -12,18 +13,19 @@ var Link = {
     Fold: require("./element/link/Fold.js")
 };
 
-var Line={
-    Direct:require("./element/line/Direct.js")
+var Line = {
+    Direct: require("./element/line/Direct.js")
 };
 var Container = {
     Group: require("./element/container/Group.js")
 };
 var events = require("./events.js");
 module.exports = Scene;
+//-
 //画布对象
 var defaults = function () {
     return {
-        mode: "normal",
+        mode: QTopo.constant.mode.NORMAL,
         background: ""
     };
 };
@@ -35,14 +37,14 @@ function Scene(stage, config) {
         node: [],
         link: [],
         container: [],
-        line:[]
+        line: []
     };
     self.attr = defaults();
     stage.add(self.jtopo);
     events.init(self);
     //延时执行
     setTimeout(function () {
-        if(config){
+        if (config) {
             if (config.background) {
                 self.setBackGround(config.background);
             }
@@ -52,17 +54,82 @@ function Scene(stage, config) {
         }
     });
 }
+//-
 //scan 格式 aaa=bb,ccc=dd条件之间以,分隔
+Scene.prototype.setDefault = function (type, config) {
+    if(config){
+        var constant = QTopo.constant;
+        switch (type) {
+            case constant.node.IMAGE:
+                Node.Image.setDefault(config);
+                break;
+            case constant.node.TEXT:
+                Node.Text.setDefault(config);
+                break;
+            case constant.link.DIRECT:
+                Link.Direct.setDefault(config);
+                break;
+            case constant.link.CURVE:
+                Link.Curve.setDefault(config);
+                break;
+            case constant.link.FLEXIONAL:
+                Link.Flexional.setDefault(config);
+                break;
+            case constant.link.FOLD:
+                Link.Fold.setDefault(config);
+                break;
+            case constant.line.DIRECT:
+                Line.Direct.setDefault(config);
+                break;
+            case constant.container.GROUP:
+                Container.Group.setDefault(config);
+                break;
+        }
+    }
+};
+Scene.prototype.getDefault=function(type){
+    if(type){
+        var result;
+        var constant = QTopo.constant;
+        switch (type) {
+            case constant.node.IMAGE:
+                result=Node.Image.getDefault();
+                break;
+            case constant.node.TEXT:
+                result=Node.Text.getDefault();
+                break;
+            case constant.link.DIRECT:
+                result=Link.Direct.getDefault();
+                break;
+            case constant.link.CURVE:
+                result=Link.Curve.getDefault();
+                break;
+            case constant.link.FLEXIONAL:
+                result=Link.Flexional.getDefault();
+                break;
+            case constant.link.FOLD:
+                result=Link.Fold.getDefault();
+                break;
+            case constant.line.DIRECT:
+                result=Line.Direct.getDefault();
+                break;
+            case constant.container.GROUP:
+                result=Container.Group.getDefault();
+                break;
+        }
+        return result;
+    }
+};
 Scene.prototype.setBackGround = function (background) {
     this.jtopo.background = background;
     this.attr.background = background;
 };
 Scene.prototype.setMode = function (mode) {
-    if(["normal","edit","drag","select"].indexOf(mode)>-1){
+    if (["normal", "edit", "drag", "select"].indexOf(mode) > -1) {
         this.attr.mode = mode;
         this.jtopo.mode = mode;
-    }else{
-        console.error("set wrong mode :",mode);
+    } else {
+        console.error("set wrong mode :", mode);
     }
 };
 Scene.prototype.clear = function () {
@@ -71,7 +138,7 @@ Scene.prototype.clear = function () {
         node: [],
         link: [],
         container: [],
-        line:[]
+        line: []
     };
     this.jtopo.clear();
 };
@@ -124,26 +191,30 @@ Scene.prototype.find = function (scan, type) {
         });
     }
     return result;
+    //扫描数组中对象对应的属性是否相等
     function scanArr(arr, key, value) {
-        $.each(arr, function (i, v) {
-            if (equal(v, key, value) || equal(v.attr, key, value)) {
-                result.push(v);
+        $.each(arr, function (i, item) {
+            //只扫描对象的attr和extra中的属性
+            if (equal(item.extra, key, value) || equal(item.attr, key, value)) {
+                //排除重复的
+                if(result.indexOf(item)<0){
+                    result.push(item);
+                }
             }
         });
         return result;
     }
-
     function equal(object, key, value) {
-        return object[key] && object[key] == value;
+        return object&&object[key] && object[key] == value;
     }
 };
-Scene.prototype.getOrigin=function(){
+Scene.prototype.getOrigin = function () {
     return {
         x: 0 - this.jtopo.translateX,
         y: 0 - this.jtopo.translateY
     }
 };
-//---------
+//-
 function addJTopo(element) {
     try {
         this.jtopo.add(element.jtopo);
@@ -160,13 +231,14 @@ function removeJTopo(element) {
 }
 Scene.prototype.createNode = function (config) {
     var newNode;
+    var constant = QTopo.constant.node;
     config = config || {};
     switch (config.type) {
-        case "text":
-            newNode = new Node.Text(config);
+        case constant.TEXT:
+            newNode = new Node.Text.constructor(config);
             break;
         default:
-            newNode = new Node.Image(config);
+            newNode = new Node.Image.constructor(config);
     }
     if (newNode && newNode.jtopo) {
         addJTopo.call(this, newNode);
@@ -179,22 +251,20 @@ Scene.prototype.createNode = function (config) {
 };
 Scene.prototype.createLink = function (config) {
     var newLink;
+    var constant = QTopo.constant.link;
     config = config || {};
     switch (config.type) {
-        case "direct":
-            newLink = new Link.Direct(config);
+        case constant.CURVE:
+            newLink = new Link.Curve.constructor(config);
             break;
-        case "curve":
-            newLink = new Link.Curve(config);
+        case constant.FLEXIONAL:
+            newLink = new Link.Flexional.constructor(config);
             break;
-        case "flexional":
-            newLink = new Link.Flexional(config);
-            break;
-        case "fold":
-            newLink = new Link.Fold(config);
+        case constant.FOLD:
+            newLink = new Link.Fold.constructor(config);
             break;
         default:
-            newLink = new Link.Direct(config);
+            newLink = new Link.Direct.constructor(config);
     }
     if (newLink && newLink.jtopo) {
         addJTopo.call(this, newLink);
@@ -207,10 +277,11 @@ Scene.prototype.createLink = function (config) {
 };
 Scene.prototype.createLine = function (config) {
     var newLine;
+    var constant = QTopo.constant.line;
     config = config || {};
     switch (config.type) {
         default:
-            newLine = new Line.Direct(config);
+            newLine = new Line.Direct.constructor(config);
     }
     if (newLine && newLine.jtopo) {
         addJTopo.call(this, newLine);
@@ -221,12 +292,14 @@ Scene.prototype.createLine = function (config) {
         return false;
     }
 };
+//--
 Scene.prototype.createContainer = function (config) {
     var newContainer;
+    var constant = QTopo.constant.container;
     config = config || {};
     switch (config.type) {
         default:
-            newContainer = new Container.Group(config);
+            newContainer = new Container.Group.constructor(config);
     }
     if (newContainer && newContainer.jtopo) {
         //分组只加入其本身，切换节点不作数
@@ -235,8 +308,8 @@ Scene.prototype.createContainer = function (config) {
             nodeConfig = config.toggle
         }
         //可选禁用分组切换
-        if(!(typeof config.toggle.close=="boolean"&&config.toggle.close)){
-            addToggle(this,newContainer,nodeConfig);
+        if (!(typeof config.toggle.close == "boolean" && config.toggle.close)) {
+            addToggle(this, newContainer, nodeConfig);
         }
         this.children.container.push(newContainer);
         addJTopo.call(this, newContainer);
@@ -246,14 +319,15 @@ Scene.prototype.createContainer = function (config) {
         return false;
     }
 };
-function addToggle(scene,container,configToggle){
+function addToggle(scene, container, configToggle) {
     configToggle.useType = QTopo.constant.CASUAL;//标记用途
-    container.toggleTo = new Node.Image(configToggle);
+    container.toggleTo = new Node.Image.constructor(configToggle);
     container.toggleTo.toggleTo = container;//互相索引
     container.toggleTo.hide();//初始隐藏
     addJTopo.call(scene, container.toggleTo);//加入画布
 }
-//---------
+//--
+//-
 Scene.prototype.remove = function (element) {
     if (element && element.jtopo) {
         switch (element.getType()) {
@@ -303,7 +377,7 @@ function removeLink(link) {
         console.error("Scene removeLink error", e);
     }
 }
-function removeLine(line){
+function removeLine(line) {
     try {
         removeJTopo.call(this, line);
     } catch (e) {
@@ -352,5 +426,5 @@ function removeContainer(container) {
         console.error("Scene removeContainer error", e);
     }
 }
-//----------
+//-
 

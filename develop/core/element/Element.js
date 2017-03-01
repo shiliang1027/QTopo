@@ -8,6 +8,8 @@ function Element(jtopo) {
         jtopo.qtopo = this;
         reset(this);
     }
+    //设置额外属性处理对象
+    this.extra={};
 }
 function reset(element) {
     //同步位置属性

@@ -6,13 +6,6 @@ var util=require("../util.js");
 module.exports={
     init:main
 };
-var defaultAttr={
-    name:"",
-    fontSize:14,
-    namePosition:"bottom",
-    size:70,
-    image:""
-};
 /**
  * 初始化图片节点的属性操作窗口
  * @param dom  topo对象包裹外壳
@@ -23,7 +16,7 @@ var defaultAttr={
 function main(dom, scene, imageSelect){
     var win=$(temp);
     //注册窗口打开和关闭事件
-    initEvent(dom,win);
+    initEvent(dom,win,scene);
     //基本窗口属性初始化
     util.initBase(dom,win);
     //颜色选择框初始化
@@ -34,20 +27,24 @@ function main(dom, scene, imageSelect){
         win.close();
     });
     //绑定图片选择框
-    doWithImageSelect(win,imageSelect);
+    win.find(".image-select-group button").click(function(){
+        imageSelect.open().then(function(data){
+            setImageBtn(win,data);
+        });
+    });
     return win;
 }
-function initEvent(dom,win){
+function initEvent(dom,win,scene){
     win.on("window.open",function(e,data){
         if(data){
             switch (data.type){
                 case "create":
                     win.find(".panel-title").html("创建图片节点");
-                    createWindow(win,data.position);
+                    createWindow(win,data.position,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改图片节点");
-                    editWindow(win,data.target);
+                    editWindow(win,data.target,scene);
                     break;
                 default:
                     console.error("invalid type of imageNodeWindow,open function need to config like { type:'create' or 'edit'}");
@@ -67,20 +64,10 @@ function initEvent(dom,win){
         win.hide();
     });
 }
-
-function doWithImageSelect(win, imageSelect){
-    var btn=win.find(".image-select-group button");
-    var input=win.find(".image-select-group input");
-    var img=win.find(".image-select-group img");
-    btn.click(function(){
-        imageSelect.open().then(function(data){
-            input.val(data);
-            input.attr("title",data);
-            img.attr("src",data);
-        });
-    });
+function setImageBtn(win,image){
+    win.find(".image-select-group input").attr("title",image).val(image);
+    win.find(".image-select-group img").attr("src",image);
 }
-
 function doWithForm(config, scene, data){
     if(config){
         switch (config.type){
@@ -112,7 +99,7 @@ function doWithForm(config, scene, data){
         }
     }
 }
-function createWindow(win,position){
+function createWindow(win,position,scene){
     if(!position){
         console.error("invalid open imageNodeWindow,need set position to create");
     }
@@ -120,9 +107,17 @@ function createWindow(win,position){
         type:"create",
         position:position
     };
-    util.setFormInput(win.find("form"),defaultAttr)
+    var DEFAULT=scene.getDefault(QTopo.constant.node.IMAGE);
+    util.setFormInput(win.find("form"),{
+        name:DEFAULT.name,
+        fontSize:DEFAULT.font.size,
+        namePosition:DEFAULT.namePosition,
+        size:DEFAULT.size[0],
+        image:DEFAULT.image
+    });
+    setImageBtn(win,DEFAULT.image);
 }
-function editWindow(win,target){
+function editWindow(win,target,scene){
     if(!target){
         console.error("invalid open imageNodeWindow,need set target to edit");
     }

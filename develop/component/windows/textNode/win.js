@@ -6,11 +6,6 @@ var util=require("../util.js");
 module.exports={
     init:main
 };
-var defaultAttr={
-    text:"",
-    fontColor:"255,255,255",
-    fontSize:20
-};
 /**
  * 初始化文字节点的属性操作窗口
  * @param dom  topo对象包裹外壳
@@ -20,7 +15,7 @@ var defaultAttr={
 function main(dom, scene){
     var win=$(temp);
     //注册窗口打开和关闭事件
-    initEvent(dom,win);
+    initEvent(dom,win,scene);
     //基本窗口属性初始化
     util.initBase(dom,win);
     //颜色选择框初始化
@@ -32,17 +27,17 @@ function main(dom, scene){
     });
     return win;
 }
-function initEvent(dom,win){
+function initEvent(dom,win,scene){
     win.on("window.open",function(e,data){
         if(data){
             switch (data.type){
                 case "create":
                     win.find(".panel-title").html("创建文本节点");
-                    openCreateWindow(win,data.position);
+                    openCreateWindow(win,data.position,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改文本节点");
-                    openEditWindow(win,data.target);
+                    openEditWindow(win,data.target,scene);
                     break;
                 default:
                     console.error("invalid type of textNodeWindow,open function need to config like { type:'create' or 'edit'}");
@@ -90,7 +85,7 @@ function doWithForm(config, scene, data){
         }
     }
 }
-function openCreateWindow(win, position){
+function openCreateWindow(win, position,scene){
     if(!position){
         console.error("invalid open textNodeWindow,need set position to create");
     }
@@ -98,9 +93,14 @@ function openCreateWindow(win, position){
         type:"create",
         position:position
     };
-    util.setFormInput(win.find("form"),defaultAttr)
+    var DEFAULT=scene.getDefault(QTopo.constant.node.TEXT);
+    util.setFormInput(win.find("form"),{
+        text:DEFAULT.text,
+        fontColor:DEFAULT.font.color,
+        fontSize:DEFAULT.font.size
+    })
 }
-function openEditWindow(win, target){
+function openEditWindow(win, target,scene){
     if(!target){
         console.error("invalid open textNodeWindow,need set target to edit");
     }

@@ -2,10 +2,13 @@
  * Created by qiyc on 2017/2/7.
  */
 var Link=require("./Link.js");
-module.exports = DirectLink;
-//直线
-var defaults =function(){
-    return {
+module.exports = {
+    constructor:DirectLink,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT ={
         number: 1,
         alpha:1,
         color: '22,124,255',
@@ -26,15 +29,21 @@ var defaults =function(){
         },
         useType: QTopo.constant.link.DIRECT,
         bundleOffset:60// 多条直线时，线条折线拐角处的长度
-    };
 };
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function DirectLink(config) {
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
     }
     Link.call(this,new JTopo.Link(config.start.jtopo, config.end.jtopo));
-    this.attr =  QTopo.util.extend(defaults(), config || {});
+    this.attr =  QTopo.util.extend(getDefault(), config || {});
     //函数
     this.set = setJTopo;
     //初始化
@@ -88,3 +97,4 @@ DirectLink.prototype.setBundleOffset=function(bundleOffset){
     }
     this.attr.bundleOffset=this.jtopo.bundleOffset;
 };
+DirectLink.prototype.getDefault=getDefault;

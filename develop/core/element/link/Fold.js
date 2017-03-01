@@ -2,10 +2,13 @@
  * Created by qiyc on 2017/2/7.
  */
 var Link=require("./Link.js");
-module.exports = FoldLink;
-//折线
-var defaults =function(){
-    return {
+module.exports =  {
+    constructor:FoldLink,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT ={
         number:1,
         alpha:1,
         color: '22,124,255',
@@ -26,15 +29,21 @@ var defaults =function(){
         },
         useType: QTopo.constant.link.FOLD,
         direction:"vertical"
-    };
 };
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function FoldLink(config){
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
     }
     Link.call(this, new JTopo.FoldLink(config.start.jtopo, config.end.jtopo));
-    this.attr =  QTopo.util.extend(defaults(), config || {});
+    this.attr =  QTopo.util.extend(getDefault(), config || {});
     //函数
     this.set = setJTopo;
     //初始化
@@ -43,6 +52,7 @@ function FoldLink(config){
     reset(this);
 }
 QTopo.util.inherits(FoldLink,Link);
+//-
 function setJTopo(config) {
     if (config) {
         var self=this;
@@ -71,6 +81,7 @@ function reset(link){
         }
     };
 }
+//-
 FoldLink.prototype.setDirection=function(direction){
     //折线方向 horizontal 水平 "vertical"垂直
     if(direction){
@@ -78,3 +89,5 @@ FoldLink.prototype.setDirection=function(direction){
     }
     this.attr.direction=this.jtopo.direction;
 };
+FoldLink.prototype.getDefault=getDefault;
+//-

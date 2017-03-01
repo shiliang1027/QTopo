@@ -2,10 +2,13 @@
  * Created by qiyc on 2017/2/7.
  */
 var Link=require("./Link.js");
-module.exports = FlexionalLink;
-//二次折线
-var defaults =function(){
-    return {
+module.exports = {
+    constructor:FlexionalLink,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT={
         number: 1,
         alpha:1,
         color: '22,124,255',
@@ -27,15 +30,21 @@ var defaults =function(){
         useType: QTopo.constant.link.FLEXIONAL,
         direction:"horizontal",
         offsetGap:60
-    };
 };
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function FlexionalLink(config){
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
     }
     Link.call(this,new JTopo.FlexionalLink(config.start.jtopo, config.end.jtopo));
-    this.attr =  QTopo.util.extend(defaults(), config || {});
+    this.attr =  QTopo.util.extend(getDefault(), config || {});
     //函数
     this.set = setJTopo;
     //初始化
@@ -80,6 +89,7 @@ FlexionalLink.prototype.setDirection=function(direction){
     }
     this.attr.direction=this.jtopo.direction;
 };
+FlexionalLink.prototype.getDefault=getDefault;
 /*一种绘制固定在节点右侧的二次线*/
 //resetFold.jtopo.getPath =poinst;
 function poinst() {

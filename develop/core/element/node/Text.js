@@ -3,9 +3,13 @@
  */
 
 var Node = require("./Node.js");
-module.exports = TextNode;
-var defaults = function () {
-    return {
+module.exports =  {
+    constructor:TextNode,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT = {
         position: [0, 0],
         font: {
             size: 16,
@@ -16,19 +20,25 @@ var defaults = function () {
         alpha: 1,
         text: 'no text here',
         useType: QTopo.constant.node.TEXT
-    };
 };
-//一般节点
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function TextNode(config) {
     Node.call(this, new JTopo.TextNode());
     //函数
-    this.attr = QTopo.util.extend(defaults(), config || {});
+    this.attr = QTopo.util.extend(getDefault(), config || {});
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
     reset(this);
 }
 QTopo.util.inherits(TextNode, Node);
+//-
 function setJTopo(config) {
     if (config) {
         //处理一般属性的设置
@@ -70,3 +80,6 @@ function reset(node) {
         this.paintAlarmText(a);
     };
 }
+//-
+TextNode.prototype.getDefault=getDefault;
+//-

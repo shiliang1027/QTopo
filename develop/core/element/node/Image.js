@@ -2,43 +2,52 @@
  * Created by qiyc on 2017/2/7.
  */
 var Node=require("./Node.js");
-module.exports = ImageNode;
-var defaults = function () {
-    return {
-        image: "",
-        size: [30, 30],
-        name: "node",
-        alpha: 1,
-        position: [0, 0],
+module.exports = {
+    constructor:ImageNode,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT= {
+    image: "",
+    size: [30, 30],
+    name: "node",
+    alpha: 1,
+    position: [0, 0],
+    font: {
+        size: 16,
+        type: '微软雅黑',
+        color: "255,255,255"
+    },
+    border:{
+        width:0,
+        radius:0,//最大160 最小0
+        color:"255,0,0"
+    },
+    zIndex: 200,//层级(10-999)
+    color: JTopo.util.randomColor(),
+    namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
+    useType: QTopo.constant.node.IMAGE,
+    alarm: {
+        show: false,
+        text: "",
+        color: "255,255,255",
         font: {
             size: 16,
-            type: '微软雅黑',
-            color: "255,255,255"
-        },
-        border:{
-            width:0,
-            radius:0,//最大160 最小0
-            color:"255,0,0"
-        },
-        zIndex: 200,//层级(10-999)
-        color: JTopo.util.randomColor(),
-        namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden
-        useType: QTopo.constant.node.IMAGE,
-        alarm: {
-            show: false,
-            text: "",
-            color: "255,255,255",
-            font: {
-                size: 16,
-                type: "微软雅黑"
-            }
+            type: "微软雅黑"
         }
     }
 };
-//一般节点
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function ImageNode(config) {
     Node.call(this,new JTopo.Node());
-    this.attr = QTopo.util.extend(defaults(), config || {});
+    this.attr = QTopo.util.extend(getDefault(), config || {});
     //告警闪烁 ...paintChilds函数内,638行附近调用
     this.jtopo.alarmFlash=alarmFlash;
     //函数
@@ -46,8 +55,8 @@ function ImageNode(config) {
     //初始化
     this.set(this.attr);
 }
-
 QTopo.util.inherits(ImageNode,Node);
+//-
 function setJTopo(config) {
     if (config) {
         //处理一般属性的设置
@@ -55,12 +64,15 @@ function setJTopo(config) {
         //处理特殊属性的设置
     }
 }
+//-
 ImageNode.prototype.setImage=function(image) {
     if(image){
         this.jtopo.setImage(image);
         this.attr.image=image;
     }
 };
+ImageNode.prototype.getDefault=getDefault;
+//--
 ImageNode.prototype.setAlarm=function(config) {
     var jtopo = this.jtopo;
     this.setAlpha(1);
@@ -135,3 +147,5 @@ function alarmFlash() {
         }
     }
 }
+//--
+//-

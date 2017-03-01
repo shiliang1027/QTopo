@@ -27,6 +27,7 @@ QTopo.init = function (dom, config) {
     this.instance.push(QtopoInstance);
     return QtopoInstance;
 };
+//---------------------
 function setOption(option, clear) {
     option=option||{};
     var scene = this.scene;
@@ -63,41 +64,12 @@ function initCanvas(dom, width, height) {
     canvas.style['-webkit-tap-highlight-color'] = 'rgba(0, 0, 0, 0)';
     return canvas;
 }
-function setBaseStyle(base,set){
-    if(base){
-        deep(base,set);
-    }
-    return set;
-
-    function deep(base,set){
-        $.each(base,function(key,value){
-            if(typeof value=="object"){
-                if(!set[key]){
-                    set[key]={}
-                }
-                deep(value,set[key]);
-            }else
-            if(!set[key]){
-                set[key]=value;
-            }
-        });
-    }
-}
-function setExtra(list,element,data){
-    if ($.isArray(list)&&element&&data) {
-        $.each(list, function (j, key) {
-            if (data[key]) {
-                element[key] = data[key];
-            }
-        });
-    }
-}
 function createNode(scene, config) {
     if (config) {
+        setDefaults(scene,QTopo.constant.node,config.style);
         if ($.isArray(config.data)) {
             $.each(config.data, function (i, item) {
-                var set=setBaseStyle(config.style,item);
-                var node = scene.createNode(set);
+                var node = scene.createNode(item);
                 //额外属性添加
                 setExtra(config.extra,node,item);
             });
@@ -123,12 +95,12 @@ function createContainer(scene, config) {
         if (config.children) {
             findChild = config.children;
         }
+        setDefaults(scene,QTopo.constant.container,config.style);
         if ($.isArray(config.data)) {
             //开始构造分组
             $.each(config.data, function (i, item) {
                 //无论是否有子元素，分组先创造出来
-                var set=setBaseStyle(config.style,item);
-                var container = scene.createContainer(set);
+                var container = scene.createContainer(item);
                 //额外属性添加
                 setExtra(config.extra,container,item);
                 //确定查找子元素的标记
@@ -171,6 +143,9 @@ function createLink(scene, config) {
                 findStart = path[0];
                 findEnd = path[1];
             }
+            //设置默认属性
+            setDefaults(scene,QTopo.constant.link,config.style);
+            //开始创建
             if ($.isArray(config.data)) {
                 $.each(config.data, function (i, item) {
                     var link;
@@ -180,8 +155,7 @@ function createLink(scene, config) {
                     if (start && end) {
                         item.start = start;
                         item.end = end;
-                        var set=setBaseStyle(config.style,item);
-                        link = scene.createLink(set);
+                        link = scene.createLink(item);
                         //额外属性添加
                         setExtra(config.extra,link,item);
                     } else {
@@ -203,6 +177,10 @@ function createLink(scene, config) {
 }
 function createLine(scene, config){
     if(config){
+        //设置默认属性
+        //设置默认属性
+        setDefaults(scene,QTopo.constant.line,config.style);
+        //开始创建
         if ($.isArray(config.data)) {
             $.each(config.data,function(i,v){
                 var line = scene.createLine(v);
@@ -274,5 +252,24 @@ function clearAnimat() {
         console.info("end alarm animate");
         clearInterval(animateRuning);
         animateRuning = "";
+    }
+}
+function setExtra(list,element,data){
+    if ($.isArray(list)&&element&&data) {
+        $.each(list, function (j, key) {
+            if (data[key]) {
+                if(!element.extra){
+                    element.extra={};
+                }
+                element.extra[key] = data[key];
+            }
+        });
+    }
+}
+function setDefaults(scene,typeArr,style){
+    if(style){
+        $.each(typeArr,function(i,types){
+            scene.setDefault(types,style);
+        })
     }
 }

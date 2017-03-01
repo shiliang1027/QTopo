@@ -2,10 +2,13 @@
  * Created by qiyc on 2017/2/7.
  */
 var Link=require("./Link.js");
-module.exports = CurveLink;
-//曲线
-var defaults =function(){
-    return {
+module.exports = {
+    constructor:CurveLink,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT ={
         number: 1,
         alpha:1,
         color: '22,124,255',
@@ -26,15 +29,21 @@ var defaults =function(){
         },
         useType: QTopo.constant.link.CURVE,
         curveOffset:200
-    };
 };
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function CurveLink(config){
     if(!config.start||!config.end){
         console.error("Create Link need start and end");
         return;
     }
     Link.call(this,new JTopo.CurveLink(config.start.jtopo, config.end.jtopo));
-    this.attr =  QTopo.util.extend(defaults(), config || {});
+    this.attr =  QTopo.util.extend(getDefault(), config || {});
     //函数
     this.set = setJTopo;
     //初始化
@@ -43,6 +52,7 @@ function CurveLink(config){
     reset(this);
 }
 QTopo.util.inherits(CurveLink,Link);
+//-
 function setJTopo(config) {
     if (config) {
         var self=this;
@@ -92,8 +102,11 @@ function reset(link){
         }
     };
 }
+//-
 CurveLink.prototype.setCurveOffset=function(data){
     if($.isNumeric(data)){
         this.attr.curveOffset=parseInt(data);
     }
-}
+};
+CurveLink.prototype.getDefault=getDefault;
+//-

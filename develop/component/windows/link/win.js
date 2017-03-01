@@ -6,17 +6,6 @@ var util = require("../util.js");
 module.exports = {
     init: main
 };
-var defaultAttr = {
-    number: "1",
-    type: "direct",
-    color: '22,124,255',
-    width: 2,
-    curveOffset: 200,
-    direction: "horizontal",
-    arrow_start: "false",
-    arrow_end: "false",
-    dashed: "false"
-};
 /**
  * 初始化对链接的属性操作窗口
  * @param dom  topo对象包裹外壳
@@ -26,7 +15,7 @@ var defaultAttr = {
 function main(dom, scene) {
     var win = $(temp);
     //注册窗口打开和关闭事件
-    initEvent(dom, win);
+    initEvent(dom, win,scene);
     //基本窗口属性初始化
     util.initBase(dom, win);
     //选择框切换
@@ -40,17 +29,17 @@ function main(dom, scene) {
     });
     return win;
 }
-function initEvent(dom, win) {
+function initEvent(dom, win,scene) {
     win.on("window.open", function (e, data) {
         if (data) {
             switch (data.type) {
                 case "create":
                     win.find(".panel-title").html("创建链接");
-                    createWindow(win, data.path);
+                    createWindow(win, data.path,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改链接");
-                    editWindow(win, data.target);
+                    editWindow(win, data.target,scene);
                     break;
                 default:
                     console.error("invalid type of linkAttrWindow,open function need to config like { type:'create' or 'edit'}");
@@ -140,7 +129,7 @@ function getSet(data) {
     }
     return set;
 }
-function createWindow(win, path) {
+function createWindow(win, path,scene) {
     if (!path || !path.start || !path.end) {
         console.error("invalid open linkAttrWindow,need set path.start and path.end to create");
     }
@@ -149,9 +138,20 @@ function createWindow(win, path) {
         path: path
     };
     win.find("select[name=type]").attr("disabled", false);
-    util.setFormInput(win.find("form"), defaultAttr)
+    var DEFAULT=scene.getDefault(QTopo.constant.link.DIRECT);
+    util.setFormInput(win.find("form"), {
+        number: DEFAULT.number,
+        type: "direct",
+        color: DEFAULT.color,
+        width: DEFAULT.width,
+        curveOffset: 200,
+        direction: "horizontal",
+        arrow_start: DEFAULT.arrow.start+"",
+        arrow_end: DEFAULT.arrow.end+"",
+        dashed: $.isNumeric(DEFAULT.dashed).toString()
+    });
 }
-function editWindow(win, target) {
+function editWindow(win, target,scene) {
     if (!target) {
         console.error("invalid open linkAttrWindow,need set target to edit");
     }

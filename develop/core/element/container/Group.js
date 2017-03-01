@@ -2,10 +2,13 @@
  * Created by qiyc on 2017/2/8.
  */
 var Container=require("./Container.js");
-module.exports = Group;
-//曲线
-var defaults = function () {
-    return {
+module.exports =  {
+    constructor:Group,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT = {
         name: 'group',
         font:{
             size:16,
@@ -31,12 +34,17 @@ var defaults = function () {
             dragble: true
         },
         useType:QTopo.constant.container.GROUP
-    };
 };
-
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
 function Group(config) {
     Container.call(this, new JTopo.Container());
-    this.attr =  QTopo.util.extend(defaults(), config || {});
+    this.attr =  QTopo.util.extend(getDefault(), config || {});
     //函数
     this.set = setJTopo;
     reset(this);
@@ -44,6 +52,7 @@ function Group(config) {
     this.set(this.attr);
 }
 QTopo.util.inherits(Group,Container);
+//-
 var defaultLayout = function (container, children) {
     if (children.length > 0) {
         var left = 1e7,
@@ -96,6 +105,7 @@ function setJTopo(config) {
 function reset(group) {
     group.jtopo.layout=defaultLayout;
 }
+//-
 Group.prototype.setLayout=function(layout){
     var selected;
     if (layout) {
@@ -127,3 +137,5 @@ Group.prototype.setLayout=function(layout){
     }
     this.jtopo.layout = selected;
 };
+Group.prototype.getDefault=getDefault;
+//-
