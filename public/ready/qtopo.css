@@ -65,6 +65,20 @@
 }
 .qtopo-toolBar .t-search-input{
     width: 200px;
+    position: relative;
+    background-color: white;
+}
+.qtopo-toolBar .t-search-input .clear-input{
+    position: absolute;
+    right: 2px;
+    top:7px;
+    cursor:pointer;
+}
+.qtopo-toolBar .t-search-input input{
+    height:100%;
+    width: 100%;
+    border:none;
+    border-radius: 0;
 }
 .qtopo-toolBar .t-search-mode{
     width:80px;

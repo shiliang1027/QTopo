@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //重写日志函数，加入时间标记
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        };
+        var fn = window.console.info;
+        window.console.info = function () {
+            var data = [new Date().Format("hh:mm:ss")];
+            for (var i = 0; i < arguments.length; i++) {
+                data.push(arguments[i]);
+            }
+            fn.apply(this, data);
+        };
+    </script>
+    <link href="./lib/concat/css/concat.min.css" rel="stylesheet">
+    <link href="./qtopo/qtopo.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+    <script src="./lib/concat/concat.js"></script>
+
+    <script src="./ready/qtopo.core.min.js"></script>
+    <script src="./ready/qtopo.component.min.js"></script>
+    <script src="./topo.js"></script>
+</head>
+<body>
+<div id="topo_base">
+    <table id="alarm_detail" class="table table-condensed table-bordered"></table>
+</div>
+</body>
+</html>

@@ -142,7 +142,8 @@ function getMenus(scene, menu, windows, tools) {
                         });
                     },
                     filter: function (target) {
-                        return target.getType() != QTopo.constant.SCENE;
+                        //可以删除分组缩放的节点，但不可以删除链路切换的临时线
+                        return target.getType() != QTopo.constant.SCENE&&(target.getUseType() != QTopo.constant.CASUAL||target.getType()==QTopo.constant.NODE);
                     }
                 }
             },
