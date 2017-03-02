@@ -225,7 +225,7 @@
     background-color: rgba(6,36,62,0.8);
     border:none;
 }
-.qtopo-windows .panel-primary,.qtopo-windows .modal-content{
+.qtopo-windows .panel-primary,.qtopo-windows .modal-content,.qtopo-windows .dropdown-menu{
     color: white;
     background-color: rgba(6,36,62,0.8);
 }
@@ -264,6 +264,8 @@
 
 .qtopo-windows .bootstrap-colorpalette div {
     line-height:0;
+    background-color: rgba(6,36,62,0.8);
+    display: inline-block;
 }
 
 .qtopo-windows .bootstrap-colorpalette .btn-color {

@@ -28,7 +28,7 @@ function toggleGroup(e, qtopo, scene) {
 }
 function toggleLink(e, qtopo, scene) {
     if (qtopo && qtopo.getType() == QTopo.constant.LINK&& $.isFunction(qtopo.toggle)) {
-        qtopo.toggle(scene);
+        qtopo.toggle(scene,true);
     }
 }
 module.exports = events;

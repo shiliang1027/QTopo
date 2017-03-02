@@ -19,7 +19,7 @@ var DEFAULT = {
         end: false
     },
     gap: 20,
-    width: 2,
+    width: 3,
     dashed: null,
     zIndex: 100,
     font: {
@@ -111,6 +111,7 @@ DirectLink.prototype.toggle = function (scene, flag) {
     if (scene) {//需要画布元素帮助切换
         var todo=!(this.getUseType() == QTopo.constant.CASUAL&&this.parent);
         if(typeof flag=="boolean"){
+            todo=flag^todo;
             if(flag){
                 if(!todo) {
                     return
@@ -130,7 +131,7 @@ DirectLink.prototype.toggle = function (scene, flag) {
                 path: this.path,
                 children: []
             };
-            if (parent.attr.number > 1) {
+            if (parent.attr.number > 1&&parent.attr.expendAble) {
                 scene.remove(this);
                 for (var i = 0; i < parent.attr.number; i++) {
                     var link = scene.createLink({
