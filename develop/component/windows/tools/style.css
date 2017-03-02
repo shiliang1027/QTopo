@@ -38,6 +38,10 @@
     line-height: 30px;
     height:100%;
 }
+.qtopo-windows .tools-progress .progress{
+}
+.qtopo-windows .tools-progress .progress-bar-info{
+}
 .qtopo-windows .tools-progress .modal-dialog{
     width: 600px;
 }

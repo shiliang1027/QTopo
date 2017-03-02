@@ -12,22 +12,15 @@ module.exports={
  * @returns {*}窗口的Jquery对象 包含open函数，函数返回一个延迟函数，在确认按钮点击后释放
  */
 function init(images){
+    var temp_image;
     temp=$(temp);
     var body=temp.find(".modal-body");
     //构造图片按钮们
-    if($.isArray(images)){
-        $.each(images,function(i,v){
-            body.append(imageButton(v));
-        });
-    }
+    var ImageMaker=makeImageBtn(body);
+    ImageMaker(images);
     //隐藏时清空active类
     temp.on("hide.bs.modal",function(e){
         body.find(".active").removeClass("active");
-    });
-    //选中图片之间互斥
-    body.find(".img-btn").on("click",function(e){
-        body.find(".active").removeClass("active");
-        $(this).addClass("active");
     });
     util.addScroll(body);
     //------
@@ -45,7 +38,30 @@ function init(images){
         temp.modal('show');
         return deferred.promise();
     };
-    return temp;
+    return {
+        win:temp,
+        setImage:ImageMaker,
+        getImage:getImage
+    };
+    function getImage(){
+        return temp_image;
+    }
+}
+function makeImageBtn(body){
+    return function(images){
+        if($.isArray(images)){
+            body.html("");//清空
+            temp_image=images;
+            $.each(images,function(i,src){
+                body.append(imageButton(src));
+            });
+            //选中图片之间互斥
+            body.find(".img-btn").on("click",function(e){
+                body.find(".active").removeClass("active");
+                $(this).addClass("active");
+            });
+        }
+    }
 }
 function imageButton(src){
     return $("<div class='img-btn'><img src="+src+"></div>");

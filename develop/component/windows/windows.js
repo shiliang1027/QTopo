@@ -15,30 +15,9 @@ var textNode=require("./textNode/win.js");
 var linkAttr=require("./link/win.js");
 var autoLayout=require("./autoLayout/win.js");
 module.exports = {
-    init: init
+    init: init,
+    set:set
 };
-var images = [
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png",
-    "img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png"
-];
 /**
  * 初始化窗口组件
  * @param instance topo实例化对象
@@ -57,18 +36,20 @@ function init(instance) {
 
 function initToolsWindow(wrap,dom,scene){
     var commonWrap = getWrap(wrap, "qtopo-windows-tools");
-    var imageSelectWin = imageSelect.init(images);
+    var imageSelectBack = imageSelect.init();
     var progressWin=progress.init(dom);
     var confirmWin=confirm.init(dom);
     var viewWin=view.init(dom);
     var tipsWin=tips.init(scene);
-    commonWrap.append(imageSelectWin);
+    commonWrap.append(imageSelectBack.win);
     commonWrap.append(progressWin);
     commonWrap.append(confirmWin);
     commonWrap.append(viewWin);
     commonWrap.append(tipsWin);
     return{
-        imageSelect:imageSelectWin,
+        imageSelect:imageSelectBack.win,
+        setImageSelect:imageSelectBack.setImage,
+        getImageSelect:imageSelectBack.getImage,
         confirm:confirmWin,
         tips:tipsWin,
         progress:progressWin,
@@ -108,4 +89,7 @@ function getWrap(dom, clazz) {
         dom.append(wrap);
     }
     return wrap;
+}
+function set(config){
+
 }

@@ -2,8 +2,11 @@
     右键菜单栏显示
 */
 .qtopo-rightMenu ul.dropdown-menu{
-    background: rgba(51, 122, 183, 0.9);
+    background-color: rgba(6,36,62,0.8);
     min-width: 120px;
+    border-radius: 0;
+    -moz-box-shadow: 2px 2px 2px #000000;
+    box-shadow: 2px 2px 2px #000000;
 }
 .qtopo-rightMenu .dropdown-menu li{
     font-size: 13px;
@@ -11,12 +14,13 @@
     cursor: pointer;
     height: 20px;
 }
+.qtopo-rightMenu .dropdown-menu>li>a:focus,.qtopo-rightMenu .dropdown-menu>li>a:hover {
+    text-decoration: none;
+    background-color: rgba(51, 122, 183, 0.8);
+    box-shadow: 0 0 10px rgba(51, 122, 183, 0.8);
+}
 .qtopo-rightMenu .dropdown-menu li a{
     color:white;
-}
-.qtopo-rightMenu .dropdown-menu li:hover>a{
-    background: none;
-    color:black;
 }
 .qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
     display: block;
@@ -33,7 +37,4 @@
     position: absolute;
     top: 5px;
     right: 10px;
-}
-.qtopo-rightMenu .subMenu:hover:after{
-    border-left-color: black;
 }

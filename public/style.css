@@ -10,16 +10,3 @@
     z-index: 99;
     margin: 0;
 }
-.btn-primary {
-    color: #fff;
-    background-color: #012f5d;
-    border:none;
-}
-.panel-primary>.panel-heading {
-    background-color: #06243E;
-    border:none;
-}
-.qtopo-windows .panel-primary, .qtopo-windows .modal-content {
-    color: white;
-    background-color: #06243E;
-}

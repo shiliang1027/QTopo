@@ -3,6 +3,21 @@
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
 }
+.qtopo-windows .close{
+    opacity:1;
+    color:white;
+    text-shadow:none;
+}
+.qtopo-windows .panel-title{
+    font-weight:700;
+}
+.qtopo-windows .form-control,.qtopo-windows .panel,.qtopo-windows .dropdown-menu{
+    border-radius: 0;
+}
+.qtopo-windows .panel,.qtopo-windows .dropdown-menu{
+    -moz-box-shadow: 0 0 10px #337ab7;
+    box-shadow: 0 0 10px #337ab7;
+}
 .qtopo-windows .modal{
     position: absolute;
 }
@@ -39,9 +54,13 @@
     right:0;
     top:0;
 }
+.qtopo-windows .panel-primary>.panel-heading {
+    background-color: rgba(6,36,62,0.8);
+    border:none;
+}
 .qtopo-windows .panel-primary,.qtopo-windows .modal-content{
     color: white;
-    background: rgba(51, 122, 183, 0.8);
+    background-color: rgba(6,36,62,0.8);
 }
 /*图片选择*/
 .qtopo-windows .image-select-group input{
@@ -68,10 +87,6 @@
 }
 .qtopo-windows .color-selected{
     width: 110px;
-}
-.qtopo-windows .input-group-btn>.select-color-btn {
-    border-bottom-right-radius: 4px !important;
-    border-top-right-radius: 4px !important;
 }
 .qtopo-windows .bootstrap-colorpalette {
     padding-left:4px;

@@ -6,6 +6,17 @@
     right:0;
     top:0;
 }
+.qtopo-toolBar button.btn.btn-primary {
+    outline: none;
+}
+.qtopo-toolBar .btn-primary:hover,.btn-primary.active, .btn-primary:active{
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+    /* box-sizing: border-box; */
+    -moz-box-shadow: 0 0 10px #337ab7;
+    box-shadow: 0 0 10px #337ab7;
+}
 .t-children{
     display: none;
     position: absolute;
@@ -44,4 +55,9 @@
 }
 .qtopo-toolBar .t-search-mode{
     width:80px;
+}
+.qtopo-toolBar .btn-primary{
+    color: #fff;
+    background-color: #012f5d;
+    border:none;
 }

@@ -113,15 +113,6 @@ var util = {
             });
         }
     },
-    /**清空窗口中的input内的值
-     * @win 待清理的窗口
-     */
-    clearWin: function (win) {
-        var inputs = win.find("input");
-        for (var i = 0; i < inputs.length; i++) {
-            inputs.val('');
-        }
-    },
     /**
      * 封装统一的jquery-niceScroll插件的设定值
      * @param win 需要添加滚动条的窗口
