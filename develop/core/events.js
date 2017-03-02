@@ -27,8 +27,11 @@ function toggleGroup(e, qtopo, scene) {
     }
 }
 function toggleLink(e, qtopo, scene) {
-    if (qtopo && qtopo.getType() == QTopo.constant.LINK&& $.isFunction(qtopo.toggle)) {
-        qtopo.toggle(scene,true);
+    if (qtopo && qtopo.getType() == QTopo.constant.LINK && qtopo.attr.expendAble) {
+        if (!$.isFunction(qtopo.toggle)) {
+            qtopo.openToggle(scene);
+        }
+        qtopo.toggle();
     }
 }
 module.exports = events;

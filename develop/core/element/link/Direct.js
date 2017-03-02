@@ -27,7 +27,7 @@ var DEFAULT = {
         type: "微软雅黑",
         color: '255,255,255'
     },
-    expendAble: true,
+    expendAble: false,
     useType: QTopo.constant.link.DIRECT,
     bundleOffset: 60// 多条直线时，线条折线拐角处的长度
 };
@@ -99,28 +99,17 @@ DirectLink.prototype.setBundleOffset = function (bundleOffset) {
     this.attr.bundleOffset = this.jtopo.bundleOffset;
 };
 DirectLink.prototype.getDefault = getDefault;
-DirectLink.prototype.setExpendAble = function (flag) {
-    this.attr.expendAble = typeof flag == "boolean" ? flag : flag == "true";
-};
-/**
- * 直线切换
- * @param scene 所在画布
- * @param flag 为true则展开为false则缩放，无值则根据现状切换,
- */
-DirectLink.prototype.toggle = function (scene, flag) {
-    if (scene) {//需要画布元素帮助切换
-        var todo=!(this.getUseType() == QTopo.constant.CASUAL&&this.parent);
-        if(typeof flag=="boolean"){
-            todo=flag^todo;
-            if(flag){
-                if(!todo) {
-                    return
-                }
-            }else{
-                if(todo){
-                    return;
-                }
-            }
+DirectLink.prototype.openToggle=function(scene){
+    this.attr.expendAble = true;
+    var jtopo=scene.jtopo;
+    /**
+     * 直线切换
+     * @param flag 为true则展开为false则缩放，无值则根据现状切换,
+     */
+    this.toggle=function(flag){
+        var todo = !(this.getUseType() == QTopo.constant.CASUAL && this.parent);
+        if (typeof flag == "boolean" && (flag ^ todo)) {
+            return;
         }
         if (todo) {
             //展开
@@ -131,7 +120,7 @@ DirectLink.prototype.toggle = function (scene, flag) {
                 path: this.path,
                 children: []
             };
-            if (parent.attr.number > 1&&parent.attr.expendAble) {
+            if (parent.attr.number > 1 && parent.attr.expendAble) {
                 scene.remove(this);
                 for (var i = 0; i < parent.attr.number; i++) {
                     var link = scene.createLink({
