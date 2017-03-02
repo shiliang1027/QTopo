@@ -95,7 +95,7 @@ function doWithForm(config, scene, data) {
                 if(!data.type){
                     set.type="direct";
                 }else{
-                    set.type=data.type;
+                    set.type=choseType(data.type);
                 }
                 set.start=config.path.start;
                 set.end=config.path.end;
@@ -107,6 +107,24 @@ function doWithForm(config, scene, data) {
                 }
                 break;
         }
+    }
+    function choseType(type) {
+        var newType="";
+        switch (type) {
+            case "direct" :
+                newType = QTopo.constant.link.DIRECT;
+                break;
+            case "curve":
+                newType = QTopo.constant.link.CURVE;
+                break;
+            case "flexional":
+                newType = QTopo.constant.link.FLEXIONAL;
+                break;
+            case "fold":
+                newType = QTopo.constant.link.FOLD;
+                break;
+        }
+        return newType;
     }
 }
 function getSet(data) {

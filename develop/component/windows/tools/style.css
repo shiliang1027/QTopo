@@ -19,7 +19,7 @@
 /**tips**/
 .qtopo-windows .tools-tips{
     color: white;
-    background: rgba(51, 122, 183, 0.5);
+    background: rgba(51, 122, 183, 0.8);
     position: absolute;
     font-size:12px;
     max-width: 150px;

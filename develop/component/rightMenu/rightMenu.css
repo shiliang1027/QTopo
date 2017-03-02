@@ -16,8 +16,8 @@
 }
 .qtopo-rightMenu .dropdown-menu>li>a:focus,.qtopo-rightMenu .dropdown-menu>li>a:hover {
     text-decoration: none;
-    background-color: rgba(51, 122, 183, 0.8);
-    box-shadow: 0 0 10px rgba(51, 122, 183, 0.8);
+    background-color: #3d6cd6;
+    box-shadow: 0 0 10px #3d6cd6;
 }
 .qtopo-rightMenu .dropdown-menu li a{
     color:white;

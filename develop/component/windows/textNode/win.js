@@ -62,7 +62,7 @@ function doWithForm(config, scene, data){
         switch (config.type){
             case "create":
                 scene.createNode({
-                    type:"text",
+                    type:QTopo.constant.node.TEXT,
                     position:config.position,
                     text:data.text,
                     font:{

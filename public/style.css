@@ -4,9 +4,24 @@
 }
 #alarm_detail{
     position: absolute;
+    right:0;
     bottom:0;
-    background: #0a73a5;
-    width: 300px;color:white;
+    background-color: rgba(6,36,62,0.8);
+    -moz-box-shadow: 0 0 10px #337ab7;
+    box-shadow: 0 0 10px #337ab7;
+    color:white;
+    width: 400px;
     z-index: 99;
     margin: 0;
+    text-align: center;
+}
+#alarm_detail td,#alarm_detail{
+    border: 1px solid #337ab7;
+}
+#alarm_detail td:first-child{
+    width: 300px;
+}
+#alarm_detail tr:hover{
+    color:#3d6cd6;
+    cursor:pointer;
 }

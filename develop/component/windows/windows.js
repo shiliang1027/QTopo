@@ -70,6 +70,7 @@ function initPrivateWin(wrap,tools,dom,scene){
     //---
     var autoLayoutWin=autoLayout.init(dom, scene);
     nodeWrap.append(autoLayoutWin);
+    
     return {
         node:{
             image:imageNodeWin,
@@ -79,7 +80,6 @@ function initPrivateWin(wrap,tools,dom,scene){
         autoLayout:autoLayoutWin
     }
 }
-
 function getWrap(dom, clazz) {
     //添加外壳
     dom = $(dom);
