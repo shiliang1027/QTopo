@@ -49,19 +49,21 @@ function getMenus(scene, menu, windows, tools) {
             });
         }
     }
+
     //画链接控制
     var link = {
         start: "",
         end: ""
     };
-    function addLink(){
+
+    function addLink() {
         if (link && link.start && link.end) {
             var links = scene.linksBetween(link.start, link.end);
             if (links.length > 0) {
                 links[0].set({
-                    number: links[0].getAttr("number") + 1
+                    number: links[0].attr.number + 1
                 });
-            }else{
+            } else {
                 windows.link.open({
                     type: "create",
                     path: link
@@ -70,138 +72,121 @@ function getMenus(scene, menu, windows, tools) {
             link = {};
         }
     }
+
     return {
         item: {
-            DEBUG: function () {
-                return {
-                    name: "Debug",
-                    click: function (e) {
-                        if (menu.target) {
-                            var index;
-                            switch (menu.target.getType()) {
-                                case QTopo.constant.NODE:
-                                    index=scene.children.node.indexOf(menu.target);
-                                    break;
-                                case QTopo.constant.CONTAINER:
-                                    index=scene.children.container.indexOf(menu.target);
-                                    break;
-                                case QTopo.constant.LINK:
-                                    index=scene.children.link.indexOf(menu.target);
-                            }
-                            console.info(index,menu.target);
-                        }
-                    }
-                }
-            },
-            TEST: function () {
-                return {
-                    name: "test",
-                    click: function (e) {
-                    }
-                }
-            },
-            EDIT: function () {
-                return {
-                    name: "编辑",
-                    click: function () {
+            DEBUG: {
+                name: "Debug",
+                click: function (e) {
+                    if (menu.target) {
+                        var index;
                         switch (menu.target.getType()) {
                             case QTopo.constant.NODE:
-                                switch (menu.target.getUseType()) {
-                                    case QTopo.constant.node.IMAGE:
-                                        editImageNode();
-                                        break;
-                                    case QTopo.constant.node.TEXT:
-                                        editTextNode();
-                                        break;
-                                }
+                                index = scene.children.node.indexOf(menu.target);
+                                break;
+                            case QTopo.constant.CONTAINER:
+                                index = scene.children.container.indexOf(menu.target);
                                 break;
                             case QTopo.constant.LINK:
-                                editLink();
-                                break;
+                                index = scene.children.link.indexOf(menu.target);
                         }
-                    },
-                    filter: function (target) {
-                        return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
+                        console.info(index, menu.target);
                     }
                 }
             },
-            DELETE: function () {
-                return {
-                    name: '删除',
-                    click: function () {
-                        tools.confirm.open({
-                            title: "删除确认",
-                            content: "确认删除？",
-                            width: 200,
-                            ok: function () {
-                                scene.remove(menu.target);
-                            },
-                            cancel: function () {
-                                console.info("cancel");
+            TEST: {
+                name: "test",
+                click: function (e) {
+                }
+            },
+            EDIT: {
+                name: "编辑",
+                click: function () {
+                    switch (menu.target.getType()) {
+                        case QTopo.constant.NODE:
+                            switch (menu.target.getUseType()) {
+                                case QTopo.constant.node.IMAGE:
+                                    editImageNode();
+                                    break;
+                                case QTopo.constant.node.TEXT:
+                                    editTextNode();
+                                    break;
                             }
-                        });
-                    },
-                    filter: function (target) {
-                        //可以删除分组缩放的节点，但不可以删除链路切换的临时线
-                        return target.getType() != QTopo.constant.SCENE&&(target.getUseType() != QTopo.constant.CASUAL||target.getType()==QTopo.constant.NODE);
+                            break;
+                        case QTopo.constant.LINK:
+                            editLink();
+                            break;
                     }
+                },
+                filter: function (target) {
+                    return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
                 }
             },
-            UPZINDEX: function () {
-                return {
-                    name: "提升层级",
-                    click: function () {
-                        scene.toggleZIndex(menu.target);
-                    },
-                    filter: function (target) {
-                        return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
-                    }
+            DELETE: {
+                name: '删除',
+                click: function () {
+                    tools.confirm.open({
+                        title: "删除确认",
+                        content: "确认删除？",
+                        width: 200,
+                        ok: function () {
+                            scene.remove(menu.target);
+                        },
+                        cancel: function () {
+                            console.info("cancel");
+                        }
+                    });
+                },
+                filter: function (target) {
+                    //可以删除分组缩放的节点，但不可以删除链路切换的临时线
+                    return target.getType() != QTopo.constant.SCENE && (target.getUseType() != QTopo.constant.CASUAL || target.getType() == QTopo.constant.NODE);
                 }
             },
-            DOWNZINDEX: function () {
-                return {
-                    name: "降低层级",
-                    click: function () {
-                        scene.toggleZIndex(menu.target, true);
-                    },
-                    filter: function (target) {
-                        return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
-                    }
+            UPZINDEX: {
+                name: "提升层级",
+                click: function () {
+                    scene.toggleZIndex(menu.target);
+                },
+                filter: function (target) {
+                    return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
                 }
             },
-            LIGHTING: function () {
-                return {
-                    name: "相关高亮",
-                    click: function () {
-                        scene.toggleLight(menu.target);
-                        lighting = true;
-                    },
-                    filter: function (target) {
-                        return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
-                    }
+            DOWNZINDEX: {
+                name: "降低层级",
+                click: function () {
+                    scene.toggleZIndex(menu.target, true);
+                },
+                filter: function (target) {
+                    return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
                 }
             },
-            NOTLIGHTING: function () {
-                return {
-                    name: "取消高亮",
-                    click: function () {
-                        scene.toggleLight();
-                        lighting = false;
-                    },
-                    filter: function (target) {
-                        return lighting;
-                    }
+            LIGHTING: {
+                name: "相关高亮",
+                click: function () {
+                    scene.toggleLight(menu.target);
+                    lighting = true;
+                },
+                filter: function (target) {
+                    return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
                 }
             },
-            REMOVEFROMGROUP: function () {
-                return {
-                    name: "移出分组",
-                    click: function () {
-                        menu.target.parent.remove(menu.target);
-                    },
-                    filter: function (target) {
-                        return target&&target.getUseType() != QTopo.constant.CASUAL&&target.parent;
-                    }
+            NOTLIGHTING: {
+                name: "取消高亮",
+                click: function () {
+                    scene.toggleLight();
+                    lighting = false;
+                },
+                filter: function (target) {
+                    return lighting;
+                }
+            },
+            REMOVEFROMGROUP: {
+                name: "移出分组",
+                click: function () {
+                    menu.target.parent.remove(menu.target);
+                },
+                filter: function (target) {
+                    return target && target.getUseType() != QTopo.constant.CASUAL && target.parent;
                 }
             }
         },
@@ -209,20 +194,16 @@ function getMenus(scene, menu, windows, tools) {
             {
                 name: "创建节点",
                 item: {
-                    CREATE_IMAGE_NODE: function () {
-                        return {
-                            name: "图片节点",
-                            click: function () {
-                                createImageNode();
-                            }
+                    CREATE_IMAGE_NODE: {
+                        name: "图片节点",
+                        click: function () {
+                            createImageNode();
                         }
                     },
-                    CREATE_TEXT_NODE: function () {
-                        return {
-                            name: "文字节点",
-                            click: function () {
-                                createTextNode();
-                            }
+                    CREATE_TEXT_NODE: {
+                        name: "文字节点",
+                        click: function () {
+                            createTextNode();
                         }
                     }
                 },
@@ -233,22 +214,18 @@ function getMenus(scene, menu, windows, tools) {
             {
                 name: "添加链路",
                 item: {
-                    SET_START: function () {
-                        return {
-                            name: "设为起点",
-                            click: function () {
-                                link.start = menu.target;
-                                addLink();
-                            }
+                    SET_START: {
+                        name: "设为起点",
+                        click: function () {
+                            link.start = menu.target;
+                            addLink();
                         }
                     },
-                    SET_END: function () {
-                        return {
-                            name: "设为终点",
-                            click: function () {
-                                link.end = menu.target;
-                                addLink();
-                            }
+                    SET_END: {
+                        name: "设为终点",
+                        click: function () {
+                            link.end = menu.target;
+                            addLink();
                         }
                     }
                 },

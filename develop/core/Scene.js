@@ -40,6 +40,7 @@ function Scene(stage, config) {
         line: []
     };
     self.attr = defaults();
+    self.extra=config.extra||{};
     stage.add(self.jtopo);
     events.init(self);
     //延时执行
@@ -58,7 +59,21 @@ function Scene(stage, config) {
     });
 }
 //-
-//scan 格式 aaa=bb,ccc=dd条件之间以,分隔
+Scene.prototype.data=function(key,value){
+    if(!value){
+        var result;
+        if(this.attr[key]){
+            result=this.attr[key];
+        }else if(this.extra[key]){
+            result=this.extra[key];
+        }else{
+            result=this[key];
+        }
+        return result;
+    }else{
+        this.extra[key]=value;
+    }
+};
 Scene.prototype.setDefault = function (type, config) {
     if (config) {
         var constant = QTopo.constant;
@@ -304,7 +319,7 @@ Scene.prototype.addLink = function (config) {
                 number = parseInt(config.number);
             }
             links[0].set({
-                number: links[0].getAttr("number") + number
+                number: links[0].attr.number + number
             });
         } else {
             this.createLink(config);
@@ -497,4 +512,6 @@ function removeContainer(container) {
     }
 }
 //-
-
+Scene.prototype.toJson=function(){
+    return this.jtopo.stage.tojson();
+};

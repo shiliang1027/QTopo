@@ -37,8 +37,7 @@ function makeAdd(scene, rightMenu, windows, tools){
     }
 }
 function makeMenus(rightMenu, menus){
-    $.each(menus.item,function(name,fn){
-        var menu=fn(rightMenu);//按钮获取父对象
+    $.each(menus.item,function(name,menu){
         if(menu){
             rightMenu.addItem({
                 name:menu.name,
@@ -58,8 +57,7 @@ function makeMenus(rightMenu, menus){
                     filter:sub.filter
                 });
                 if(sub.item){
-                    $.each(sub.item,function(name,item){
-                        var menu=item(rightMenu);//按钮获取父对象
+                    $.each(sub.item,function(name,menu){
                         if(menu){
                             subMenu.addItem({
                                 name:menu.name,

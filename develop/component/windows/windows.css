@@ -95,6 +95,7 @@
     position: absolute;
     right: 0;
     top: 0;
+    height: 100%;
 }
 /*颜色选择*/
 .qtopo-windows .select-color{
@@ -142,4 +143,7 @@
 }
 .qtopo-windows .checkbox-wrap div{
     margin-top: -20px;
+}
+.qtopo-windows .select-color-btn{
+    height:34px;
 }

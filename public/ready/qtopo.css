@@ -2,8 +2,11 @@
     右键菜单栏显示
 */
 .qtopo-rightMenu ul.dropdown-menu{
-    background: rgba(51, 122, 183, 0.9);
+    background-color: rgba(6,36,62,0.8);
     min-width: 120px;
+    border-radius: 0;
+    -moz-box-shadow: 2px 2px 2px #000000;
+    box-shadow: 2px 2px 2px #000000;
 }
 .qtopo-rightMenu .dropdown-menu li{
     font-size: 13px;
@@ -11,12 +14,13 @@
     cursor: pointer;
     height: 20px;
 }
+.qtopo-rightMenu .dropdown-menu>li>a:focus,.qtopo-rightMenu .dropdown-menu>li>a:hover {
+    text-decoration: none;
+    background-color: #3d6cd6;
+    box-shadow: 0 0 10px #3d6cd6;
+}
 .qtopo-rightMenu .dropdown-menu li a{
     color:white;
-}
-.qtopo-rightMenu .dropdown-menu li:hover>a{
-    background: none;
-    color:black;
 }
 .qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
     display: block;
@@ -33,9 +37,6 @@
     position: absolute;
     top: 5px;
     right: 10px;
-}
-.qtopo-rightMenu .subMenu:hover:after{
-    border-left-color: black;
 }/*
 工具栏
 */
@@ -43,6 +44,17 @@
     position: absolute;
     right:0;
     top:0;
+}
+.qtopo-toolBar button.btn.btn-primary {
+    outline: none;
+}
+.qtopo-toolBar .btn-primary:hover,.btn-primary.active, .btn-primary:active{
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+    /* box-sizing: border-box; */
+    -moz-box-shadow: 0 0 10px #337ab7;
+    box-shadow: 0 0 10px #337ab7;
 }
 .t-children{
     display: none;
@@ -82,6 +94,11 @@
 }
 .qtopo-toolBar .t-search-mode{
     width:80px;
+}
+.qtopo-toolBar .btn-primary{
+    color: #fff;
+    background-color: #012f5d;
+    border:none;
 }.qtopo-windows .image-select .modal-body {
     padding: 22px;
     max-height:400px;
@@ -103,7 +120,7 @@
 /**tips**/
 .qtopo-windows .tools-tips{
     color: white;
-    background: rgba(51, 122, 183, 0.5);
+    background: rgba(51, 122, 183, 0.8);
     position: absolute;
     font-size:12px;
     max-width: 150px;
@@ -122,6 +139,10 @@
     line-height: 30px;
     height:100%;
 }
+.qtopo-windows .tools-progress .progress{
+}
+.qtopo-windows .tools-progress .progress-bar-info{
+}
 .qtopo-windows .tools-progress .modal-dialog{
     width: 600px;
 }
@@ -132,6 +153,37 @@
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
+}
+.qtopo-windows .btn{
+    background-color: #3d6cd6;
+    color: white;
+    font-weight: 300;
+    border:none;
+    border-radius: 0;
+}
+.qtopo-windows .btn:hover{
+    background-color: rgba(10,44,70,1);
+}
+.qtopo-windows .modal-header{
+    border-bottom: 1px solid #337ab7;
+}
+.qtopo-windows .modal-footer{
+    border-top: 1px solid #337ab7;
+}
+.qtopo-windows .close{
+    opacity:1;
+    color:white;
+    text-shadow:none;
+}
+.qtopo-windows .panel-title{
+    font-weight:700;
+}
+.qtopo-windows .form-control,.qtopo-windows .panel,.qtopo-windows .dropdown-menu{
+    border-radius: 0;
+}
+.qtopo-windows .panel,.qtopo-windows .dropdown-menu{
+    -moz-box-shadow: 0 0 10px #337ab7;
+    box-shadow: 0 0 10px #337ab7;
 }
 .qtopo-windows .modal{
     position: absolute;
@@ -169,9 +221,13 @@
     right:0;
     top:0;
 }
-.qtopo-windows .panel-primary,.qtopo-windows .modal-content{
+.qtopo-windows .panel-primary>.panel-heading {
+    background-color: rgba(6,36,62,0.8);
+    border:none;
+}
+.qtopo-windows .panel-primary,.qtopo-windows .modal-content,.qtopo-windows .dropdown-menu{
     color: white;
-    background: rgba(51, 122, 183, 0.8);
+    background-color: rgba(6,36,62,0.8);
 }
 /*图片选择*/
 .qtopo-windows .image-select-group input{
@@ -190,6 +246,7 @@
     position: absolute;
     right: 0;
     top: 0;
+    height: 100%;
 }
 /*颜色选择*/
 .qtopo-windows .select-color{
@@ -198,10 +255,6 @@
 }
 .qtopo-windows .color-selected{
     width: 110px;
-}
-.qtopo-windows .input-group-btn>.select-color-btn {
-    border-bottom-right-radius: 4px !important;
-    border-top-right-radius: 4px !important;
 }
 .qtopo-windows .bootstrap-colorpalette {
     padding-left:4px;
@@ -212,6 +265,8 @@
 
 .qtopo-windows .bootstrap-colorpalette div {
     line-height:0;
+    background-color: rgba(6,36,62,0.8);
+    display: inline-block;
 }
 
 .qtopo-windows .bootstrap-colorpalette .btn-color {
@@ -239,4 +294,7 @@
 }
 .qtopo-windows .checkbox-wrap div{
     margin-top: -20px;
+}
+.qtopo-windows .select-color-btn{
+    height:34px;
 }

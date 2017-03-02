@@ -35,7 +35,7 @@ $(document).ready(function () {
     tools.progress.open({now: 10, text: '10%'});
     //设置鼠标提示框显示内容，以及响应的元素
     tools.tips.open(function(target){
-        return "<div>"+target.attr.name+"</div>"+"<div>"+target.id+"</div>"
+        return "<div> name: " + target.getAttr("name") + "</div>" + "<div> id: " + target.getAttr("id") + "</div>";
     },function(target){
         return target.getType()==QTopo.constant.NODE;
     });

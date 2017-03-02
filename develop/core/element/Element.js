@@ -202,16 +202,20 @@ Element.prototype._setAttr = function (config) {
         }
     });
 };
-Element.prototype.getAttr=function(name){
-    var result;
-    if(name){
-        if(this.attr[name]){
-            result=this.attr[name];
-        }else if(this.extra[name]){
-            result=this.extra[name];
+Element.prototype.data=function(key,value){
+    if(!value){
+        var result;
+        if(this.attr[key]){
+            result=this.attr[key];
+        }else if(this.extra[key]){
+            result=this.extra[key];
+        }else{
+            result=this[key];
         }
+        return result;
+    }else{
+        this.extra[key]=value;
     }
-    return result;
 };
 /**对象links属性内的所有线进行切换
  *@links node/container的links属性

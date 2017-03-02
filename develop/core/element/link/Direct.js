@@ -27,7 +27,7 @@ var DEFAULT = {
         type: "微软雅黑",
         color: '255,255,255'
     },
-    expendAble: false,
+    expendAble: true,
     useType: QTopo.constant.link.DIRECT,
     bundleOffset: 60// 多条直线时，线条折线拐角处的长度
 };
@@ -122,14 +122,15 @@ DirectLink.prototype.openToggle=function(scene){
             };
             if (parent.attr.number > 1 && parent.attr.expendAble) {
                 scene.remove(this);
+                var childSet=QTopo.util.deepClone(parent.attr);
                 for (var i = 0; i < parent.attr.number; i++) {
-                    var link = scene.createLink({
-                        start: parent.path.start,
-                        end: parent.path.end,
-                        useType: QTopo.constant.CASUAL
-                    });
+                    childSet.start=parent.path.start;
+                    childSet.end=parent.path.end;
+                    childSet.useType= QTopo.constant.CASUAL;
+                    var link = scene.createLink(childSet);
                     parent.children.push(link);
                     link.parent = parent;
+                    link.extra=parent.extra;
                 }
             }
         } else {
