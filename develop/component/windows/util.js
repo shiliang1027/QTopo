@@ -129,6 +129,7 @@ var util = {
             cursorborder: "1px solid #0e1c39"
         });
     },
+
     /**
      * 让子窗口在父窗口的正中
      * @param dom 父窗口

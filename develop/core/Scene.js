@@ -308,21 +308,37 @@ Scene.prototype.createLink = function (config) {
 /**
  * 根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,提供线路展开
  * @param config
- * @returns {*}
+ * @param fn 可选参数，若无则自动创建链接,若有则执行fn的动作
  */
-Scene.prototype.addLink = function (config) {
+Scene.prototype.addLink = function (config,fn) {
     if (config && config.start && config.end) {
         var links = this.linksBetween(config.start, config.end);//按number属性从大到小排列
-        if (links.length > 0) {
+        if (links.length == 0) {
+            if($.isFunction(fn)){
+                fn();
+            }else{
+                this.createLink(config);
+            }
+        } else {
+            //两点之间连线为1则认为是已有链接，超过1则认为是可以展开且已经展开的直线
             var number = 1;
             if ($.isNumeric(config.number)) {
                 number = parseInt(config.number);
+                if(number<1){
+                    number=1;
+                }
             }
-            links[0].set({
-                number: links[0].attr.number + number
-            });
-        } else {
-            this.createLink(config);
+            if(links.length==1){
+                links[0].set({
+                    number: links[0].attr.number + number
+                });
+            }else if(links.length>1){
+                var parent=links[0].parent;
+                if(parent){
+                    parent.attr.number+=number;
+                    parent.addChild(number);
+                }
+            }
         }
     }
 };

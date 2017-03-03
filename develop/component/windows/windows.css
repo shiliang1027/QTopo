@@ -3,6 +3,9 @@
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
 }
+.qtopo-windows .db-margin-b{
+    margin-bottom: 25px;
+}
 .qtopo-windows .btn{
     background-color: #3d6cd6;
     color: white;
@@ -125,25 +128,26 @@
     margin: 0;
     padding: 0;
 }
-
 .qtopo-windows .bootstrap-colorpalette .btn-color:hover {
     border: 1px solid #000;
 }
 /**/
 .qtopo-windows .submit-group{
-    display: table;
-    margin: auto;
+    float: right;
 }
-.qtopo-windows .checkbox-wrap{
-    margin-right: 6px;
-    display: inline-block;
-}
-.qtopo-windows .checkbox-wrap input{
-    margin: 0;
-}
-.qtopo-windows .checkbox-wrap div{
-    margin-top: -20px;
+.qtopo-windows .submit-group button{
+    width: 75px;
 }
 .qtopo-windows .select-color-btn{
     height:34px;
+}
+.qtopo-windows .link-chk{
+    display: inline-block;
+    width: 33%;
+    float: left;
+}
+.qtopo-windows .link-chk div{
+    font-size: 13px;
+    position: absolute;
+    top: 15px;
 }

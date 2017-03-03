@@ -56,7 +56,7 @@ gulp.task('concatCss', function () {                                //- 创建�
 gulp.task('watch', function () {
     gulp.watch(homePage, ['reload']);
     gulp.watch(scss, ['sass']);
-    gulp.watch("develop/**/*.js", ['build']);
+    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css"], ['build']);
 });
 //服务器任务，提供在线查看功能
 gulp.task('serve', function () {

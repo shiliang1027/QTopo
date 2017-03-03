@@ -4,6 +4,7 @@
 require("./toolBar.css");
 var toolBar=require("./toolBar.html");
 var editBar=require("./editBar.html");
+var selectResult=require("./selectResult.html");
 module.exports={
     init:init
 };
@@ -15,8 +16,10 @@ function init(dom,scene,windows){
     }
     toolBar=$(toolBar);
     editBar=$(editBar);
+    selectResult=$(selectResult).hide();
     wrap.append(toolBar);
     wrap.append(editBar);
+    wrap.append(selectResult);
     wrap.find("[data-toggle*='tooltip']").tooltip();//开启提示框
     //切换模式和子菜单栏显示位置
     wrap.find("[name=topo_mode]").click(function (e) {
@@ -55,36 +58,30 @@ function init(dom,scene,windows){
     editBar.find("button[name=auto_layout]").click(function(){
         windows.windows.autoLayout.open();
     });
-    var addSearch=addSearchMode(toolBar.find("select[name=search_mode]"),toolBar.find("button[name=search]"),toolBar.find("input[name=search_value]"),toolBar.find(".clear-input"));
+    var addSearch=addSearchMode(scene,toolBar,selectResult);
     addSearch({
-        type:"node",
-        name:"节点",
+        type:"value",
+        name:"根据属性",
         search:function(val){
-            var node=scene.find(val,"node");
-            if(node.length>0){
-                scene.moveToNode(node[0]);
-            }
+            return scene.find(val,"node");
         }
     });
     return addSearch;
 }
-function toggleClick(botton, aClass, bClass) {
-    botton.click(function () {
-        if (!botton._isClick) {
-            botton.find('span').removeClass(aClass).addClass(bClass);
-            botton._isClick = true;
-        } else {
-            botton.find('span').removeClass(bClass).addClass(aClass);
-            botton._isClick = false;
-        }
-    });
-}
-function addSearchMode(selectWin,searchBtn,input,clear){
+function addSearchMode(scene,toolBar,resultWin){
+    var resultSelect=resultWin.find(".result-select");
+    var resultShow=resultWin.find(".result-show");
+    var selectWin=toolBar.find("select[name=search_mode]");
+    var searchBtn=toolBar.find("button[name=search]");
+    var input=toolBar.find("input[name=search_value]");
+    var clear=toolBar.find(".clear-input");
     selectWin.mode={};
+
     clear.hide();
     clear.click(function(){
         input.val("");
         clear.hide();
+        resultWin.hide();
     });
     input.keydown(function(e){
         if(e.keyCode==13){
@@ -95,12 +92,29 @@ function addSearchMode(selectWin,searchBtn,input,clear){
     searchBtn.click(function(){
         doSearch();
     });
+    resultSelect.click(function(){
+        resultShow.toggle();
+    });
     function doSearch(){
         if(selectWin.val()){
             var doSearch=selectWin.mode[selectWin.val()];
             if($.isFunction(doSearch)){
-                doSearch(input.val());
+                addResult(doSearch(input.val()));
             }
+        }
+    }
+    function addResult(results){
+        if($.isArray(results)){
+            resultShow.html("");
+            $.each(results,function(i,node){
+                var name=node.val("name");
+                var li=$("<li title='"+name+"'>"+ name+"</li>");
+                li.click(function(){
+                    scene.moveToNode(node);
+                });
+                resultShow.append(li);
+            });
+            resultWin.show();
         }
     }
     return function(config){

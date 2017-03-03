@@ -58,17 +58,12 @@ function getMenus(scene, menu, windows, tools) {
 
     function addLink() {
         if (link && link.start && link.end) {
-            var links = scene.linksBetween(link.start, link.end);
-            if (links.length > 0) {
-                links[0].set({
-                    number: links[0].attr.number + 1
-                });
-            } else {
+            scene.addLink(link,function(){
                 windows.link.open({
                     type: "create",
                     path: link
                 });
-            }
+            });
             link = {};
         }
     }
@@ -92,11 +87,6 @@ function getMenus(scene, menu, windows, tools) {
                         }
                         QTopo.util.info(index, menu.target);
                     }
-                }
-            },
-            TEST: {
-                name: "test",
-                click: function (e) {
                 }
             },
             EDIT: {
@@ -133,6 +123,7 @@ function getMenus(scene, menu, windows, tools) {
                             scene.remove(menu.target);
                         },
                         cancel: function () {
+                            console.info("cancel");
                         }
                     });
                 },

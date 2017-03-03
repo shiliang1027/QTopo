@@ -38,17 +38,20 @@ Link.prototype.setColor = function (color) {
 };
 Link.prototype.setNumber = function (number) {
     if ($.isNumeric(number)) {
+        number=parseInt(number);
         if(number > 1){
             this.jtopo.text = '(+' + number + ')';
         }else {
+            number=1;
             this.jtopo.text = '';
         }
-        this.attr.number=parseInt(number);
+        this.attr.number=number;
     }
 };
 Link.prototype.setWidth=function(width){
     if($.isNumeric(width)){
-        this.jtopo.lineWidth = width; // 线宽
+        var newWidth=parseInt(width);
+        this.jtopo.lineWidth =newWidth>0?newWidth:1; // 线宽
     }
     this.attr.width=this.jtopo.lineWidth;
 };

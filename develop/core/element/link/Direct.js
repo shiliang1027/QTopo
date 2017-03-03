@@ -99,14 +99,14 @@ DirectLink.prototype.setBundleOffset = function (bundleOffset) {
     this.attr.bundleOffset = this.jtopo.bundleOffset;
 };
 DirectLink.prototype.getDefault = getDefault;
-DirectLink.prototype.openToggle=function(scene){
+DirectLink.prototype.openToggle = function (scene) {
     this.attr.expendAble = true;
-    var jtopo=scene.jtopo;
+    var jtopo = scene.jtopo;
     /**
      * 直线切换
      * @param flag 为true则展开为false则缩放，无值则根据现状切换,
      */
-    this.toggle=function(flag){
+    this.toggle = function (flag) {
         var todo = !(this.getUseType() == QTopo.constant.CASUAL && this.parent);
         if (typeof flag == "boolean" && (flag ^ todo)) {
             return;
@@ -114,24 +114,31 @@ DirectLink.prototype.openToggle=function(scene){
         if (todo) {
             //展开
             //复制属性
-            var parent = {
-                attr: this.attr,
-                extra: this.extra,
-                path: this.path,
-                children: []
-            };
-            if (parent.attr.number > 1 && parent.attr.expendAble) {
+            if (this.attr.number > 1 && this.attr.expendAble) {
+                var childSet = QTopo.util.deepClone(this.attr);
+                childSet.start = this.path.start;
+                childSet.end = this.path.end;
+                childSet.useType = QTopo.constant.CASUAL;
+                childSet.number = 1;
+                var parent = {
+                    attr: this.attr,
+                    extra: this.extra,
+                    path: this.path,
+                    addChild: function (num) {
+                        if ($.isNumeric(num)) {
+                            num = parseInt(num);
+                            for (var i = 0; i < num; i++) {
+                                var link = scene.createLink(childSet);
+                                parent.children.push(link);
+                                link.parent = parent;
+                                link.extra = parent.extra;
+                            }
+                        }
+                    },
+                    children: []
+                };
                 scene.remove(this);
-                var childSet=QTopo.util.deepClone(parent.attr);
-                for (var i = 0; i < parent.attr.number; i++) {
-                    childSet.start=parent.path.start;
-                    childSet.end=parent.path.end;
-                    childSet.useType= QTopo.constant.CASUAL;
-                    var link = scene.createLink(childSet);
-                    parent.children.push(link);
-                    link.parent = parent;
-                    link.extra=parent.extra;
-                }
+                parent.addChild(parent.attr.number);
             }
         } else {
             //聚合
@@ -142,5 +149,5 @@ DirectLink.prototype.openToggle=function(scene){
             config.end = father.path.end;
             scene.createLink(config).extra = father.extra;
         }
-    }
+    };
 };

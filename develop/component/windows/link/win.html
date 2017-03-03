@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label class="w-label">数目</label>
                 <div class=" w-width">
-                    <input name="number" type="number" class="form-control" placeholder="线包含的个数" readonly="true">
+                    <input name="number" type="number" class="form-control" placeholder="线包含的个数" min="1">
                 </div>
             </div>
             <div class="form-group">
@@ -43,13 +43,13 @@
             <div class="form-group">
                 <label class="w-label">线条宽度</label>
                 <div class=" w-width">
-                    <input name="width" type="number" class="form-control" placeholder="线条宽度">
+                    <input name="width" type="number" class="form-control" placeholder="线条宽度" min="1" max="10">
                 </div>
             </div>
             <div class="form-group">
                 <label class="w-label">曲线偏移量</label>
                 <div class=" w-width">
-                    <input name="curveOffset" type="number" class="form-control" placeholder="曲线偏移量">
+                    <input name="curveOffset" type="number" class="form-control" placeholder="曲线偏移量" min="100">
                 </div>
             </div>
             <div class="form-group">
@@ -68,16 +68,19 @@
                     启用属性
                 </label>
                 <div class=" w-width">
-                    <div class="checkbox-wrap">
-                        <input type="checkbox" name="arrow_start" value="true">
+                    <div class="link-chk">
+                        <input type="checkbox" name="arrow_start" id="qtopo_arrow_start" class="my_chk" value="true">
+                        <label for="qtopo_arrow_start"></label>
                         <div>始箭头</div>
                     </div>
-                    <div class="checkbox-wrap">
-                        <input type="checkbox" name="arrow_end" value="true">
+                    <div class="link-chk">
+                        <input type="checkbox" name="arrow_end" id="qtopo_arrow_end" class="my_chk" value="true">
+                        <label for="qtopo_arrow_end"></label>
                         <div>终箭头</div>
                     </div>
-                    <div class="checkbox-wrap">
-                        <input type="checkbox" name="dashed" value="true">
+                    <div class="link-chk">
+                        <input type="checkbox" name="dashed" id="qtopo_dashed" class="my_chk" value="true">
+                        <label for="qtopo_dashed"></label>
                         <div>虚线</div>
                     </div>
                 </div>

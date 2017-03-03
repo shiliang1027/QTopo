@@ -1,0 +1,108 @@
+/*复选框样式*/
+.my_chk{
+    display: none;
+}
+.my_chk + label {
+    background-color: #fafbfa;
+    padding: 9px;
+    border-radius: 50px;
+    display: inline-block;
+    position: relative;
+    margin-right: 30px;
+    -webkit-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+    width: 40px;
+    height: 15px;
+}
+
+.my_chk  + label:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    -webkit-transition: box-shadow 0.1s ease-in;
+    transition: box-shadow 0.1s ease-in;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    box-shadow: inset 0 0 0 0 #eee, 0 0 1px rgba(0,0,0,0.4);
+}
+
+.my_chk  + label:before {
+    content: ' ';
+    position: absolute;
+    background: #3d6cd6;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    width: 50%;
+    -webkit-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+    height: 100%;
+    border-radius: 100px;
+    box-shadow: 0 3px 1px rgba(0,0,0,0.05), 0 0px 1px rgba(0,0,0,0.3);
+}
+
+.my_chk:active + label:after {
+    box-shadow: inset 0 0 0 20px #eee, 0 0 1px #eee;
+}
+
+.my_chk:active + label:before {
+    width: 37px;
+}
+
+.my_chk:checked:active + label:before {
+    width: 37px;
+    left: 20px;
+}
+
+.my_chk  + label:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.my_chk:checked + label:before {
+    content: ' ';
+    position: absolute;
+    left: 26px;
+    border-radius: 100px;
+}
+
+.my_chk:checked + label:after {
+    content: ' ';
+    font-size: 1.5em;
+    position: absolute;
+    background: #00ffff;
+    box-shadow: 0 0 1px #00ffff;
+}
+/**/
+/*滑块样式*/
+input[type=range] {
+    -webkit-appearance: none;
+    background-color: rgba(6,36,62,0.8);
+    border:none;
+    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+}
+input[type=range]:focus {
+    outline: none;
+}
+/*滑道*/
+input[type=range]::-webkit-slider-runnable-track {
+    height: 15px;
+    background-color: white;
+    width: 100%;
+    border-radius: 10px; /*将轨道设为圆角的*/
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+}
+/*滑块*/
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 25px;
+    cursor: pointer;
+    width: 25px;
+    margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #3d6cd6;
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+}
+/**/

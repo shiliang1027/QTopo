@@ -117,9 +117,9 @@ Scene.prototype.toggleLight = function (target) {
     }
 };
 Scene.prototype.moveToNode = function (node) {
-    var location = node.jtopo.getCenterLocation();
     // 查询到的节点居中显示
     if (this.children.node.indexOf(node) > -1) {
+        var location = node.jtopo.getCenterLocation();
         this.resize(1);
         this.jtopo.setCenter(location.x, location.y);
         // 闪烁几下
@@ -144,7 +144,6 @@ Scene.prototype.moveToNode = function (node) {
  * @param config 参数
  */
 Scene.prototype.autoLayout = function (config) {
-    debugger;
     if (config && config.type) {
         var needSort = [];
         var jtopos = [];

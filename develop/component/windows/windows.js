@@ -3,6 +3,7 @@
  */
 require("./tools/style.css");
 require("./windows.css");
+require("./tools.css");
 //-----工具类窗口
 var imageSelect = require("./tools/imageSelect.js");
 var confirm=require("./tools/confirm.js");
