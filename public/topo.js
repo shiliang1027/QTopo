@@ -89,7 +89,15 @@ $(document).ready(function () {
                     animate:{//可设置动画，每个点亮之间延迟多少毫秒，回调函数中能获取到点亮的节点信息
                         time:1000,
                         callBack:function(node){
-                            table.append("<tr><td>"+node.attr.name+"</td><td>"+node.attr.alarm.text+"</td></tr>");
+                            var tr=$("<tr><td>"+node.attr.name+"</td><td>"+node.attr.alarm.text+"</td></tr>");
+                            var name=$('<div>'+node.attr.name+'</div>');
+                            tr.click(function(){
+                                tools.view.open({
+                                    content:name,
+                                    width:500
+                                });
+                            });
+                            table.append(tr);
                         }
                     }
                 }
