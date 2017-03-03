@@ -41,16 +41,18 @@ gulp.task('sass', function (done) {
 //合并压缩依赖的js
 var lib = "public/lib/";
 var yilaiJs = [lib + 'jquery/jquery.min.js', lib + 'bootstrap-3.3.6-dist/js/bootstrap.js', lib + 'jquery-nicescroll/jquery.nicescroll.min.js'];
+//var newwww=["./new/concat.js","./new/qtopo.core.min.js","./new/qtopo.component.min.js"];
 gulp.task("concatJs", function () {
     gulp.src(yilaiJs).pipe(concat('concat.js')).pipe(uglify()).pipe(gulp.dest('./public/lib/concat'));
 });
 //合并压缩依赖的css
 var yilaiCss = [lib + "bootstrap-3.3.6-dist/css/bootstrap.css"];
+var neeee=["./concat/concat.css","./concat/qtopo.css","./concat/style.css"];
 gulp.task('concatCss', function () {                                //- 创建一个名为 concat 的 task
-    gulp.src(yilaiCss)                                          //- 需要处理的css文件，放到一个字符串数组里
-        .pipe(concat('concat.min.css'))                            //- 合并后的文件名
+    gulp.src(neeee)                                          //- 需要处理的css文件，放到一个字符串数组里
+        .pipe(concat('topo.min.css'))                            //- 合并后的文件名
         .pipe(minifyCss())                                      //- 压缩处理成一行
-        .pipe(gulp.dest('./public/lib/concat/css'));                         //- 输出文件本地
+        .pipe(gulp.dest('./concat'));                         //- 输出文件本地
 });
 
 gulp.task('watch', function () {
