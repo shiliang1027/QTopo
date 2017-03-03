@@ -168,7 +168,10 @@
 .result-show li:hover{
     background-color: #3d6cd6;
     box-shadow: 0 0 10px #3d6cd6;
-}.qtopo-windows .image-select .modal-body {
+}.qtopo-windows .modal-body{
+    font-size: 14px;
+}
+.qtopo-windows .image-select .modal-body {
     padding: 22px;
     max-height:400px;
 }

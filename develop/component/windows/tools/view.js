@@ -17,13 +17,19 @@ function init(dom) {
         cssMaker.removeAttr("style");
         config=config||{};
         if (config.content) {
-            body.html(config.content);
+            body.html("");
+            body.append(config.content);
         }
         if (config.title) {
             title.html(config.title);
         }
-        if(config.css){
-            cssMaker.css(css);
+        if(config.width){
+            if($.isNumeric(config.width)){
+                config.width=config.width+"px";
+            }
+            cssMaker.css({
+                width:config.width
+            });
         }
         //确定位置
         util.makeCenter(dom, cssMaker);

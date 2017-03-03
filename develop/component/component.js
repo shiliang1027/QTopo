@@ -9,7 +9,14 @@ var windows=require("./windows/windows.js");
 //组装
 $(document).ready(function () {
     if(QTopo){
-        QTopo.component=init;
+        var preInit=QTopo.init;
+        QTopo.init=function(dom, config){
+            var instance=preInit.call(QTopo,dom, config);
+            if(instance){
+                init(instance);
+            }
+            return instance;
+        }
     }
 });
 function init(instance) {
@@ -21,5 +28,4 @@ function init(instance) {
         addSearch:addSearch,
         addRightMenu:addRightMenu
     };
-    return instance.component;
 }

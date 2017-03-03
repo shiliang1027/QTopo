@@ -32,14 +32,12 @@ function init(dom) {
         if ($.isFunction(config.cancel)) {
             deferred.fail(config.cancel);
         }
-        if ($.isNumeric(config.width)) {
+        if (config.width) {
+            if($.isNumeric(config.width)){
+                config.width=config.width+"px";
+            }
             cssMaker.css({
-                width: config.width + "px"
-            });
-        }
-        if ($.isNumeric(config.height)) {
-            cssMaker.css({
-                width: config.height + "px"
+                width: config.width
             });
         }
         //确定位置

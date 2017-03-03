@@ -28,8 +28,7 @@ $(document).ready(function () {
     var topo = QTopo.init(document.getElementById("topo_base"),{
         backgroundColor:"#06243e"
     });
-    //可激活组件部分，包含右键菜单，工具条，窗口
-    var component=QTopo.component(topo);
+    var component=topo.component;
     var tools=component.tools;
     tools.setImageSelect(images);//初始化图片选择窗口内容
     tools.progress.open({now: 10, text: '10%'});
