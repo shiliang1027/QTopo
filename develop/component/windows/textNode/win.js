@@ -40,7 +40,7 @@ function initEvent(dom,win,scene){
                     openEditWindow(win,data.target,scene);
                     break;
                 default:
-                    console.error("invalid type of textNodeWindow,open function need to config like { type:'create' or 'edit'}");
+                    QTopo.util.error("invalid type of textNodeWindow,open function need to config like { type:'create' or 'edit'}");
                     if(win.todo){
                         //错误开启窗口，则仅警告且什么也不做
                         delete win.todo;
@@ -48,7 +48,7 @@ function initEvent(dom,win,scene){
             }
         }else{
             win.find(".panel-title").html("文本节点非正常打开");
-            console.error("invalid open textNodeWindow");
+            QTopo.util.error("invalid open textNodeWindow");
         }
         util.defaultPosition(dom,win);
         win.show();
@@ -87,7 +87,7 @@ function doWithForm(config, scene, data){
 }
 function openCreateWindow(win, position,scene){
     if(!position){
-        console.error("invalid open textNodeWindow,need set position to create");
+        QTopo.util.error("invalid open textNodeWindow,need set position to create");
     }
     win.todo={
         type:"create",
@@ -102,7 +102,7 @@ function openCreateWindow(win, position,scene){
 }
 function openEditWindow(win, target,scene){
     if(!target){
-        console.error("invalid open textNodeWindow,need set target to edit");
+        QTopo.util.error("invalid open textNodeWindow,need set target to edit");
     }
     win.todo={
         type:"edit",

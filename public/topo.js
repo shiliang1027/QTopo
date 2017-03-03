@@ -35,7 +35,7 @@ $(document).ready(function () {
     tools.progress.open({now: 10, text: '10%'});
     //设置鼠标提示框显示内容，以及响应的元素
     tools.tips.open(function(target){
-        return "<div> name: " + target.getAttr("name") + "</div>" + "<div> id: " + target.getAttr("id") + "</div>";
+        return "<div> name: " + target.val("name") + "</div>" + "<div> id: " + target.val("id") + "</div>";
     },function(target){
         return target.getType()==QTopo.constant.NODE;
     });
@@ -60,7 +60,7 @@ $(document).ready(function () {
                         font:{
                         }
                     },
-                    extra: ["id", "pid", "alarmId"],//exprop属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
+                    value: ["id", "pid", "alarmId"],//value属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
                     data: myData.node //数组，每个成员为一个节点
                 },
                 container: {
@@ -71,8 +71,8 @@ $(document).ready(function () {
                             radius:10
                         }
                     },
-                    children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的exprop中有配置
-                    extra: ["id", "pid"],
+                    children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的value中有配置
+                    value: ["id", "pid"],
                     data: myData.container//数组 每个成员为一个分组，成员的data属性表明要检索的属性对应的子，如children设定为id,那么data数组内的数据该是对应的id值以查找
                     // 分组中可单独设置children属性指明该分组按什么属性查找插入的子。
                 },
@@ -80,12 +80,12 @@ $(document).ready(function () {
                     style:{
                         color:"#00FFFF"
                     },
-                    path: ["id"],//决定了线的起始节点由什么属性决定,数组长度为1则起始节点按统一属性查找，可分别设不同，0为起始节点属性.1为终点,该属性应在node中的exprop中有配置
-                    extra: ["pid"],
+                    path: ["id"],//决定了线的起始节点由什么属性决定,数组长度为1则起始节点按统一属性查找，可分别设不同，0为起始节点属性.1为终点,该属性应在node中的value中有配置
+                    value: ["pid"],
                     data: myData.link//数组，每个成员表明一条线，线的start和end的值应对应path中的设定
                 },
                 alarm: {
-                    node: "alarmId",//指明节点上对应的查找属性,该属性应在node中的exprop中有配置,暂只支持节点告警
+                    node: "alarmId",//指明节点上对应的查找属性,该属性应在node中的value中有配置,暂只支持节点告警
                     data: myData.alarm,
                     animate:{//可设置动画，每个点亮之间延迟多少毫秒，回调函数中能获取到点亮的节点信息
                         time:1000,

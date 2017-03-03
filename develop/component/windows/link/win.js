@@ -42,7 +42,7 @@ function initEvent(dom, win,scene) {
                     editWindow(win, data.target,scene);
                     break;
                 default:
-                    console.error("invalid type of linkAttrWindow,open function need to config like { type:'create' or 'edit'}");
+                    QTopo.util.error("invalid type of linkAttrWindow,open function need to config like { type:'create' or 'edit'}");
                     if (win.todo) {
                         //错误开启窗口，则仅警告且什么也不做
                         delete win.todo;
@@ -50,7 +50,7 @@ function initEvent(dom, win,scene) {
             }
         } else {
             win.find(".panel-title").html("链接属性");
-            console.error("invalid open linkWindow");
+            QTopo.util.error("invalid open linkWindow");
         }
         util.defaultPosition(dom, win);
         win.show();
@@ -149,7 +149,7 @@ function getSet(data) {
 }
 function createWindow(win, path,scene) {
     if (!path || !path.start || !path.end) {
-        console.error("invalid open linkAttrWindow,need set path.start and path.end to create");
+        QTopo.util.error("invalid open linkAttrWindow,need set path.start and path.end to create");
     }
     win.todo = {
         type: "create",
@@ -171,7 +171,7 @@ function createWindow(win, path,scene) {
 }
 function editWindow(win, target,scene) {
     if (!target) {
-        console.error("invalid open linkAttrWindow,need set target to edit");
+        QTopo.util.error("invalid open linkAttrWindow,need set target to edit");
     }
     win.todo = {
         type: "edit",

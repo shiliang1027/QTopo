@@ -7,7 +7,7 @@ function Container(jtopo) {
     if (jtopo) {
         Element.call(this, jtopo);
     } else {
-        console.error("create Container without jtopo", this);
+        QTopo.util.error("create Container without jtopo", this);
     }
     this.children = [];
     this.links = {
@@ -91,7 +91,7 @@ Container.prototype.getChildren = function () {
             if (v.qtopo) {
                 children.push(v.qtopo);
             } else {
-                console.error(this, "the child not wraped by qtopo", v);
+                QTopo.util.error(this, "the child not wraped by qtopo", v);
             }
         });
     }
@@ -169,7 +169,7 @@ Container.prototype.toggle = function (flag) {
 Container.prototype.isChild=function(element){
     if($.isArray(this.children)){
         if(element.parent!=this){
-            console.error("some group get error,the child's parent is not it and the child in its children ",this,element);
+            QTopo.util.error("some group get error,the child's parent is not it and the child in its children ",this,element);
         }
         return this.children.indexOf(element) > 0;
     }else{

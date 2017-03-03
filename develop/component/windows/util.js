@@ -41,7 +41,7 @@ var util = {
                     fn($(this).serializeJson());
                 }
             } catch (e) {
-                console.error("form trans json error : ", dom, fn, e);
+                QTopo.util.error("form trans json error : ", dom, fn, e);
             }
             return false;
         });
@@ -83,14 +83,14 @@ var util = {
             try {
                 win.trigger("window.close", data);
             } catch (e) {
-                console.error("window close error : " + name,e);
+                QTopo.util.error("window close error : " + name,e);
             }
         };
         win.open = function (data) {
             try {
                 win.trigger("window.open", data);
             } catch (e) {
-                console.error("window open error : " + name,e);
+                QTopo.util.error("window open error : " + name,e);
             }
         };
         function moveAble(dom, win, head) {
@@ -136,7 +136,7 @@ var util = {
      * @param fixed 固定计算的窗口高宽
      */
     makeCenter:function(dom,win,fixed){
-        var height=win.height();
+        var height=win.height()||300;
         var width=win.width();
         if(fixed){
             if($.isNumeric(fixed.height)){

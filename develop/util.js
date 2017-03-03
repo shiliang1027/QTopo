@@ -30,10 +30,10 @@ var util = {
                 deep(base, config);
             }
             else {
-                console.error("some extend error:", base, config);
+                QTopo.util.error("some extend error:", base, config);
             }
         } catch (e) {
-            console.error("extend error", e, base, config);
+            QTopo.util.error("extend error", e, base, config);
         }
         function deep(attr, config) {
             $.each(attr, function (key, value) {
@@ -191,6 +191,16 @@ var util = {
             if (o === null) return "Null";
             if (o === undefined) return "Undefined";
             return Object.prototype.toString.call(o).slice(8, -1);
+        }
+    },
+    info:function(){
+        if(QTopo.log.info) {
+            console.info.apply(console, $.merge([new Date().Format("hh:mm:ss")], arguments));
+        }
+    },
+    error:function(){
+        if(QTopo.log.error){
+            console.error.apply(console,$.merge( [new Date().Format("hh:mm:ss")], arguments));
         }
     }
 };

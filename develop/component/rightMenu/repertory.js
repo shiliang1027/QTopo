@@ -90,7 +90,7 @@ function getMenus(scene, menu, windows, tools) {
                             case QTopo.constant.LINK:
                                 index = scene.children.link.indexOf(menu.target);
                         }
-                        console.info(index, menu.target);
+                        QTopo.util.info(index, menu.target);
                     }
                 }
             },
@@ -133,7 +133,6 @@ function getMenus(scene, menu, windows, tools) {
                             scene.remove(menu.target);
                         },
                         cancel: function () {
-                            console.info("cancel");
                         }
                     });
                 },

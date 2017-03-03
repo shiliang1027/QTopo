@@ -30,7 +30,6 @@ function main(dom, scene, imageSelect){
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
         scene.autoLayout(data);
-        console.info(data);
     });
     return win;
 }

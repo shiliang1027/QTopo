@@ -10,7 +10,11 @@ if (typeof jQuery == "undefined") {
 var QTopo = {
     instance: [],
     util: require('./util.js'),
-    constant: require('./constant.js')
+    constant: require('./constant.js'),
+    log: {
+        error: true,
+        info: true
+    }
 };
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
@@ -18,6 +22,7 @@ require("./core/tools.js");//加载scene的工具api
 
 //-----------------------对外接口
 QTopo.init = function (dom, config) {
+    reset();
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
     var QtopoInstance = {
@@ -32,6 +37,7 @@ QTopo.init = function (dom, config) {
 //---------------------
 function setOption(option, clear) {
     option = option || {};
+    QTopo.util.info("start draw topo: ", option);
     var scene = this.scene;
     if (clear) {
         scene.clear();
@@ -41,7 +47,8 @@ function setOption(option, clear) {
     createLink(scene, option.link);
     createLine(scene, option.line);
     drawAlarm(scene, option.alarm);
-    if(scene.jtopo.childs&&scene.jtopo.childs.length>0){
+    if (scene.jtopo.childs && scene.jtopo.childs.length > 0) {
+        QTopo.util.info("draw topo complete: ", scene.children);
         scene.goCenter();
     }
 }
@@ -75,7 +82,7 @@ function createNode(scene, config) {
             $.each(config.data, function (i, item) {
                 var node = scene.createNode(item);
                 //额外属性添加
-                setExtra(config.extra, node, item);
+                setExtra(config, node, item);
             });
         }
     }
@@ -106,7 +113,7 @@ function createContainer(scene, config) {
                 //无论是否有子元素，分组先创造出来
                 var container = scene.createContainer(item);
                 //额外属性添加
-                setExtra(config.extra, container, item);
+                setExtra(config, container, item);
                 //确定查找子元素的标记
                 var findChild_exact = findChild;
                 if (item.children) {
@@ -123,11 +130,11 @@ function createContainer(scene, config) {
                                 }
                             });
                         } else {
-                            console.error("some child not found : " + j, findChild_exact + "=" + children);
+                            QTopo.util.error("some child not found : " + j, findChild_exact + "=" + children);
                         }
                     });
                 } else {
-                    console.error("can't find children,need config children");
+                    QTopo.util.error("can't find children,need config children");
                 }
             });
         }
@@ -161,21 +168,21 @@ function createLink(scene, config) {
                         item.end = end;
                         link = scene.addLink(item);
                         //额外属性添加
-                        setExtra(config.extra, link, item);
+                        setExtra(config, link, item);
                     } else {
-                        console.error("some link path invalid : " + i, item);
+                        QTopo.util.error("some link path invalid : " + i, item);
                         if (!start) {
-                            console.error("start not found : ", item.start);
+                            QTopo.util.error("start not found : ", item.start);
                         }
                         if (!end) {
-                            console.error("end not found : ", item.end);
+                            QTopo.util.error("end not found : ", item.end);
                         }
                     }
                 });
             }
 
         } else {
-            console.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
+            QTopo.util.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
         }
     }
 }
@@ -189,10 +196,10 @@ function createLine(scene, config) {
             $.each(config.data, function (i, v) {
                 var line = scene.createLine(v);
                 //额外属性添加
-                setExtra(config.extra, line, v);
+                setExtra(config, line, v);
             });
         } else {
-            console.error("can not draw line,need config 'path' and 'path' is Array and not empty,path's element need config x y, path used to find start and end");
+            QTopo.util.error("can not draw line,need config 'path' and 'path' is Array and not empty,path's element need config x y, path used to find start and end");
         }
     }
 }
@@ -219,7 +226,6 @@ function drawAlarm(scene, config) {
             if (config.animate) {
                 alarmAnimate(config.animate, alarmNodes);
             } else {
-                console.info("alarm nodes : " + alarmNodes.length);
                 $.each(alarmNodes, function (i, v) {
                     v.node.set({
                         alarm: v.alarm
@@ -234,7 +240,6 @@ function alarmAnimate(animate, alarmNodes) {
     if (animate) {
         if ($.isNumeric(animate.time)) {
             clearAnimat();
-            console.info("begin alarm animate times : " + alarmNodes.length);
             animateRuning = setInterval(function () {
                 if (alarmNodes.length > 0) {
                     var data = alarmNodes.pop();
@@ -253,14 +258,13 @@ function alarmAnimate(animate, alarmNodes) {
 }
 function clearAnimat() {
     if (animateRuning) {
-        console.info("end alarm animate");
         clearInterval(animateRuning);
         animateRuning = "";
     }
 }
-function setExtra(list, element, data) {
-    if ($.isArray(list) && element && data) {
-        $.each(list, function (j, key) {
+function setExtra(config, element, data) {
+    if (config && $.isArray(config.value) && element && data) {
+        $.each(config.value, function (j, key) {
             if (data[key]) {
                 if (!element.extra) {
                     element.extra = {};
@@ -275,5 +279,25 @@ function setDefaults(scene, typeArr, style) {
         $.each(typeArr, function (i, types) {
             scene.setDefault(types, style);
         })
+    }
+}
+function reset() {
+    //重写日志函数，加入时间标记
+    if (!$.isFunction(new Date().Format)) {
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        };
     }
 }

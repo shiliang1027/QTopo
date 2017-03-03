@@ -29,7 +29,7 @@ function init(scene){
                 first=false;
             }
         }else{
-            console.error("tips only config once");
+            QTopo.util.error("tips only config once");
         }
         function showContent(target,fn,e){
             var content=fn(target);

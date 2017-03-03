@@ -7,7 +7,7 @@ function Line(jtopo) {
     if(jtopo){
         Element.call(this,jtopo);
     }else{
-        console.error("create Line without jtopo",this);
+        QTopo.util.error("create Line without jtopo",this);
     }
     this.attr.path={
         start:this.jtopo.nodeA,

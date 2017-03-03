@@ -89,10 +89,10 @@ var fixedLayout=function(container, children){
             }
         }else{
             defaultLayout(container, children);
-            console.error("the fixedLayout need set size and position,now change to defaultLayout");
+            QTopo.util.error("the fixedLayout need set size and position,now change to defaultLayout");
         }
     }else{
-        console.error("the container not wrap with qtopo",this);
+        QTopo.util.error("the container not wrap with qtopo",this);
     }
 
 };

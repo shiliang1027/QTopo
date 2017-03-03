@@ -101,7 +101,7 @@ Scene.prototype.toggleLight = function (target) {
         totalSetAlpha([this.children.node, this.children.link], alpha);
         totalSetAlpha([lighting], 1);
     } catch (e) {
-        console.error("scene toggleLight error", e);
+        QTopo.util.error("scene toggleLight error", e);
     }
     function totalSetAlpha(total, alpha) {
         //全部隐藏

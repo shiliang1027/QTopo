@@ -22,7 +22,7 @@ function initRigheMenu(dom,scene,windows){
     var rightMenu=new Menu(wrap);
     rightMenu.init(scene);
     if(!windows){
-        console.error("windows is not init ,menu options about windows may not work");
+        QTopo.util.error("windows is not init ,menu options about windows may not work");
     }
     var add=makeAdd(scene,rightMenu,windows.windows,windows.tools);
     add(getMenus);
@@ -45,7 +45,7 @@ function makeMenus(rightMenu, menus){
                 filter:menu.filter
             });
         }else{
-            console.error(name+" invalid menu define");
+            QTopo.util.error(name+" invalid menu define");
         }
     });
     if($.isArray(menus.subMenu)){
@@ -65,12 +65,12 @@ function makeMenus(rightMenu, menus){
                                 filter:menu.filter
                             });
                         }else{
-                            console.error(name+" invalid menu define in subMenu "+sub.name);
+                            QTopo.util.error(name+" invalid menu define in subMenu "+sub.name);
                         }
                     });
                 }
             }else{
-                console.error("index: "+i+" is invalid subMenu define");
+                QTopo.util.error("index: "+i+" is invalid subMenu define");
             }
         });
     }

@@ -7,7 +7,7 @@ function Node(jtopo) {
     if(jtopo){
         Element.call(this,jtopo);
     }else{
-        console.error("create Node without jtopo",this);
+        QTopo.util.error("create Node without jtopo",this);
     }
     this.links={
         in:[],

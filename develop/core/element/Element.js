@@ -184,7 +184,7 @@ Element.prototype.setNamePosition = function (namePosition) {
             jtopo.textOffsetY = 0;
             jtopo.textPosition = 'Bottom_Center';
             this.attr.namePosition = "bottom";
-            console.error(this, "set wrong namePosition,default is bottom");
+            QTopo.util.error(this, "set wrong namePosition,default is bottom");
             break;
     }
 };
@@ -198,11 +198,11 @@ Element.prototype._setAttr = function (config) {
                 fn.call(self, v);
             }
         } catch (e) {
-            console.error(self, "Element _setAttr error :" + k, e);
+            QTopo.util.error(self, "Element _setAttr error :" + k, e);
         }
     });
 };
-Element.prototype.data=function(key,value){
+Element.prototype.val=function(key,value){
     if(!value){
         var result;
         if(this.attr[key]){
@@ -229,7 +229,7 @@ function toggle(links, fnName) {
             });
         })
     } catch (e) {
-        console.error("切换隐藏/显示时错误", e);
+        QTopo.util.error("切换隐藏/显示时错误", e);
     }
 }
 //线的显示只有当其两端节点都显示时才显示

@@ -7,7 +7,7 @@ function Link(jtopo) {
     if(jtopo){
         Element.call(this,jtopo);
     }else{
-        console.error("create Link without jtopo",this);
+        QTopo.util.error("create Link without jtopo",this);
     }
     //记录两端的节点
     this.path={

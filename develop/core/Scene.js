@@ -59,7 +59,7 @@ function Scene(stage, config) {
     });
 }
 //-
-Scene.prototype.data=function(key,value){
+Scene.prototype.val=function(key,value){
     if(!value){
         var result;
         if(this.attr[key]){
@@ -152,11 +152,11 @@ Scene.prototype.setMode = function (mode) {
         this.attr.mode = mode;
         this.jtopo.mode = mode;
     } else {
-        console.error("set wrong mode :", mode);
+        QTopo.util.error("set wrong mode :", mode);
     }
 };
 Scene.prototype.clear = function () {
-    console.info("scene clear");
+    QTopo.util.info("scene clear");
     this.children = {
         node: [],
         link: [],
@@ -243,14 +243,14 @@ function addJTopo(element) {
     try {
         this.jtopo.add(element.jtopo);
     } catch (e) {
-        console.error("In Scene, jtopo add error : ", e);
+        QTopo.util.error("In Scene, jtopo add error : ", e);
     }
 }
 function removeJTopo(element) {
     try {
         this.jtopo.remove(element.jtopo);
     } catch (e) {
-        console.error("In Scene, jtopo remove error : ", e);
+        QTopo.util.error("In Scene, jtopo remove error : ", e);
     }
 }
 Scene.prototype.createNode = function (config) {
@@ -269,7 +269,7 @@ Scene.prototype.createNode = function (config) {
         this.children.node.push(newNode);
         return newNode;
     } else {
-        console.error("create Node error", config);
+        QTopo.util.error("create Node error", config);
         return false;
     }
 };
@@ -300,7 +300,7 @@ Scene.prototype.createLink = function (config) {
         this.children.link.push(newLink);
         return newLink;
     } else {
-        console.error("create Link error", config);
+        QTopo.util.error("create Link error", config);
         return false;
     }
 };
@@ -362,7 +362,7 @@ Scene.prototype.createLine = function (config) {
         this.children.line.push(newLine);
         return newLine;
     } else {
-        console.error("create Link error", config);
+        QTopo.util.error("create Link error", config);
         return false;
     }
 };
@@ -389,7 +389,7 @@ Scene.prototype.createContainer = function (config) {
         addJTopo.call(this, newContainer);
         return newContainer;
     } else {
-        console.error("create Container error", config);
+        QTopo.util.error("create Container error", config);
         return false;
     }
 };
@@ -459,14 +459,14 @@ function removeLink(link) {
         QTopo.util.arrayDelete(link.path.end.links.in, link);
         removeJTopo.call(this, link);
     } catch (e) {
-        console.error("Scene removeLink error", e);
+        QTopo.util.error("Scene removeLink error", e);
     }
 }
 function removeLine(line) {
     try {
         removeJTopo.call(this, line);
     } catch (e) {
-        console.error("Scene removeLine error", e);
+        QTopo.util.error("Scene removeLine error", e);
     }
 }
 function removeNode(node) {
@@ -486,7 +486,7 @@ function removeNode(node) {
         }
         removeJTopo.call(this, node);
     } catch (e) {
-        console.error("Scene removeNode error", e);
+        QTopo.util.error("Scene removeNode error", e);
     }
 }
 //容器删除时,要更与其相连的线的另一端的links属性,要更新其子类的parent属性
@@ -508,7 +508,7 @@ function removeContainer(container) {
         }
         removeJTopo.call(this, container);
     } catch (e) {
-        console.error("Scene removeContainer error", e);
+        QTopo.util.error("Scene removeContainer error", e);
     }
 }
 //-
