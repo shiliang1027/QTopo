@@ -167,20 +167,39 @@ function layout_round(scene, jtopos) {
     JTopo.layout.circleLayoutNodes(jtopos, {animate: {time: 1000}});
 }
 function layout_default(elements, rows, rowSpace, columnSpace, begin) {
-    $.each(elements.sort(function (a, b) {
-        return getDegree(b) - getDegree(a);
-    }), function (i, v) {
-        //v.setLocation(begin.x + (i % rows) * columnSpace, begin.y);
-        move(v, begin.x + (i % rows) * columnSpace, begin.y);
-        if ((i + 1) % rows == 0) {
-            begin.y += rowSpace;
+    if($.isNumeric(rows)){
+        rows=parseInt(rows);
+        if(rows<1){
+            rows=1;
         }
-    });
+        $.each(elements.sort(function (a, b) {
+            return getDegree(b) - getDegree(a);
+        }), function (i, v) {
+            //v.setLocation(begin.x + (i % rows) * columnSpace, begin.y);
+            move(v, begin.x + (i % rows) * columnSpace, begin.y);
+            if ((i + 1) % rows == 0) {
+                begin.y += rowSpace;
+            }
+        });
+    }
 }
 //-------工具函数
 //获取节点的度
 function getDegree(node) {
-    return node.links.in.length + node.links.out.length;
+    var inLinks=node.links.in;
+    var outLinks=node.links.out;
+    var degree=0;
+    if(inLinks.length==1){
+        degree+=inLinks[0].attr.number;
+    }else{
+        degree+=inLinks.length;
+    }
+    if(outLinks.length==1){
+        degree+=outLinks[0].attr.number;
+    }else{
+        degree+=outLinks.length;
+    }
+    return degree;
 }
 //移动动画
 function move(node, targetX, targetY) {
@@ -190,6 +209,7 @@ function move(node, targetX, targetY) {
     var y = node.attr.position[1];
     var partX = parseInt((targetX - x)) / 10;
     var partY = parseInt((targetY - y)) / 10;
+    var part=0;
     var temp = setInterval(function () {
         if (Math.abs(targetX - x) > 1) {
             x += partX;
@@ -198,7 +218,10 @@ function move(node, targetX, targetY) {
             y += partY;
         }
         node.setPosition([parseInt(x), parseInt(y)]);
+        part++;
         if (Math.abs(targetX - x) <= 1 && Math.abs(targetY - y) <= 1) {
+            clearInterval(temp);
+        }else if(part>=10){
             clearInterval(temp);
         }
     }, 100);
