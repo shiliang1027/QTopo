@@ -86,14 +86,11 @@ function reset(link) {
                 var mY = (start.y + end.y) / 2 + link.attr.curveOffset * Math.sin(angle - Math.PI / 2);
                 path.start = start;
                 path.end = end;
-                path.text = {
-                    x: (start.x + end.x) / 2 + link.attr.curveOffset / 2 * Math.cos(angle - Math.PI / 2),
-                    y: (start.y + end.y) / 2 + link.attr.curveOffset / 2 * Math.sin(angle - Math.PI / 2)
-                };
                 path.middle = {
                     x: mX,
                     y: mY
                 };
+                path.text =  makePoint(path.start,path.middle, path.end, 1/2);
                 path.angle = angle;
                 path.push(start);
                 path.push(end);
@@ -153,8 +150,8 @@ function reset(link) {
             if(start&&end&&middle&&angle){
                 var temp1 = start;//首次为起点
                 var temp2;
-                for (var i = 1; i <= 100; i++) {
-                    temp2 = makePoint(start, middle, end, i / 100);//取样为10份
+                for (var i = 1; i <= 10; i++) {
+                    temp2 = makePoint(start, middle, end, i / 10);//取样为10份
                     //判断点是否落在temp1和temp2构成的直线上
                     if (pointInLine({x: x, y: y}, temp1, temp2, this.width / 2, angle)) {
                         flag = true;
