@@ -14,12 +14,12 @@ module.exports = {
  */
 function main(dom, scene) {
     var win = $(temp);
+    //选择框切换
+    var changeSelect=initSelect(win);
     //注册窗口打开和关闭事件
-    initEvent(dom, win,scene);
+    initEvent(dom, win,scene,changeSelect);
     //基本窗口属性初始化
     util.initBase(dom, win);
-    //选择框切换
-    initSelect(win);
     //初始化颜色选择
     util.initColorSelect(win);
     //劫持表单
@@ -29,7 +29,7 @@ function main(dom, scene) {
     });
     return win;
 }
-function initEvent(dom, win,scene) {
+function initEvent(dom, win,scene,changeSelect) {
     win.on("window.open", function (e, data) {
         if (data) {
             switch (data.type) {
@@ -39,7 +39,7 @@ function initEvent(dom, win,scene) {
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改链接");
-                    editWindow(win, data.target,scene);
+                    editWindow(win, data.target,scene,changeSelect);
                     break;
                 default:
                     QTopo.util.error("invalid type of linkAttrWindow,open function need to config like { type:'create' or 'edit'}");
@@ -67,7 +67,10 @@ function initSelect(win) {
         if (value) {
             self.val(value);
         }
-        switch (self.val()) {
+        changeSelect(value);
+    });
+    function changeSelect(value){
+        switch (value) {
             case "direct":
                 curveOffset.hide();
                 direction.hide();
@@ -85,7 +88,8 @@ function initSelect(win) {
                 direction.hide();
                 break;
         }
-    });
+    }
+    return changeSelect;
 }
 function doWithForm(config, scene, data) {
     if (config) {
@@ -134,7 +138,6 @@ function getSet(data) {
             end: data.arrow_end
         },
         color:data.color,
-        width: data.width,
         direction: data.direction,
         curveOffset: data.curveOffset,
         number: data.number,
@@ -161,7 +164,6 @@ function createWindow(win, path,scene) {
         number: DEFAULT.number,
         type: "direct",
         color: DEFAULT.color,
-        width: DEFAULT.width,
         curveOffset: 200,
         direction: "horizontal",
         arrow_start: DEFAULT.arrow.start+"",
@@ -169,7 +171,7 @@ function createWindow(win, path,scene) {
         dashed: $.isNumeric(DEFAULT.dashed).toString()
     });
 }
-function editWindow(win, target,scene) {
+function editWindow(win, target,scene,changeSelect) {
     if (!target) {
         QTopo.util.error("invalid open linkAttrWindow,need set target to edit");
     }
@@ -179,17 +181,17 @@ function editWindow(win, target,scene) {
     };
     var selectType = win.find("select[name=type]");
     var attr = target.attr;
+    var type=choseType(target);
     util.setFormInput(win.find("form"), {
         number: attr.number,
-        type: choseType(target),
+        type: type,
         color: attr.color,
-        width: attr.width,
         curveOffset: attr.curveOffset,
         arrow_start: attr.arrow.start + "",
         arrow_end: attr.arrow.end + "",
         dashed: $.isNumeric(attr.dashed).toString()
     });
-    selectType.change(attr.direction);
+    changeSelect(type);
     selectType.attr("disabled", true);
     function choseType(target) {
         var type = "";

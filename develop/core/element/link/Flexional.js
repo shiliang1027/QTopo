@@ -60,21 +60,24 @@ function setJTopo(config) {
     }
 }
 function reset(link){
-    //双向箭头
-    link.jtopo.paintPath = function (a, b) {
-        if (this.nodeA === this.nodeZ)return void this.paintLoop(a);
-        a.beginPath(), a.moveTo(b[0].x, b[0].y);
-        for (var c = 1; c < b.length; c++)
-            null == this.dashedPattern ? a.lineTo(b[c].x, b[c].y) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern);
-        if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
-            if (link.attr.arrow.end) {
-                this.paintArrow(a, b[b.length - 2], b[b.length - 1]);
-            }
-            if (link.attr.arrow.start) {
-                this.paintArrow(a, b[1], b[0]);//添加双向箭头
+    var jtopoReset={
+        paintPath:function (a, b) {
+            if (this.nodeA === this.nodeZ)return void this.paintLoop(a);
+            a.beginPath(), a.moveTo(b[0].x, b[0].y);
+            for (var c = 1; c < b.length; c++)
+                null == this.dashedPattern ? a.lineTo(b[c].x, b[c].y) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern);
+            if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+                if (link.attr.arrow.end) {
+                    this.paintArrow(a, b[b.length - 2], b[b.length - 1]);
+                }
+                if (link.attr.arrow.start) {
+                    this.paintArrow(a, b[1], b[0]);//添加双向箭头
+                }
             }
         }
     };
+    //双向箭头
+    link.jtopo.paintPath = jtopoReset.paintPath;
 }
 FlexionalLink.prototype.setOffsetGap=function(offsetGap){
     if($.isNumeric(offsetGap)){

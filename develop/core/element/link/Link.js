@@ -4,11 +4,11 @@
 var Element=require("../Element.js");
 module.exports =Link;
 function Link(jtopo) {
-    if(jtopo){
-        Element.call(this,jtopo);
-    }else{
+    if(!jtopo){
         QTopo.util.error("create Link without jtopo",this);
+        return;
     }
+    Element.call(this,jtopo);
     //记录两端的节点
     this.path={
         start:this.jtopo.nodeA.qtopo,
@@ -25,8 +25,22 @@ function Link(jtopo) {
             this.path.end.links.in.push(this);
         }
     }
+    reset(this.jtopo);
 }
 QTopo.util.inherits(Link,Element);
+
+function reset(jtopo){
+    var jtopoReset={
+        paintSelected:function (a) {
+            a.shadowBlur = 10;
+            a.shadowColor = "rgba(255,255,255,1)";
+            a.shadowOffsetX = 0;
+            a.shadowOffsetY = 0;
+        }
+    }
+    //被選中后的样式
+    jtopo.paintSelected =jtopoReset.paintSelected;
+}
 Link.prototype.getType=function(){
     return QTopo.constant.LINK;
 };

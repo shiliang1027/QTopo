@@ -47,9 +47,25 @@ $(document).ready(function () {
     var alarmUrl="./data/alarm.json";
     //自定义获取数据，Qtopo只管根据setOption内的参数绘图
     var table=$("#alarm_detail");
+    function test(data){
+        data.node.push({
+            position:[-100,-100],
+            id:11111
+        },
+            {
+                position:[300,-100],
+                id:22222
+            });
+        data.link.push({
+            start:11111,
+            end:22222,
+            type:QTopo.constant.link.CURVE
+        });
+    }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){
             var myData=getTopoData(data, alarm);
+            test(myData);
             //正式绘制topo图，传入参数绘图,setOption 接受2个参数，第一个为图的绘制，第2个为boolean类型,true则清空当前图重绘，false则在原图上添加,默认为false
             topo.setOption({
                 node: {

@@ -96,7 +96,15 @@
 
     function getDistance(a, b, c, d) {
         var e, f;
-        return null == c && null == d ? (e = b.x - a.x, f = b.y - a.y) : (e = c - a, f = d - b), Math.sqrt(e * e + f * f)
+        if (null == c && null == d) {
+            if (a&& b) {
+                e = b.x - a.x;
+                f = b.y - a.y;
+            }
+        } else {
+            (e = c - a, f = d - b);
+        }
+        return Math.sqrt(e * e + f * f);
     }
 
     function getElementsBound(a) {
@@ -172,7 +180,10 @@
     }
 
     function isPointInLine(a, b, c) {
-        var d = JTopo.util.getDistance(b, c), e = JTopo.util.getDistance(b, a), f = JTopo.util.getDistance(c, a), g = Math.abs(e + f - d) <= .5;
+        var d = JTopo.util.getDistance(b, c),
+            e = JTopo.util.getDistance(b, a),
+            f = JTopo.util.getDistance(c, a),
+            g = Math.abs(e + f - d) <= .5;
         return g
     }
 
@@ -635,7 +646,7 @@
                         b.translate(h.x, h.y), g.rotate && b.rotate(g.rotate), g.scaleX && g.scaleY ? b.scale(g.scaleX, g.scaleY) : g.scaleX ? b.scale(g.scaleX, 1) : g.scaleY && b.scale(1, g.scaleY)
                     }
                     //源码修改
-                    if(g.alarmFlash){
+                    if (g.alarmFlash) {
                         g.alarmFlash();
                     }
                     1 == g.shadow && (b.shadowBlur = g.shadowBlur, b.shadowColor = g.shadowColor, b.shadowOffsetX = g.shadowOffsetX, b.shadowOffsetY = g.shadowOffsetY), g instanceof a.InteractiveElement && (g.selected && 1 == g.showSelected && g.paintSelected(b), 1 == g.isMouseOver && g.paintMouseover(b)), g.paint(b), b.restore()

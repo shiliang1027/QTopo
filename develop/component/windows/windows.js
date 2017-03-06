@@ -15,6 +15,7 @@ var imageNode = require("./imageNode/win.js");
 var textNode=require("./textNode/win.js");
 var linkAttr=require("./link/win.js");
 var autoLayout=require("./autoLayout/win.js");
+var group=require("./group/win.js");
 module.exports = {
     init: init,
     set:set
@@ -59,19 +60,21 @@ function initToolsWindow(wrap,dom,scene){
 }
 function initPrivateWin(wrap,tools,dom,scene){
     //---node windows
-    var nodeWrap = getWrap(wrap, "qtopo-windows-elements");
+    var elementWrap = getWrap(wrap, "qtopo-windows-elements");
     var imageNodeWin = imageNode.init(dom, scene, tools.imageSelect);
-    nodeWrap.append(imageNodeWin);
+    elementWrap.append(imageNodeWin);
     //---
     var textNodeWin= textNode.init(dom, scene);
-    nodeWrap.append(textNodeWin);
+    elementWrap.append(textNodeWin);
     //---
     var linkWin=linkAttr.init(dom, scene);
-    nodeWrap.append(linkWin);
+    elementWrap.append(linkWin);
     //---
     var autoLayoutWin=autoLayout.init(dom, scene);
-    nodeWrap.append(autoLayoutWin);
-
+    elementWrap.append(autoLayoutWin);
+    //---
+    var groupWin=group.init(dom,scene,tools.imageSelect);
+    elementWrap.append(groupWin);
     return {
         node:{
             image:imageNodeWin,

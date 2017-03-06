@@ -10,7 +10,7 @@ module.exports = {
 //-
 var DEFAULT= {
     image: "",
-    size: [30, 30],
+    size: [60, 60],
     name: "node",
     alpha: 1,
     position: [0, 0],

@@ -51,34 +51,37 @@ function setJTopo(config) {
 //重写源码
 function reset(node) {
     //支持自动换行
-    node.jtopo.paint = function (a) {
-        //自动换行
-        var texts = this.text.split("\n");
-        a.beginPath();
-        a.font = this.font;
-        var fontWidth = a.measureText("田").width;
-        this.width = 0;
-        for (var j = 0; j < texts.length; j++) {
-            var width = a.measureText(texts[j]).width;
-            if (width > this.width) {
-                this.width = width;
+    var jtopoReset={
+        paint:function (a) {
+            //自动换行
+            var texts = this.text.split("\n");
+            a.beginPath();
+            a.font = this.font;
+            var fontWidth = a.measureText("田").width;
+            this.width = 0;
+            for (var j = 0; j < texts.length; j++) {
+                var width = a.measureText(texts[j]).width;
+                if (width > this.width) {
+                    this.width = width;
+                }
             }
-        }
-        this.height = texts.length * fontWidth;
-        a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
-        a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
-        if (texts.length > 1) {
-            for (var i = 0; i < texts.length; i++) {
-                a.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
+            this.height = texts.length * fontWidth;
+            a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+            a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+            if (texts.length > 1) {
+                for (var i = 0; i < texts.length; i++) {
+                    a.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
+                }
+            } else {
+                a.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
             }
-        } else {
-            a.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
+            a.closePath();
+            this.paintBorder(a);
+            this.paintCtrl(a);
+            this.paintAlarmText(a);
         }
-        a.closePath();
-        this.paintBorder(a);
-        this.paintCtrl(a);
-        this.paintAlarmText(a);
     };
+    node.jtopo.paint = jtopoReset.paint;
 }
 //-
 TextNode.prototype.getDefault=getDefault;

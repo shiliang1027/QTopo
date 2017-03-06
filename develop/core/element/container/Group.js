@@ -103,7 +103,10 @@ function setJTopo(config) {
     }
 }
 function reset(group) {
-    group.jtopo.layout=defaultLayout;
+    var jtopoReset={
+        defaultLayout:defaultLayout
+    };
+    group.jtopo.layout=jtopoReset.defaultLayout;
 }
 //-
 Group.prototype.setLayout=function(layout){

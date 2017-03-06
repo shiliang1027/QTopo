@@ -40,7 +40,7 @@
     transition: all 0.1s ease-in;
     height: 100%;
     border-radius: 100px;
-    box-shadow: 0 3px 1px rgba(0,0,0,0.05), 0 0px 1px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 1px rgba(0,0,0,0.05), 0 0 1px rgba(0,0,0,0.3);
 }
 
 .my_chk:active + label:after {
@@ -57,7 +57,7 @@
 }
 
 .my_chk  + label:active {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .my_chk:checked + label:before {
@@ -86,15 +86,22 @@ input[type=range]:focus {
     outline: none;
 }
 /*滑道*/
-input[type=range]::-webkit-slider-runnable-track {
+input[type=range]::-webkit-slider-runnable-track{
     height: 15px;
     background-color: white;
     width: 100%;
     border-radius: 10px; /*将轨道设为圆角的*/
     box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
 }
+input[type=range]::-moz-range-track {
+     height: 15px;
+     background-color: white;
+     width: 100%;
+     border-radius: 10px; /*将轨道设为圆角的*/
+     box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+ }
 /*滑块*/
-input[type=range]::-webkit-slider-thumb {
+input[type=range]::-webkit-slider-thumb{
     -webkit-appearance: none;
     height: 25px;
     cursor: pointer;
@@ -104,5 +111,55 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 50%; /*外观设置为圆形*/
     border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
     box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+}
+input[type=range]::-moz-range-thumb {
+     -webkit-appearance: none;
+     height: 20px;
+     cursor: pointer;
+     width: 20px;
+     margin-top: 0; /*使滑块超出轨道部分的偏移量相等*/
+     background: #3d6cd6;
+     border-radius: 50%; /*外观设置为圆形*/
+     border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+     box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+ }
+/*firfox自动填充*/
+input[type=range]::-moz-range-progress {
+    background: linear-gradient(to right, #059CFA, white 100%, white);
+    height: 10px;
+    border-radius: 10px;
+}
+/*兼容Ie9+*/
+input[type=range]::-ms-track {
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;
+    border-color: transparent; /*去除原有边框*/
+    color: transparent; /*去除轨道内的竖线*/
+}
+
+input[type=range]::-ms-thumb {
+    border: solid 0.125em rgba(205, 224, 230, 0.5);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3d6cd6;
+    margin-top: -2px;
+    box-shadow: 0 .125em .125em #3b4547;
+    cursor: pointer;
+}
+
+input[type=range]::-ms-fill-lower {
+    /*进度条已填充的部分*/
+    height: 22px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #059CFA, white 100%, white);
+}
+
+input[type=range]::-ms-fill-upper {
+    /*进度条未填充的部分*/
+    height: 22px;
+    border-radius: 10px;
+    background: #ffffff;
 }
 /**/
