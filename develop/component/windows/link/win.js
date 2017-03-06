@@ -67,7 +67,7 @@ function initSelect(win) {
         if (value) {
             self.val(value);
         }
-        changeSelect(value);
+        changeSelect(self.val());
     });
     function changeSelect(value){
         switch (value) {

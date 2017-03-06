@@ -150,16 +150,18 @@ function reset(link) {
             var end = this.path.end;
             var middle = this.path.middle;
             var angle = this.path.angle;//起始点之间的夹角
-            var temp1 = start;//首次为起点
-            var temp2;
-            for (var i = 1; i <= 100; i++) {
-                temp2 = makePoint(start, middle, end, i / 100);//取样为10份
-                //判断点是否落在temp1和temp2构成的直线上
-                if (pointInLine({x: x, y: y}, temp1, temp2, this.width / 2, angle)) {
-                    flag = true;
-                    break
+            if(start&&end&&middle&&angle){
+                var temp1 = start;//首次为起点
+                var temp2;
+                for (var i = 1; i <= 100; i++) {
+                    temp2 = makePoint(start, middle, end, i / 100);//取样为10份
+                    //判断点是否落在temp1和temp2构成的直线上
+                    if (pointInLine({x: x, y: y}, temp1, temp2, this.width / 2, angle)) {
+                        flag = true;
+                        break
+                    }
+                    temp1 = temp2;
                 }
-                temp1 = temp2;
             }
             return flag
         }
