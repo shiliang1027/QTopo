@@ -42,8 +42,8 @@ $RECYCLE.BIN/
 .idea
 .idea/*
 /img
-/topo
-/topo/*
+/topo_iposs
+/topo_iposs/*
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
