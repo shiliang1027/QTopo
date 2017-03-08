@@ -36,6 +36,30 @@ function setDefault(config){
 function getDefault(){
     return QTopo.util.deepClone(DEFAULT);
 }
+//---------
+var jtopoReset={
+    //双向箭头,添加左右边概念
+    paintPath:function (context2D, pointsArray) {
+        if (this.nodeA === this.nodeZ)return void this.paintLoop(context2D);
+        context2D.beginPath();
+        context2D.moveTo(pointsArray[0].x, pointsArray[0].y);
+        for (var c = 1; c < pointsArray.length; c++)
+            if(null == this.dashedPattern){
+                context2D.lineTo(pointsArray[c].x, pointsArray[c].y);
+            }else{
+                context2D.JTopoDashedLineTo(pointsArray[c - 1].x, pointsArray[c - 1].y, pointsArray[c].x, pointsArray[c].y, this.dashedPattern);
+            }
+        if (context2D.stroke(), context2D.closePath(), null != this.arrowsRadius) {
+            if (this.qtopo.attr.arrow.end) {
+                this.paintArrow(context2D, pointsArray[pointsArray.length - 2], pointsArray[pointsArray.length - 1]);
+            }
+            if (this.qtopo.attr.arrow.start) {
+                this.paintArrow(context2D, pointsArray[1], pointsArray[0]);//添加双向箭头
+            }
+        }
+    }
+};
+//---------
 //-
 function FoldLink(config){
     if(!config.start||!config.end||!config.start.jtopo||!config.end.jtopo){
@@ -60,28 +84,6 @@ function setJTopo(config) {
     }
 }
 function reset(link){
-    var jtopoReset={
-        paintPath:function (context2D, pointsArray) {
-            if (this.nodeA === this.nodeZ)return void this.paintLoop(context2D);
-            context2D.beginPath();
-            context2D.moveTo(pointsArray[0].x, pointsArray[0].y);
-            for (var c = 1; c < pointsArray.length; c++)
-                if(null == this.dashedPattern){
-                    context2D.lineTo(pointsArray[c].x, pointsArray[c].y);
-                }else{
-                    context2D.JTopoDashedLineTo(pointsArray[c - 1].x, pointsArray[c - 1].y, pointsArray[c].x, pointsArray[c].y, this.dashedPattern);
-                }
-            if (context2D.stroke(), context2D.closePath(), null != this.arrowsRadius) {
-                if (link.attr.arrow.end) {
-                    this.paintArrow(context2D, pointsArray[pointsArray.length - 2], pointsArray[pointsArray.length - 1]);
-                }
-                if (link.attr.arrow.start) {
-                    this.paintArrow(context2D, pointsArray[1], pointsArray[0]);//添加双向箭头
-                }
-            }
-        }
-    };
-    //双向箭头,添加左右边概念
     link.jtopo.paintPath = jtopoReset.paintPath;
 }
 //-

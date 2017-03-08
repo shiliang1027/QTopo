@@ -53,7 +53,7 @@ $(document).ready(function () {
             id:11111
         },
             {
-                position:[300,-100],
+                position:[300,0],
                 id:22222
             });
         data.link.push({
@@ -84,7 +84,8 @@ $(document).ready(function () {
                         alpha:0.3,
                         border:{
                             radius:10
-                        }
+                        },
+                        namePosition:"top"
                     },
                     children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的value中有配置
                     value: ["id", "pid"],

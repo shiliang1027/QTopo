@@ -3,6 +3,14 @@
  */
 var Element=require("../Element.js");
 module.exports =Link;
+var jtopoReset={
+    paintSelected:function (a) {
+        a.shadowBlur = 10;
+        a.shadowColor = "rgba(255,255,255,1)";
+        a.shadowOffsetX = 0;
+        a.shadowOffsetY = 0;
+    }
+};
 function Link(jtopo) {
     if(!jtopo){
         QTopo.util.error("create Link without jtopo",this);
@@ -30,14 +38,6 @@ function Link(jtopo) {
 QTopo.util.inherits(Link,Element);
 
 function reset(jtopo){
-    var jtopoReset={
-        paintSelected:function (a) {
-            a.shadowBlur = 10;
-            a.shadowColor = "rgba(255,255,255,1)";
-            a.shadowOffsetX = 0;
-            a.shadowOffsetY = 0;
-        }
-    }
     //被選中后的样式
     jtopo.paintSelected =jtopoReset.paintSelected;
 }

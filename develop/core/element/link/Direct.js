@@ -37,6 +37,41 @@ function setDefault(config) {
 function getDefault() {
     return QTopo.util.deepClone(DEFAULT);
 }
+//------
+var jtopoReset={
+    //双向箭头
+    getStartPosition:function () {
+        var a;
+        return null != this.arrowsRadius && (a = (function (self) {
+            var b = self.nodeA, c = self.nodeZ;
+            var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy);
+            var e = b.getBound();
+            return f = JTopo.util.intersectionLineBound(d, e);
+        })(this)), null == a && (a = {
+            x: this.nodeA.cx,
+            y: this.nodeA.cy
+        }), a;
+    },
+    paintPath:function (a, b) {
+        if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
+        a.beginPath(),
+            a.moveTo(b[0].x, b[0].y);
+        for (var c = 1; c < b.length; c++) {
+            null == this.dashedPattern ? (
+                (null == this.PointPathColor ? a.lineTo(b[c].x, b[c].y) : a.JtopoDrawPointPath(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, a.strokeStyle, this.PointPathColor))
+            ) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
+        }
+        if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+            if (this.qtopo.attr.arrow.end) {
+                this.paintArrow(a, b[0], b[b.length - 1]);
+            }//终点箭头
+            if (this.qtopo.attr.arrow.start) {
+                this.paintArrow(a, b[b.length - 1], b[0]);
+            }//起点箭头
+        }
+    }
+};
+//------
 //-
 function DirectLink(config) {
     if (!config.start || !config.end || !config.start.jtopo || !config.end.jtopo) {
@@ -60,39 +95,6 @@ function setJTopo(config) {
     }
 }
 function reset(link) {
-    var jtopoReset={
-        //双向箭头
-        getStartPosition:function () {
-            var a;
-            return null != this.arrowsRadius && (a = (function (thisl) {
-                var b = thisl.nodeA, c = thisl.nodeZ;
-                var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy);
-                var e = b.getBound();
-                return f = JTopo.util.intersectionLineBound(d, e);
-            })(this)), null == a && (a = {
-                x: this.nodeA.cx,
-                y: this.nodeA.cy
-            }), a;
-        },
-        paintPath:function (a, b) {
-            if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
-            a.beginPath(),
-                a.moveTo(b[0].x, b[0].y);
-            for (var c = 1; c < b.length; c++) {
-                null == this.dashedPattern ? (
-                    (null == this.PointPathColor ? a.lineTo(b[c].x, b[c].y) : a.JtopoDrawPointPath(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, a.strokeStyle, this.PointPathColor))
-                ) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
-            }
-            if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
-                if (link.attr.arrow.end) {
-                    this.paintArrow(a, b[0], b[b.length - 1]);
-                }//终点箭头
-                if (link.attr.arrow.start) {
-                    this.paintArrow(a, b[b.length - 1], b[0]);
-                }//起点箭头
-            }
-        }
-    };
     link.jtopo.getStartPosition = jtopoReset.getStartPosition;
     link.jtopo.paintPath = jtopoReset.paintPath;
 }

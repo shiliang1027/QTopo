@@ -3,22 +3,8 @@
  */
 var Element = require("../Element.js");
 module.exports = Container;
-function Container(jtopo) {
-    if (jtopo) {
-        Element.call(this, jtopo);
-    } else {
-        QTopo.util.error("create Container without jtopo", this);
-    }
-    this.children = [];
-    this.links = {
-        in: [],
-        out: []
-    };
-    reset(this);
-}
-QTopo.util.inherits(Container, Element);
-function reset(element) {
-    element.jtopo.paintText = function (a) {
+var jtopoReset = {
+    paintText: function (a) {
         var text = this.text;
         if (null != text && "" != text) {
             a.beginPath();
@@ -42,7 +28,24 @@ function reset(element) {
 
             a.closePath();
         }
+    }
+};
+function Container(jtopo) {
+    if (jtopo) {
+        Element.call(this, jtopo);
+    } else {
+        QTopo.util.error("create Container without jtopo", this);
+    }
+    this.children = [];
+    this.links = {
+        in: [],
+        out: []
     };
+    reset(this);
+}
+QTopo.util.inherits(Container, Element);
+function reset(element) {
+    element.jtopo.paintText = jtopoReset.paintText;
 }
 Container.prototype.setName = function (name) {
     if (name) {
@@ -166,13 +169,13 @@ Container.prototype.toggle = function (flag) {
  * 判断元素是否已是子元素
  * @param element 判断的子元素
  */
-Container.prototype.isChild=function(element){
-    if($.isArray(this.children)){
-        if(element.parent!=this){
-            QTopo.util.error("some group get error,the child's parent is not it and the child in its children ",this,element);
+Container.prototype.isChild = function (element) {
+    if ($.isArray(this.children)) {
+        if (element.parent != this) {
+            QTopo.util.error("some group get error,the child's parent is not it and the child in its children ", this, element);
         }
         return this.children.indexOf(element) > 0;
-    }else{
+    } else {
         return false;
     }
 };
@@ -182,11 +185,11 @@ Container.prototype.isChild=function(element){
  * @returns {boolean}
  */
 Container.prototype.isInside = function (element) {
-    if(element&&element.getType()!=QTopo.constant.CASUAL){
+    if (element && element.getType() != QTopo.constant.CASUAL) {
         var center = element.getCenter();
         return !this.isChild(element) && center.x > this.x && center.x < (this.x + this.width) && center.y > this.y && center.y < (this.y + this.height);
-    }else{
+    } else {
         return false;
     }
-    
+
 };

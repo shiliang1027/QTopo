@@ -27,9 +27,20 @@
             }), b += "}"
         }
     }
-
-    CanvasRenderingContext2D.prototype.JTopoRoundRect = function (a, b, c, d, e) {
-        "undefined" == typeof e && (e = 5), this.beginPath(), this.moveTo(a + e, b), this.lineTo(a + c - e, b), this.quadraticCurveTo(a + c, b, a + c, b + e), this.lineTo(a + c, b + d - e), this.quadraticCurveTo(a + c, b + d, a + c - e, b + d), this.lineTo(a + e, b + d), this.quadraticCurveTo(a, b + d, a, b + d - e), this.lineTo(a, b + e), this.quadraticCurveTo(a, b, a + e, b), this.closePath()
+    /*a=this.x - this.borderWidth / 2 b=this.y - this.borderWidth / 2,*/
+    CanvasRenderingContext2D.prototype.JTopoRoundRect = function (a, b, w_borderWidth, h_borderWidth, borderRadius) {
+        "undefined" == typeof borderRadius && (borderRadius = 5),
+            this.beginPath(),
+            this.moveTo(a + borderRadius, b),
+            this.lineTo(a + w_borderWidth - borderRadius, b),
+            this.quadraticCurveTo(a + w_borderWidth, b, a + w_borderWidth, b + borderRadius),
+            this.lineTo(a + w_borderWidth, b + h_borderWidth - borderRadius),
+            this.quadraticCurveTo(a + w_borderWidth, b + h_borderWidth, a + w_borderWidth - borderRadius, b + h_borderWidth),
+            this.lineTo(a + borderRadius, b + h_borderWidth),
+            this.quadraticCurveTo(a, b + h_borderWidth, a, b + h_borderWidth - borderRadius),
+            this.lineTo(a, b + borderRadius),
+            this.quadraticCurveTo(a, b, a + borderRadius, b),
+            this.closePath()
     }, CanvasRenderingContext2D.prototype.JTopoDashedLineTo = function (a, b, c, d, e) {
         "undefined" == typeof e && (e = 5);
         var f = c - a, g = d - b, h = Math.floor(Math.sqrt(f * f + g * g)), i = 0 >= e ? h : h / e, j = g / h * e, k = f / h * e;

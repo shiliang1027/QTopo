@@ -42,6 +42,33 @@ function getDefault(){
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
+//----
+var jtopoReset={
+    defaultLayout:function (container, children) {
+        if (children.length > 0) {
+            var left = 1e7,
+                right = -1e7,
+                top = 1e7,
+                bottom = -1e7,
+                width = right - left,
+                height = bottom - top;
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                child.x <= left && (left = child.x);
+                (child.x+child.width) >= right && (right = child.x+child.width);
+                child.y <= top && (top = child.y);
+                (child.y+child.height) >= bottom && (bottom = child.y+child.height);
+                width = right - left;
+                height = bottom - top;
+            }
+            container.x = left;
+            container.y = top;
+            container.width = width;
+            container.height = height;
+        }
+    }
+};
+//----
 function Group(config) {
     Container.call(this, new JTopo.Container());
     this.attr =  QTopo.util.extend(getDefault(), config || {});
@@ -53,29 +80,6 @@ function Group(config) {
 }
 QTopo.util.inherits(Group,Container);
 //-
-var defaultLayout = function (container, children) {
-    if (children.length > 0) {
-        var left = 1e7,
-            right = -1e7,
-            top = 1e7,
-            bottom = -1e7,
-            width = right - left,
-            height = bottom - top;
-        for (var i = 0; i < children.length; i++) {
-            var child = children[i];
-            child.x <= left && (left = child.x);
-            (child.x+child.width) >= right && (right = child.x+child.width);
-            child.y <= top && (top = child.y);
-            (child.y+child.height) >= bottom && (bottom = child.y+child.height);
-            width = right - left;
-            height = bottom - top;
-        }
-        container.x = left;
-        container.y = top;
-        container.width = width;
-        container.height = height;
-    }
-};
 var fixedLayout=function(container, children){
     if(this.qtopo){
         var attr=this.qtopo.attr;
@@ -88,7 +92,7 @@ var fixedLayout=function(container, children){
                 container.height = attr.size[1];
             }
         }else{
-            defaultLayout(container, children);
+            jtopoReset.defaultLayout(container, children);
             QTopo.util.error("the fixedLayout need set size and position,now change to defaultLayout");
         }
     }else{
@@ -103,9 +107,6 @@ function setJTopo(config) {
     }
 }
 function reset(group) {
-    var jtopoReset={
-        defaultLayout:defaultLayout
-    };
     group.jtopo.layout=jtopoReset.defaultLayout;
 }
 //-
@@ -129,12 +130,12 @@ Group.prototype.setLayout=function(layout){
                 this.attr.layout=layout;
                 break;
             default:
-                selected = defaultLayout;
+                selected = jtopoReset.defaultLayout;
                 this.attr.layout={};
                 this.attr.layout.type="default";
         }
     } else {
-        selected = defaultLayout;
+        selected = jtopoReset.defaultLayout;
         this.attr.layout={};
         this.attr.layout.type="set";
     }
