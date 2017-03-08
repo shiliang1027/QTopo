@@ -528,6 +528,3 @@ function removeContainer(container) {
     }
 }
 //-
-Scene.prototype.toJson=function(){
-    return this.jtopo.stage.tojson();
-};

@@ -59,7 +59,7 @@ $(document).ready(function () {
         data.link.push({
             start:11111,
             end:22222,
-            type:QTopo.constant.link.CURVE
+            type:QTopo.constant.link.FLEXIONAL
         });
     }
     $.ajax(dataUrl).done(function(data){

@@ -37,7 +37,7 @@ QTopo.init = function (dom, config) {
 //---------------------
 function setOption(option, clear) {
     option = option || {};
-    QTopo.util.info("start draw topo: ", option);
+    QTopo.util.info("start set topo: ", option);
     var scene = this.scene;
     if (clear) {
         scene.clear();
@@ -48,7 +48,7 @@ function setOption(option, clear) {
     createLine(scene, option.line);
     drawAlarm(scene, option.alarm);
     if (scene.jtopo.childs && scene.jtopo.childs.length > 0) {
-        QTopo.util.info("draw topo complete: ", scene.children);
+        QTopo.util.info("set topo complete: ", scene.children);
         scene.goCenter();
     }
 }
@@ -207,6 +207,7 @@ function drawAlarm(scene, config) {
     if (config) {
         if ($.isArray(config.data) && config.node) {
             var alarmData = config.data;
+            QTopo.util.info("告警数据 :",alarmData);
             var findNode = config.node;
             var alarmNodes = [];
             $.each(alarmData, function (k, v) {
@@ -221,6 +222,7 @@ function drawAlarm(scene, config) {
                             font: v.font
                         }
                     });
+                    setExtra(config,node,v);
                 }
             });
             if (config.animate) {
