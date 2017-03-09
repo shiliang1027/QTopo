@@ -13,7 +13,8 @@ Menu.prototype.init=function(scene){
     var self=this;
     self.scene=scene;
     //显示
-    scene.on("mouseup",function (e) {
+
+    scene.on("mouseup",function (e,qtopo) {
         if(e.button == 2){
             self.body.css({
                 left: e.pageX - 20,
@@ -22,8 +23,8 @@ Menu.prototype.init=function(scene){
             self.x=e.x;
             self.y=e.y;
             //按钮的事件需要知道触发的对象
-            if(e.target){
-                self.target=e.target.qtopo;
+            if(qtopo){
+                self.target=qtopo;
             }else{
                 self.target=scene;
             }

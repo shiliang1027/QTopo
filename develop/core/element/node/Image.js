@@ -45,6 +45,37 @@ function getDefault(){
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
+//------
+    var jtopoReset={
+        paint:function (cx) {
+            alarmFlash.call(this,cx);
+            if (this.image) {
+                var b = cx.globalAlpha;
+                cx.globalAlpha = this.alpha;
+                if(null != this.alarmImage&& null != this.alarm ){
+                    cx.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height)
+                }else{
+                    cx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
+                }
+                cx.globalAlpha = b;
+            } else{
+                cx.beginPath();
+                cx.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
+                if(null == this.borderRadius || 0 == this.borderRadius){
+                    cx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+                }else{
+                    cx.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
+                }
+                cx.fill();
+                cx.closePath();
+            }
+            this.paintText(cx);
+            this.paintBorder(cx);
+            this.paintCtrl(cx);
+            this.paintAlarmText(cx);
+        }
+    };
+//------
 function ImageNode(config) {
     Node.call(this,new JTopo.Node());
     this.attr = QTopo.util.extend(getDefault(), config || {});
@@ -54,6 +85,7 @@ function ImageNode(config) {
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
+    reset(this);
 }
 QTopo.util.inherits(ImageNode,Node);
 //-
@@ -64,6 +96,10 @@ function setJTopo(config) {
         //处理特殊属性的设置
     }
 }
+function reset(node){
+    node.jtopo.paint=jtopoReset.paint;
+}
+
 //-
 ImageNode.prototype.setImage=function(image) {
     if(image){
@@ -124,13 +160,14 @@ function toggleAlarmFlash(node,show){
         node.allowAlarmFlash=false;
     }
 }
-function alarmFlash() {
+function alarmFlash(cx) {
     //插入源码部分代码
     if(this.shadow&&this.allowAlarmFlash){
         if(typeof this.shadowDirection=="undefined"){
             this.shadowDirection=true;
         }
         move(this);
+        cx.shadowBlur = this.shadowBlur;
         function move(node){
             if (node.shadowDirection) {
                 node.shadowBlur += 5;

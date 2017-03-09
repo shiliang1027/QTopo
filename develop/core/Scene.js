@@ -172,16 +172,10 @@ Scene.prototype.getUseType = function () {
     return QTopo.constant.SCENE;
 };
 Scene.prototype.on = function (name, fn) {
-    this.jtopo.addEventListener(name, function (e) {
-        if (e.target && e.target.qtopo) {
-            fn(e, e.target.qtopo);
-        } else {
-            fn(e);
-        }
-    });
+    this.jtopo.addEventListener(name,fn);
 };
 Scene.prototype.off = function (name, fn) {
-    this.jtopo.removeEventListener(name);
+    this.jtopo.removeEventListener(name,fn);
 };
 Scene.prototype.find = function (scan, type) {
     var children = this.children;

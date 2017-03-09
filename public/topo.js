@@ -28,6 +28,7 @@ $(document).ready(function () {
     var topo = QTopo.init(document.getElementById("topo_base"),{
         backgroundColor:"#06243e"
     });
+    var scene=topo.scene;
     var component=topo.component;
     var tools=component.tools;
     tools.setImageSelect(images);//初始化图片选择窗口内容
@@ -51,28 +52,36 @@ $(document).ready(function () {
         //data.node=[];
         //data.link=[];
         //data.container=[];
-        //data.node.push({
-        //    position:[-200,-200],
-        //    size:[100,100],
-        //    id:11111
-        //},
-        //    {
-        //        position:[400,100],
-        //        id:22222,
-        //        size:[100,100]
-        //    });
-        //data.link.push({
-        //    start:11111,
-        //    end:22222,
-        //    width:10,
-        //    radius:25,
-        //    arrow:{
-        //        end:true,
-        //        start:true,
-        //        size:10
-        //    },
-        //    type:QTopo.constant.link.FOLD
-        //});
+        data.node.push({
+            position:[-200,-200],
+            size:[100,100],
+            id:11111
+        },
+            {
+                position:[400,100],
+                id:22222,
+                size:[100,100]
+            });
+        data.link.push({
+            start:11111,
+            end:22222,
+            width:10,
+            radius:25,
+            arrow:{
+                end:true,
+                start:true,
+                size:10
+            },
+            type:QTopo.constant.link.FLEXIONAL
+        });
+        var aa=function(){
+            console.info("moving");
+        };
+        scene.on("mousemove",aa);
+        setTimeout(function(){
+            scene.off("mousemove",aa);
+            console.info("off");
+        },3000);
     }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){
@@ -134,6 +143,7 @@ $(document).ready(function () {
         });
     });
     tools.progress.open({now: 100, text: '100%'});
+
     function getTopoData(data, alarm) {
         //这部分是构造数据，怎么获取数据自己定义，只要调用topo对象的setOption方法塞入对应的数据就行
         alarm = QTopo.util.toJson(alarm);

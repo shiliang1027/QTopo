@@ -13,14 +13,14 @@ function init(scene){
     temp.open=function(fn,filter){
         if(first){
             if($.isFunction(fn)){
-                scene.on("mousemove",function(e,target){
-                    if(target){
+                scene.on("mousemove",function(e,qtopo){
+                    if(qtopo){
                         if($.isFunction(filter)){
-                            if(filter(target)){
-                                showContent(target,fn,e);
+                            if(filter(qtopo)){
+                                showContent(qtopo,fn,e);
                             }
                         }else{
-                            showContent(target,fn,e);
+                            showContent(qtopo,fn,e);
                         }
                     }else{
                         temp.hide();
