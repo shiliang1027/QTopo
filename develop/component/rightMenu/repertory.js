@@ -85,7 +85,7 @@ function getMenus(scene, menu, windows, tools) {
                             case QTopo.constant.LINK:
                                 index = scene.children.link.indexOf(menu.target);
                         }
-                        QTopo.util.info(index, menu.target);
+                        console.info(index, menu.target);
                     }
                 }
             },
