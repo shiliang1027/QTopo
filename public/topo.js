@@ -74,14 +74,6 @@ $(document).ready(function () {
             },
             type:QTopo.constant.link.FLEXIONAL
         });
-        var aa=function(){
-            console.info("moving");
-        };
-        scene.on("mousemove",aa);
-        setTimeout(function(){
-            scene.off("mousemove",aa);
-            console.info("off");
-        },3000);
     }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){

@@ -207,7 +207,7 @@ function drawAlarm(scene, config) {
     if (config) {
         if ($.isArray(config.data) && config.node) {
             var alarmData = config.data;
-            QTopo.util.info("告警数据 :",alarmData);
+            QTopo.util.info("设置告警条目 :", alarmData.length);
             var findNode = config.node;
             var alarmNodes = [];
             $.each(alarmData, function (k, v) {
@@ -222,9 +222,10 @@ function drawAlarm(scene, config) {
                             font: v.font
                         }
                     });
-                    setExtra(config,node,v);
+                    setExtra(config, node, v);
                 }
             });
+            QTopo.util.info("实际告警数目 :", alarmNodes.length);
             if (config.animate) {
                 alarmAnimate(config.animate, alarmNodes);
             } else {
@@ -242,16 +243,19 @@ function alarmAnimate(animate, alarmNodes) {
     if (animate) {
         if ($.isNumeric(animate.time)) {
             clearAnimat();
+            QTopo.util.info("启用告警动画");
             animateRuning = setInterval(function () {
                 if (alarmNodes.length > 0) {
                     var data = alarmNodes.pop();
                     data.node.set({
                         alarm: data.alarm
                     });
+                    QTopo.util.info("未启动:", alarmNodes.length);
                     if ($.isFunction(animate.callBack)) {
                         animate.callBack(data.node);
                     }
                 } else {
+                    QTopo.util.info("告警动画结束");
                     clearAnimat();
                 }
             }, parseInt(animate.time));
