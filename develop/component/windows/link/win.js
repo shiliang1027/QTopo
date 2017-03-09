@@ -186,6 +186,7 @@ function editWindow(win, target,scene,changeSelect) {
         number: attr.number,
         type: type,
         color: attr.color,
+        direction: attr.direction,
         curveOffset: attr.curveOffset,
         arrow_start: attr.arrow.start + "",
         arrow_end: attr.arrow.end + "",

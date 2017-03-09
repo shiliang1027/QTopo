@@ -18,7 +18,7 @@ var DEFAULT = {
         start: false,
         end: false
     },
-    radius:0,
+    radius: 0,
     gap: 20,
     width: 2,
     dashed: null,
@@ -41,23 +41,36 @@ function getDefault() {
 //-
 //-----
 var jtopoReset = {
-    paintPath: function (a, b) {
-        if (this.nodeA === this.nodeZ)return void this.paintLoop(a);
-        a.beginPath();
-        a.moveTo(b[0].x, b[0].y);
-        for (var c = 1; c < b.length; c++){
+    paintPath: function (cx, path) {
+        var attr = this.qtopo.attr;
+        if (this.nodeA === this.nodeZ)return void this.paintLoop(cx);
+        var start = path[0];
+        var end = path[path.length - 1];
+        cx.beginPath();
+        cx.moveTo(start.x, start.y);
+        for (var i = 1; i < path.length; i++) {
             if (null == this.dashedPattern) {
-                a.lineTo(b[c].x, b[c].y);
+                if (attr.radius > 0) {
+                    if (i < path.length - 1) {
+                        cx.arcTo(path[i].x, path[i].y,path[i + 1].x, path[i + 1].y,attr.radius);//增加折线弧度
+                    } else {
+                        cx.lineTo(path[i].x, path[i].y);
+                    }
+                } else {
+                    cx.lineTo(path[i].x, path[i].y);
+                }
             } else {
-                a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern);
+                cx.JTopoDashedLineTo(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y, this.dashedPattern);
             }
         }
-        if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
-            if (this.qtopo.attr.arrow.end) {
-                this.paintArrow(a, b[b.length - 2], b[b.length - 1]);
+        cx.stroke();
+        cx.closePath();
+        if (null != this.arrowsRadius) {
+            if (attr.arrow.end) {
+                this.paintArrow(cx, path[path.length - 2], path[path.length - 1]);
             }
-            if (this.qtopo.attr.arrow.start) {
-                this.paintArrow(a, b[1], b[0]);//添加双向箭头
+            if (attr.arrow.start) {
+                this.paintArrow(cx, path[1], path[0]);//添加双向箭头
             }
         }
     }
@@ -88,9 +101,10 @@ function reset(link) {
     //双向箭头
     link.jtopo.paintPath = jtopoReset.paintPath;
 }
+// 折线拐角处线段的长度
 FlexionalLink.prototype.setOffsetGap = function (offsetGap) {
     if ($.isNumeric(offsetGap)) {
-        this.jtopo.offsetGap = parseInt(offsetGap);// 折线拐角处的长度
+        this.jtopo.offsetGap = parseInt(offsetGap);
     }
     this.attr.offsetGap = this.jtopo.offsetGap;
 };
@@ -103,13 +117,13 @@ FlexionalLink.prototype.setDirection = function (direction) {
 };
 FlexionalLink.prototype.setRadius = function (radius) {
     if ($.isNumeric(radius)) {
-        radius= parseInt(radius);
-        if(radius>20){
-            radius=20;
-        }else if(radius<0){
-            radius=0;
+        radius = parseInt(radius);
+        if (radius > 20) {
+            radius = 20;
+        } else if (radius < 0) {
+            radius = 0;
         }
-        this.attr.radius =radius;
+        this.attr.radius = radius;
     }
 };
 FlexionalLink.prototype.getDefault = getDefault;

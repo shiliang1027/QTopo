@@ -48,18 +48,30 @@ $(document).ready(function () {
     //自定义获取数据，Qtopo只管根据setOption内的参数绘图
     var table=$("#alarm_detail");
     function test(data){
+        data.node=[];
+        data.link=[];
+        data.container=[];
         data.node.push({
-            position:[-100,-100],
+            position:[-200,-200],
+            size:[100,100],
             id:11111
         },
             {
-                position:[300,0],
-                id:22222
+                position:[400,100],
+                id:22222,
+                size:[100,100]
             });
         data.link.push({
             start:11111,
             end:22222,
-            type:QTopo.constant.link.FLEXIONAL
+            width:10,
+            radius:25,
+            arrow:{
+                end:true,
+                start:true,
+                size:10
+            },
+            type:QTopo.constant.link.FOLD
         });
     }
     $.ajax(dataUrl).done(function(data){

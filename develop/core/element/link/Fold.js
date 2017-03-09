@@ -22,6 +22,7 @@ var DEFAULT ={
         width: 2,
         dashed:  null,
         zIndex : 100,
+        radius:0,
         font:{
             size:16,
             type:"微软雅黑",
@@ -39,22 +40,34 @@ function getDefault(){
 //---------
 var jtopoReset={
     //双向箭头,添加左右边概念
-    paintPath:function (context2D, pointsArray) {
-        if (this.nodeA === this.nodeZ)return void this.paintLoop(context2D);
-        context2D.beginPath();
-        context2D.moveTo(pointsArray[0].x, pointsArray[0].y);
-        for (var c = 1; c < pointsArray.length; c++)
+    paintPath:function (cx, path) {
+        var attr=this.qtopo.attr;
+        if (this.nodeA === this.nodeZ)return void this.paintLoop(cx);
+        cx.beginPath();
+        cx.moveTo(path[0].x, path[0].y);
+        for (var i = 1; i < path.length; i++){
             if(null == this.dashedPattern){
-                context2D.lineTo(pointsArray[c].x, pointsArray[c].y);
+                if (attr.radius > 0) {
+                    if (i < path.length - 1) {
+                        cx.arcTo(path[i].x, path[i].y,path[i + 1].x, path[i + 1].y,attr.radius);//增加折线弧度
+                    } else {
+                        cx.lineTo(path[i].x, path[i].y);
+                    }
+                } else {
+                    cx.lineTo(path[i].x, path[i].y);
+                }
             }else{
-                context2D.JTopoDashedLineTo(pointsArray[c - 1].x, pointsArray[c - 1].y, pointsArray[c].x, pointsArray[c].y, this.dashedPattern);
+                cx.JTopoDashedLineTo(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y, this.dashedPattern);
             }
-        if (context2D.stroke(), context2D.closePath(), null != this.arrowsRadius) {
-            if (this.qtopo.attr.arrow.end) {
-                this.paintArrow(context2D, pointsArray[pointsArray.length - 2], pointsArray[pointsArray.length - 1]);
+        }
+        cx.stroke();
+        cx.closePath();
+        if (null != this.arrowsRadius) {
+            if (attr.arrow.end) {
+                this.paintArrow(cx, path[path.length - 2], path[path.length - 1]);
             }
-            if (this.qtopo.attr.arrow.start) {
-                this.paintArrow(context2D, pointsArray[1], pointsArray[0]);//添加双向箭头
+            if (attr.arrow.start) {
+                this.paintArrow(cx, path[1], path[0]);//添加双向箭头
             }
         }
     }
@@ -95,4 +108,15 @@ FoldLink.prototype.setDirection=function(direction){
     this.attr.direction=this.jtopo.direction;
 };
 FoldLink.prototype.getDefault=getDefault;
+FoldLink.prototype.setRadius = function (radius) {
+    if ($.isNumeric(radius)) {
+        radius = parseInt(radius);
+        if (radius > 20) {
+            radius = 20;
+        } else if (radius < 0) {
+            radius = 0;
+        }
+        this.attr.radius = radius;
+    }
+};
 //-
