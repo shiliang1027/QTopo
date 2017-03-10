@@ -32,7 +32,7 @@ $(document).ready(function () {
     var component=topo.component;
     var tools=component.tools;
     tools.setImageSelect(images);//初始化图片选择窗口内容
-    tools.progress.open({now: 10, text: '10%'});
+    tools.progress.open({state: 10, info: '正在读取'});
     //设置鼠标提示框显示内容，以及响应的元素
     tools.tips.open(function(target){
         return "<div> name: " + target.val("name") + "</div>" + "<div> id: " + target.val("id") + "</div>";
@@ -134,7 +134,9 @@ $(document).ready(function () {
             });
         });
     });
-    tools.progress.open({now: 100, text: '100%'});
+    setTimeout(function(){
+        tools.progress.open({state: 100, info: '已完成'});
+    },3000);
 
     function getTopoData(data, alarm) {
         //这部分是构造数据，怎么获取数据自己定义，只要调用topo对象的setOption方法塞入对应的数据就行

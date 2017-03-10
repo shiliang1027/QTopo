@@ -9,23 +9,25 @@ module.exports={
 function init(dom){
     temp=$(temp);
     var bar=temp.find('.progress-bar');
-    var position=temp.find(".modal-dialog");
+    var stateShow=temp.find('.progress-state');
+    var infoShow=temp.find('.progress-info');
     temp.open=function(config){
         if (config) {
-            var now = config.now;
-            var text = config.text;
+            var state = config.state;
+            var info = config.info;
             var error = config.error;
             var time = 1000;
-            if (now >= 0 && now <= 100) {
+            if (state >= 0 && state <= 100) {
                 if (error) {
                     bar.removeClass('progress-bar-info').addClass('progress-bar-danger');
                     time = 3000;
                 } else {
                     bar.removeClass('progress-bar-danger').addClass('progress-bar-info');
                 }
-                bar.css({width: now + '%'});
-                bar.html(text);
-                util.makeCenter(dom,position,{
+                bar.css({width: state + '%'});
+                stateShow.html(state + '%');
+                infoShow.html(info);
+                util.makeCenter(dom,temp.find(".modal-dialog"),{
                     height:30,
                     width:600
                 });
@@ -34,7 +36,8 @@ function init(dom){
                     backdrop: 'static',
                     show: true
                 });
-                if (now == 100) {
+
+                if (state == 100) {
                     setTimeout(function () {
                         temp.modal('hide');
                     }, time);

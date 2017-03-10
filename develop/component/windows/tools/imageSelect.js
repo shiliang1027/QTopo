@@ -22,7 +22,6 @@ function init(images){
     temp.on("hide.bs.modal",function(e){
         body.find(".active").removeClass("active");
     });
-    util.addScroll(body);
     //------
     var deferred;
     //点击确认按钮后用选中图片释放延迟函数
