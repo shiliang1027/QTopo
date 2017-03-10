@@ -58,7 +58,7 @@ function getMenus(scene, menu, windows, tools) {
 
     function addLink() {
         if (link && link.start && link.end) {
-            scene.addLink(link,function(){
+            scene.addLink(link, function () {
                 windows.link.open({
                     type: "create",
                     path: link
@@ -132,19 +132,10 @@ function getMenus(scene, menu, windows, tools) {
                     return target.getType() != QTopo.constant.SCENE && (target.getUseType() != QTopo.constant.CASUAL || target.getType() == QTopo.constant.NODE);
                 }
             },
-            UPZINDEX: {
-                name: "提升层级",
+            TOGGLEZINDEX: {
+                name: "层次切换",
                 click: function () {
                     scene.toggleZIndex(menu.target);
-                },
-                filter: function (target) {
-                    return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
-                }
-            },
-            DOWNZINDEX: {
-                name: "降低层级",
-                click: function () {
-                    scene.toggleZIndex(menu.target, true);
                 },
                 filter: function (target) {
                     return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;

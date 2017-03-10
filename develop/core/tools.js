@@ -42,7 +42,7 @@ Scene.prototype.getPicture = function () {
 /**
  * 切换元素的层次
  * @param element 待控制元素
- * @param flag 可选。true为降低，不填或flase为提升
+ * @param flag 可选。true为降低false为提升，未有值则默认提升，若以提升到最高则降至最低
  */
 Scene.prototype.toggleZIndex = function (element, flag) {
     if (element) {
@@ -51,7 +51,15 @@ Scene.prototype.toggleZIndex = function (element, flag) {
         if (jtopo && scene) {
             var map = scene.zIndexMap[jtopo.zIndex];
             var index = map.indexOf(jtopo);
-            if (!flag) {
+            var todo=true;
+            if(typeof flag=='boolean'){
+                todo=flag;
+            }else{
+                if(index==map.length-1){
+                    todo=false;
+                }
+            }
+            if (todo) {
                 //提升层次
                 map.push(map[index]);
                 map.splice(index, 1);

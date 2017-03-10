@@ -134,9 +134,7 @@ $(document).ready(function () {
             });
         });
     });
-    setTimeout(function(){
-        tools.progress.open({state: 100, info: '已完成'});
-    },3000);
+    tools.progress.open({state: 100, info: '已完成'});
 
     function getTopoData(data, alarm) {
         //这部分是构造数据，怎么获取数据自己定义，只要调用topo对象的setOption方法塞入对应的数据就行

@@ -75,3 +75,56 @@
     position: absolute;
     margin: 0;
 }
+/*loading*/
+.qtopo-windows .tools-loading{
+    height:300px;
+    width:300px;
+    position: absolute;
+}
+.qtopo-windows .loading-logo{
+    width: 70px;
+    position: absolute;
+    top: 65px;
+    left: 65px;
+}
+.qtopo-windows .tools-loading svg{
+    position: absolute;
+    height:100%;
+    width: 100%;
+    top:0;
+    left:0;
+}
+.qtopo-windows .circle-inner{
+    fill:transparent;
+    stroke-dasharray: 50 75;
+    stroke-dashoffset: 0;
+    stroke-width: 8px;
+    stroke: #19f6e8;
+    -webkit-animation: 2s circle-inner linear infinite;
+    animation: 2s circle-inner linear infinite;
+}
+.qtopo-windows .circle-outer{
+    fill:transparent;
+    stroke-dasharray: 75 92;
+    stroke-dashoffset: 0;
+    stroke-width: 8px;
+    stroke: #FFB90F;
+    -webkit-animation: 2s circle-outer linear infinite;
+    animation: 2s circle-outer linear infinite;
+}
+@keyframes circle-inner {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: -500;
+    }
+}
+@keyframes circle-outer {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 500;
+    }
+}
