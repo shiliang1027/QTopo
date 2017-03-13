@@ -56,9 +56,14 @@
     -moz-box-shadow: 0 0 10px #337ab7;
     box-shadow: 0 0 10px #337ab7;
 }
-.t-children{
+.edit-children{
     display: none;
     position: absolute;
+    left:80px;
+    margin-top: 5px;
+}
+.modal-btns{
+    position: relative;
 }
 .qtopo-toolBar .panel,.qtopo-toolBar .panel-body{
     margin: 0;
@@ -75,23 +80,41 @@
     float: left;
     border-radius:0;
 }
+.qtopo-toolBar .search-group select{
+    display: none;
+}
 .qtopo-toolBar .t-search-input{
-    width: 200px;
+    width: 0;
     position: relative;
     background-color: white;
+    -webkit-transition: .5s width;
+    -moz-transition: .5s width;
+    -ms-transition: .5s width;
+    -o-transition: .5s width;
+    transition: .5s width;
 }
 .qtopo-toolBar .t-search-input .clear-input{
     position: absolute;
     right: 2px;
     top:7px;
     cursor:pointer;
+    opacity: 0;
 }
 .qtopo-toolBar .t-search-input input{
+    opacity: 0;
     height:100%;
     width: 100%;
     border:none;
     border-radius: 0;
     padding-right: 15px;
+}
+.qtopo-toolBar .search-group:hover select,.qtopo-toolBar .search-group:hover .clear-input{
+    display: block;
+    opacity: 1;
+}
+.qtopo-toolBar .search-group:hover .t-search-input,.qtopo-toolBar .search-group:hover .t-search-input input{
+    width: 150px;
+    opacity: 1;
 }
 .qtopo-toolBar .t-search-mode{
     width:80px;

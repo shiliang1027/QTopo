@@ -5,7 +5,7 @@
                     title='返回' data-placement='bottom'>
                 <span class='glyphicon glyphicon-share-alt'></span>
             </button>
-            <div class='btn-group' data-toggle='buttons'>
+            <div class='btn-group modal-btns' data-toggle='buttons'>
                 <label class='btn btn-sm btn-primary' name='topo_mode' data-toggle='tooltip' title='平移'
                        data-placement='bottom'>
                     <input type='radio' value='drag'>
@@ -44,8 +44,9 @@
                     title='鹰眼' data-placement='bottom'>
                 <span class='glyphicon glyphicon-eye-open'></span>
             </button>
-            <select name='search_mode' class='form-control t-search-mode'>
-            </select>
+            <span class="search-group">
+                <select name='search_mode' class='form-control t-search-mode'>
+                </select>
             <div class="t-search-input">
                 <input name="search_value" type='text' class='form-control' placeholder='输入值格式key=value'>
                 <span class="clear-input glyphicon glyphicon-remove"></span>
@@ -53,6 +54,17 @@
             <button name='search' class='btn btn-primary t-search-btn' type='button' data-toggle='tooltip' title='搜索' data-placement='bottom'>
                 <span class='glyphicon glyphicon-search'></span>
             </button>
+            </span>
+            <div class='btn-group edit-children'>
+                <button name='auto_layout' type='button' class='btn btn-xs btn-primary' data-toggle='tooltip'
+                        title='自动布局'
+                        data-placement='bottom'><span class='glyphicon glyphicon-th'></span></button>
+                <button name='create_line' type='button' class='btn btn-xs btn-primary' data-toggle='tooltip'
+                        title='画线对象'
+                        data-placement='bottom'><span class='glyphicon glyphicon-pencil'></span></button>
+                <button name='edit_save' type='button' class='btn btn-xs btn-primary' data-toggle='tooltip' title='保存'
+                        data-placement='bottom'><span class='glyphicon glyphicon-floppy-saved'></span></button>
+            </div>
         </div>
     </div>
 </div>

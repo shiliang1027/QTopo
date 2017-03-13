@@ -76,8 +76,26 @@ Scene.prototype.toggleZIndex = function (element, flag) {
  *获取被选中的元素
  * @returns {Array|*}
  */
+var selectedCatch={
+    jtopo:[],
+    qtopo:[]
+};
 Scene.prototype.getSelected = function () {
-    return this.jtopo.selectedElements;
+    var jtopo=this.jtopo.selectedElements;
+    if($.isArray(jtopo)){
+        if(selectedCatch.jtopo!=jtopo){
+            selectedCatch.jtopo=jtopo;
+            selectedCatch.qtopo=[];
+            jtopo.forEach(function(el){
+                if(el.qtopo&&el.qtopo.getUseType()!=QTopo.constant.CASUAL){
+                    selectedCatch.qtopo.push(el.qtopo);
+                }
+            });
+        }
+        return selectedCatch.qtopo;
+    }else{
+        return [];
+    }
 };
 /**
  * 高亮目标隐藏其他,若传入数组，则只将数组内容全部高亮，若是节点则隐藏其相关对象

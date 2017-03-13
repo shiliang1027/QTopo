@@ -60,16 +60,26 @@ Container.prototype.setName = function (name) {
  * @param element
  */
 Container.prototype.add = function (element) {
+    var self=this;
     if (!$.isArray(this.children)) {
         this.children = [];
     }
-    if (element.jtopo && this.children.indexOf(element) < 0) {
-        this.children.push(element);
-        element.parent = this;
-        this.jtopo.add(element.jtopo);
-        if (this.attr.children && typeof this.attr.children.dragble == "boolean") {
-            //若分组不允许移动组内元素，手动设置元素不可移动
-            element.setDragable(this.attr.children.dragble);
+    if ($.isArray(element)) {
+        $.each(element,function(i,el){
+            addOnce(el);
+        });
+    }else{
+        addOnce(element);
+    }
+    function addOnce(element){
+        if (element&&element.jtopo && self.children.indexOf(element) < 0) {
+            self.children.push(element);
+            element.parent = self;
+            self.jtopo.add(element.jtopo);
+            if (self.attr.children && typeof self.attr.children.dragble == "boolean") {
+                //若分组不允许移动组内元素，手动设置元素不可移动
+                element.setDragable(self.attr.children.dragble);
+            }
         }
     }
 };
@@ -174,7 +184,7 @@ Container.prototype.isChild = function (element) {
         if (element.parent != this) {
             QTopo.util.error("some group get error,the child's parent is not it and the child in its children ", this, element);
         }
-        return this.children.indexOf(element) > 0;
+        return this.children.indexOf(element) > -1;
     } else {
         return false;
     }

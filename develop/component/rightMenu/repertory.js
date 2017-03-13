@@ -6,8 +6,8 @@ function getMenus(scene, menu, windows, tools) {
     var lighting = false;
 
     function editImageNode() {
-        if (windows && windows.node && windows.node.image) {
-            windows.node.image.open({
+        if (windows && windows.imageNode) {
+            windows.imageNode.open({
                 type: "edit",
                 target: menu.target
             });
@@ -15,8 +15,8 @@ function getMenus(scene, menu, windows, tools) {
     }
 
     function createImageNode() {
-        if (windows && windows.node && windows.node.image) {
-            windows.node.image.open({
+        if (windows && windows.imageNode) {
+            windows.imageNode.open({
                 type: "create",
                 position: [menu.x, menu.y]
             });
@@ -24,8 +24,8 @@ function getMenus(scene, menu, windows, tools) {
     }
 
     function editTextNode() {
-        if (windows && windows.node && windows.node.text) {
-            windows.node.text.open({
+        if (windows && windows.textNode) {
+            windows.textNode.open({
                 type: "edit",
                 target: menu.target
             });
@@ -33,8 +33,8 @@ function getMenus(scene, menu, windows, tools) {
     }
 
     function createTextNode() {
-        if (windows && windows.node && windows.node.text) {
-            windows.node.text.open({
+        if (windows && windows.textNode) {
+            windows.textNode.open({
                 type: "create",
                 position: [menu.x, menu.y]
             });
@@ -42,8 +42,8 @@ function getMenus(scene, menu, windows, tools) {
     }
 
     function editLink() {
-        if (windows && windows.node && windows.node.image) {
-            windows.link.open({
+        if (windows && windows.linkAttr) {
+            windows.linkAttr.open({
                 type: "edit",
                 target: menu.target
             });
@@ -68,6 +68,23 @@ function getMenus(scene, menu, windows, tools) {
         }
     }
 
+    //分组
+    function createGroup(){
+        if (windows && windows.container) {
+            windows.container.open({
+                type: "create",
+                targets: scene.getSelected()
+            });
+        }
+    }
+    function editGroup(){
+        if (windows && windows.container) {
+            windows.container.open({
+                type: "edit",
+                target: menu.target
+            });
+        }
+    }
     return {
         item: {
             DEBUG: {
@@ -105,6 +122,9 @@ function getMenus(scene, menu, windows, tools) {
                             break;
                         case QTopo.constant.LINK:
                             editLink();
+                            break;
+                        case QTopo.constant.CONTAINER:
+                            editGroup();
                             break;
                     }
                 },
@@ -168,6 +188,30 @@ function getMenus(scene, menu, windows, tools) {
                 },
                 filter: function (target) {
                     return target && target.getUseType() != QTopo.constant.CASUAL && target.parent;
+                }
+            },
+            CREATEGROUP:{
+                name:"创建分组",
+                click:function(){
+                    createGroup();
+                },
+                filter:function(){
+                    //只有当两个以上没有被分组的节点被选中时才能创建分组
+                    var flag=false;
+                    var selected=scene.getSelected();
+                    if(selected.length>1){
+                        var num=0;
+                        $.each(selected,function(i,el){
+                            if(el.getType()==QTopo.constant.NODE&&!el.parent){
+                                num++;
+                            }
+                            if(num>=2){
+                                flag=true;
+                                return false;
+                            }
+                        });
+                    }
+                    return flag;
                 }
             }
         },

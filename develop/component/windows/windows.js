@@ -5,21 +5,25 @@ require("./tools/style.css");
 require("./windows.css");
 require("./tools.css");
 //-----工具类窗口
-var imageSelect = require("./tools/imageSelect.js");
-var confirm=require("./tools/confirm.js");
-var view=require("./tools/view.js");
-var tips=require("./tools/tips.js");
-var progress=require("./tools/progress.js");
-var loading=require("./tools/loading.js");
+var tools = {
+    imageSelect: require("./tools/imageSelect.js"),
+    confirm: require("./tools/confirm.js"),
+    view: require("./tools/view.js"),
+    tips: require("./tools/tips.js"),
+    progress: require("./tools/progress.js"),
+    loading: require("./tools/loading.js")
+};
 //-----设置类窗口
-var imageNode = require("./imageNode/win.js");
-var textNode=require("./textNode/win.js");
-var linkAttr=require("./link/win.js");
-var autoLayout=require("./autoLayout/win.js");
-var group=require("./group/win.js");
+var wins = {
+    imageNode: require("./imageNode/win.js"),
+    textNode: require("./textNode/win.js"),
+    linkAttr: require("./link/win.js"),
+    autoLayout: require("./autoLayout/win.js"),
+    container: require("./container/win.js")
+};
 module.exports = {
     init: init,
-    set:set
+    set: set
 };
 /**
  * 初始化窗口组件
@@ -28,65 +32,41 @@ module.exports = {
 function init(instance) {
     var wrap = getWrap(instance.document, "qtopo-windows");
     //公用窗口
-    var tools=initToolsWindow(wrap,instance.document,instance.scene);
+    var tools = initToolsWindow(wrap, instance.document, instance.scene);
     //私有窗口
-    var wins=initPrivateWin(wrap,tools,instance.document,instance.scene);
+    var wins = initPrivateWin(wrap, tools, instance.document, instance.scene);
+    console.info(wins);
     return {
-        windows:wins,
-        tools:tools
+        windows: wins,
+        tools: tools
     };
 }
 
-function initToolsWindow(wrap,dom,scene){
+function initToolsWindow(wrap, dom, scene) {
     var commonWrap = getWrap(wrap, "qtopo-windows-tools");
-    var imageSelectBack = imageSelect.init();
-    var progressWin=progress.init(dom);
-    var confirmWin=confirm.init(dom);
-    var viewWin=view.init(dom);
-    var tipsWin=tips.init(scene);
-    var loadingWin=loading.init(dom,scene);
+    var result = {};
+    $.each(tools, function (name, jq) {
+        if (name != "imageSelect") {
+            result[name] = jq.init(dom, scene);
+            commonWrap.append(result[name]);
+        }
+    });
+    var imageSelectBack = tools.imageSelect.init(dom, scene);
     commonWrap.append(imageSelectBack.win);
-    commonWrap.append(progressWin);
-    commonWrap.append(confirmWin);
-    commonWrap.append(viewWin);
-    commonWrap.append(tipsWin);
-    commonWrap.append(loadingWin);
-    return{
-        imageSelect:imageSelectBack.win,
-        setImageSelect:imageSelectBack.setImage,
-        getImageSelect:imageSelectBack.getImage,
-        confirm:confirmWin,
-        tips:tipsWin,
-        progress:progressWin,
-        view:viewWin,
-        loading:loadingWin
-    }
+    result.imageSelect = imageSelectBack.win;
+    result.setImageSelect = imageSelectBack.setImage;
+    result.getImageSelect = imageSelectBack.getImage;
+    return result;
 }
-function initPrivateWin(wrap,tools,dom,scene){
+function initPrivateWin(wrap, tools, dom, scene) {
     //---windows
     var elementWrap = getWrap(wrap, "qtopo-windows-elements");
-    var imageNodeWin = imageNode.init(dom, scene, tools.imageSelect);
-    elementWrap.append(imageNodeWin);
-    //---
-    var textNodeWin= textNode.init(dom, scene);
-    elementWrap.append(textNodeWin);
-    //---
-    var linkWin=linkAttr.init(dom, scene);
-    elementWrap.append(linkWin);
-    //---
-    var autoLayoutWin=autoLayout.init(dom, scene);
-    elementWrap.append(autoLayoutWin);
-    //---
-    var groupWin=group.init(dom,scene,tools.imageSelect);
-    elementWrap.append(groupWin);
-    return {
-        node:{
-            image:imageNodeWin,
-            text:textNodeWin
-        },
-        link:linkWin,
-        autoLayout:autoLayoutWin
-    }
+    var result={};
+    $.each(wins,function(name,jq){
+        result[name]=jq.init(dom, scene, tools);
+        elementWrap.append(result[name]);
+    });
+    return result;
 }
 function getWrap(dom, clazz) {
     //添加外壳
@@ -98,6 +78,6 @@ function getWrap(dom, clazz) {
     }
     return wrap;
 }
-function set(config){
+function set(config) {
 
 }

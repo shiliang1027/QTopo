@@ -65,6 +65,9 @@ var jtopoReset={
             container.y = top;
             container.width = width;
             container.height = height;
+        }else{
+            container.width = 100;
+            container.height = 100;
         }
     }
 };

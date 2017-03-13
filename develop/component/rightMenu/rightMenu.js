@@ -26,6 +26,40 @@ function initRigheMenu(dom,scene,windows){
     }
     var add=makeAdd(scene,rightMenu,windows.windows,windows.tools);
     add(getMenus);
+    //测试窗口
+    var test=function(){
+        var sub={
+            item:{},
+            subMenu:[{
+                name:"test",
+                item:{
+
+                }
+            }]
+        };
+        $.each(windows.tools,function(i,tool){
+            sub.subMenu[0].item[i]={
+                name: i,
+                click: function () {
+                    if(tool.open){
+                        tool.open();
+                    }
+                }
+            }
+        });
+        $.each(windows.windows,function(i,tool){
+            sub.subMenu[0].item[i]={
+                name: i,
+                click: function () {
+                    if(tool.open){
+                        tool.open();
+                    }
+                }
+            }
+        });
+        return sub;
+    };
+    add(test);
     return add;
 }
 function makeAdd(scene, rightMenu, windows, tools){
@@ -37,17 +71,19 @@ function makeAdd(scene, rightMenu, windows, tools){
     }
 }
 function makeMenus(rightMenu, menus){
-    $.each(menus.item,function(name,menu){
-        if(menu){
-            rightMenu.addItem({
-                name:menu.name,
-                click:menu.click,
-                filter:menu.filter
-            });
-        }else{
-            QTopo.util.error(name+" invalid menu define");
-        }
-    });
+    if(menus.item){
+        $.each(menus.item,function(name,menu){
+            if(menu){
+                rightMenu.addItem({
+                    name:menu.name,
+                    click:menu.click,
+                    filter:menu.filter
+                });
+            }else{
+                QTopo.util.error(name+" invalid menu define");
+            }
+        });
+    }
     if($.isArray(menus.subMenu)){
         $.each(menus.subMenu,function(i,sub){
             if(sub){

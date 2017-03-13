@@ -17,15 +17,16 @@ function init(images){
     var body=temp.find(".modal-body");
     //构造图片按钮们
     var ImageMaker=makeImageBtn(body);
+    var deferred;
     ImageMaker(images);
     //隐藏时清空active类
     temp.on("hide.bs.modal",function(e){
         body.find(".active").removeClass("active");
+        deferred="";
     });
     //------
-    var deferred;
     //点击确认按钮后用选中图片释放延迟函数
-    temp.find("button").on("click",function(){
+    temp.find(".ok").on("click",function(){
         if(deferred&&deferred.state()=="pending"){
             deferred.resolve(body.find(".active img").attr("src"));
         }

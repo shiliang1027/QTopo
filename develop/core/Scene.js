@@ -392,7 +392,7 @@ Scene.prototype.createContainer = function (config) {
             nodeConfig = config.toggle
         }
         //可选禁用分组切换
-        if (!(typeof config.toggle.close == "boolean" && config.toggle.close)) {
+        if (!(config.toggle&&typeof config.toggle.close == "boolean" && config.toggle.close)) {
             addToggle(this, newContainer, nodeConfig);
         }
         this.children.container.push(newContainer);

@@ -3,7 +3,6 @@
  */
 require("./toolBar.css");
 var toolBar=require("./toolBar.html");
-var editBar=require("./editBar.html");
 var selectResult=require("./selectResult.html");
 module.exports={
     init:init
@@ -15,10 +14,9 @@ function init(dom,scene,windows){
         $(dom).append(wrap);
     }
     toolBar=$(toolBar);
-    editBar=$(editBar);
+    editBar=toolBar.find(".edit-children");
     selectResult=$(selectResult).hide();
     wrap.append(toolBar);
-    wrap.append(editBar);
     wrap.append(selectResult);
     wrap.find("[data-toggle*='tooltip']").tooltip();//开启提示框
     //切换模式和子菜单栏显示位置
@@ -26,9 +24,6 @@ function init(dom,scene,windows){
         var mode=$(this).find("input").val();
         scene.setMode(mode);
         if (mode == "normal") {
-            var left = toolBar.find(".mode-edit").offset().left + 17 - editBar.width() / 2;
-            var top = toolBar.offset().top + toolBar.height() + 2;
-            editBar.css({'left': left, 'top': top});
             editBar.show();
         } else {
             editBar.hide();
@@ -68,6 +63,13 @@ function init(dom,scene,windows){
     });
     return addSearch;
 }
+/**
+ * 添加搜索模块
+ * @param scene
+ * @param toolBar
+ * @param resultWin 搜索结果展示区
+ * @returns {Function}返回添加搜索方式的接口
+ */
 function addSearchMode(scene,toolBar,resultWin){
     var resultSelect=resultWin.find(".result-select");
     var resultShow=resultWin.find(".result-show");

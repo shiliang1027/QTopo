@@ -5,7 +5,7 @@ var temp=require("./tips.html");
 module.exports={
     init:init
 };
-function init(scene){
+function init(dom, scene){
     temp=$(temp);
     temp.hide();
     var body=temp.find(".panel-body");

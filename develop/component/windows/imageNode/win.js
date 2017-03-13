@@ -10,11 +10,12 @@ module.exports={
  * 初始化图片节点的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层
- * @param imageSelect 需要支持的一般窗口组件
+ * @param tools 需要支持的一般窗口组件
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene, imageSelect){
+function main(dom, scene, tools){
     var win=$(temp);
+    var imageSelect=tools.imageSelect;
     //注册窗口打开和关闭事件
     initEvent(dom,win,scene);
     //基本窗口属性初始化

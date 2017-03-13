@@ -13,11 +13,12 @@ module.exports={
  * 初始化分组的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层
- * @param imageSelect 需要支持的一般窗口组件
+ * @param tools 需要支持的一般窗口组件
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene, imageSelect){
+function main(dom, scene, tools){
     var win=$(temp);
+    var imageSelect=tools.imageSelect;
     //注册窗口打开和关闭事件
     initEvent(dom,win,scene);
     //基本窗口属性初始化
@@ -41,7 +42,7 @@ function initEvent(dom,win,scene){
             switch (data.type){
                 case "create":
                     win.find(".panel-title").html("创建分组");
-                    createWindow(win,data.position,scene);
+                    createWindow(win,data.targets,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改分组");
@@ -73,17 +74,16 @@ function doWithForm(config, scene, data){
     if(config){
         switch (config.type){
             case "create":
-                //scene.createNode({
-                //    type:QTopo.constant.node.IMAGE,
-                //    position:config.position,
-                //    name:data.name,
-                //    namePosition:data.namePosition,
-                //    size:[data.size,data.size],
-                //    image:data.image
-                //});
+                debugger;
+                var container=scene.createContainer({
+                    name:data.name,
+                    namePosition:data.namePosition,
+                    image:data.image
+                });
+                container.add(config.targets);
                 break;
             case "edit":
-                if(config.target&&config.target.getUseType()==QTopo.constant.node.IMAGE){
+                if(config.target&&config.target.getUseType()==QTopo.constant.container.GROUP){
                     config.target.set({
                         name:data.name,
                         namePosition:data.namePosition,
@@ -95,22 +95,22 @@ function doWithForm(config, scene, data){
         }
     }
 }
-function createWindow(win,position,scene){
-    if(!position){
-        QTopo.util.error("invalid open imageNodeWindow,need set position to create");
+function createWindow(win,targets,scene){
+    if(!targets){
+        QTopo.util.error("invalid open containerWindow,need set targets to create");
     }
     win.todo={
         type:"create",
-        position:position
+        targets:targets
     };
-    var DEFAULT=scene.getDefault(QTopo.constant.node.IMAGE);
+    var DEFAULT=scene.getDefault(QTopo.constant.container.GROUP);
+    var DEFAULTNODE=scene.getDefault(QTopo.constant.node.IMAGE);
     util.setFormInput(win.find("form"),{
         name:DEFAULT.name,
         namePosition:DEFAULT.namePosition,
-        size:DEFAULT.size[0],
-        image:DEFAULT.image
+        image:DEFAULTNODE.image
     });
-    setImageBtn(win,DEFAULT.image);
+    setImageBtn(win,DEFAULTNODE.image);
 }
 function editWindow(win,target,scene){
     if(!target){
@@ -126,7 +126,7 @@ function editWindow(win,target,scene){
         name:attr.name,
         namePosition:attr.namePosition,
         size:attr.size[0],
-        image:attr.image
+        image:target.toggleTo.attr.image
     });
-    setImageBtn(win,attr.image);
+    setImageBtn(win,target.toggleTo.attr.image);
 }

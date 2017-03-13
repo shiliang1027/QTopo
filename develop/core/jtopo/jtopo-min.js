@@ -150,9 +150,9 @@
                         event[f](e)
                     }, 10);
                 } else {
-                    if(e.target&& e.target.qtopo){
+                    if (e.target && e.target.qtopo) {
                         event[f](e, e.target.qtopo);
-                    }else{
+                    } else {
                         event[f](e);
                     }
 
@@ -1631,7 +1631,22 @@
             }, this.doLayout = function (a) {
                 a && a(this, this.childs)
             }, this.paint = function (a) {
-                this.visible && (this.layout && this.layout(this, this.childs), a.beginPath(), a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")", null == this.borderRadius || 0 == this.borderRadius ? a.rect(this.x, this.y, this.width, this.height) : a.JTopoRoundRect(this.x, this.y, this.width, this.height, this.borderRadius), a.fill(), a.closePath(), this.paintText(a), this.paintBorder(a))
+                if (this.visible) {
+                    if (this.layout) {
+                        this.layout(this, this.childs);
+                    }
+                    a.beginPath();
+                    a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
+                    if(null == this.borderRadius || 0 == this.borderRadius){
+                        a.rect(this.x, this.y, this.width, this.height);
+                    }else{
+                        a.JTopoRoundRect(this.x, this.y, this.width, this.height, this.borderRadius);
+                    }
+                    a.fill();
+                    a.closePath();
+                    this.paintText(a);
+                    this.paintBorder(a);
+                }
             }, this.paintBorder = function (a) {
                 if (0 != this.borderWidth) {
                     a.beginPath(), a.lineWidth = this.borderWidth, a.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
@@ -2285,21 +2300,21 @@
             debugger;
             var e = [];
             var f = [];
-            if(this instanceof jtopo.Stage){
+            if (this instanceof jtopo.Stage) {
                 e = this.childs;
                 f = f.concat(e);
-            }else if(this instanceof jtopo.Scene){
+            } else if (this instanceof jtopo.Scene) {
                 e = [this];
-            }else{
+            } else {
                 f = this;
                 e.forEach(function (a) {
                     f = f.concat(a.childs)
                 });
             }
             var g = null;
-            if("function" == typeof d){
+            if ("function" == typeof d) {
                 f.filter(d)
-            }else{
+            } else {
                 b(f, d);
             }
             return c(g);
@@ -2378,7 +2393,7 @@
             var d = Math.sin(a) * b.x + Math.cos(a) * b.y;
             b.x = c;
             b.y = d;
-            return  this;
+            return this;
         };
         Tortoise.prototype.resize = function (a) {
             var b = this.w;
