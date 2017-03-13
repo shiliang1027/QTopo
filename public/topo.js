@@ -74,6 +74,7 @@ $(document).ready(function () {
             },
             type:QTopo.constant.link.FLEXIONAL
         });
+        //tools.loading.open({type:1});
     }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){

@@ -9,9 +9,19 @@ module.exports = {
 function init(dom,scene) {
     temp = $(temp).hide();
     var logo = temp.find(".loading-logo");
-    var body=temp.find(".loading-body");
+    var type=[{
+        body:temp.find(".loading-body-a").hide()
+    },{
+        body:temp.find(".loading-body-b").hide()
+    }];
     temp.open = function (config) {
         config=config||{};
+        var body;
+        if(config.type){
+            body=type[config.type].body;
+        }else{
+            body=type[0].body;
+        }
         if (config.logo) {
             logo.attr("src",config.logo);
         }
@@ -29,6 +39,7 @@ function init(dom,scene) {
                 body.css({right:"20px",bottom:"20px"});
                 break;
         }
+        body.show();
         temp.modal({
             keyboard: false,
             backdrop: 'static',
@@ -36,6 +47,9 @@ function init(dom,scene) {
         });
     };
     temp.close=function(){
+        type.forEach(function(v){
+            v.body.hide();
+        });
         temp.modal("hide");
     };
     return temp;
