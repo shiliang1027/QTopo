@@ -17,7 +17,7 @@ function init(dom,scene) {
     temp.open = function (config) {
         config=config||{};
         var body;
-        if(config.type){
+        if($.isNumeric(config.type)){
             body=type[config.type].body;
         }else{
             body=type[0].body;
