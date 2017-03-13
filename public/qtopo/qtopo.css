@@ -249,9 +249,9 @@ label[name=topo_mode] span{
     margin: 0;
 }
 /*loading*/
-.qtopo-windows .tools-loading{
-    height:300px;
-    width:300px;
+.qtopo-windows .loading-body{
+    height:200px;
+    width:200px;
     position: absolute;
 }
 .qtopo-windows .loading-logo{
@@ -267,30 +267,84 @@ label[name=topo_mode] span{
     top:0;
     left:0;
 }
-.qtopo-windows .circle-inner{
+.qtopo-windows .circle-inner,.circle-inner-tiny{
     fill:transparent;
-    stroke-dasharray: 50 75;
-    stroke-dashoffset: 0;
     stroke-width: 8px;
-    stroke: #19f6e8;
+    stroke: #F9D64A;
+}
+.qtopo-windows .circle-inner{
     -webkit-animation: 2s circle-inner linear infinite;
     animation: 2s circle-inner linear infinite;
 }
-.qtopo-windows .circle-outer{
+.qtopo-windows .circle-inner-tiny{
+    stroke-dasharray: 15 330;
+    -webkit-animation: 2s circle-inner-tiny linear infinite;
+    animation: 2s circle-inner-tiny linear infinite;
+}
+.qtopo-windows .circle-inner-border{
     fill:transparent;
-    stroke-dasharray: 75 92;
-    stroke-dashoffset: 0;
     stroke-width: 8px;
-    stroke: #FFB90F;
-    -webkit-animation: 2s circle-outer linear infinite;
-    animation: 2s circle-outer linear infinite;
+    stroke: rgba(189, 186, 62, 0.25);
+    -webkit-animation:3s circle-inner-border linear infinite;
+    animation: 3s circle-inner-border linear infinite;
+}
+.qtopo-windows .circle-outer,.circle-outer-tiny{
+    fill:transparent;
+    stroke-width: 8px;
+    stroke: rgba(161, 164, 176, 0.5);
+}
+.qtopo-windows .circle-outer{
+    stroke-dasharray: 80 170;
+    -webkit-animation: 1.5s circle-outer ease-out infinite;
+    animation: 1.5s circle-outer ease-out infinite;
+}
+.qtopo-windows .circle-outer-tiny{
+    stroke-dasharray: 30 220;
+    -webkit-animation: 1.5s circle-outer-tiny ease-in-out infinite;
+    animation: 1.5s circle-outer-tiny ease-in-out infinite;
+}
+@keyframes circle-inner-border {
+    0%{
+        stroke-dasharray: 255 10;
+        stroke-dashoffset: 0;
+    }
+    50%{
+        stroke-dasharray: 50 400;
+        stroke-dashoffset: -400;
+    }
+    100%{
+        stroke-dasharray: 255 10;
+        stroke-dashoffset: -800;
+    }
+}
+@keyframes circle-inner-tiny {
+    0% {
+        stroke-dashoffset: 15;
+    }
+    100% {
+        stroke-dashoffset: 355;
+    }
 }
 @keyframes circle-inner {
     0% {
+        stroke-dasharray: 100 300;
         stroke-dashoffset: 0;
     }
+    50%{
+        stroke-dasharray: 50 300;
+        stroke-dashoffset: -150;
+    }
     100% {
-        stroke-dashoffset: -500;
+        stroke-dasharray: 100 300;
+        stroke-dashoffset: -400;
+    }
+}
+@keyframes circle-outer-tiny {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 350;
     }
 }
 @keyframes circle-outer {
@@ -298,9 +352,10 @@ label[name=topo_mode] span{
         stroke-dashoffset: 0;
     }
     100% {
-        stroke-dashoffset: 500;
+        stroke-dashoffset: -250;
     }
 }
+
 .qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */

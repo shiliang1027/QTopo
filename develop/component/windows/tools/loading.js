@@ -7,29 +7,36 @@ module.exports = {
     init: init
 };
 function init(dom,scene) {
-    temp = $(temp);
+    temp = $(temp).hide();
     var logo = temp.find(".loading-logo");
+    var body=temp.find(".loading-body");
     temp.open = function (config) {
-        if (config.log) {
-            logo.src = config.log;
+        config=config||{};
+        if (config.logo) {
+            logo.attr("src",config.logo);
         }
         switch (config.position) {
             case "center":
-                util.makeCenter(dom, temp,{
-                    height:300,
-                    width:300
+                util.makeCenter(dom, body,{
+                    height:160,
+                    width:160
                 });
                 break;
             case "left":
-                temp.css({left:"20px",bottom:"20px"});
+                body.css({left:"20px",bottom:"20px"});
                 break;
             default:
-                temp.css({right:"20px",bottom:"20px"});
+                body.css({right:"20px",bottom:"20px"});
                 break;
         }
+        temp.modal({
+            keyboard: false,
+            backdrop: 'static',
+            show: true
+        });
     };
     temp.close=function(){
-        temp.hide();
+        temp.modal("hide");
     };
     return temp;
 }

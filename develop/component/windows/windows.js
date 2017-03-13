@@ -10,6 +10,7 @@ var confirm=require("./tools/confirm.js");
 var view=require("./tools/view.js");
 var tips=require("./tools/tips.js");
 var progress=require("./tools/progress.js");
+var loading=require("./tools/loading.js");
 //-----设置类窗口
 var imageNode = require("./imageNode/win.js");
 var textNode=require("./textNode/win.js");
@@ -43,11 +44,13 @@ function initToolsWindow(wrap,dom,scene){
     var confirmWin=confirm.init(dom);
     var viewWin=view.init(dom);
     var tipsWin=tips.init(scene);
+    var loadingWin=loading.init(dom,scene);
     commonWrap.append(imageSelectBack.win);
     commonWrap.append(progressWin);
     commonWrap.append(confirmWin);
     commonWrap.append(viewWin);
     commonWrap.append(tipsWin);
+    commonWrap.append(loadingWin);
     return{
         imageSelect:imageSelectBack.win,
         setImageSelect:imageSelectBack.setImage,
@@ -55,11 +58,12 @@ function initToolsWindow(wrap,dom,scene){
         confirm:confirmWin,
         tips:tipsWin,
         progress:progressWin,
-        view:viewWin
+        view:viewWin,
+        loading:loadingWin
     }
 }
 function initPrivateWin(wrap,tools,dom,scene){
-    //---node windows
+    //---windows
     var elementWrap = getWrap(wrap, "qtopo-windows-elements");
     var imageNodeWin = imageNode.init(dom, scene, tools.imageSelect);
     elementWrap.append(imageNodeWin);

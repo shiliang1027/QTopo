@@ -19,6 +19,7 @@ $(document).ready(function () {
         }
     }
 });
+
 function init(instance) {
     var wins=windows.init(instance);
     var addRightMenu=rightMenu.init(instance.document, instance.scene,wins);
