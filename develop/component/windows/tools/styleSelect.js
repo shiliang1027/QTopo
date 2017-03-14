@@ -18,7 +18,9 @@ function init(dom, scene){
     var deferred;
     //隐藏时清空active类
     temp.on("hide.bs.modal",function(e){
-
+        if(deferred&&deferred.state()=="pending"){
+            deferred.reject();
+        }
     });
     //------
     //点击确认按钮后用选中图片释放延迟函数
@@ -29,11 +31,6 @@ function init(dom, scene){
             });
         }
         temp.modal('hide');
-    });
-    temp.find(".close").on("click",function(){
-        if(deferred&&deferred.state()=="pending"){
-            deferred.reject();
-        }
     });
     //暴露的接口
     temp.open=function(){

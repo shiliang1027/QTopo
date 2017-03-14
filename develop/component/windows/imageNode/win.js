@@ -30,7 +30,6 @@ function main(dom, scene, tools){
     //绑定图片选择框
     win.find(".image-select-group button").click(function(){
         imageSelect.open().then(function(data,state){
-            console.info(data,state);
             setImageBtn(win,data);
         }).fail(function(){
 
