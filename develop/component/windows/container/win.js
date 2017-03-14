@@ -86,8 +86,10 @@ function doWithForm(config, scene, data){
                 if(config.target&&config.target.getUseType()==QTopo.constant.container.GROUP){
                     config.target.set({
                         name:data.name,
-                        namePosition:data.namePosition,
-                        size:[data.size,data.size],
+                        namePosition:data.namePosition
+                    });
+                    config.target.toggleTo.set({
+                        name:data.name,
                         image:data.image
                     });
                 }
@@ -122,10 +124,8 @@ function editWindow(win,target,scene){
     };
     var attr=target.attr;
     util.setFormInput(win.find("form"),{
-        position:attr.position,
         name:attr.name,
         namePosition:attr.namePosition,
-        size:attr.size[0],
         image:target.toggleTo.attr.image
     });
     setImageBtn(win,target.toggleTo.attr.image);

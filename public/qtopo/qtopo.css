@@ -276,12 +276,14 @@ label[name=topo_mode] span{
     height:200px;
     width:200px;
     position: absolute;
+    transform: scale(0.7);
 }
 .qtopo-windows .loading-logo{
     width: 70px;
     position: absolute;
     top: 65px;
     left: 65px;
+    animation: rotate 2s ease infinite;
 }
 .qtopo-windows .tools-loading svg{
     position: absolute;
@@ -387,6 +389,7 @@ label[name=topo_mode] span{
     position: absolute;
     border-radius: 50%;
     border:2px solid #337ab7;
+    transform: scale(0.7);
 }
 .loading-body-b:before{
     content: '';

@@ -20,7 +20,7 @@ var jtopoReset = {
                     maxWidth = width;
                 }
             }
-            var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth);
+            var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth,texts.length);
             for (var j = 0; j < texts.length; j++) {
                 var textWidth = a.measureText(texts[j]).width;
                 a.fillText(texts[j], e.x + (maxWidth - textWidth) / 2, e.y + j * fontWidth);
@@ -72,7 +72,7 @@ Container.prototype.add = function (element) {
         addOnce(element);
     }
     function addOnce(element){
-        if (element&&element.jtopo && self.children.indexOf(element) < 0) {
+        if (element&&check(element)&&!self.isChild(element)) {
             self.children.push(element);
             element.parent = self;
             self.jtopo.add(element.jtopo);
@@ -81,6 +81,9 @@ Container.prototype.add = function (element) {
                 element.setDragable(self.attr.children.dragble);
             }
         }
+    }
+    function check(element){
+        return element.getType()==QTopo.constant.NODE&&element.getUseType()!=QTopo.constant.CASUAL&&!element.parent;
     }
 };
 /**
@@ -181,10 +184,11 @@ Container.prototype.toggle = function (flag) {
  */
 Container.prototype.isChild = function (element) {
     if ($.isArray(this.children)) {
-        if (element.parent != this) {
-            QTopo.util.error("some group get error,the child's parent is not it and the child in its children ", this, element);
+        var index=this.children.indexOf(element);
+        if (element.parent != this&& index> -1) {
+            QTopo.util.error("some group get error,the child's parent is not it and the child in its children,index is "+index, this,element);
         }
-        return this.children.indexOf(element) > -1;
+        return index>-1;
     } else {
         return false;
     }
@@ -196,7 +200,7 @@ Container.prototype.isChild = function (element) {
  */
 Container.prototype.isInside = function (element) {
     if (element && element.getType() != QTopo.constant.CASUAL) {
-        var center = element.getCenter();
+        var center = element.getCenterPosition();
         return !this.isChild(element) && center.x > this.x && center.x < (this.x + this.width) && center.y > this.y && center.y < (this.y + this.height);
     } else {
         return false;

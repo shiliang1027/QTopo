@@ -262,7 +262,7 @@ function toggleContainer(flag) {
     }
     toggle(this.links, string);
 }
-Element.prototype.getCenter=function(){
+Element.prototype.getCenterPosition=function(){
     return {
         x:this.jtopo.cx,
         y:this.jtopo.cy

@@ -36,7 +36,10 @@ function init(dom,scene) {
                 body.css({left:"20px",bottom:"20px"});
                 break;
             default:
-                body.css({right:"20px",bottom:"20px"});
+                util.makeCenter(dom, body,{
+                    height:160,
+                    width:160
+                });
                 break;
         }
         body.show();

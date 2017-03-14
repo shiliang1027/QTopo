@@ -8,17 +8,20 @@ module.exports={
 };
 /**
  * 公用的图片选择窗口
- * @param images
+ * @param dom
+ * @param scene
  * @returns {*}窗口的Jquery对象 包含open函数，函数返回一个延迟函数，在确认按钮点击后释放
  */
-function init(images){
-    var temp_image;
+var temp_image;
+function init(dom, scene){
     temp=$(temp);
     var body=temp.find(".modal-body");
     //构造图片按钮们
-    var ImageMaker=makeImageBtn(body);
+    temp.setImage=makeImageBtn(body);
+    temp.getImage=function(){
+        return temp_image;
+    };
     var deferred;
-    ImageMaker(images);
     //隐藏时清空active类
     temp.on("hide.bs.modal",function(e){
         body.find(".active").removeClass("active");
@@ -32,20 +35,20 @@ function init(images){
         }
         temp.modal('hide');
     });
+    //取消后回调
+    temp.find(".close").on("click",function(){
+        if(deferred&&deferred.state()=="pending"){
+            deferred.reject();
+        }
+    });
     //暴露的接口
     temp.open=function(){
         deferred=$.Deferred();
         temp.modal('show');
         return deferred.promise();
     };
-    return {
-        win:temp,
-        setImage:ImageMaker,
-        getImage:getImage
-    };
-    function getImage(){
-        return temp_image;
-    }
+
+    return temp;
 }
 function makeImageBtn(body){
     return function(images){

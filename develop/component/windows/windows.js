@@ -7,6 +7,7 @@ require("./tools.css");
 //-----工具类窗口
 var tools = {
     imageSelect: require("./tools/imageSelect.js"),
+    styleSelect:require("./tools/styleSelect.js"),
     confirm: require("./tools/confirm.js"),
     view: require("./tools/view.js"),
     tips: require("./tools/tips.js"),
@@ -35,7 +36,6 @@ function init(instance) {
     var tools = initToolsWindow(wrap, instance.document, instance.scene);
     //私有窗口
     var wins = initPrivateWin(wrap, tools, instance.document, instance.scene);
-    console.info(wins);
     return {
         windows: wins,
         tools: tools
@@ -46,16 +46,9 @@ function initToolsWindow(wrap, dom, scene) {
     var commonWrap = getWrap(wrap, "qtopo-windows-tools");
     var result = {};
     $.each(tools, function (name, jq) {
-        if (name != "imageSelect") {
             result[name] = jq.init(dom, scene);
             commonWrap.append(result[name]);
-        }
     });
-    var imageSelectBack = tools.imageSelect.init(dom, scene);
-    commonWrap.append(imageSelectBack.win);
-    result.imageSelect = imageSelectBack.win;
-    result.setImageSelect = imageSelectBack.setImage;
-    result.getImageSelect = imageSelectBack.getImage;
     return result;
 }
 function initPrivateWin(wrap, tools, dom, scene) {

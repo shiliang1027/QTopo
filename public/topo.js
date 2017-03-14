@@ -28,10 +28,11 @@ $(document).ready(function () {
     var topo = QTopo.init(document.getElementById("topo_base"),{
         backgroundColor:"#06243e"
     });
+    QTopo.log.info=false;//关闭日志
     var scene=topo.scene;
     var component=topo.component;
     var tools=component.tools;
-    tools.setImageSelect(images);//初始化图片选择窗口内容
+    tools.imageSelect.setImage(images);//初始化图片选择窗口内容
     tools.progress.open({state: 10, info: '正在读取'});
     //设置鼠标提示框显示内容，以及响应的元素
     tools.tips.open(function(target){
@@ -74,7 +75,7 @@ $(document).ready(function () {
             },
             type:QTopo.constant.link.FLEXIONAL
         });
-        //tools.loading.open({type:1});
+        //tools.loading.open({type:0,logo:"img/logo.png"});
     }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){

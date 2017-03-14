@@ -1219,21 +1219,76 @@
                     var b = this.borderWidth / 2;
                     null == this.borderRadius || 0 == this.borderRadius ? a.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth) : a.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius), a.stroke(), a.closePath()
                 }
-            }, this.getTextPostion = function (a, b, c) {
+            }, this.getTextPostion = function (position, maxWidth, fontWidth, height) {
                 var d = null;
-                return null == a || "Bottom_Center" == a ? d = {x: -this.width / 2 + (this.width - b) / 2, y: this.height / 2 + c} : "Top_Center" == a ? d = {
-                    x: -this.width / 2 + (this.width - b) / 2,
-                    y: -this.height / 2 - c / 2
-                } : "Top_Right" == a ? d = {x: this.width / 2, y: -this.height / 2 - c / 2} : "Top_Left" == a ? d = {
-                    x: -this.width / 2 - b,
-                    y: -this.height / 2 - c / 2
-                } : "Bottom_Right" == a ? d = {x: this.width / 2, y: this.height / 2 + c} : "Bottom_Left" == a ? d = {
-                    x: -this.width / 2 - b,
-                    y: this.height / 2 + c
-                } : "Middle_Center" == a ? d = {x: -this.width / 2 + (this.width - b) / 2, y: c / 2} : "Middle_Right" == a ? d = {
-                    x: this.width / 2,
-                    y: c / 2
-                } : "Middle_Left" == a && (d = {x: -this.width / 2 - b, y: c / 2}), null != this.textOffsetX && (d.x += this.textOffsetX), null != this.textOffsetY && (d.y += this.textOffsetY), d
+                switch (position) {
+                    case "Bottom_Center":
+                        d = {
+                            x: -this.width / 2 + (this.width - maxWidth) / 2,
+                            y: this.height / 2 + fontWidth
+                        };
+                        break;
+                    case "Top_Center":
+                        d = {
+                            x: -this.width / 2 + (this.width - maxWidth) / 2,
+                            y: -this.height / 2 - fontWidth / 2 - fontWidth * (height - 1)
+                        };
+                        break;
+                    case "Top_Right":
+                        d = {
+                            x: this.width / 2,
+                            y: -this.height / 2 - fontWidth / 2
+                        };
+                        break;
+                    case "Top_Left":
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: -this.height / 2 - fontWidth / 2
+                        };
+                        break;
+                    case "Bottom_Right":
+                        d = {
+                            x: this.width / 2,
+                            y: this.height / 2 + fontWidth
+                        };
+                        break;
+                    case "Bottom_Left":
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: this.height / 2 + fontWidth
+                        };
+                        break;
+                    case "Middle_Center":
+                        d = {
+                            x: -this.width / 2 + (this.width - maxWidth) / 2,
+                            y: fontWidth / 2
+                        };
+                        break;
+                    case "Middle_Right":
+                        d = {
+                            x: this.width / 2,
+                            y: fontWidth / 2
+                        };
+                        break;
+                    case "Middle_Left":
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: fontWidth / 2
+                        };
+                        break;
+                    default:
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: fontWidth / 2
+                        };
+                }
+                if (null != this.textOffsetX) {
+                    d.x += this.textOffsetX
+                }
+                if (null != this.textOffsetY) {
+                    d.y += this.textOffsetY
+                }
+                return d;
             }, this.setImage = function (a, b) {
                 if (null == a)throw new Error("Node.setImage(): 参数Image对象为空!");
                 var c = this;
@@ -1637,9 +1692,9 @@
                     }
                     a.beginPath();
                     a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
-                    if(null == this.borderRadius || 0 == this.borderRadius){
+                    if (null == this.borderRadius || 0 == this.borderRadius) {
                         a.rect(this.x, this.y, this.width, this.height);
-                    }else{
+                    } else {
                         a.JTopoRoundRect(this.x, this.y, this.width, this.height, this.borderRadius);
                     }
                     a.fill();
@@ -1662,20 +1717,26 @@
                     var e = this.getTextPostion(this.textPosition, c, d);
                     a.fillText(b, e.x, e.y), a.closePath()
                 }
-            }, this.getTextPostion = function (a, b, c) {
+            }, this.getTextPostion = function (textPosition, maxWidth, fontWidth, height) {
                 var d = null;
-                return null == a || "Bottom_Center" == a ? d = {x: this.x + this.width / 2 - b / 2, y: this.y + this.height + c} : "Top_Center" == a ? d = {
-                    x: this.x + this.width / 2 - b / 2,
-                    y: this.y - c / 2
-                } : "Top_Right" == a ? d = {x: this.x + this.width - b, y: this.y - c / 2} : "Top_Left" == a ? d = {x: this.x, y: this.y - c / 2} : "Bottom_Right" == a ? d = {
-                    x: this.x + this.width - b,
-                    y: this.y + this.height + c
-                } : "Bottom_Left" == a ? d = {x: this.x, y: this.y + this.height + c} : "Middle_Center" == a ? d = {
-                    x: this.x + this.width / 2 - b / 2,
-                    y: this.y + this.height / 2 + c / 2
-                } : "Middle_Right" == a ? d = {x: this.x + this.width - b, y: this.y + this.height / 2 + c / 2} : "Middle_Left" == a && (d = {
+                return null == textPosition || "Bottom_Center" == textPosition ? d = {
+                    x: this.x + this.width / 2 - maxWidth / 2,
+                    y: this.y + this.height + fontWidth
+                } : "Top_Center" == textPosition ? d = {
+                    x: this.x + this.width / 2 - maxWidth / 2,
+                    y: this.y - fontWidth / 2 - fontWidth * (height - 1)
+                } : "Top_Right" == textPosition ? d = {x: this.x + this.width - maxWidth, y: this.y - fontWidth / 2} : "Top_Left" == textPosition ? d = {
                     x: this.x,
-                    y: this.y + this.height / 2 + c / 2
+                    y: this.y - fontWidth / 2
+                } : "Bottom_Right" == textPosition ? d = {
+                    x: this.x + this.width - maxWidth,
+                    y: this.y + this.height + fontWidth
+                } : "Bottom_Left" == textPosition ? d = {x: this.x, y: this.y + this.height + fontWidth} : "Middle_Center" == textPosition ? d = {
+                    x: this.x + this.width / 2 - maxWidth / 2,
+                    y: this.y + this.height / 2 + fontWidth / 2
+                } : "Middle_Right" == textPosition ? d = {x: this.x + this.width - maxWidth, y: this.y + this.height / 2 + fontWidth / 2} : "Middle_Left" == textPosition && (d = {
+                    x: this.x,
+                    y: this.y + this.height / 2 + fontWidth / 2
                 }), null != this.textOffsetX && (d.x += this.textOffsetX), null != this.textOffsetY && (d.y += this.textOffsetY), d
             }, this.paintMouseover = function () {
             }, this.paintSelected = function (a) {
@@ -1687,7 +1748,7 @@
         jtopo.Container = container;
     }(JTopo),
     function (jtopo) {
-        function b(a) {
+        function getNodesCenter(a) {
             var b = 0, c = 0;
             a.forEach(function (a) {
                 b += a.cx, c += a.cy
@@ -1696,14 +1757,14 @@
             return d
         }
 
-        function c(c, d) {
+        function circleLayoutNodes(c, d) {
             null == d && (d = {});
             {
                 var e = d.cx, f = d.cy, g = d.minRadius, h = d.nodeDiameter, i = d.hScale || 1, j = d.vScale || 1;
                 d.beginAngle || 0, d.endAngle || 2 * Math.PI
             }
             if (null == e || null == f) {
-                var k = b(c);
+                var k = getNodesCenter(c);
                 e = k.x, f = k.y
             }
             var l = 0, m = [], n = [];
@@ -1734,27 +1795,41 @@
             return {cx: e, cy: f, radius: r, radiusA: r, radiusB: s}
         }
 
-        function d(a, b) {
-            return function (c) {
-                var d = c.childs;
-                if (!(d.length <= 0))for (var e = c.getBound(), f = d[0], g = (e.width - f.width) / b, h = (e.height - f.height) / a, i = (d.length, 0), j = 0; a > j; j++)for (var k = 0; b > k; k++) {
-                    var l = d[i++], m = e.left + g / 2 + k * g, n = e.top + h / 2 + j * h;
-                    if (l.setLocation(m, n), i >= d.length)return
+        function GridLayout(row, column) {
+            return function (container) {
+                var childs = container.childs;
+                if (!(childs.length <= 0)) {
+                    var cBound = container.getBound();
+                    var childNode = childs[0];
+                    var columSpace = (cBound.width - childNode.width) / column;
+                    var rowSpace = (cBound.height - childNode.height) / row;
+                    for (var childIndex = 0, rowsIndex = 0; row > rowsIndex; rowsIndex++) {
+                        for (var columnIndex = 0; column > columnIndex; columnIndex++) {
+                            var node = childs[childIndex++];
+                            var x = cBound.left + columSpace / 2 + columnIndex * columSpace;
+                            var y = cBound.top + rowSpace / 2 + rowsIndex * rowSpace;
+                            node.setLocation(x, y);
+                            if (childIndex >= childs.length){
+                                return
+                            }
+                        }
+                    }
+
                 }
             }
         }
 
-        function e(a, b) {
-            return null == a && (a = 0), null == b && (b = 0), function (c) {
+        function FlowLayout(rowSpace, columnSpace) {
+            return null == rowSpace && (rowSpace = 0), null == columnSpace && (columnSpace = 0), function (c) {
                 var d = c.childs;
                 if (!(d.length <= 0))for (var e = c.getBound(), f = e.left, g = e.top, h = 0; h < d.length; h++) {
                     var i = d[h];
-                    f + i.width >= e.right && (f = e.left, g += b + i.height), i.setLocation(f, g), f += a + i.width
+                    f + i.width >= e.right && (f = e.left, g += columnSpace + i.height), i.setLocation(f, g), f += rowSpace + i.width
                 }
             }
         }
 
-        function f() {
+        function AutoBoundLayout() {
             return function (a, b) {
                 if (b.length > 0) {
                     for (var c = 1e7, d = -1e7, e = 1e7, f = -1e7, g = d - c, h = f - e, i = 0; i < b.length; i++) {
@@ -1766,7 +1841,7 @@
             }
         }
 
-        function g(b) {
+        function getRootNodes(b) {
             var c = [], d = b.filter(function (b) {
                 return b instanceof jtopo.Link ? !0 : (c.push(b), !1)
             });
@@ -1788,12 +1863,12 @@
 
         function i(a, b, c, d) {
             b.x += c, b.y += d;
-            for (var e = q(a, b), f = 0; f < e.length; f++)i(a, e[f], c, d)
+            for (var e = getNodeChilds(a, b), f = 0; f < e.length; f++)i(a, e[f], c, d)
         }
 
         function j(a, b) {
             function c(b, e) {
-                var f = q(a, b);
+                var f = getNodeChilds(a, b);
                 null == d[e] && (d[e] = {}, d[e].nodes = [], d[e].childs = []), d[e].nodes.push(b), d[e].childs.push(f);
                 for (var g = 0; g < f.length; g++)c(f[g], e + 1), f[g].parent = b
             }
@@ -1802,7 +1877,7 @@
             return c(b, 0), d
         }
 
-        function k(b, c, d) {
+        function TreeLayout(b, c, d) {
             return function (e) {
                 function f(f, g) {
                     for (var h = jtopo.layout.getTreeDeep(f, g), k = j(f, g), l = k["" + h].nodes, m = 0; m < l.length; m++) {
@@ -1830,10 +1905,10 @@
             }
         }
 
-        function l(b) {
+        function CircleLayout(b) {
             return function (c) {
                 function d(a, c, e) {
-                    var f = q(a, c);
+                    var f = getNodeChilds(a, c);
                     if (0 != f.length) {
                         null == e && (e = b);
                         var g = 2 * Math.PI / f.length;
@@ -1892,7 +1967,7 @@
             return g
         }
 
-        function p(a, b) {
+        function adjustPosition(a, b) {
             if (a.layout) {
                 var c = a.layout, d = c.type, e = null;
                 if ("circle" == d) {
@@ -1909,19 +1984,19 @@
             }
         }
 
-        function q(b, c) {
+        function getNodeChilds(b, c) {
             for (var d = [], e = 0; e < b.length; e++)b[e] instanceof jtopo.Link && b[e].nodeA === c && d.push(b[e].nodeZ);
             return d
         }
 
-        function r(a, b, c) {
-            var d = q(a.childs, b);
+        function layoutNode(a, b, c) {
+            var d = getNodeChilds(a.childs, b);
             if (0 == d.length)return null;
-            if (p(b, d), 1 == c)for (var e = 0; e < d.length; e++)r(a, d[e], c);
+            if (adjustPosition(b, d), 1 == c)for (var e = 0; e < d.length; e++)layoutNode(a, d[e], c);
             return null
         }
 
-        function s(b, c) {
+        function springLayout(b, c) {
             function d(a, b) {
                 var c = a.x - b.x, d = a.y - b.y;
                 i += c * f, j += d * f, i *= g, j *= g, j += h, b.x += i, b.y += j
@@ -1938,9 +2013,9 @@
             e()
         }
 
-        function t(a, b) {
+        function getTreeDeep(a, b) {
             function c(a, b, e) {
-                var f = q(a, b);
+                var f = getNodeChilds(a, b);
                 e > d && (d = e);
                 for (var g = 0; g < f.length; g++)c(a, f[g], e + 1)
             }
@@ -1950,19 +2025,19 @@
         }
 
         jtopo.layout = jtopo.Layout = {
-            layoutNode: r,
-            getNodeChilds: q,
-            adjustPosition: p,
-            springLayout: s,
-            getTreeDeep: t,
-            getRootNodes: g,
-            GridLayout: d,
-            FlowLayout: e,
-            AutoBoundLayout: f,
-            CircleLayout: l,
-            TreeLayout: k,
-            getNodesCenter: b,
-            circleLayoutNodes: c
+            layoutNode: layoutNode,
+            getNodeChilds: getNodeChilds,
+            adjustPosition: adjustPosition,
+            springLayout: springLayout,
+            getTreeDeep: getTreeDeep,
+            getRootNodes: getRootNodes,
+            GridLayout: GridLayout,
+            FlowLayout: FlowLayout,
+            AutoBoundLayout: AutoBoundLayout,
+            CircleLayout: CircleLayout,
+            TreeLayout: TreeLayout,
+            getNodesCenter: getNodesCenter,
+            circleLayoutNodes: circleLayoutNodes
         }
     }(JTopo),
     function (jtopo) {

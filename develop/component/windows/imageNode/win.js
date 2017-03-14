@@ -29,8 +29,11 @@ function main(dom, scene, tools){
     });
     //绑定图片选择框
     win.find(".image-select-group button").click(function(){
-        imageSelect.open().then(function(data){
+        imageSelect.open().then(function(data,state){
+            console.info(data,state);
             setImageBtn(win,data);
+        }).fail(function(){
+
         });
     });
     return win;
@@ -122,7 +125,6 @@ function editWindow(win,target,scene){
     };
     var attr=target.attr;
     util.setFormInput(win.find("form"),{
-        position:attr.position,
         name:attr.name,
         namePosition:attr.namePosition,
         size:attr.size[0],
