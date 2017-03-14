@@ -28,8 +28,8 @@ function init(dom,scene) {
         switch (config.position) {
             case "center":
                 util.makeCenter(dom, body,{
-                    height:160,
-                    width:160
+                    height:200,
+                    width:200
                 });
                 break;
             case "left":
@@ -37,8 +37,8 @@ function init(dom,scene) {
                 break;
             default:
                 util.makeCenter(dom, body,{
-                    height:160,
-                    width:160
+                    height:200,
+                    width:200
                 });
                 break;
         }

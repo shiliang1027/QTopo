@@ -56,9 +56,14 @@
     -moz-box-shadow: 0 0 10px #337ab7;
     box-shadow: 0 0 10px #337ab7;
 }
-.t-children{
+.edit-children{
     display: none;
     position: absolute;
+    left:80px;
+    margin-top: 5px;
+}
+.modal-btns{
+    position: relative;
 }
 .qtopo-toolBar .panel,.qtopo-toolBar .panel-body{
     margin: 0;
@@ -75,23 +80,41 @@
     float: left;
     border-radius:0;
 }
+.qtopo-toolBar .search-group select{
+    display: none;
+}
 .qtopo-toolBar .t-search-input{
-    width: 200px;
+    width: 0;
     position: relative;
     background-color: white;
+    -webkit-transition: .5s width;
+    -moz-transition: .5s width;
+    -ms-transition: .5s width;
+    -o-transition: .5s width;
+    transition: .5s width;
 }
 .qtopo-toolBar .t-search-input .clear-input{
     position: absolute;
     right: 2px;
     top:7px;
     cursor:pointer;
+    opacity: 0;
 }
 .qtopo-toolBar .t-search-input input{
+    opacity: 0;
     height:100%;
     width: 100%;
     border:none;
     border-radius: 0;
     padding-right: 15px;
+}
+.qtopo-toolBar .search-group:hover select,.qtopo-toolBar .search-group:hover .clear-input{
+    display: block;
+    opacity: 1;
+}
+.qtopo-toolBar .search-group:hover .t-search-input,.qtopo-toolBar .search-group:hover .t-search-input input{
+    width: 150px;
+    opacity: 1;
 }
 .qtopo-toolBar .t-search-mode{
     width:80px;
@@ -247,7 +270,213 @@ label[name=topo_mode] span{
 .qtopo-windows .tools-confirm .modal-dialog,.qtopo-windows .tools-view .modal-dialog,.qtopo-windows .tools-progress .modal-dialog{
     position: absolute;
     margin: 0;
-}.qtopo-windows{
+}
+/*loading-a*/
+.qtopo-windows .loading-body-a{
+    height:200px;
+    width:200px;
+    position: absolute;
+    transform: scale(0.7);
+}
+.qtopo-windows .loading-logo{
+    width: 70px;
+    position: absolute;
+    top: 65px;
+    left: 65px;
+    animation: rotate 2s ease infinite;
+}
+.qtopo-windows .tools-loading svg{
+    position: absolute;
+    height:100%;
+    width: 100%;
+    top:0;
+    left:0;
+}
+.qtopo-windows .circle-inner,.circle-inner-tiny{
+    fill:transparent;
+    stroke-width: 8px;
+    stroke: #F9D64A;
+}
+.qtopo-windows .circle-inner{
+    -webkit-animation: 2s circle-inner linear infinite;
+    animation: 2s circle-inner linear infinite;
+}
+.qtopo-windows .circle-inner-tiny{
+    stroke-dasharray: 15 330;
+    -webkit-animation: 2s circle-inner-tiny linear infinite;
+    animation: 2s circle-inner-tiny linear infinite;
+}
+.qtopo-windows .circle-inner-border{
+    fill:transparent;
+    stroke-width: 8px;
+    stroke: rgba(189, 186, 62, 0.25);
+    -webkit-animation:3s circle-inner-border linear infinite;
+    animation: 3s circle-inner-border linear infinite;
+}
+.qtopo-windows .circle-outer,.circle-outer-tiny{
+    fill:transparent;
+    stroke-width: 8px;
+    stroke: rgba(161, 164, 176, 0.5);
+}
+.qtopo-windows .circle-outer{
+    stroke-dasharray: 80 170;
+    -webkit-animation: 1.5s circle-outer ease-out infinite;
+    animation: 1.5s circle-outer ease-out infinite;
+}
+.qtopo-windows .circle-outer-tiny{
+    stroke-dasharray: 30 220;
+    -webkit-animation: 1.5s circle-outer-tiny ease-in-out infinite;
+    animation: 1.5s circle-outer-tiny ease-in-out infinite;
+}
+@keyframes circle-inner-border {
+    0%{
+        stroke-dasharray: 255 10;
+        stroke-dashoffset: 0;
+    }
+    50%{
+        stroke-dasharray: 50 400;
+        stroke-dashoffset: -400;
+    }
+    100%{
+        stroke-dasharray: 255 10;
+        stroke-dashoffset: -800;
+    }
+}
+@keyframes circle-inner-tiny {
+    0% {
+        stroke-dashoffset: 15;
+    }
+    100% {
+        stroke-dashoffset: 355;
+    }
+}
+@keyframes circle-inner {
+    0% {
+        stroke-dasharray: 100 300;
+        stroke-dashoffset: 0;
+    }
+    50%{
+        stroke-dasharray: 50 300;
+        stroke-dashoffset: -150;
+    }
+    100% {
+        stroke-dasharray: 100 300;
+        stroke-dashoffset: -400;
+    }
+}
+@keyframes circle-outer-tiny {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 350;
+    }
+}
+@keyframes circle-outer {
+    0% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: -250;
+    }
+}
+/*loading-b*/
+.loading-body-b,.loading-body-b:before{
+    width: 200px;
+    height:200px;
+}
+.loading-body-b{
+    position: absolute;
+    border-radius: 50%;
+    border:2px solid #337ab7;
+    transform: scale(0.7);
+}
+.loading-body-b:before{
+    content: '';
+    display: block;
+    border: 5px solid #00FFFF;
+    position: absolute;
+    border-radius: 50%;
+    box-sizing: border-box;
+    clip: rect(0px, 35px, 35px, 0px);
+    z-index: 10;
+    animation: rotate infinite;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+}
+.ow-hexagon{
+    height:27%;
+    width: 27%;
+    display: inline-block;
+    position: absolute;
+    background: linear-gradient(150deg, transparent 35%, #337ab7 0) top left,
+    linear-gradient(-150deg, transparent 35%, #337ab7 0) top right,
+    linear-gradient(-30deg, transparent 35%, #337ab7 0) bottom right,
+    linear-gradient(30deg, transparent 35%, #337ab7 0) bottom left;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    animation: ow-hexagon 3s ease-in-out infinite;
+}
+.ow-1,.ow-2{
+    top:15%;
+}
+.ow-3,.ow-4,.ow-5{
+    top:37%;
+}
+.ow-6,.ow-7{
+    bottom:14%;
+}
+.ow-1{
+    right:51%;
+    animation-delay: 0.2s;
+}
+.ow-2{
+    left:51%;
+    animation-delay: 0.4s;
+}
+.ow-3{
+    left:8%;
+    animation-delay: 0.6s;
+}
+.ow-4{
+    left:36.5%;
+    animation-delay: 0.8s;
+}
+.ow-5{
+    right:8%;
+    animation-delay: 1s;
+}
+.ow-6{
+    right:51%;
+    animation-delay: 1.2s;
+}
+.ow-7{
+    left:51%;
+    animation-delay: 1.4s;
+}
+@keyframes ow-hexagon {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    15%, 50% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    65% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+@keyframes rotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */

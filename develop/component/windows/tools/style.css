@@ -280,3 +280,35 @@
         transform: rotate(360deg);
     }
 }
+/*styleSelect*/
+.style-select .modal-body{
+    display: inline-block;
+    width: 100%;
+}
+.style-select .style-box{
+    height:50px;
+    width: 50%;
+    float: left;
+}
+.style-select .row-label,.style-select .row-item{
+    display: inline-block;
+    float: left;
+    text-align: center;
+    height:100%;
+    font-size: 16px;
+}
+.style-select .row-label{
+    width: 40%;
+    line-height: 50px;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.style-select .row-item{
+    position: relative;
+    padding:10px ;
+    line-height: 30px;
+    color:black;
+    width: 60%;
+}
