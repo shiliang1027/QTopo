@@ -42,8 +42,8 @@ function getMenus(scene, menu, windows, tools) {
     }
 
     function editLink() {
-        if (windows && windows.linkAttr) {
-            windows.linkAttr.open({
+        if (windows && windows.link) {
+            windows.link.open({
                 type: "edit",
                 target: menu.target
             });

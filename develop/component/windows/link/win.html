@@ -27,37 +27,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="w-label">线条颜色</label>
-                <div class="input-group w-width">
-                    <input type="text" name="color" class="form-control color-selected" readonly="true">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default select-color-btn" type="button" data-toggle="dropdown"><span class='glyphicon glyphicon-search'></span></button>
-                        <ul class="dropdown-menu select-color">
-                            <li>
-                                <div name="color_palette"></div>
-                            </li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="w-label">曲线偏移量</label>
-                <div class=" w-width">
-                    <input name="curveOffset" type="number" class="form-control" placeholder="曲线偏移量" min="100">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="w-label">
-                    折线方向
-                </label>
-                <div class=" w-width">
-                    <select name="direction" class="form-control w-width">
-                        <option value='horizontal'>水平</option>
-                        <option value='vertical'>垂直</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="w-label">
                     启用属性
                 </label>
@@ -72,14 +41,10 @@
                         <label for="qtopo_arrow_end"></label>
                         <div>终箭头</div>
                     </div>
-                    <div class="link-chk">
-                        <input type="checkbox" name="dashed" id="qtopo_dashed" class="my_chk" value="true">
-                        <label for="qtopo_dashed"></label>
-                        <div>虚线</div>
-                    </div>
                 </div>
             </div>
             <div class='submit-group'>
+                <button class="btn btn-default style-open" type="button">样式</button>
                 <button type="submit" class="btn btn-default">确认</button>
             </div>
         </form>

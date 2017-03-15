@@ -480,6 +480,8 @@ label[name=topo_mode] span{
 .style-select .modal-body{
     display: inline-block;
     width: 100%;
+    max-height: 600px;
+    overflow: auto;
 }
 .style-select .style-box{
     height:50px;
@@ -492,21 +494,34 @@ label[name=topo_mode] span{
     text-align: center;
     height:100%;
     font-size: 16px;
+    position: relative;
 }
 .style-select .row-label{
-    width: 40%;
-    line-height: 50px;
     word-break: keep-all;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    width: 40%;
+    line-height: 50px;
+    color:white;
 }
 .style-select .row-item{
-    position: relative;
     padding:10px ;
     line-height: 30px;
     color:black;
     width: 60%;
+}
+.style-select .color-group .row-item{
+    padding-right: 50px;
+}
+.style-select .color-group .row-item>input{
+    width: 100%;
+}
+.style-select .color-group .row-item>button{
+    position: absolute;
+    top:10px;
+    right:10px;
+    height:34px;
 }.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */
@@ -644,21 +659,19 @@ label[name=topo_mode] span{
 .qtopo-windows .submit-group{
     float: right;
 }
-.qtopo-windows .submit-group button{
-    width: 75px;
-}
 .qtopo-windows .select-color-btn{
     height:34px;
 }
 .qtopo-windows .link-chk{
-    display: inline-block;
-    width: 33%;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow:row wrap;
+    justify-content:center;
+    align-items:center;
+    width: 50%;
     float: left;
 }
 .qtopo-windows .link-chk div{
-    font-size: 13px;
-    position: absolute;
-    top: 15px;
 }/*复选框样式*/
 .my_chk{
     display: none;
@@ -669,7 +682,6 @@ label[name=topo_mode] span{
     border-radius: 50px;
     display: inline-block;
     position: relative;
-    margin-right: 30px;
     -webkit-transition: all 0.1s ease-in;
     transition: all 0.1s ease-in;
     width: 40px;

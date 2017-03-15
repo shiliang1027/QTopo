@@ -19,10 +19,10 @@ var util = {
      */
     initColorSelect: function (win) {
         //被控制的下拉列表中的div,用以插入颜色按钮
-        win.find("[name=color_palette]").each(function(){
+        win.each(function(){
             var self=$(this);
-            var input=self.closest(".input-group").find(".color-selected");
-            self.colorPalette().on('selectColor', function (e) {
+            var input=self.find("input.color-selected");
+            self.find("[name=color_palette]").colorPalette().on('selectColor', function (e) {
                 input.val(e.color);//选中颜色按钮后将值赋予的input框
             });
         });

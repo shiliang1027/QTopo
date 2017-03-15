@@ -47,17 +47,27 @@ function init(dom, scene){
     return temp;
 }
 function makeImageBtn(body){
+    body.on("click",function(e){
+        body.find(".active").removeClass("active");
+        if(e.target){
+            switch (e.target.tagName) {
+                case "IMG":
+                    $(e.target).parent(".img-btn").addClass("active");
+                    break;
+                case "DIV":
+                    if(e.target.className.indexOf("img-btn")>-1){
+                        $(e.target).addClass("active");
+                    }
+                    break;
+            }
+        }
+    });
     return function(images){
         if($.isArray(images)){
             body.html("");//清空
             temp_image=images;
             $.each(images,function(i,src){
                 body.append(imageButton(src));
-            });
-            //选中图片之间互斥
-            body.find(".img-btn").on("click",function(e){
-                body.find(".active").removeClass("active");
-                $(this).addClass("active");
             });
         }
     }

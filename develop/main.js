@@ -100,46 +100,54 @@ function notCasual(arr) {
         }
     }
 }
+//根据配置创建分组
 function createContainer(scene, config) {
     if (config) {
-        var findChild;
-        if (config.children) {
-            findChild = config.children;
-        }
         setDefaults(scene, QTopo.constant.container, config.style);
-        if ($.isArray(config.data)) {
-            //开始构造分组
-            $.each(config.data, function (i, item) {
-                //无论是否有子元素，分组先创造出来
-                var container = scene.createContainer(item);
-                //额外属性添加
-                setExtra(config, container, item);
-                //确定查找子元素的标记
-                var findChild_exact = findChild;
-                if (item.children) {
-                    findChild_exact = item.children;
-                }
-                //查找子元素并塞入
-                if (findChild_exact) {
-                    $.each(item.data, function (j, children) {
-                        var child = scene.find(findChild_exact + "=" + children);
-                        if (child && child.length > 0) {
-                            $.each(child, function (m, one) {
-                                if (one.getUseType() != QTopo.constant.CASUAL) {
-                                    container.add(one);
-                                }
-                            });
-                        } else {
-                            QTopo.util.error("some child not found : " + j, findChild_exact + "=" + children);
-                        }
-                    });
-                } else {
-                    QTopo.util.error("can't find children,need config children");
-                }
-            });
-        }
+        makeContainer(scene,config);
     }
 }
+function makeContainer(scene,config){
+    //搜索子的总标记
+    var findChild;
+    if (config.children) {
+        findChild = config.children;
+    }
+    if ($.isArray(config.data)) {
+        //开始构造分组
+        $.each(config.data, function (i, item) {
+            //无论是否有子元素，分组先创造出来
+            var container = scene.createContainer(item);
+            //额外属性添加
+            setExtra(config, container, item);
+            //确定查找子元素的标记
+            var findChild_exact = findChild;
+            if (item.children) {
+                findChild_exact = item.children;
+            }
+            makeChildren(scene,container,item,findChild_exact);
+        });
+    }
+}
+function makeChildren(scene,container,config,findChild){
+    if (findChild) {
+        $.each(config.data, function (j, children) {
+            var child = scene.find(findChild + "=" + children);
+            if (child && child.length > 0) {
+                $.each(child, function (m, one) {
+                    if (one.getUseType() != QTopo.constant.CASUAL) {
+                        container.add(one);
+                    }
+                });
+            } else {
+                QTopo.util.error("some child not found : " + j, findChild + "=" + children);
+            }
+        });
+    } else {
+        QTopo.util.error("can't find children,need config children");
+    }
+}
+//根据配置创建链接
 function createLink(scene, config) {
     if (config) {
         var path = config.path;
@@ -157,35 +165,38 @@ function createLink(scene, config) {
             //设置默认属性
             setDefaults(scene, QTopo.constant.link, config.style);
             //开始创建
-            if ($.isArray(config.data)) {
-                $.each(config.data, function (i, item) {
-                    var link;
-                    //根据确定的条件进行搜索
-                    var start = notCasual(scene.find(findStart + "=" + item.start));
-                    var end = notCasual(scene.find(findEnd + "=" + item.end));
-                    if (start && end) {
-                        item.start = start;
-                        item.end = end;
-                        link = scene.addLink(item);
-                        //额外属性添加
-                        setExtra(config, link, item);
-                    } else {
-                        QTopo.util.error("some link path invalid : " + i, item);
-                        if (!start) {
-                            QTopo.util.error("start not found : ", item.start);
-                        }
-                        if (!end) {
-                            QTopo.util.error("end not found : ", item.end);
-                        }
-                    }
-                });
-            }
-
+            makeLink(scene,config,findStart,findEnd);
         } else {
             QTopo.util.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
         }
     }
 }
+function makeLink(scene,config,findStart,findEnd){
+    if ($.isArray(config.data)) {
+        $.each(config.data, function (i, item) {
+            var link;
+            //根据确定的条件进行搜索
+            var start = notCasual(scene.find(findStart + "=" + item.start));
+            var end = notCasual(scene.find(findEnd + "=" + item.end));
+            if (start && end) {
+                item.start = start;
+                item.end = end;
+                link = scene.addLink(item);
+                //额外属性添加
+                setExtra(config, link, item);
+            } else {
+                QTopo.util.error("some link path invalid : " + i, item);
+                if (!start) {
+                    QTopo.util.error("start not found : ", item.start);
+                }
+                if (!end) {
+                    QTopo.util.error("end not found : ", item.end);
+                }
+            }
+        });
+    }
+}
+//根据配置创建线段
 function createLine(scene, config) {
     if (config) {
         //设置默认属性
@@ -203,28 +214,13 @@ function createLine(scene, config) {
         }
     }
 }
+//告警处理...
 function drawAlarm(scene, config) {
     if (config) {
         if ($.isArray(config.data) && config.node) {
             var alarmData = config.data;
             QTopo.util.info("设置告警条目 :", alarmData.length);
-            var findNode = config.node;
-            var alarmNodes = [];
-            $.each(alarmData, function (k, v) {
-                var node = notCasual(scene.find(findNode + "=" + v["node"], "node"));
-                if (node) {
-                    alarmNodes.push({
-                        node: node,
-                        alarm: {
-                            show: typeof v.show == "boolean" ? v.show : true,
-                            text: v.text,
-                            color: v.color,
-                            font: v.font
-                        }
-                    });
-                    setExtra(config, node, v);
-                }
-            });
+            var alarmNodes=makeAlarmData(scene,alarmData,config);
             QTopo.util.info("实际告警数目 :", alarmNodes.length);
             if (config.animate) {
                 alarmAnimate(config.animate, alarmNodes);
@@ -237,6 +233,25 @@ function drawAlarm(scene, config) {
             }
         }
     }
+}
+function makeAlarmData(scene,alarmData,config){
+    var alarms = [];
+    $.each(alarmData, function (k, v) {
+        var node = notCasual(scene.find(config.node + "=" + v["node"], "node"));
+        if (node) {
+            alarms.push({
+                node: node,
+                alarm: {
+                    show: typeof v.show == "boolean" ? v.show : true,
+                    text: v.text,
+                    color: v.color,
+                    font: v.font
+                }
+            });
+            setExtra(config, node, v);
+        }
+    });
+    return alarms;
 }
 var animateRuning;
 function alarmAnimate(animate, alarmNodes) {
@@ -268,6 +283,7 @@ function clearAnimat() {
         animateRuning = "";
     }
 }
+//通用属性处理
 function setExtra(config, element, data) {
     if (config && $.isArray(config.value) && element && data) {
         $.each(config.value, function (j, key) {

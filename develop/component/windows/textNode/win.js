@@ -10,20 +10,27 @@ module.exports={
  * 初始化文字节点的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层
+ * @param tools topo工具窗口
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene){
+function main(dom, scene,tools){
     var win=$(temp);
+    var styleSelect=tools.styleSelect;
     //注册窗口打开和关闭事件
     initEvent(dom,win,scene);
     //基本窗口属性初始化
     util.initBase(dom,win);
-    //颜色选择框初始化
-    util.initColorSelect(win);
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
-        doWithForm(win.todo,scene,data);
+        doWithForm(win,scene,data);
         win.close();
+    });
+    //绑定样式选择窗口
+    win.find("button.style-open").click(function(){
+        styleSelect.open(win.data("styleSelect"))
+            .then(function(data){
+                win.data("styleSelect",data);
+            });
     });
     return win;
 }
@@ -57,29 +64,25 @@ function initEvent(dom,win,scene){
         win.hide();
     });
 }
-function doWithForm(config, scene, data){
+function doWithForm(win, scene, data){
+    var config=win.todo;
+    var style=getStyle(win);
     if(config){
         switch (config.type){
             case "create":
-                scene.createNode({
+                $.extend(style,{
                     type:QTopo.constant.node.TEXT,
                     position:config.position,
-                    text:data.text,
-                    font:{
-                        color:data.fontColor,
-                        size:data.fontSize
-                    }
+                    text:data.text
                 });
+                scene.createNode(style);
                 break;
             case "edit":
                 if(config.target&&config.target.getUseType()==QTopo.constant.node.TEXT){
-                    config.target.set({
-                        text:data.text,
-                        font:{
-                            color:data.fontColor,
-                            size:data.fontSize
-                        }
+                    $.extend(style,{
+                        text:data.text
                     });
+                    config.target.set(style);
                 }
                 break;
         }
@@ -94,10 +97,9 @@ function openCreateWindow(win, position,scene){
         position:position
     };
     var DEFAULT=scene.getDefault(QTopo.constant.node.TEXT);
+    setStyle(win,DEFAULT);
     util.setFormInput(win.find("form"),{
-        text:DEFAULT.text,
-        fontColor:DEFAULT.font.color,
-        fontSize:DEFAULT.font.size
+        text:""
     })
 }
 function openEditWindow(win, target,scene){
@@ -109,9 +111,34 @@ function openEditWindow(win, target,scene){
         target:target
     };
     var attr=target.attr;
+    setStyle(win,attr);
     util.setFormInput(win.find("form"),{
-        text:attr.text,
-        fontColor:attr.font.color,
-        fontSize:attr.font.size
+        text:attr.text
     });
+}
+function setStyle(win,attr){
+    win.data("styleSelect",{
+        fontColor:attr.font.color,
+        fontSize:attr.font.size,
+        borderColor:attr.border.color,
+        borderWidth:attr.border.width,
+        borderRadius:attr.border.radius
+    });
+}
+function getStyle(win){
+    var data=win.data("styleSelect");
+    if(data){
+        return {
+            font:{
+                color:data.fontColor,
+                size:data.fontSize
+            },
+            border:{
+                color:data.borderColor,
+                width:data.borderWidth,
+                radius:data.borderRadius
+            }
+        };
+    }
+    return {};
 }

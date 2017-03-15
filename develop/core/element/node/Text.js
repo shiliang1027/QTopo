@@ -3,35 +3,40 @@
  */
 
 var Node = require("./Node.js");
-module.exports =  {
-    constructor:TextNode,
-    setDefault:setDefault,
-    getDefault:getDefault
+module.exports = {
+    constructor: TextNode,
+    setDefault: setDefault,
+    getDefault: getDefault
 };
 //-
 var DEFAULT = {
-        position: [0, 0],
-        font: {
-            size: 16,
-            type: '微软雅黑',
-            color: "255,255,255"
-        },
-        zIndex: 200,//层级(10-999)
-        alpha: 1,
-        text: 'no text here',
-        useType: QTopo.constant.node.TEXT
+    position: [0, 0],
+    font: {
+        size: 16,
+        type: '微软雅黑',
+        color: "255,255,255"
+    },
+    border: {
+        width: 0,
+        radius: 0,//最大160 最小0
+        color: "255,0,0"
+    },
+    zIndex: 200,//层级(10-999)
+    alpha: 1,
+    text: 'no text here',
+    useType: QTopo.constant.node.TEXT
 };
-function setDefault(config){
+function setDefault(config) {
     QTopo.util.extend(DEFAULT, config || {});
 }
-function getDefault(){
+function getDefault() {
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
 //----
 //支持自动换行
-var jtopoReset={
-    paint:function (a) {
+var jtopoReset = {
+    paint: function (a) {
         //自动换行
         var texts = this.text.split("\n");
         a.beginPath();
@@ -86,5 +91,5 @@ function reset(node) {
     node.jtopo.paint = jtopoReset.paint;
 }
 //-
-TextNode.prototype.getDefault=getDefault;
+TextNode.prototype.getDefault = getDefault;
 //-

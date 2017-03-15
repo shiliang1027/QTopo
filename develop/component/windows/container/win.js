@@ -25,7 +25,7 @@ function main(dom, scene, tools){
     util.initBase(dom,win);
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
-        doWithForm(win.todo,scene,data);
+        doWithForm(win,scene,data);
         win.close();
     });
     //绑定图片选择框
@@ -33,6 +33,12 @@ function main(dom, scene, tools){
         imageSelect.open().then(function(data){
             setImageBtn(win,data);
         });
+    });
+    win.find("button.style-open").click(function(){
+        tools.styleSelect.open(win.data("styleSelect"))
+            .then(function(data){
+                win.data("styleSelect",data);
+            });
     });
     return win;
 }
@@ -70,25 +76,29 @@ function setImageBtn(win,image){
     win.find(".image-select-group input").attr("title",image).val(image);
     win.find(".image-select-group img").attr("src",image);
 }
-function doWithForm(config, scene, data){
-    if(config){
-        switch (config.type){
+function doWithForm(win, scene, data){
+    var style=getStyle(win);
+    var todo=win.todo;
+    if(todo){
+        switch (todo.type){
             case "create":
-                debugger;
-                var container=scene.createContainer({
+                $.extend(true,style,{
+                    type:QTopo.constant.node.IMAGE,
+                    position:todo.position,
                     name:data.name,
-                    namePosition:data.namePosition,
                     image:data.image
                 });
-                container.add(config.targets);
+                var container=scene.createContainer(style);
+                container.add(todo.targets);
                 break;
             case "edit":
-                if(config.target&&config.target.getUseType()==QTopo.constant.container.GROUP){
-                    config.target.set({
+                if(todo.target&&todo.target.getUseType()==QTopo.constant.container.GROUP){
+                    $.extend(true,style,{
                         name:data.name,
                         namePosition:data.namePosition
                     });
-                    config.target.toggleTo.set({
+                    todo.target.set(style);
+                    todo.target.toggleTo.set({
                         name:data.name,
                         image:data.image
                     });
@@ -106,6 +116,7 @@ function createWindow(win,targets,scene){
         targets:targets
     };
     var DEFAULT=scene.getDefault(QTopo.constant.container.GROUP);
+    setStyle(win,DEFAULT);
     var DEFAULTNODE=scene.getDefault(QTopo.constant.node.IMAGE);
     util.setFormInput(win.find("form"),{
         name:DEFAULT.name,
@@ -123,10 +134,42 @@ function editWindow(win,target,scene){
         target:target
     };
     var attr=target.attr;
+    setStyle(win,attr);
     util.setFormInput(win.find("form"),{
         name:attr.name,
         namePosition:attr.namePosition,
         image:target.toggleTo.attr.image
     });
     setImageBtn(win,target.toggleTo.attr.image);
+}
+function setStyle(win,attr){
+    win.data("styleSelect",{
+        namePosition:attr.namePosition,
+        width:attr.size[0],
+        height:attr.size[1],
+        fontColor:attr.font.color,
+        fontSize:attr.font.size,
+        borderColor:attr.border.color,
+        borderWidth:attr.border.width,
+        borderRadius:attr.border.radius
+    });
+}
+function getStyle(win){
+    var data=win.data("styleSelect");
+    if(data){
+        return {
+            namePosition:data.namePosition,
+            size:[data.width,data.height],
+            font:{
+                color:data.fontColor,
+                size:data.fontSize
+            },
+            border:{
+                color:data.borderColor,
+                width:data.borderWidth,
+                radius:data.borderRadius
+            }
+        };
+    }
+    return {};
 }

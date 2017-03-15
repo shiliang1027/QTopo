@@ -18,7 +18,7 @@ var tools = {
 var wins = {
     imageNode: require("./imageNode/win.js"),
     textNode: require("./textNode/win.js"),
-    linkAttr: require("./link/win.js"),
+    link: require("./link/win.js"),
     autoLayout: require("./autoLayout/win.js"),
     container: require("./container/win.js")
 };

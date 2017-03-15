@@ -28,7 +28,7 @@ $(document).ready(function () {
     var topo = QTopo.init(document.getElementById("topo_base"),{
         backgroundColor:"#06243e"
     });
-    QTopo.log.info=false;//关闭日志
+    //QTopo.log.info=false;//关闭日志
     var scene=topo.scene;
     var component=topo.component;
     var tools=component.tools;
@@ -62,6 +62,10 @@ $(document).ready(function () {
                 position:[400,100],
                 id:22222,
                 size:[100,100]
+            },{
+                position:[200,-200],
+                size:[100,100],
+                id:33333
             });
         data.link.push({
             start:11111,
@@ -74,6 +78,12 @@ $(document).ready(function () {
                 size:10
             },
             type:QTopo.constant.link.FLEXIONAL
+        });
+        data.link.push({
+            start:11111,
+            end:33333,
+            width:5,
+            type:QTopo.constant.link.CURVE
         });
         //tools.loading.open({type:0,logo:"img/logo.png"});
     }

@@ -13,7 +13,7 @@ var DEFAULT ={
         alpha:1,
         color: '22,124,255',
         arrow:{
-            size:null,
+            size:0,
             offset:0,
             start:false,
             end:false

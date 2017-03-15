@@ -135,19 +135,17 @@
 .qtopo-windows .submit-group{
     float: right;
 }
-.qtopo-windows .submit-group button{
-    width: 75px;
-}
 .qtopo-windows .select-color-btn{
     height:34px;
 }
 .qtopo-windows .link-chk{
-    display: inline-block;
-    width: 33%;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow:row wrap;
+    justify-content:center;
+    align-items:center;
+    width: 50%;
     float: left;
 }
 .qtopo-windows .link-chk div{
-    font-size: 13px;
-    position: absolute;
-    top: 15px;
 }

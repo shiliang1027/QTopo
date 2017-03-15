@@ -71,8 +71,8 @@ Link.prototype.setWidth=function(width){
 };
 Link.prototype.setArrow = function(arrow){
     if(arrow){
-        this.jtopo.arrowsRadius = $.isNumeric(arrow.size)?arrow.size:0;
-        this.jtopo.arrowsOffset = $.isNumeric(arrow.offset)?arrow.offset:0;
+        this.jtopo.arrowsRadius = $.isNumeric(arrow.size)?parseInt(arrow.size):0;
+        this.jtopo.arrowsOffset = $.isNumeric(arrow.offset)?parseInt(arrow.offset):0;
     }
     if(!this.attr.arrow){
         this.attr.arrow={};
@@ -84,13 +84,13 @@ Link.prototype.setArrow = function(arrow){
 };
 Link.prototype.setGap=function(gap){
     if(gap){
-        this.jtopo.bundleGap = $.isNumeric(gap)?gap:0; // 线条之间的间隔
+        this.jtopo.bundleGap = $.isNumeric(gap)?parseInt(gap):0; // 线条之间的间隔
     }
     this.attr.gap=this.jtopo.bundleGap;
 };
 Link.prototype.setDashed=function(dashedPattern){
     if($.isNumeric(dashedPattern)&&dashedPattern>0){
-        this.jtopo.dashedPattern=dashedPattern;
+        this.jtopo.dashedPattern=parseInt(dashedPattern);
     }else{
         this.jtopo.dashedPattern=null;
     }

@@ -2,40 +2,45 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close"
-                        data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">
-                    选择样式
-                </h4>
+                <button type="button" class="close"data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">选择样式</h4>
             </div>
             <div class="modal-body">
-                <div class="style-box">
-                        <div class="row-label">名称位置:</div>
-                        <div class="row-item">
-                            <select class="form-control">
-                                <option value="top">上</option>
-                                <option value="bottom">下</option>
-                                <option value="left">左</option>
-                                <option value="right">右</option>
-                                <option value="center">中</option>
-                                <option value="hide">隐藏</option>
-                            </select>
-                        </div>
-                </div>
-                <div class="style-box">
-                    <div class="row-label">大小:</div>
+                <div name="width" class="style-box">
+                    <div class="row-label">宽度:</div>
                     <div class="row-item">
-                        <input name="size" class="form-control" type="number" placeholder="宽高" min="50">
+                        <input class="form-control" type="number"  min="70">
                     </div>
                 </div>
-                <div  class="style-box">
-                    <div class="row-label">
-                        颜色:
-                    </div>
+                <div name="height" class="style-box">
+                    <div class="row-label">高度:</div>
                     <div class="row-item">
-                        <input type="text" name="color" class="form-control" readonly="true">
+                        <input  class="form-control" type="number" min="70">
+                    </div>
+                </div>
+                <div name="fontSize" class="style-box">
+                    <div class="row-label">文字大小:</div>
+                    <div class="row-item">
+                        <input  class="form-control" type="number" min="70">
+                    </div>
+                </div>
+                <div name="namePosition" class="style-box">
+                    <div class="row-label">名称位置:</div>
+                    <div class="row-item">
+                        <select class="form-control">
+                            <option value="top">上</option>
+                            <option value="bottom">下</option>
+                            <option value="left">左</option>
+                            <option value="right">右</option>
+                            <option value="center">中</option>
+                            <option value="hide">隐藏</option>
+                        </select>
+                    </div>
+                </div>
+                <div name="fontColor" class="style-box color-group">
+                    <div class="row-label">字体颜色:</div>
+                    <div class="row-item">
+                        <input type="text" name="color" class="form-control color-selected">
                         <button class="btn btn-default" type="button" data-toggle="dropdown">
                             <span class='glyphicon glyphicon-search'></span>
                         </button>
@@ -46,8 +51,96 @@
                         </ul>
                     </div>
                 </div>
-                <div class="style-box">
-
+                <div name="color" class="style-box color-group">
+                    <div class="row-label">本体颜色:</div>
+                    <div class="row-item">
+                        <input type="text" name="color" class="form-control color-selected">
+                        <button class="btn btn-default" type="button" data-toggle="dropdown">
+                            <span class='glyphicon glyphicon-search'></span>
+                        </button>
+                        <ul class="dropdown-menu select-color">
+                            <li>
+                                <div name="color_palette"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div name="borderColor" class="style-box color-group">
+                    <div class="row-label">边框颜色:</div>
+                    <div class="row-item">
+                        <input type="text" name="color" class="form-control color-selected">
+                        <button class="btn btn-default" type="button" data-toggle="dropdown">
+                            <span class='glyphicon glyphicon-search'></span>
+                        </button>
+                        <ul class="dropdown-menu select-color">
+                            <li>
+                                <div name="color_palette"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div name="borderWidth" class="style-box">
+                    <div class="row-label">边框粗细:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
+                </div>
+                <div name="borderRadius" class="style-box">
+                    <div class="row-label">边框圆角:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
+                </div>
+                <div name="direction" class="style-box">
+                    <div class="row-label">方向:</div>
+                    <div class="row-item">
+                        <select class="form-control">
+                            <option value='horizontal'>水平</option>
+                            <option value='vertical'>垂直</option>
+                        </select>
+                    </div>
+                </div>
+                <div name="linkOffset" class="style-box">
+                    <div class="row-label">折线长度:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="50">
+                    </div>
+                </div>
+                <div name="linkRadius" class="style-box">
+                    <div class="row-label">折线圆角:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
+                </div>
+                <div name="linkDash" class="style-box">
+                    <div class="row-label">虚线线段:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
+                </div>
+                <div name="linkGap" class="style-box">
+                    <div class="row-label">链接间隔:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
+                </div>
+                <div name="curveOffset" class="style-box">
+                    <div class="row-label">曲线偏移:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="200">
+                    </div>
+                </div>
+                <div name="arrowSize" class="style-box">
+                    <div class="row-label">箭头大小:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
+                </div>
+                <div name="arrowOffset" class="style-box">
+                    <div class="row-label">箭头偏移:</div>
+                    <div class="row-item">
+                        <input class="form-control" type="number"  min="0">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

@@ -72,7 +72,7 @@ Element.prototype.setBorder = function (border) {
     }
     this.attr.border.color = jtopo.borderColor;
     this.attr.border.width = jtopo.borderWidth;
-    this.attr.border.raidus = jtopo.borderRadius;
+    this.attr.border.radius = jtopo.borderRadius;
 };
 Element.prototype.on = function (name, fn) {
     this.jtopo.addEventListener(name, function (e) {
