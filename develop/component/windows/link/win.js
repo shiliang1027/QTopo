@@ -117,14 +117,13 @@ function doWithForm(win, scene, data) {
     }
 }
 function getSet(data) {
-    var set = {
+    return {
         arrow: {
             start: data.arrow_start,
             end: data.arrow_end
         },
         number: data.number
     };
-    return set;
 }
 function toQTopoType(type) {
     var newType="";
