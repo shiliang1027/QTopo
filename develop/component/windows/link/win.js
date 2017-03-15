@@ -10,26 +10,35 @@ module.exports = {
  * 初始化对链接的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层
+ * @param tools topo工具窗口
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene) {
+function main(dom, scene,tools) {
     var win = $(temp);
     //选择框切换
-    var changeSelect=initSelect(win);
     //注册窗口打开和关闭事件
-    initEvent(dom, win,scene,changeSelect);
+    initEvent(dom, win,scene);
     //基本窗口属性初始化
     util.initBase(dom, win);
-    //初始化颜色选择
-    util.initColorSelect(win);
     //劫持表单
     util.initFormSubmit(win.find("form"), function (data) {
-        doWithForm(win.todo, scene, data);
+        doWithForm(win, scene, data);
         win.close();
+    });
+    //绑定样式选择窗口
+    win.find("button.style-open").click(function(){
+        tools.styleSelect.open( win.data("styleSelect"))
+            .then(function(data){
+                win.data("styleSelect",data);
+            });
+    });
+    //类型选择框
+    win.find("select[name=type]").change(function (e) {
+        changeType(win,scene,$(this).val());
     });
     return win;
 }
-function initEvent(dom, win,scene,changeSelect) {
+function initEvent(dom, win,scene) {
     win.on("window.open", function (e, data) {
         if (data) {
             switch (data.type) {
@@ -39,7 +48,7 @@ function initEvent(dom, win,scene,changeSelect) {
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改链接");
-                    editWindow(win, data.target,scene,changeSelect);
+                    editWindow(win, data.target,scene);
                     break;
                 default:
                     QTopo.util.error("invalid type of linkAttrWindow,open function need to config like { type:'create' or 'edit'}");
@@ -59,76 +68,52 @@ function initEvent(dom, win,scene,changeSelect) {
         win.hide();
     });
 }
-function initSelect(win) {
-    var curveOffset = win.find("[name=curveOffset]").closest(".form-group").hide();
-    var direction = win.find("[name=direction]").closest(".form-group").hide();
-    win.find("select[name=type]").change(function (e, value) {
-        var self = $(this);
-        if (value) {
-            self.val(value);
-        }
-        changeSelect(self.val());
-    });
-    function changeSelect(value){
-        switch (value) {
-            case "direct":
-                curveOffset.hide();
-                direction.hide();
-                break;
-            case "fold":
-                curveOffset.hide();
-                direction.show();
-                break;
-            case "flexional":
-                curveOffset.hide();
-                direction.show();
-                break;
-            case "curve":
-                curveOffset.show();
-                direction.hide();
-                break;
-        }
+function changeType(win,scene,type){
+    var todo=win.todo;
+    if(!type){
+        type="direct";
     }
-    return changeSelect;
-}
-function doWithForm(config, scene, data) {
-    if (config) {
-        switch (config.type) {
+    win.data("linkType",type);
+    if(todo){
+        switch (todo.type){
             case "create":
-                var set=getSet(data);
-                if(!data.type){
-                    set.type="direct";
-                }else{
-                    set.type=choseType(data.type);
-                }
-                set.start=config.path.start;
-                set.end=config.path.end;
-                scene.createLink(set);
+                var DEFAULT=scene.getDefault(toQTopoType(type));
+                setStyle(win,DEFAULT,type);
                 break;
             case "edit":
-                if (config.target && config.target.getType() == QTopo.constant.LINK && config.target.getUseType() != QTopo.constant.CASUAL) {
-                    config.target.set(getSet(data));
+                setStyle(win,todo.target.attr,type);
+        }
+    }
+
+}
+function doWithForm(win, scene, data) {
+    var todo=win.todo;
+    var linkType=win.data("linkType");
+    if (todo) {
+        var linkSet=getSet(data);
+        var style;
+        linkSet.type=toQTopoType(linkType);
+        style=getStyle(win,linkType);
+        switch (todo.type) {
+            case "create":
+                linkSet.start=todo.path.start;
+                linkSet.end=todo.path.end;
+                $.extend(true,linkSet,style);
+                if (linkSet.arrow.start == "true" || linkSet.arrow.end == "true") {
+                    linkSet.arrow.size = 10;
+                }
+                scene.createLink(linkSet);
+                break;
+            case "edit":
+                if (todo.target && todo.target.getType() == QTopo.constant.LINK && todo.target.getUseType() != QTopo.constant.CASUAL) {
+                    $.extend(true,linkSet,style);
+                    if (linkSet.arrow.start == "true" || linkSet.arrow.end == "true") {
+                        linkSet.arrow.size = 10;
+                    }
+                    todo.target.set(linkSet);
                 }
                 break;
         }
-    }
-    function choseType(type) {
-        var newType="";
-        switch (type) {
-            case "direct" :
-                newType = QTopo.constant.link.DIRECT;
-                break;
-            case "curve":
-                newType = QTopo.constant.link.CURVE;
-                break;
-            case "flexional":
-                newType = QTopo.constant.link.FLEXIONAL;
-                break;
-            case "fold":
-                newType = QTopo.constant.link.FOLD;
-                break;
-        }
-        return newType;
     }
 }
 function getSet(data) {
@@ -137,18 +122,45 @@ function getSet(data) {
             start: data.arrow_start,
             end: data.arrow_end
         },
-        color:data.color,
-        direction: data.direction,
-        curveOffset: data.curveOffset,
-        number: data.number,
-        dashed:data.dashed=="true"?10:null
+        number: data.number
     };
-    if (data.arrow_start == "true" || data.arrow_end == "true") {
-        set.arrow.size = 10;
-    } else {
-        set.arrow.size = 0;
-    }
     return set;
+}
+function toQTopoType(type) {
+    var newType="";
+    switch (type) {
+        case "direct" :
+            newType = QTopo.constant.link.DIRECT;
+            break;
+        case "curve":
+            newType = QTopo.constant.link.CURVE;
+            break;
+        case "flexional":
+            newType = QTopo.constant.link.FLEXIONAL;
+            break;
+        case "fold":
+            newType = QTopo.constant.link.FOLD;
+            break;
+    }
+    return newType;
+}
+function toSelectType(target) {
+    var type = "";
+    switch (target.getUseType()) {
+        case QTopo.constant.link.DIRECT:
+            type = "direct";
+            break;
+        case QTopo.constant.link.CURVE:
+            type = "curve";
+            break;
+        case QTopo.constant.link.FLEXIONAL:
+            type = "flexional";
+            break;
+        case QTopo.constant.link.FOLD:
+            type = "fold";
+            break;
+    }
+    return type;
 }
 function createWindow(win, path,scene) {
     if (!path || !path.start || !path.end) {
@@ -163,15 +175,12 @@ function createWindow(win, path,scene) {
     util.setFormInput(win.find("form"), {
         number: DEFAULT.number,
         type: "direct",
-        color: DEFAULT.color,
-        curveOffset: 200,
-        direction: "horizontal",
         arrow_start: DEFAULT.arrow.start+"",
-        arrow_end: DEFAULT.arrow.end+"",
-        dashed: $.isNumeric(DEFAULT.dashed).toString()
+        arrow_end: DEFAULT.arrow.end+""
     });
+    changeType(win,scene,"direct");
 }
-function editWindow(win, target,scene,changeSelect) {
+function editWindow(win, target,scene) {
     if (!target) {
         QTopo.util.error("invalid open linkAttrWindow,need set target to edit");
     }
@@ -181,7 +190,7 @@ function editWindow(win, target,scene,changeSelect) {
     };
     var selectType = win.find("select[name=type]");
     var attr = target.attr;
-    var type=choseType(target);
+    var type=toSelectType(target);
     util.setFormInput(win.find("form"), {
         number: attr.number,
         type: type,
@@ -189,27 +198,77 @@ function editWindow(win, target,scene,changeSelect) {
         direction: attr.direction,
         curveOffset: attr.curveOffset,
         arrow_start: attr.arrow.start + "",
-        arrow_end: attr.arrow.end + "",
-        dashed: $.isNumeric(attr.dashed).toString()
+        arrow_end: attr.arrow.end + ""
     });
-    changeSelect(type);
     selectType.attr("disabled", true);
-    function choseType(target) {
-        var type = "";
-        switch (target.getUseType()) {
-            case QTopo.constant.link.DIRECT:
-                type = "direct";
-                break;
-            case QTopo.constant.link.CURVE:
-                type = "curve";
-                break;
-            case QTopo.constant.link.FLEXIONAL:
-                type = "flexional";
-                break;
-            case QTopo.constant.link.FOLD:
-                type = "fold";
-                break;
-        }
-        return type;
+    changeType(win,scene,type);
+}
+function setStyle(win,attr,type){
+    var data={
+        fontColor:attr.font.color,
+        fontSize:attr.font.size,
+        linkGap:attr.gap,
+        linkDash:attr.dashed,
+        color:attr.color,
+        arrowSize:attr.arrow.size,
+        arrowOffset:attr.arrow.offset
+    };
+    switch (type){
+        case "direct" :
+            data.linkOffset=attr.bundleOffset;
+            break;
+        case "curve":
+            data.curveOffset=attr.curveOffset;
+            break;
+        case "flexional":
+            data.linkRadius=attr.radius;
+            data.linkOffset=attr.offsetGap;
+            data.direction=attr.direction;
+            break;
+        case "fold":
+            data.linkRadius=attr.radius;
+            data.direction=attr.direction;
+            break;
     }
+    win.data("styleSelect",data);
+    return data;
+}
+function getStyle(win,type){
+    var data=win.data("styleSelect");
+    if(data){
+        var result={
+            font:{
+                color:data.fontColor,
+                size:data.fontSize
+            },
+            gap:data.linkGap,
+            dashed:data.linkDash,
+            color:data.color,
+            arrow:{
+                size:data.arrowSize,
+                offset:data.arrowOffset
+            }
+        };
+        switch (type){
+            case "direct" :
+                result.bundleOffset=data.linkOffset;
+                break;
+            case "curve":
+                result.curveOffset=data.curveOffset;
+                break;
+            case "flexional":
+                result.radius=data.linkRadius;
+                result.offsetGap=data.linkOffset;
+                result.direction=data.direction;
+                break;
+            case "fold":
+                result.radius=data.linkRadius;
+                result.direction=data.direction;
+                break;
+            default:
+                result.bundleOffset=data.linkOffset;
+        }
+        return result;
+    }
+    return {};
 }
