@@ -100,7 +100,5 @@ function showItem(array, target){
                 showItem(v.subMenu.item, target);//递归子项
             }
         }
-
-
     });
 }

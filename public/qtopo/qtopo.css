@@ -666,12 +666,13 @@ label[name=topo_mode] span{
     display: -webkit-flex;
     display: flex;
     flex-flow:row wrap;
-    justify-content:center;
     align-items:center;
     width: 50%;
     float: left;
 }
 .qtopo-windows .link-chk div{
+    float: left;
+    margin-right: 5px;
 }/*复选框样式*/
 .my_chk{
     display: none;

@@ -98,7 +98,8 @@ $(document).ready(function () {
                         size:[60,60],
                         image: "img/node.png",
                         font:{
-                        }
+                        },
+                        alpha:0.5
                     },
                     value: ["id", "pid", "alarmId"],//value属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
                     data: myData.node //数组，每个成员为一个节点

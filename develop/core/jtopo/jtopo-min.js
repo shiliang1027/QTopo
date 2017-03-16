@@ -1015,6 +1015,10 @@
             }, this.getLocation = function () {
                 return {x: this.x, y: this.y}
             }, this.setLocation = function (a, b) {
+                if (this.qtopo && this.qtopo.attr && this.qtopo.attr.position) {
+                    this.qtopo.attr.position[0] = a;
+                    this.qtopo.attr.position[1] = b;
+                }
                 return this.x = a, this.y = b, this
             }, this.getCenterLocation = function () {
                 return {x: this.x + this.width / 2, y: this.y + this.height / 2}
@@ -1666,7 +1670,27 @@
     function (jtopo) {
         function container(c) {
             this.initialize = function (c) {
-                container.prototype.initialize.apply(this, null), this.elementType = "container", this.zIndex = jtopo.zIndex_Container, this.width = 100, this.height = 100, this.childs = [], this.alpha = .5, this.dragable = !0, this.childDragble = !0, this.visible = !0, this.fillColor = "10,100,80", this.borderWidth = 0, this.borderColor = "255,255,255", this.borderRadius = null, this.font = "12px Consolas", this.fontColor = "255,255,255", this.text = c, this.textPosition = "Bottom_Center", this.textOffsetX = 0, this.textOffsetY = 0, this.layout = new jtopo.layout.AutoBoundLayout
+                container.prototype.initialize.apply(this, null),
+                    this.elementType = "container",
+                    this.zIndex = jtopo.zIndex_Container,
+                    this.width = 100,
+                    this.height = 100,
+                    this.childs = [],
+                    this.alpha = .5,
+                    this.dragable = !0,
+                    this.childDragble = !0,
+                    this.visible = !0,
+                    this.fillColor = "10,100,80",
+                    this.borderWidth = 0,
+                    this.borderColor = "255,255,255",
+                    this.borderRadius = null,
+                    this.font = "12px Consolas",
+                    this.fontColor = "255,255,255",
+                    this.text = c,
+                    this.textPosition = "Bottom_Center",
+                    this.textOffsetX = 0,
+                    this.textOffsetY = 0,
+                    this.layout = new jtopo.layout.AutoBoundLayout
             }, this.initialize(c), this.add = function (a) {
                 this.childs.push(a), a.dragable = this.childDragble
             }, this.remove = function (a) {
@@ -1679,6 +1703,10 @@
             }, this.setLocation = function (a, b) {
                 var c = a - this.x, d = b - this.y;
                 this.x = a, this.y = b;
+                if (this.qtopo && this.qtopo.attr && this.qtopo.attr.position) {
+                    this.qtopo.attr.position[0] = a;
+                    this.qtopo.attr.position[1] = b;
+                }
                 for (var e = 0; e < this.childs.length; e++) {
                     var f = this.childs[e];
                     f.setLocation(f.x + c, f.y + d)
@@ -1757,36 +1785,43 @@
             return d
         }
 
-        function circleLayoutNodes(c, d) {
-            null == d && (d = {});
+        function circleLayoutNodes(nodeArray, animateConfig) {
+            null == animateConfig && (animateConfig = {});
             {
-                var e = d.cx, f = d.cy, g = d.minRadius, h = d.nodeDiameter, i = d.hScale || 1, j = d.vScale || 1;
-                d.beginAngle || 0, d.endAngle || 2 * Math.PI
+                var e = animateConfig.cx,
+                    f = animateConfig.cy,
+                    g = animateConfig.minRadius,
+                    h = animateConfig.nodeDiameter,
+                    i = animateConfig.hScale || 1,
+                    j = animateConfig.vScale || 1;
+                animateConfig.beginAngle || 0, animateConfig.endAngle || 2 * Math.PI
             }
             if (null == e || null == f) {
-                var k = getNodesCenter(c);
+                var k = getNodesCenter(nodeArray);
                 e = k.x, f = k.y
             }
             var l = 0, m = [], n = [];
-            c.forEach(function (a) {
-                null == d.nodeDiameter ? (a.diameter && (h = a.diameter), h = a.radius ? 2 * a.radius : Math.sqrt(2 * a.width * a.height), n.push(h)) : n.push(h), l += h
-            }), c.forEach(function (a, b) {
+            nodeArray.forEach(function (node) {
+                null == animateConfig.nodeDiameter ? (node.diameter && (h = node.diameter),
+                    h = node.radius ? 2 * node.radius : Math.sqrt(2 * node.width * node.height),
+                    n.push(h)) : n.push(h), l += h
+            }), nodeArray.forEach(function (a, b) {
                 var c = n[b] / l;
                 m.push(Math.PI * c)
             });
-            var o = (c.length, m[0] + m[1]), p = n[0] / 2 + n[1] / 2, q = p / 2 / Math.sin(o / 2);
+            var o = (nodeArray.length, m[0] + m[1]), p = n[0] / 2 + n[1] / 2, q = p / 2 / Math.sin(o / 2);
             null != g && g > q && (q = g);
-            var r = q * i, s = q * j, t = d.animate;
+            var r = q * i, s = q * j, t = animateConfig.animate;
             if (t) {
-                var u = t.time || 1e3, v = 0;
-                c.forEach(function (b, c) {
+                var time = t.time || 1e3, v = 0;
+                nodeArray.forEach(function (node, c) {
                     v += 0 == c ? m[c] : m[c - 1] + m[c];
                     var d = e + Math.cos(v) * r, g = f + Math.sin(v) * s;
-                    jtopo.Animate.stepByStep(b, {x: d - b.width / 2, y: g - b.height / 2}, u).start()
+                    jtopo.Animate.stepByStep(node, {x: d - node.width / 2, y: g - node.height / 2}, time).start()
                 })
             } else {
                 var v = 0;
-                c.forEach(function (a, b) {
+                nodeArray.forEach(function (a, b) {
                     v += 0 == b ? m[b] : m[b - 1] + m[b];
                     var c = e + Math.cos(v) * r, d = f + Math.sin(v) * s;
                     a.cx = c, a.cy = d
@@ -1830,13 +1865,30 @@
         }
 
         function AutoBoundLayout() {
-            return function (a, b) {
-                if (b.length > 0) {
-                    for (var c = 1e7, d = -1e7, e = 1e7, f = -1e7, g = d - c, h = f - e, i = 0; i < b.length; i++) {
-                        var j = b[i];
-                        j.x <= c && (c = j.x), j.x >= d && (d = j.x), j.y <= e && (e = j.y), j.y >= f && (f = j.y), g = d - c + j.width, h = f - e + j.height
+            return function (container, children) {
+                if (children.length > 0) {
+                    var left = 1e7,
+                        right = -1e7,
+                        top = 1e7,
+                        bottom = -1e7,
+                        width = right - left,
+                        height = bottom - top;
+                    for (var i = 0; i < children.length; i++) {
+                        var child = children[i];
+                        child.x <= left && (left = child.x);
+                        (child.x+child.width) >= right && (right = child.x+child.width);
+                        child.y <= top && (top = child.y);
+                        (child.y+child.height) >= bottom && (bottom = child.y+child.height);
+                        width = right - left;
+                        height = bottom - top;
                     }
-                    a.x = c, a.y = e, a.width = g, a.height = h
+                    container.x = left;
+                    container.y = top;
+                    container.width = width;
+                    container.height = height;
+                }else{
+                    container.width = 100;
+                    container.height = 100;
                 }
             }
         }
@@ -2098,26 +2150,26 @@
             return i
         }
 
-        function an_stepByStep(a, c, d, e, f) {
+        function an_stepByStep(target, attr, time, e, f) {
             var g = 1e3 / 24, h = {};
-            for (var i in c) {
-                var j = c[i], k = j - a[i];
+            for (var i in attr) {
+                var j = attr[i], k = j - target[i];
                 h[i] = {
-                    oldValue: a[i], targetValue: j, step: k / d * g, isDone: function (b) {
-                        var c = this.step > 0 && a[b] >= this.targetValue || this.step < 0 && a[b] <= this.targetValue;
+                    oldValue: target[i], targetValue: j, step: k / time * g, isDone: function (b) {
+                        var c = this.step > 0 && target[b] >= this.targetValue || this.step < 0 && target[b] <= this.targetValue;
                         return c
                     }
                 }
             }
             var l = new b(function () {
                 var b = !0;
-                for (var d in c)h[d].isDone(d) || (a[d] += h[d].step, b = !1);
+                for (var d in attr)h[d].isDone(d) || (target[d] += h[d].step, b = !1);
                 if (b) {
                     if (!e)return this.stop();
-                    for (var d in c)if (f) {
+                    for (var d in attr)if (f) {
                         var g = h[d].targetValue;
                         h[d].targetValue = h[d].oldValue, h[d].oldValue = g, h[d].step = -h[d].step
-                    } else a[d] = h[d].oldValue
+                    } else target[d] = h[d].oldValue
                 }
                 return this
             }, g);

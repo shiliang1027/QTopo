@@ -4,7 +4,7 @@
 function getMenus(scene, menu, windows, tools) {
     //高亮控制
     var lighting = false;
-
+    var lockedGroup;
     function editImageNode() {
         if (windows && windows.imageNode) {
             windows.imageNode.open({
@@ -69,7 +69,7 @@ function getMenus(scene, menu, windows, tools) {
     }
 
     //分组
-    function createGroup(){
+    function createGroup() {
         if (windows && windows.container) {
             windows.container.open({
                 type: "create",
@@ -77,7 +77,8 @@ function getMenus(scene, menu, windows, tools) {
             });
         }
     }
-    function editGroup(){
+
+    function editGroup() {
         if (windows && windows.container) {
             windows.container.open({
                 type: "edit",
@@ -85,6 +86,7 @@ function getMenus(scene, menu, windows, tools) {
             });
         }
     }
+
     return {
         item: {
             DEBUG: {
@@ -152,7 +154,7 @@ function getMenus(scene, menu, windows, tools) {
                     return target.getType() != QTopo.constant.SCENE && (target.getUseType() != QTopo.constant.CASUAL || target.getType() == QTopo.constant.NODE);
                 }
             },
-            TOGGLEZINDEX: {
+            TOGGLE_ZINDEX: {
                 name: "层次切换",
                 click: function () {
                     scene.toggleZIndex(menu.target);
@@ -171,7 +173,7 @@ function getMenus(scene, menu, windows, tools) {
                     return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
                 }
             },
-            NOTLIGHTING: {
+            NO_LIGHTING: {
                 name: "取消高亮",
                 click: function () {
                     scene.toggleLight();
@@ -179,39 +181,6 @@ function getMenus(scene, menu, windows, tools) {
                 },
                 filter: function (target) {
                     return lighting;
-                }
-            },
-            REMOVEFROMGROUP: {
-                name: "移出分组",
-                click: function () {
-                    menu.target.parent.remove(menu.target);
-                },
-                filter: function (target) {
-                    return target && target.getUseType() != QTopo.constant.CASUAL && target.parent;
-                }
-            },
-            CREATEGROUP:{
-                name:"创建分组",
-                click:function(){
-                    createGroup();
-                },
-                filter:function(){
-                    //只有当两个以上没有被分组的节点被选中时才能创建分组
-                    var flag=false;
-                    var selected=scene.getSelected();
-                    if(selected.length>1){
-                        var num=0;
-                        $.each(selected,function(i,el){
-                            if(el.getType()==QTopo.constant.NODE&&!el.parent){
-                                num++;
-                            }
-                            if(num>=2){
-                                flag=true;
-                                return false;
-                            }
-                        });
-                    }
-                    return flag;
                 }
             }
         },
@@ -256,6 +225,65 @@ function getMenus(scene, menu, windows, tools) {
                 },
                 filter: function (target) {
                     return target && (target.getType() == QTopo.constant.NODE || target.getType() == QTopo.constant.CONTAINER) && target.getUseType() != QTopo.constant.CASUAL;
+                }
+            },
+            {
+                name: "分组操作",
+                item: {
+                    SET_END: {
+                        name: "锁定分组",
+                        click: function () {
+                            lockedGroup=menu.target;
+                        },
+                        filter:function(target){
+                            return target && target.getType() == QTopo.constant.CONTAINER && target.getUseType() != QTopo.constant.CASUAL;
+                        }
+                    },
+                    ADD_IN_GROUP:{
+                        name:"加入分组",
+                        click:function(){
+                            lockedGroup.add(menu.target);
+                        },
+                        filter:function(target){
+                            return lockedGroup && target.getType() == QTopo.constant.NODE&&!target.parent&& target.getUseType() != QTopo.constant.CASUAL;
+                        }
+                    },
+                    REMOVE_FROM_GROUP: {
+                        name: "移出分组",
+                        click: function () {
+                            menu.target.parent.remove(menu.target);
+                        },
+                        filter: function (target) {
+                            return target && target.getUseType() != QTopo.constant.CASUAL && target.parent;
+                        }
+                    },
+                    CREATE_GROUP: {
+                        name: "创建分组",
+                        click: function () {
+                            createGroup();
+                        },
+                        filter: function () {
+                            //只有当两个以上没有被分组的节点被选中时才能创建分组
+                            var flag = false;
+                            var selected = scene.getSelected();
+                            if (selected.length > 1) {
+                                var num = 0;
+                                $.each(selected, function (i, el) {
+                                    if (el.getType() == QTopo.constant.NODE && !el.parent) {
+                                        num++;
+                                    }
+                                    if (num >= 2) {
+                                        flag = true;
+                                        return false;
+                                    }
+                                });
+                            }
+                            return flag;
+                        }
+                    }
+                },
+                filter:function(target){
+                    return target && ((target.getType() == QTopo.constant.NODE) || target.getType() == QTopo.constant.CONTAINER) && target.getUseType() != QTopo.constant.CASUAL;
                 }
             }
         ]

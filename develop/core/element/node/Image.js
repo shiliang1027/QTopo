@@ -110,15 +110,15 @@ ImageNode.prototype.setImage=function(image) {
 ImageNode.prototype.getDefault=getDefault;
 //--
 ImageNode.prototype.setAlarm=function(config) {
-    var jtopo = this.jtopo;
-    this.setAlpha(1);
-    alarmAttr(jtopo,this.attr.alarm,config);
+    alarmAttr(this,this.attr.alarm,config);
 };
-function alarmAttr(jtopo,alarm,config){
+function alarmAttr(qtopo,alarm,config){
+    var jtopo=qtopo.jtopo;
     if(typeof config.show=="undefined"){
         config.show=alarm.show;
     }
     if ((typeof config.show=="boolean"&&config.show)||(config.show=="true")) {
+        qtopo.setAlpha(1);
         jtopo.shadow = true;
         jtopo.alarm = config.text || "";
         alarm.text=jtopo.alarm;

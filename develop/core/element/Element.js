@@ -6,22 +6,9 @@ function Element(jtopo) {
     if (jtopo) {
         this.jtopo = jtopo;
         jtopo.qtopo = this;
-        reset(this);
     }
     //设置额外属性处理对象
     this.extra={};
-}
-function reset(element) {
-    //同步位置属性
-    var preSetLocation = element.jtopo.setLocation;
-    element.jtopo.setLocation = function (a, b) {
-        if (this.qtopo && this.qtopo.attr && this.qtopo.attr.position) {
-            this.qtopo.attr.position[0] = a;
-            this.qtopo.attr.position[1] = b;
-        }
-        preSetLocation.call(this, a, b);
-        return this;
-    };
 }
 Element.prototype.show = function () {
     switch (this.getType()) {

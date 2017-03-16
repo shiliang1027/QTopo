@@ -43,74 +43,54 @@ function getDefault(){
 }
 //-
 //----
-var jtopoReset={
-    defaultLayout:function (container, children) {
-        if (children.length > 0) {
-            var left = 1e7,
-                right = -1e7,
-                top = 1e7,
-                bottom = -1e7,
-                width = right - left,
-                height = bottom - top;
-            for (var i = 0; i < children.length; i++) {
-                var child = children[i];
-                child.x <= left && (left = child.x);
-                (child.x+child.width) >= right && (right = child.x+child.width);
-                child.y <= top && (top = child.y);
-                (child.y+child.height) >= bottom && (bottom = child.y+child.height);
-                width = right - left;
-                height = bottom - top;
-            }
-            container.x = left;
-            container.y = top;
-            container.width = width;
-            container.height = height;
-        }else{
-            container.width = 100;
-            container.height = 100;
-        }
-    }
-};
 //----
 function Group(config) {
     Container.call(this, new JTopo.Container());
     this.attr =  QTopo.util.extend(getDefault(), config || {});
     //函数
     this.set = setJTopo;
-    reset(this);
     //初始化
     this.set(this.attr);
 }
 QTopo.util.inherits(Group,Container);
 //-
-var fixedLayout=function(container, children){
+var fixedLayout=function(group, children){
     if(this.qtopo){
-        var attr=this.qtopo.attr;
-        if($.isArray(attr.size)&& $.isArray(attr.position)){
-            //this.qtopo.setChildren({
-            //    dragble:false
-            //});
-            if (children.length > 0) {
-                container.width = attr.size[0];
-                container.height = attr.size[1];
-            }
+        if(group.width>0&&group.height>0){
+            var groupBound=group.getBound();
+            children.map(function(child){
+                resetLocation(groupBound,child);
+            });
         }else{
-            jtopoReset.defaultLayout(container, children);
-            QTopo.util.error("the fixedLayout need set size and position,now change to defaultLayout");
+            JTopo.Layout.AutoBoundLayout()(group, children);
+            QTopo.util.error("the fixedLayout need set size,now change to defaultLayout");
         }
     }else{
         QTopo.util.error("the container not wrap with qtopo",this);
     }
-
 };
+function resetLocation(groupBound,child){
+    var childBound=child.getBound();
+    var location=child.getLocation();
+    if(childBound.bottom>groupBound.bottom){
+        location.y=groupBound.bottom-childBound.height;
+    }
+    if(childBound.right>groupBound.right){
+        location.x=groupBound.right-childBound.width;
+    }
+    if(childBound.left<groupBound.left){
+        location.x=groupBound.left;
+    }
+    if(childBound.top<groupBound.top){
+        location.y=groupBound.top;
+    }
+    child.setLocation(location.x,location.y);
+}
 function setJTopo(config) {
     if (config) {
         var self=this;
         self._setAttr(config);
     }
-}
-function reset(group) {
-    group.jtopo.layout=jtopoReset.defaultLayout;
 }
 //-
 Group.prototype.setLayout=function(layout){
@@ -133,12 +113,12 @@ Group.prototype.setLayout=function(layout){
                 this.attr.layout=layout;
                 break;
             default:
-                selected = jtopoReset.defaultLayout;
+                selected = JTopo.Layout.AutoBoundLayout();
                 this.attr.layout={};
                 this.attr.layout.type="default";
         }
     } else {
-        selected = jtopoReset.defaultLayout;
+        selected = JTopo.Layout.AutoBoundLayout();
         this.attr.layout={};
         this.attr.layout.type="set";
     }

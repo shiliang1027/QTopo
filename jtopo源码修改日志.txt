@@ -2,3 +2,5 @@ MessageBus函数    由原本函数内部this.function的定义方式优化为 p
 MessageBus对象unsubscribe函数    增加参数，由原本对应事件名下的所有事件函数全部删除，改为可选删除对应事件名下对应的事件函数,同时修改所有调用的地方(removeEventListener)增加参数接口
 所有的this.addEventListener函数 将原有包装去除，配合removeEventListener的卸载事件功能
 baseNode中的getTextPostion函數和container中的getTextPostion函數增加參數height表明多少行，改了top_center時的文字起始位置
+DisplayElement和container中setLocation中同步属性
+container默认布局AutoBoundLayout函数重写
