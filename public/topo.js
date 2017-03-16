@@ -56,7 +56,8 @@ $(document).ready(function () {
         data.node.push({
             position:[-200,-200],
             size:[100,100],
-            id:11111
+            id:11111,
+            name:"测试\nhhhh"
         },
             {
                 position:[400,100],
@@ -96,10 +97,7 @@ $(document).ready(function () {
                 node: {
                     style:{
                         size:[60,60],
-                        image: "img/node.png",
-                        font:{
-                        },
-                        alpha:0.5
+                        image: "img/node.png"
                     },
                     value: ["id", "pid", "alarmId"],//value属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
                     data: myData.node //数组，每个成员为一个节点

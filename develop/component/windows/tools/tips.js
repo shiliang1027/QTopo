@@ -28,6 +28,9 @@ function init(dom, scene) {
                     temp.hide();
                 }
             });
+            scene.on("mousedown",function(){
+                temp.hide();
+            });
         }else{
             QTopo.util.error("you need set function and [filter] to tell tips how to work");
         }

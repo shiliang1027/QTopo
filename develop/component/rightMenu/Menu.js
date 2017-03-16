@@ -28,7 +28,7 @@ Menu.prototype.init=function(scene){
             }else{
                 self.target=scene;
             }
-            showItem(self.item, self.target);
+            showItem(self,self.item, self.target);
         }
     });
     //隐藏
@@ -81,24 +81,44 @@ Menu.prototype.addSubMenu=function(options){
 };
 /**
  * 过滤显示的菜单栏
+ * @param parent 菜单栏的父菜单
  * @param array 保存的菜单栏列表
  * @param target 触发的对象
  */
-function showItem(array, target){
+function showItem(parent,array, target){
+    parent.showedChild=0;
     $.each(array, function (i, v) {
-        if ($.isFunction(v.filter) && v.type == 'item') {
-            v.filter(target)?v.body.show(): v.body.hide();
-        } else if (v.type == 'subMenu') {
-            if ($.isFunction(v.filter)) {
-                if (v.filter(target)) {
+        switch (v.type){
+            case'item':
+                if($.isFunction(v.filter)){
+                    if(v.filter(target)){
+                        v.body.show();
+                        parent.showedChild++;
+                    }else{
+                        v.body.hide();
+                    }
+                }else{
+                    parent.showedChild++;
                     v.body.show();
-                    showItem(v.subMenu.item, target);//递归子项
-                } else {
-                    v.body.hide();
                 }
-            }else{
-                showItem(v.subMenu.item, target);//递归子项
-            }
+                break;
+            case'subMenu':
+                if ($.isFunction(v.filter)) {
+                    if (v.filter(target)) {
+                        v.body.show();
+                        showItem(v,v.subMenu.item, target);//递归子项
+                    } else {
+                        v.body.hide();
+                    }
+                }else{
+                    showItem(v,v.subMenu.item, target);//递归子项
+                    if(v.showedChild==0){
+                        v.body.hide();
+                    }else{
+                        v.body.show();
+                    }
+                }
+                break;
         }
     });
 }

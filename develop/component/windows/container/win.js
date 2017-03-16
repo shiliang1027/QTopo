@@ -7,7 +7,7 @@
 var temp=require("./win.html");
 var util=require("../util.js");
 module.exports={
-    init:main
+    init:init
 };
 /**
  * 初始化分组的属性操作窗口
@@ -16,13 +16,14 @@ module.exports={
  * @param tools 需要支持的一般窗口组件
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene, tools){
+function init(dom, scene, tools){
     var win=$(temp);
     var imageSelect=tools.imageSelect;
-    //注册窗口打开和关闭事件
-    initEvent(dom,win,scene);
     //基本窗口属性初始化
     util.initBase(dom,win);
+    var select=initSelect(win);
+    //注册窗口打开和关闭事件
+    initEvent(dom,win,scene,select);
     //劫持表单
     util.initFormSubmit(win.find("form"),function(data){
         doWithForm(win,scene,data);
@@ -42,17 +43,17 @@ function main(dom, scene, tools){
     });
     return win;
 }
-function initEvent(dom,win,scene){
+function initEvent(dom,win,scene,select){
     win.on("window.open",function(e,data){
         if(data){
             switch (data.type){
                 case "create":
                     win.find(".panel-title").html("创建分组");
-                    createWindow(win,data.targets,scene);
+                    createWindow(win,data.targets,scene,select);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改分组");
-                    editWindow(win,data.target,scene);
+                    editWindow(win,data.target,scene,select);
                     break;
                 default:
                     QTopo.util.error("invalid type of group,open function need to config like { type:'create' or 'edit'}");
@@ -86,7 +87,8 @@ function doWithForm(win, scene, data){
                     type:QTopo.constant.node.IMAGE,
                     position:todo.position,
                     name:data.name,
-                    image:data.image
+                    image:data.image,
+                    layout:makeLayout(data)
                 });
                 var container=scene.createContainer(style);
                 container.add(todo.targets);
@@ -95,7 +97,8 @@ function doWithForm(win, scene, data){
                 if(todo.target&&todo.target.getUseType()==QTopo.constant.container.GROUP){
                     $.extend(true,style,{
                         name:data.name,
-                        namePosition:data.namePosition
+                        namePosition:data.namePosition,
+                        layout:makeLayout(data)
                     });
                     todo.target.set(style);
                     todo.target.toggleTo.set({
@@ -107,7 +110,7 @@ function doWithForm(win, scene, data){
         }
     }
 }
-function createWindow(win,targets,scene){
+function createWindow(win,targets,scene,select){
     if(!targets){
         QTopo.util.error("invalid open containerWindow,need set targets to create");
     }
@@ -121,11 +124,14 @@ function createWindow(win,targets,scene){
     util.setFormInput(win.find("form"),{
         name:DEFAULT.name,
         namePosition:DEFAULT.namePosition,
-        image:DEFAULTNODE.image
+        image:DEFAULTNODE.image,
+        layout:DEFAULT.layout.type
     });
+    win.find("select[name=layout]").attr("disabled",true);
+    select();
     setImageBtn(win,DEFAULTNODE.image);
 }
-function editWindow(win,target,scene){
+function editWindow(win,target,scene,select){
     if(!target){
         QTopo.util.error("invalid open imageNodeWindow,need set target to edit");
     }
@@ -138,8 +144,15 @@ function editWindow(win,target,scene){
     util.setFormInput(win.find("form"),{
         name:attr.name,
         namePosition:attr.namePosition,
-        image:target.toggleTo.attr.image
+        image:target.toggleTo.attr.image,
+        layout:attr.layout.type,
+        row:attr.layout.row,
+        column:attr.layout.column,
+        rowSpace:attr.layout.row,
+        columnSpace:attr.layout.column
     });
+    win.find("select[name=layout]").attr("disabled",false);
+    select(attr.layout.type);
     setImageBtn(win,target.toggleTo.attr.image);
 }
 function setStyle(win,attr){
@@ -172,4 +185,70 @@ function getStyle(win){
         };
     }
     return {};
+}
+function initSelect(win){
+    var rowSpace=win.find("input[name=rowSpace]");
+    var rowSpaceGroup=rowSpace.closest(".form-group");
+    var columnSpace=win.find("input[name=columnSpace]");
+    var columnSpaceGroup=columnSpace.closest(".form-group");
+    var row=win.find("input[name=row]");
+    var rowGroup=row.closest(".form-group");
+    var column=win.find("input[name=column]");
+    var columnGroup=column.closest(".form-group");
+    win.find("select[name=layout]").change(function(){
+        select($(this).val());
+    });
+    return select;
+    function select(type){
+        var todo=win.todo;
+        switch (type){
+            case'grid':
+                rowGroup.show();
+                columnGroup.show();
+                rowSpaceGroup.hide();
+                columnSpaceGroup.hide();
+                if(todo.type=="edit"){
+                    var rows= Math.ceil(Math.sqrt(todo.target.children.length));
+                    row.val(rows);
+                    column.val(rows);
+                }
+                break;
+            case'flow':
+                rowGroup.hide();
+                columnGroup.hide();
+                rowSpaceGroup.show();
+                columnSpaceGroup.show();
+                if(todo.type=="edit"){
+                    var target=todo.target;
+                    rowSpace.attr("max",target.attr.size[1]/2);
+                    columnSpace.attr("max",target.attr.size[0]/2);
+                }
+                break;
+            default :
+                rowGroup.hide();
+                columnGroup.hide();
+                rowSpaceGroup.hide();
+                columnSpaceGroup.hide();
+        }
+    }
+}
+function makeLayout(data){
+    var layout={};
+    switch (data.layout){
+        case'grid':
+            layout.row=data.row;
+            layout.column=data.column;
+            layout.type=data.layout;
+            break;
+        case'flow':
+            layout.row=data.rowSpace;
+            layout.column=data.columnSpace;
+            layout.type=data.layout;
+            break;
+        case'fixed':
+            layout.type=data.layout;
+            break;
+        default :layout.type="default";
+    }
+    return layout;
 }

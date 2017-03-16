@@ -20,6 +20,41 @@
                     <button class="btn btn-default" type="button" data-toggle="dropdown"><span class='glyphicon glyphicon-search'></span></button>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="w-label">布局</label>
+                <div class=" w-width">
+                    <select name="layout" class="form-control">
+                        <option value="default">默认</option>
+                        <option value="grid">网格</option>
+                        <option value="flow">流式</option>
+                        <option value="fixed">固定</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">行间距</label>
+                <div class=" w-width">
+                    <input name="rowSpace" type="range" class="form-control w-width"  min="0" max="100">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">列间距</label>
+                <div class=" w-width">
+                    <input name="columnSpace" type="range" class="form-control w-width"  min="0" max="100">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">行数</label>
+                <div class=" w-width">
+                    <input name="row"  class="form-control" type="number" min="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="w-label">列数</label>
+                <div class=" w-width">
+                    <input name="column" class="form-control" type="number" min="1">
+                </div>
+            </div>
             <div class='submit-group'>
                 <button class="btn btn-default style-open" type="button">样式</button>
                 <button type="submit" class="btn btn-default">确认</button>

@@ -1844,7 +1844,7 @@
                             var x = cBound.left + columSpace / 2 + columnIndex * columSpace;
                             var y = cBound.top + rowSpace / 2 + rowsIndex * rowSpace;
                             node.setLocation(x, y);
-                            if (childIndex >= childs.length){
+                            if (childIndex >= childs.length) {
                                 return
                             }
                         }
@@ -1854,12 +1854,28 @@
             }
         }
 
-        function FlowLayout(rowSpace, columnSpace) {
-            return null == rowSpace && (rowSpace = 0), null == columnSpace && (columnSpace = 0), function (c) {
-                var d = c.childs;
-                if (!(d.length <= 0))for (var e = c.getBound(), f = e.left, g = e.top, h = 0; h < d.length; h++) {
-                    var i = d[h];
-                    f + i.width >= e.right && (f = e.left, g += columnSpace + i.height), i.setLocation(f, g), f += rowSpace + i.width
+        function FlowLayout(row, column) {
+            if (null == column) {
+                column = 0;
+            }
+            if (null == row) {
+                row = 0;
+            }
+            return function (container) {
+                var childs = container.childs;
+                if (!(childs.length <= 0)) {
+                    var bound = container.getBound();
+                    var left = bound.left;
+                    var top = bound.top;
+                    for (var i = 0; i < childs.length; i++) {
+                        var child = childs[i];
+                        if (left + child.width >= bound.right) {
+                            left = bound.left;
+                            top += row + child.height;
+                        }
+                        child.setLocation(left, top);
+                        left += column + child.width;
+                    }
                 }
             }
         }
@@ -1876,9 +1892,9 @@
                     for (var i = 0; i < children.length; i++) {
                         var child = children[i];
                         child.x <= left && (left = child.x);
-                        (child.x+child.width) >= right && (right = child.x+child.width);
+                        (child.x + child.width) >= right && (right = child.x + child.width);
                         child.y <= top && (top = child.y);
-                        (child.y+child.height) >= bottom && (bottom = child.y+child.height);
+                        (child.y + child.height) >= bottom && (bottom = child.y + child.height);
                         width = right - left;
                         height = bottom - top;
                     }
@@ -1886,9 +1902,13 @@
                     container.y = top;
                     container.width = width;
                     container.height = height;
-                }else{
+                } else {
                     container.width = 100;
                     container.height = 100;
+                }
+                if (container.qtopo) {
+                    container.qtopo.attr.size[0] = container.width;
+                    container.qtopo.attr.size[1] = container.height;
                 }
             }
         }

@@ -160,8 +160,8 @@ function toggleAlarmFlash(node,show){
         node.allowAlarmFlash=false;
     }
 }
+//插入源码部分,启用告警后每次绘画执行修改阴影
 function alarmFlash(cx) {
-    //插入源码部分代码
     if(this.shadow&&this.allowAlarmFlash){
         if(typeof this.shadowDirection=="undefined"){
             this.shadowDirection=true;

@@ -24,10 +24,12 @@ var DEFAULT = {
             radius:30,//最大160 最小0
             color:"255,0,0"
         },
-        size:[0,0],
+        size:[500,500],
         position:[0,0],
         namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
-        layout: "",
+        layout: {
+            type:"default"
+        },
         children:{
             showLink: false,
             showName: true,
@@ -56,14 +58,18 @@ QTopo.util.inherits(Group,Container);
 //-
 var fixedLayout=function(group, children){
     if(this.qtopo){
+        if(group.width==0||group.height==0){
+            group.width=this.qtopo.attr.size[0];
+            group.height=this.qtopo.attr.size[1];
+        }
         if(group.width>0&&group.height>0){
             var groupBound=group.getBound();
             children.map(function(child){
                 resetLocation(groupBound,child);
             });
         }else{
+            //若未设置高宽则运行一次自动布局设置高宽
             JTopo.Layout.AutoBoundLayout()(group, children);
-            QTopo.util.error("the fixedLayout need set size,now change to defaultLayout");
         }
     }else{
         QTopo.util.error("the container not wrap with qtopo",this);
@@ -99,12 +105,18 @@ Group.prototype.setLayout=function(layout){
         switch (layout.type) {
             case 'flow':
                 // 流式布局（水平,垂直间隔)
-                selected = JTopo.layout.FlowLayout(layout.row, layout.column);
+                selected = JTopo.layout.FlowLayout(parseInt(layout.row), parseInt(layout.column));
                 this.attr.layout=layout;
                 break;
             case 'grid':
                 // 网格布局(行,列)
-                selected = JTopo.layout.GridLayout(layout.row, layout.column);
+                var rows=parseInt(layout.row);
+                var columns=parseInt(layout.column);
+                if(rows*columns<this.children.length){
+                    QTopo.util.error("GridLayout's row*column need bigger than group's children length");
+                    columns=rows= Math.ceil(Math.sqrt(todo.target.children.length));
+                }
+                selected = JTopo.layout.GridLayout(rows,columns);
                 this.attr.layout=layout;
                 break;
             case 'fixed':
@@ -120,7 +132,7 @@ Group.prototype.setLayout=function(layout){
     } else {
         selected = JTopo.Layout.AutoBoundLayout();
         this.attr.layout={};
-        this.attr.layout.type="set";
+        this.attr.layout.type="default";
     }
     this.jtopo.layout = selected;
 };

@@ -5,6 +5,7 @@ function getMenus(scene, menu, windows, tools) {
     //高亮控制
     var lighting = false;
     var lockedGroup;
+
     function editImageNode() {
         if (windows && windows.imageNode) {
             windows.imageNode.open({
@@ -153,38 +154,43 @@ function getMenus(scene, menu, windows, tools) {
                     //可以删除分组缩放的节点，但不可以删除链路切换的临时线
                     return target.getType() != QTopo.constant.SCENE && (target.getUseType() != QTopo.constant.CASUAL || target.getType() == QTopo.constant.NODE);
                 }
-            },
-            TOGGLE_ZINDEX: {
-                name: "层次切换",
-                click: function () {
-                    scene.toggleZIndex(menu.target);
-                },
-                filter: function (target) {
-                    return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
-                }
-            },
-            LIGHTING: {
-                name: "相关高亮",
-                click: function () {
-                    scene.toggleLight(menu.target);
-                    lighting = true;
-                },
-                filter: function (target) {
-                    return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
-                }
-            },
-            NO_LIGHTING: {
-                name: "取消高亮",
-                click: function () {
-                    scene.toggleLight();
-                    lighting = false;
-                },
-                filter: function (target) {
-                    return lighting;
-                }
             }
         },
         subMenu: [
+            {
+                name: "元素切换",
+                item: {
+                    TOGGLE_ZINDEX: {
+                        name: "层次切换",
+                        click: function () {
+                            scene.toggleZIndex(menu.target);
+                        },
+                        filter: function (target) {
+                            return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
+                        }
+                    },
+                    LIGHTING: {
+                        name: "相关高亮",
+                        click: function () {
+                            scene.toggleLight(menu.target);
+                            lighting = true;
+                        },
+                        filter: function (target) {
+                            return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
+                        }
+                    },
+                    NO_LIGHTING: {
+                        name: "取消高亮",
+                        click: function () {
+                            scene.toggleLight();
+                            lighting = false;
+                        },
+                        filter: function (target) {
+                            return lighting;
+                        }
+                    }
+                }
+            },
             {
                 name: "创建节点",
                 item: {
@@ -231,21 +237,21 @@ function getMenus(scene, menu, windows, tools) {
                 name: "分组操作",
                 item: {
                     SET_END: {
-                        name: "锁定分组",
+                        name: "锁定",
                         click: function () {
-                            lockedGroup=menu.target;
+                            lockedGroup = menu.target;
                         },
-                        filter:function(target){
+                        filter: function (target) {
                             return target && target.getType() == QTopo.constant.CONTAINER && target.getUseType() != QTopo.constant.CASUAL;
                         }
                     },
-                    ADD_IN_GROUP:{
-                        name:"加入分组",
-                        click:function(){
+                    ADD_IN_GROUP: {
+                        name: "加入分组",
+                        click: function () {
                             lockedGroup.add(menu.target);
                         },
-                        filter:function(target){
-                            return lockedGroup && target.getType() == QTopo.constant.NODE&&!target.parent&& target.getUseType() != QTopo.constant.CASUAL;
+                        filter: function (target) {
+                            return lockedGroup && target.getType() == QTopo.constant.NODE && !target.parent && target.getUseType() != QTopo.constant.CASUAL;
                         }
                     },
                     REMOVE_FROM_GROUP: {
@@ -281,9 +287,6 @@ function getMenus(scene, menu, windows, tools) {
                             return flag;
                         }
                     }
-                },
-                filter:function(target){
-                    return target && ((target.getType() == QTopo.constant.NODE) || target.getType() == QTopo.constant.CONTAINER) && target.getUseType() != QTopo.constant.CASUAL;
                 }
             }
         ]
