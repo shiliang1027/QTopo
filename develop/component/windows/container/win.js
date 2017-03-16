@@ -196,10 +196,10 @@ function initSelect(win){
     var column=win.find("input[name=column]");
     var columnGroup=column.closest(".form-group");
     win.find("select[name=layout]").change(function(){
-        select($(this).val());
+        select($(this).val(),true);
     });
     return select;
-    function select(type){
+    function select(type,flag){
         var todo=win.todo;
         switch (type){
             case'grid':
@@ -207,7 +207,7 @@ function initSelect(win){
                 columnGroup.show();
                 rowSpaceGroup.hide();
                 columnSpaceGroup.hide();
-                if(todo.type=="edit"){
+                if(todo.type=="edit"&&flag){
                     var rows= Math.ceil(Math.sqrt(todo.target.children.length));
                     row.val(rows);
                     column.val(rows);
@@ -220,8 +220,8 @@ function initSelect(win){
                 columnSpaceGroup.show();
                 if(todo.type=="edit"){
                     var target=todo.target;
-                    rowSpace.attr("max",target.attr.size[1]/2);
-                    columnSpace.attr("max",target.attr.size[0]/2);
+                    rowSpace.attr("max",target.attr.size[1]/4);
+                    columnSpace.attr("max",target.attr.size[0]/4);
                 }
                 break;
             default :
