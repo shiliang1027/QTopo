@@ -481,7 +481,6 @@ label[name=topo_mode] span{
     display: inline-block;
     width: 100%;
     max-height: 600px;
-    overflow: auto;
 }
 .style-select .style-box{
     height:50px;
@@ -522,6 +521,18 @@ label[name=topo_mode] span{
     top:10px;
     right:10px;
     height:34px;
+}
+.qtopo-windows .tools-confirm,.qtopo-windows .tools-view{
+    z-index:1100;
+}
+.qtopo-windows .image-select,.qtopo-windows .style-select{
+    z-index:1080;
+}
+.qtopo-windows .tools-loading,.qtopo-windows .tools-progress{
+    z-index:1070;
+}
+.qtopo-windows .tools-tips{
+    z-index:1060;
 }.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */

@@ -154,6 +154,16 @@ function getMenus(scene, menu, windows, tools) {
                     //可以删除分组缩放的节点，但不可以删除链路切换的临时线
                     return target.getType() != QTopo.constant.SCENE && (target.getUseType() != QTopo.constant.CASUAL || target.getType() == QTopo.constant.NODE);
                 }
+            },
+            NO_LIGHTING: {
+                name: "取消高亮",
+                click: function () {
+                    scene.toggleLight();
+                    lighting = false;
+                },
+                filter: function (target) {
+                    return lighting;
+                }
             }
         },
         subMenu: [
@@ -177,16 +187,6 @@ function getMenus(scene, menu, windows, tools) {
                         },
                         filter: function (target) {
                             return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
-                        }
-                    },
-                    NO_LIGHTING: {
-                        name: "取消高亮",
-                        click: function () {
-                            scene.toggleLight();
-                            lighting = false;
-                        },
-                        filter: function (target) {
-                            return lighting;
                         }
                     }
                 }

@@ -476,7 +476,64 @@ label[name=topo_mode] span{
         transform: rotate(360deg);
     }
 }
-.qtopo-windows{
+/*styleSelect*/
+.style-select .modal-body{
+    display: inline-block;
+    width: 100%;
+    max-height: 600px;
+}
+.style-select .style-box{
+    height:50px;
+    width: 50%;
+    float: left;
+}
+.style-select .row-label,.style-select .row-item{
+    display: inline-block;
+    float: left;
+    text-align: center;
+    height:100%;
+    font-size: 16px;
+    position: relative;
+}
+.style-select .row-label{
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 40%;
+    line-height: 50px;
+    color:white;
+}
+.style-select .row-item{
+    padding:10px ;
+    line-height: 30px;
+    color:black;
+    width: 60%;
+}
+.style-select .color-group .row-item{
+    padding-right: 50px;
+}
+.style-select .color-group .row-item>input{
+    width: 100%;
+}
+.style-select .color-group .row-item>button{
+    position: absolute;
+    top:10px;
+    right:10px;
+    height:34px;
+}
+.qtopo-windows .tools-confirm,.qtopo-windows .tools-view{
+    z-index:1100;
+}
+.qtopo-windows .image-select,.qtopo-windows .style-select{
+    z-index:1080;
+}
+.qtopo-windows .tools-loading,.qtopo-windows .tools-progress{
+    z-index:1070;
+}
+.qtopo-windows .tools-tips{
+    z-index:1060;
+}.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
@@ -613,21 +670,20 @@ label[name=topo_mode] span{
 .qtopo-windows .submit-group{
     float: right;
 }
-.qtopo-windows .submit-group button{
-    width: 75px;
-}
 .qtopo-windows .select-color-btn{
     height:34px;
 }
 .qtopo-windows .link-chk{
-    display: inline-block;
-    width: 33%;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow:row wrap;
+    align-items:center;
+    width: 50%;
     float: left;
 }
 .qtopo-windows .link-chk div{
-    font-size: 13px;
-    position: absolute;
-    top: 15px;
+    float: left;
+    margin-right: 5px;
 }/*复选框样式*/
 .my_chk{
     display: none;
@@ -638,7 +694,6 @@ label[name=topo_mode] span{
     border-radius: 50px;
     display: inline-block;
     position: relative;
-    margin-right: 30px;
     -webkit-transition: all 0.1s ease-in;
     transition: all 0.1s ease-in;
     width: 40px;
