@@ -11,7 +11,7 @@ module.exports = {
         "component":__dirname + "/develop/component/component.js"
     },
     output: {
-        path: __dirname + "/public/ready",//打包后的文件存放的地方
+        path: __dirname + "/topo_iposs/qtopo",//打包后的文件存放的地方
         //filename:  "[name]-[hash].bundle.js"//打包后输出文件的文件名
         filename:  "qtopo.[name].min.js"
     },
