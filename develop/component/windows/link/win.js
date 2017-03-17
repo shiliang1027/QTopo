@@ -108,8 +108,8 @@ function doWithSyle(win, scene, data){
 function getSet(data) {
     return {
         arrow: {
-            start: data.arrow_start,
-            end: data.arrow_end
+            start: data.arrow_start||"false",
+            end: data.arrow_end||"false"
         },
         number: data.number
     };

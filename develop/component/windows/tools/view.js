@@ -6,7 +6,7 @@ var util = require("../util.js");
 module.exports = {
     init: init
 };
-function init(dom) {
+function init(dom,scene) {
     temp = $(temp);
     var body = temp.find('.modal-body');
     var title = temp.find('.modal-title');

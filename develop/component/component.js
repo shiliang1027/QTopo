@@ -22,8 +22,8 @@ $(document).ready(function () {
 
 function init(instance) {
     var wins=windows.init(instance);
-    var addRightMenu=rightMenu.init(instance.document, instance.scene,wins);
-    var addSearch=toolBar.init(instance.document, instance.scene,wins);
+    var addRightMenu=rightMenu.init(instance,wins);
+    var addSearch=toolBar.init(instance,wins);
     instance.component={
         tools:wins.tools,
         addSearch:addSearch,

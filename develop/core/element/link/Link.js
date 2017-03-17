@@ -71,19 +71,20 @@ Link.prototype.setWidth = function (width) {
 };
 Link.prototype.setArrow = function (arrow) {
     if (arrow) {
-        if(arrow.size){
+        if(typeof arrow.size!='undefined'){
             this.jtopo.arrowsRadius = $.isNumeric(arrow.size) ? parseInt(arrow.size) : 0;
         }
-        if(arrow.offset){
+        if(typeof arrow.offset!='undefined'){
             this.jtopo.arrowsOffset = $.isNumeric(arrow.offset) ? parseInt(arrow.offset) : 0;
         }
         if (!this.attr.arrow) {
             this.attr.arrow = {};
         }
-        if (arrow.start) {
+
+        if (typeof arrow.start!='undefined') {
             this.attr.arrow.start = typeof arrow.start == "boolean" ? arrow.start : arrow.start == "true";
         }
-        if (arrow.end) {
+        if (typeof arrow.end!='undefined') {
             this.attr.arrow.end = typeof arrow.end == "boolean" ? arrow.end : arrow.end == "true";
         }
     }

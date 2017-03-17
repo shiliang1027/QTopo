@@ -7,7 +7,9 @@ var selectResult=require("./selectResult.html");
 module.exports={
     init:init
 };
-function init(dom,scene,windows){
+function init(instance,windows){
+    var dom=instance.document;
+    var scene=instance.scene;
     var wrap=$(dom).find(".qtopo-toolBar");
     if(wrap.length==0){
         wrap=$("<div class='qtopo-toolBar'></div>");
@@ -53,7 +55,7 @@ function init(dom,scene,windows){
     editBar.find("button[name=auto_layout]").click(function(){
         windows.windows.autoLayout.open();
     });
-    var addSearch=addSearchMode(scene,toolBar,selectResult);
+    var addSearch=addSearchMode(instance,scene,toolBar,selectResult);
     addSearch({
         type:"value",
         name:"根据属性",
@@ -65,20 +67,20 @@ function init(dom,scene,windows){
 }
 /**
  * 添加搜索模块
+ * @param instance
  * @param scene
  * @param toolBar
  * @param resultWin 搜索结果展示区
  * @returns {Function}返回添加搜索方式的接口
  */
-function addSearchMode(scene,toolBar,resultWin){
+function addSearchMode(instance,scene,toolBar,resultWin){
     var resultSelect=resultWin.find(".result-select");
     var resultShow=resultWin.find(".result-show");
     var selectWin=toolBar.find("select[name=search_mode]");
     var searchBtn=toolBar.find("button[name=search]");
     var input=toolBar.find("input[name=search_value]");
     var clear=toolBar.find(".clear-input");
-    selectWin.mode={};
-
+    selectWin.data("searchMode",{});
     clear.hide();
     clear.click(function(){
         input.val("");
@@ -99,7 +101,7 @@ function addSearchMode(scene,toolBar,resultWin){
     });
     function doSearch(){
         if(selectWin.val()){
-            var doSearch=selectWin.mode[selectWin.val()];
+            var doSearch=selectWin.data("searchMode")[selectWin.val()];
             if($.isFunction(doSearch)){
                 addResult(doSearch(input.val()));
             }
@@ -120,7 +122,8 @@ function addSearchMode(scene,toolBar,resultWin){
         }
     }
     return function(config){
-        selectWin.mode[config.type]=config.search;
+        selectWin.data("searchMode")[config.type]=config.search;
         selectWin.append("<option value='"+config.type+"'>"+config.name||config.type+"</option>");
+        return instance;
     }
 }

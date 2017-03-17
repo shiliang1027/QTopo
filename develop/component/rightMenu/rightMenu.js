@@ -9,11 +9,12 @@ module.exports = {
 };
 /**
  * 从函数仓库中取数据构造菜单栏
- * @param dom topo的包裹外壳
- * @param scene topo图层
+ * @param instance topo实例对象
  * @param windows 可能操作到的窗口
  */
-function initRigheMenu(dom,scene,windows){
+function initRigheMenu(instance,windows){
+    var dom=instance.document;
+    var scene=instance.scene;
     var wrap=$(dom).find(".qtopo-rightMenu");
     if(wrap.length==0){
         wrap=$("<div class='qtopo-rightMenu'></div>");
@@ -24,7 +25,7 @@ function initRigheMenu(dom,scene,windows){
     if(!windows){
         QTopo.util.error("windows is not init ,menu options about windows may not work");
     }
-    var add=makeAdd(scene,rightMenu,windows.windows,windows.tools);
+    var add=makeAdd(instance,scene,rightMenu,windows.windows,windows.tools);
     add(getMenus);
     //测试窗口
     var test=function(){
@@ -62,12 +63,13 @@ function initRigheMenu(dom,scene,windows){
     add(test);
     return add;
 }
-function makeAdd(scene, rightMenu, windows, tools){
+function makeAdd(instance,scene, rightMenu, windows, tools){
     return function(fn){
         if($.isFunction(fn)){
             var menus=fn(scene,rightMenu,windows,tools);
             makeMenus(rightMenu,menus);
         }
+        return instance;
     }
 }
 function makeMenus(rightMenu, menus){
