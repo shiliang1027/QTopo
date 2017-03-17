@@ -6,6 +6,7 @@ require("./jquery-tools");
 var rightMenu = require("./rightMenu/rightMenu.js");
 var toolBar = require("./toolBar/toolBar.js");
 var windows=require("./windows/windows.js");
+var util=require("./windows/util.js");
 //组装
 $(document).ready(function () {
     if(QTopo){
@@ -27,6 +28,7 @@ function init(instance) {
     instance.component={
         tools:wins.tools,
         addSearch:addSearch,
-        addRightMenu:addRightMenu
+        addRightMenu:addRightMenu,
+        util:util
     };
 }

@@ -535,6 +535,9 @@
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
 }
+.qtopo-windows .panel{
+    z-index:1000;
+}
 .qtopo-windows .db-margin-b{
     margin-bottom: 25px;
 }
