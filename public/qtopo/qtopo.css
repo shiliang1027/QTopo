@@ -191,9 +191,6 @@
 .result-show li:hover{
     background-color: #3d6cd6;
     box-shadow: 0 0 10px #3d6cd6;
-}
-label[name=topo_mode] span{
-    margin-top: 3px;
 }.qtopo-windows .modal-body{
     font-size: 14px;
 }

@@ -27,9 +27,10 @@ function main(dom, scene,tools){
     });
     //绑定样式选择窗口
     win.find("button.style-open").click(function(){
-        styleSelect.open(win.data("styleSelect"))
+        styleSelect
+            .open(openStyle(win,scene))
             .then(function(data){
-                win.data("styleSelect",data);
+                doWithStyle(win,scene,data);
             });
     });
     return win;
@@ -66,26 +67,35 @@ function initEvent(dom,win,scene){
 }
 function doWithForm(win, scene, data){
     var config=win.todo;
-    var style=getStyle(win);
     if(config){
         switch (config.type){
             case "create":
-                $.extend(style,{
+                scene.createNode({
                     type:QTopo.constant.node.TEXT,
                     position:config.position,
                     text:data.text
                 });
-                scene.createNode(style);
                 break;
             case "edit":
                 if(config.target&&config.target.getUseType()==QTopo.constant.node.TEXT){
-                    $.extend(style,{
+                    config.target.set({
                         text:data.text
                     });
-                    config.target.set(style);
                 }
                 break;
         }
+    }
+}
+function doWithStyle(win,scene,data){
+    var todo=win.todo;
+    var style=getStyle(data);
+    switch (todo.type){
+        case'edit':
+            todo.target.set(style);
+            break;
+        case 'create':
+            scene.setDefault(QTopo.constant.node.TEXT,style);
+            break;
     }
 }
 function openCreateWindow(win, position,scene){
@@ -96,8 +106,6 @@ function openCreateWindow(win, position,scene){
         type:"create",
         position:position
     };
-    var DEFAULT=scene.getDefault(QTopo.constant.node.TEXT);
-    setStyle(win,DEFAULT);
     util.setFormInput(win.find("form"),{
         text:""
     })
@@ -111,22 +119,34 @@ function openEditWindow(win, target,scene){
         target:target
     };
     var attr=target.attr;
-    setStyle(win,attr);
     util.setFormInput(win.find("form"),{
         text:attr.text
     });
 }
-function setStyle(win,attr){
-    win.data("styleSelect",{
+function openStyle(win,scene){
+    var todo=win.todo;
+    var DEFAULT=scene.getDefault(QTopo.constant.node.TEXT);
+    var style="";
+    switch (todo.type){
+        case'edit':
+            style=setStyle(todo.target.attr);
+            break;
+        case 'create':
+            style=setStyle(DEFAULT);
+            break;
+    }
+    return style;
+}
+function setStyle(attr){
+    return {
         fontColor:attr.font.color,
         fontSize:attr.font.size,
         borderColor:attr.border.color,
         borderWidth:attr.border.width,
         borderRadius:attr.border.radius
-    });
+    }
 }
-function getStyle(win){
-    var data=win.data("styleSelect");
+function getStyle(data){
     if(data){
         return {
             font:{
@@ -140,5 +160,4 @@ function getStyle(win){
             }
         };
     }
-    return {};
 }

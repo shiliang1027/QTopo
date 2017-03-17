@@ -36,9 +36,10 @@ function init(dom, scene, tools){
         });
     });
     win.find("button.style-open").click(function(){
-        tools.styleSelect.open(win.data("styleSelect"))
+        tools.styleSelect
+            .open(openStyle(win,scene))
             .then(function(data){
-                win.data("styleSelect",data);
+                doWithStyle(win,scene,data);
             });
     });
     return win;
@@ -78,29 +79,25 @@ function setImageBtn(win,image){
     win.find(".image-select-group img").attr("src",image);
 }
 function doWithForm(win, scene, data){
-    var style=getStyle(win);
     var todo=win.todo;
     if(todo){
         switch (todo.type){
             case "create":
-                $.extend(true,style,{
-                    type:QTopo.constant.node.IMAGE,
+                var container=scene.createContainer({
+                    type:QTopo.constant.container.GROUP,
                     position:todo.position,
                     name:data.name,
                     image:data.image,
                     layout:makeLayout(data)
                 });
-                var container=scene.createContainer(style);
                 container.add(todo.targets);
                 break;
             case "edit":
                 if(todo.target&&todo.target.getUseType()==QTopo.constant.container.GROUP){
-                    $.extend(true,style,{
+                    todo.target.set({
                         name:data.name,
-                        namePosition:data.namePosition,
                         layout:makeLayout(data)
                     });
-                    todo.target.set(style);
                     todo.target.toggleTo.set({
                         name:data.name,
                         image:data.image
@@ -108,6 +105,18 @@ function doWithForm(win, scene, data){
                 }
                 break;
         }
+    }
+}
+function doWithStyle(win, scene, data){
+    var todo=win.todo;
+    var style=getStyle(data);
+    switch (todo.type){
+        case'edit':
+            todo.target.set(style);
+            break;
+        case 'create':
+            scene.setDefault(QTopo.constant.container.GROUP,style);
+            break;
     }
 }
 function createWindow(win,targets,scene,select){
@@ -119,7 +128,6 @@ function createWindow(win,targets,scene,select){
         targets:targets
     };
     var DEFAULT=scene.getDefault(QTopo.constant.container.GROUP);
-    setStyle(win,DEFAULT);
     var DEFAULTNODE=scene.getDefault(QTopo.constant.node.IMAGE);
     util.setFormInput(win.find("form"),{
         name:DEFAULT.name,
@@ -140,7 +148,6 @@ function editWindow(win,target,scene,select){
         target:target
     };
     var attr=target.attr;
-    setStyle(win,attr);
     util.setFormInput(win.find("form"),{
         name:attr.name,
         namePosition:attr.namePosition,
@@ -155,8 +162,21 @@ function editWindow(win,target,scene,select){
     select(attr.layout.type);
     setImageBtn(win,target.toggleTo.attr.image);
 }
-function setStyle(win,attr){
-    win.data("styleSelect",{
+function openStyle(win,scene){
+    var todo=win.todo;
+    var style="";
+    switch (todo.type){
+        case'edit':
+            style=setStyle(todo.target.attr);
+            break;
+        case 'create':
+            style=setStyle(scene.getDefault(QTopo.constant.container.GROUP));
+            break;
+    }
+    return style;
+}
+function setStyle(attr){
+    return {
         namePosition:attr.namePosition,
         width:attr.size[0],
         height:attr.size[1],
@@ -165,10 +185,9 @@ function setStyle(win,attr){
         borderColor:attr.border.color,
         borderWidth:attr.border.width,
         borderRadius:attr.border.radius
-    });
+    }
 }
-function getStyle(win){
-    var data=win.data("styleSelect");
+function getStyle(data){
     if(data){
         return {
             namePosition:data.namePosition,

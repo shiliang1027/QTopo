@@ -27,14 +27,15 @@ function main(dom, scene,tools) {
     });
     //绑定样式选择窗口
     win.find("button.style-open").click(function(){
-        tools.styleSelect.open( win.data("styleSelect"))
+        tools.styleSelect
+            .open(openStyle(win,scene))
             .then(function(data){
-                win.data("styleSelect",data);
+                doWithSyle(win,scene,data)
             });
     });
     //类型选择框
     win.find("select[name=type]").change(function (e) {
-        changeType(win,scene,$(this).val());
+        changeType(win,$(this).val());
     });
     return win;
 }
@@ -68,52 +69,40 @@ function initEvent(dom, win,scene) {
         win.hide();
     });
 }
-function changeType(win,scene,type){
-    var todo=win.todo;
-    if(!type){
-        type="direct";
-    }
-    win.data("linkType",type);
-    if(todo){
-        switch (todo.type){
-            case "create":
-                var DEFAULT=scene.getDefault(toQTopoType(type));
-                setStyle(win,DEFAULT,type);
-                break;
-            case "edit":
-                setStyle(win,todo.target.attr,type);
-        }
-    }
-
+function changeType(win,type){
+    win.data("selectedType",type||"direct");
 }
 function doWithForm(win, scene, data) {
     var todo=win.todo;
-    var linkType=win.data("linkType");
+    var linkType=win.data("selectedType");
     if (todo) {
         var linkSet=getSet(data);
-        var style;
         linkSet.type=toQTopoType(linkType);
-        style=getStyle(win,linkType);
         switch (todo.type) {
             case "create":
                 linkSet.start=todo.path.start;
                 linkSet.end=todo.path.end;
-                $.extend(true,linkSet,style);
-                if (linkSet.arrow.start == "true" || linkSet.arrow.end == "true") {
-                    linkSet.arrow.size = 10;
-                }
                 scene.createLink(linkSet);
                 break;
             case "edit":
                 if (todo.target && todo.target.getType() == QTopo.constant.LINK && todo.target.getUseType() != QTopo.constant.CASUAL) {
-                    $.extend(true,linkSet,style);
-                    if (linkSet.arrow.start == "true" || linkSet.arrow.end == "true") {
-                        linkSet.arrow.size = 10;
-                    }
                     todo.target.set(linkSet);
                 }
                 break;
         }
+    }
+}
+function doWithSyle(win, scene, data){
+    var todo=win.todo;
+    var linkType=win.data("selectedType");
+    var style=getStyle(data,linkType);
+    switch (todo.type){
+        case'edit':
+            todo.target.set(style);
+            break;
+        case 'create':
+            scene.setDefault(toQTopoType(linkType),style);
+            break;
     }
 }
 function getSet(data) {
@@ -177,7 +166,7 @@ function createWindow(win, path,scene) {
         arrow_start: DEFAULT.arrow.start+"",
         arrow_end: DEFAULT.arrow.end+""
     });
-    changeType(win,scene,"direct");
+    changeType(win,"direct");
 }
 function editWindow(win, target,scene) {
     if (!target) {
@@ -200,9 +189,24 @@ function editWindow(win, target,scene) {
         arrow_end: attr.arrow.end + ""
     });
     selectType.attr("disabled", true);
-    changeType(win,scene,type);
+    changeType(win,type);
 }
-function setStyle(win,attr,type){
+function openStyle(win,scene){
+    var todo=win.todo;
+    var linkType=win.data("selectedType");
+    var DEFAULT=scene.getDefault(toQTopoType(linkType));
+    var style="";
+    switch (todo.type){
+        case'edit':
+            style=setStyle(todo.target.attr,linkType);
+            break;
+        case 'create':
+            style=setStyle(DEFAULT,linkType);
+            break;
+    }
+    return style;
+}
+function setStyle(attr,type){
     var data={
         fontColor:attr.font.color,
         fontSize:attr.font.size,
@@ -229,11 +233,9 @@ function setStyle(win,attr,type){
             data.direction=attr.direction;
             break;
     }
-    win.data("styleSelect",data);
     return data;
 }
-function getStyle(win,type){
-    var data=win.data("styleSelect");
+function getStyle(data,type){
     if(data){
         var result={
             font:{

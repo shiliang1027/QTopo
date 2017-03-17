@@ -80,7 +80,7 @@ QTopo.util.inherits(TextNode, Node);
 function setJTopo(config) {
     if (config) {
         //处理一般属性的设置
-        if (!config.text) {
+        if (!this.attr.text&&!config.text) {
             config.text = "not set text";
         }
         this._setAttr(config);
