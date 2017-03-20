@@ -42,7 +42,7 @@ Element.prototype.getUseType = function () {
 };
 Element.prototype.setText = function (text) {
     if (text) {
-        this.jtopo.text = text.trim();
+        this.jtopo.text = (text+"").trim();
     }
     this.attr.text = this.jtopo.text;
 };
@@ -190,18 +190,21 @@ Element.prototype._setAttr = function (config) {
     });
 };
 Element.prototype.val=function(key,value){
-    if(!value){
-        var result;
-        if(this.attr[key]){
-            result=this.attr[key];
-        }else if(this.extra[key]){
-            result=this.extra[key];
-        }else{
-            result=this[key];
-        }
-        return result;
+    var self=this;
+    if(QTopo.util.getClass(key)== "Object"){
+        $.each(key,function(k,v){
+            self.extra[k]=v;
+        });
     }else{
-        this.extra[key]=value;
+        if(!value){
+            var result;
+            if(self.extra[key]){
+                result=self.extra[key];
+            }
+            return result;
+        }else{
+            self.extra[key]=value;
+        }
     }
 };
 /**对象links属性内的所有线进行切换

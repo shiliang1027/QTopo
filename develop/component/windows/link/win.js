@@ -40,40 +40,32 @@ function main(dom, scene,tools) {
     return win;
 }
 function initEvent(dom, win,scene) {
-    win.on("window.open", function (e, data) {
-        if (data) {
-            switch (data.type) {
+    win.on("window.open", function (e) {
+        var todo=win.data("todo");
+        if (todo) {
+            switch (todo.type) {
                 case "create":
                     win.find(".panel-title").html("创建链接");
-                    createWindow(win, data.path,scene);
+                    createWindow(win, todo.path,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改链接");
-                    editWindow(win, data.target,scene);
+                    editWindow(win, todo.target,scene);
                     break;
                 default:
                     QTopo.util.error("invalid type of linkAttrWindow,open function need to config like { type:'create' or 'edit'}");
-                    if (win.todo) {
-                        //错误开启窗口，则仅警告且什么也不做
-                        delete win.todo;
-                    }
             }
         } else {
             win.find(".panel-title").html("链接属性");
             QTopo.util.error("invalid open linkWindow");
         }
-        util.defaultPosition(dom, win);
-        win.show();
-    });
-    win.on("window.close", function (e, data) {
-        win.hide();
     });
 }
 function changeType(win,type){
     win.data("selectedType",type||"direct");
 }
 function doWithForm(win, scene, data) {
-    var todo=win.todo;
+    var todo=win.data("todo");
     var linkType=win.data("selectedType");
     if (todo) {
         var linkSet=getSet(data);
@@ -93,7 +85,7 @@ function doWithForm(win, scene, data) {
     }
 }
 function doWithSyle(win, scene, data){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var linkType=win.data("selectedType");
     var style=getStyle(data,linkType);
     switch (todo.type){
@@ -154,10 +146,6 @@ function createWindow(win, path,scene) {
     if (!path || !path.start || !path.end) {
         QTopo.util.error("invalid open linkAttrWindow,need set path.start and path.end to create");
     }
-    win.todo = {
-        type: "create",
-        path: path
-    };
     win.find("select[name=type]").attr("disabled", false);
     var DEFAULT=scene.getDefault(QTopo.constant.link.DIRECT);
     util.setFormInput(win.find("form"), {
@@ -172,10 +160,6 @@ function editWindow(win, target,scene) {
     if (!target) {
         QTopo.util.error("invalid open linkAttrWindow,need set target to edit");
     }
-    win.todo = {
-        type: "edit",
-        target: target
-    };
     var selectType = win.find("select[name=type]");
     var attr = target.attr;
     var type=toSelectType(target);
@@ -192,7 +176,7 @@ function editWindow(win, target,scene) {
     changeType(win,type);
 }
 function openStyle(win,scene){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var linkType=win.data("selectedType");
     var DEFAULT=scene.getDefault(toQTopoType(linkType));
     var style="";

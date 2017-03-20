@@ -73,12 +73,7 @@ function initSelect(win) {
 }
 function initEvent(dom,win,selected){
     win.on("window.open",function(e){
-        util.defaultPosition(dom,win);
         win.find("select[name=type]").val("default");
         selected("default");
-        win.show();
-    });
-    win.on("window.close",function(e){
-        win.hide();
     });
 }

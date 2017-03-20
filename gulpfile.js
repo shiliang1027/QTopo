@@ -8,7 +8,7 @@ var uglify = require('gulp-uglify');//压缩
 var runSequence=require("run-sequence");//同步执行gulp任务
 //var webpack = require('gulp-webpack');
 //var homePage = "./public/index.html";
-var homePage = "./topo_iposs/index.html";
+var homePage = "./topo_iposs/index2.html";
 var scss = "./develop/scss/Qtopo.scss";
 var dCss = "./public/css/";
 var root = './topo_iposs';
@@ -71,7 +71,7 @@ gulp.task('concatCss', function () {                                //- 创建�
 gulp.task('watch', function () {
     gulp.watch(homePage, ['reload']);
     gulp.watch(scss, ['sass']);
-    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css","iposs/*"], ['build']);
+    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css","iposs/**/*"], ['build']);
 });
 
 //服务器任务，提供在线查看功能

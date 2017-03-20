@@ -14,16 +14,16 @@ $(document).ready(function (e) {
         QTopo.init=function(dom, config){
             var instance=preInit.call(QTopo,dom, config);
             if(instance){
-                init(instance);
+                init(instance,config);
             }
             return instance;
         };
         QTopo.windowUtil=util;
     }
 });
-function init(instance) {
+function init(instance,config) {
     var wins=windows.init(instance);
-    var addRightMenu=rightMenu.init(instance,wins);
+    var addRightMenu=rightMenu.init(instance,wins,config.filterMenu);
     var addSearch=toolBar.init(instance,wins);
     instance.component={
         tools:wins.tools,

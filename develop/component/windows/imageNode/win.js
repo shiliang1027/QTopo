@@ -43,43 +43,31 @@ function main(dom, scene, tools){
     return win;
 }
 function initEvent(dom,win,scene){
-    win.on("window.open",function(e,data){
-        if(data){
-            switch (data.type){
+    win.on("window.open",function(e){
+        var todo=win.data("todo");
+        if(todo){
+            switch (todo.type){
                 case "create":
                     win.find(".panel-title").html("创建图片节点");
-                    createWindow(win,data.position,scene);
+                    createWindow(win,todo.position,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改图片节点");
-                    editWindow(win,data.target,scene);
+                    editWindow(win,todo.target,scene);
                     break;
                 default:
                     QTopo.util.error("invalid type of imageNodeWindow,open function need to config like { type:'create' or 'edit'}");
-                    if(win.todo){
-                        //错误开启窗口，则仅警告且什么也不做
-                        delete win.todo;
-                    }
             }
         }else{
             win.find(".panel-title").html("图片节点非正常打开");
             QTopo.util.error("invalid open imageNodeWindow");
         }
-        util.defaultPosition(dom,win);
-        win.show();
-    });
-    win.on("window.close",function(e,data){
-        win.hide();
     });
 }
 function createWindow(win,position,scene){
     if(!position){
         QTopo.util.error("invalid open imageNodeWindow,need set position to create");
     }
-    win.todo={
-        type:"create",
-        position:position
-    };
     var DEFAULT=scene.getDefault(QTopo.constant.node.IMAGE);
     util.setFormInput(win.find("form"),{
         name:DEFAULT.name,
@@ -91,10 +79,6 @@ function editWindow(win,target,scene){
     if(!target){
         QTopo.util.error("invalid open imageNodeWindow,need set target to edit");
     }
-    win.todo={
-        type:"edit",
-        target:target
-    };
     var attr=target.attr;
     util.setFormInput(win.find("form"),{
         name:attr.name,
@@ -103,7 +87,7 @@ function editWindow(win,target,scene){
     setImageBtn(win,attr.image);
 }
 function doWithStyle(win,scene,data){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var style=getStyle(data);
     switch (todo.type){
         case'edit':
@@ -115,7 +99,7 @@ function doWithStyle(win,scene,data){
     }
 }
 function doWithForm(win, scene, data){
-    var todo=win.todo;
+    var todo=win.data('todo');
     if(todo){
         switch (todo.type){
             case "create":
@@ -138,7 +122,7 @@ function doWithForm(win, scene, data){
     }
 }
 function openStyle(win,scene){
-    var todo=win.todo;
+    var todo=win.data('todo');
     var DEFAULT=scene.getDefault(QTopo.constant.node.IMAGE);
     var style="";
     switch (todo.type){

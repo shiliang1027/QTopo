@@ -36,37 +36,29 @@ function main(dom, scene,tools){
     return win;
 }
 function initEvent(dom,win,scene){
-    win.on("window.open",function(e,data){
-        if(data){
-            switch (data.type){
+    win.on("window.open",function(e){
+        var todo=win.data("todo");
+        if(todo){
+            switch (todo.type){
                 case "create":
                     win.find(".panel-title").html("创建文本节点");
-                    openCreateWindow(win,data.position,scene);
+                    openCreateWindow(win,todo.position,scene);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改文本节点");
-                    openEditWindow(win,data.target,scene);
+                    openEditWindow(win,todo.target,scene);
                     break;
                 default:
                     QTopo.util.error("invalid type of textNodeWindow,open function need to config like { type:'create' or 'edit'}");
-                    if(win.todo){
-                        //错误开启窗口，则仅警告且什么也不做
-                        delete win.todo;
-                    }
             }
         }else{
             win.find(".panel-title").html("文本节点非正常打开");
             QTopo.util.error("invalid open textNodeWindow");
         }
-        util.defaultPosition(dom,win);
-        win.show();
-    });
-    win.on("window.close",function(e,data){
-        win.hide();
     });
 }
 function doWithForm(win, scene, data){
-    var config=win.todo;
+    var config=win.data("todo");
     if(config){
         switch (config.type){
             case "create":
@@ -87,7 +79,7 @@ function doWithForm(win, scene, data){
     }
 }
 function doWithStyle(win,scene,data){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var style=getStyle(data);
     switch (todo.type){
         case'edit':
@@ -102,10 +94,6 @@ function openCreateWindow(win, position,scene){
     if(!position){
         QTopo.util.error("invalid open textNodeWindow,need set position to create");
     }
-    win.todo={
-        type:"create",
-        position:position
-    };
     util.setFormInput(win.find("form"),{
         text:""
     })
@@ -114,17 +102,13 @@ function openEditWindow(win, target,scene){
     if(!target){
         QTopo.util.error("invalid open textNodeWindow,need set target to edit");
     }
-    win.todo={
-        type:"edit",
-        target:target
-    };
     var attr=target.attr;
     util.setFormInput(win.find("form"),{
         text:attr.text
     });
 }
 function openStyle(win,scene){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var DEFAULT=scene.getDefault(QTopo.constant.node.TEXT);
     var style="";
     switch (todo.type){

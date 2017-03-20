@@ -45,33 +45,25 @@ function init(dom, scene, tools){
     return win;
 }
 function initEvent(dom,win,scene,select){
-    win.on("window.open",function(e,data){
-        if(data){
-            switch (data.type){
+    win.on("window.open",function(e){
+        var todo=win.data("todo");
+        if(todo){
+            switch (todo.type){
                 case "create":
                     win.find(".panel-title").html("创建分组");
-                    createWindow(win,data.targets,scene,select);
+                    createWindow(win,todo.targets,scene,select);
                     break;
                 case "edit":
                     win.find(".panel-title").html("修改分组");
-                    editWindow(win,data.target,scene,select);
+                    editWindow(win,todo.target,scene,select);
                     break;
                 default:
                     QTopo.util.error("invalid type of group,open function need to config like { type:'create' or 'edit'}");
-                    if(win.todo){
-                        //错误开启窗口，则仅警告且什么也不做
-                        delete win.todo;
-                    }
             }
         }else{
             win.find(".panel-title").html("分组非正常打开");
             QTopo.util.error("invalid open groupWindow");
         }
-        util.defaultPosition(dom,win);
-        win.show();
-    });
-    win.on("window.close",function(e,data){
-        win.hide();
     });
 }
 function setImageBtn(win,image){
@@ -79,7 +71,7 @@ function setImageBtn(win,image){
     win.find(".image-select-group img").attr("src",image);
 }
 function doWithForm(win, scene, data){
-    var todo=win.todo;
+    var todo=win.data("todo");
     if(todo){
         switch (todo.type){
             case "create":
@@ -108,7 +100,7 @@ function doWithForm(win, scene, data){
     }
 }
 function doWithStyle(win, scene, data){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var style=getStyle(data);
     switch (todo.type){
         case'edit':
@@ -123,10 +115,6 @@ function createWindow(win,targets,scene,select){
     if(!targets){
         QTopo.util.error("invalid open containerWindow,need set targets to create");
     }
-    win.todo={
-        type:"create",
-        targets:targets
-    };
     var DEFAULT=scene.getDefault(QTopo.constant.container.GROUP);
     var DEFAULTNODE=scene.getDefault(QTopo.constant.node.IMAGE);
     util.setFormInput(win.find("form"),{
@@ -143,10 +131,6 @@ function editWindow(win,target,scene,select){
     if(!target){
         QTopo.util.error("invalid open imageNodeWindow,need set target to edit");
     }
-    win.todo={
-        type:"edit",
-        target:target
-    };
     var attr=target.attr;
     util.setFormInput(win.find("form"),{
         name:attr.name,
@@ -163,7 +147,7 @@ function editWindow(win,target,scene,select){
     setImageBtn(win,target.toggleTo.attr.image);
 }
 function openStyle(win,scene){
-    var todo=win.todo;
+    var todo=win.data("todo");
     var style="";
     switch (todo.type){
         case'edit':
@@ -184,13 +168,15 @@ function setStyle(attr){
         fontSize:attr.font.size,
         borderColor:attr.border.color,
         borderWidth:attr.border.width,
-        borderRadius:attr.border.radius
+        borderRadius:attr.border.radius,
+        color:attr.color
     }
 }
 function getStyle(data){
     if(data){
         return {
             namePosition:data.namePosition,
+            color:data.color,
             size:[data.width,data.height],
             font:{
                 color:data.fontColor,
@@ -219,7 +205,7 @@ function initSelect(win){
     });
     return select;
     function select(type,flag){
-        var todo=win.todo;
+        var todo=win.data("todo");
         switch (type){
             case'grid':
                 rowGroup.show();

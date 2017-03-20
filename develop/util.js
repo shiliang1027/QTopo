@@ -167,7 +167,7 @@ var util = {
     },
     //深度克隆对象
     deepClone: function (obj) {
-        var result, oClass = isClass(obj);
+        var result, oClass = util.getClass(obj);
         //确定result的类型
         if (oClass === "Object") {
             result = {};
@@ -178,20 +178,20 @@ var util = {
         }
         for (key in obj) {
             var copy = obj[key];
-            if (isClass(copy) == "Object") {
+            if (util.getClass(copy) == "Object") {
                 result[key] = arguments.callee(copy);//递归调用
-            } else if (isClass(copy) == "Array") {
+            } else if (util.getClass(copy) == "Array") {
                 result[key] = arguments.callee(copy);
             } else {
                 result[key] = obj[key];
             }
         }
         return result;
-        function isClass(o) {
-            if (o === null) return "Null";
-            if (o === undefined) return "Undefined";
-            return Object.prototype.toString.call(o).slice(8, -1);
-        }
+    },
+    getClass:function(o){
+        if (o === null) return "Null";
+        if (o === undefined) return "Undefined";
+        return Object.prototype.toString.call(o).slice(8, -1);
     },
     info:function(){
         if(QTopo.log.info) {

@@ -311,7 +311,7 @@ Scene.prototype.addLink = function (config,fn) {
             if($.isFunction(fn)){
                 fn();
             }else{
-                this.createLink(config);
+                return this.createLink(config);
             }
         } else {
             //两点之间连线为1则认为是已有链接，超过1则认为是可以展开且已经展开的直线
@@ -326,12 +326,14 @@ Scene.prototype.addLink = function (config,fn) {
                 links[0].set({
                     number: links[0].attr.number + number
                 });
+                return links[0];
             }else if(links.length>1){
                 var parent=links[0].parent;
                 if(parent){
                     parent.attr.number+=number;
                     parent.addChild(number);
                 }
+                return parent;
             }
         }
     }

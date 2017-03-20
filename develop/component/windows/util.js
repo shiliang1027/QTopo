@@ -79,16 +79,25 @@ var util = {
         });
         //提供api触发窗口开关
         var name = head.text().trim();
-        win.close = function (data) {
+        win.on("window.close",function(){
+            win.data("todo","");
+            win.hide();
+        });
+        win.on("window.open",function(){
+            util.defaultPosition(dom,win);
+            win.show();
+        });
+        win.close = function () {
             try {
-                win.trigger("window.close", data);
+                win.trigger("window.close");
             } catch (e) {
                 QTopo.util.error("window close error : " + name,e);
             }
         };
         win.open = function (data) {
             try {
-                win.trigger("window.open", data);
+                win.data("todo",data);
+                win.trigger("window.open");
             } catch (e) {
                 QTopo.util.error("window open error : " + name,e);
             }
