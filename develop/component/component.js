@@ -8,7 +8,7 @@ var toolBar = require("./toolBar/toolBar.js");
 var windows=require("./windows/windows.js");
 var util=require("./windows/util.js");
 //组装
-$(document).ready(function () {
+$(document).ready(function (e) {
     if(QTopo){
         var preInit=QTopo.init;
         QTopo.init=function(dom, config){
@@ -17,10 +17,10 @@ $(document).ready(function () {
                 init(instance);
             }
             return instance;
-        }
+        };
+        QTopo.windowUtil=util;
     }
 });
-
 function init(instance) {
     var wins=windows.init(instance);
     var addRightMenu=rightMenu.init(instance,wins);
@@ -28,7 +28,6 @@ function init(instance) {
     instance.component={
         tools:wins.tools,
         addSearch:addSearch,
-        addRightMenu:addRightMenu,
-        util:util
+        addRightMenu:addRightMenu
     };
 }

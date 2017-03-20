@@ -7,10 +7,11 @@ var concat = require('gulp-concat');//合并
 var uglify = require('gulp-uglify');//压缩
 var runSequence=require("run-sequence");//同步执行gulp任务
 //var webpack = require('gulp-webpack');
-var homePage = "./public/index.html";
+//var homePage = "./public/index.html";
+var homePage = "./topo_iposs/index.html";
 var scss = "./develop/scss/Qtopo.scss";
 var dCss = "./public/css/";
-var root = './public';
+var root = './topo_iposs';
 
 gulp.task('default', ['watch', 'serve']);
 //gulp.task('webpack', function () {
@@ -20,9 +21,12 @@ gulp.task('default', ['watch', 'serve']);
 //});
 var shell = require('gulp-shell');
 gulp.task('webpack', shell.task(['webpack --config webpack.config.js']));
-gulp.task('ready', shell.task(['webpack --config webpack.config.ready.js']));
+gulp.task('webpack-ready', shell.task(['webpack --config webpack.config.ready.js']));
 gulp.task('build', function(callback) {
     runSequence('webpack',"reload",callback);
+});
+gulp.task('ready', function(callback) {
+    runSequence('webpack-ready',"concat-ready",callback);
 });
 gulp.task('reload', function () {
     gulp.src(homePage).pipe(connect.reload());
@@ -45,6 +49,16 @@ var yilaiJs = [lib + 'jquery/jquery.min.js', lib + 'bootstrap-3.3.6-dist/js/boot
 gulp.task("concatJs", function () {
     gulp.src(yilaiJs).pipe(concat('concat.js')).pipe(uglify()).pipe(gulp.dest('./public/lib/concat'));
 });
+var iposs="topo_iposs/qtopo";
+gulp.task("concat-ready", function () {
+    gulp.src([iposs+'/qtopo.css'])                                          //- 需要处理的css文件，放到一个字符串数组里
+        .pipe(concat('qtopo.min.css'))                            //- 合并后的文件名
+        .pipe(minifyCss())                                      //- 压缩处理成一行
+        .pipe(gulp.dest('topo_iposs/qtopo/'));
+    gulp.src([iposs+"/qtopo.core.min.js",iposs+"/qtopo.component.min.js",iposs+"/iposs.min.js"])
+        .pipe(concat('iposs.topo.min.js'))
+        .pipe(uglify()).pipe(gulp.dest(iposs));
+});
 //合并压缩依赖的css
 var yilaiCss = [lib + "bootstrap-3.3.6-dist/css/bootstrap.css"];
 var neeee=["./concat/concat.css","./concat/qtopo.css","./concat/style.css"];
@@ -54,12 +68,12 @@ gulp.task('concatCss', function () {                                //- 创建�
         .pipe(minifyCss())                                      //- 压缩处理成一行
         .pipe(gulp.dest('./concat'));                         //- 输出文件本地
 });
-
 gulp.task('watch', function () {
     gulp.watch(homePage, ['reload']);
     gulp.watch(scss, ['sass']);
-    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css"], ['build']);
+    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css","iposs/*"], ['build']);
 });
+
 //服务器任务，提供在线查看功能
 gulp.task('serve', function () {
     connect.server({

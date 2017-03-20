@@ -8,7 +8,8 @@ module.exports = {
     //devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
     entry: {
         "core":__dirname + "/develop/main.js",//入口文件
-        "component":__dirname + "/develop/component/component.js"
+        "component":__dirname + "/develop/component/component.js",
+        "iposs":__dirname+"/iposs/main.js"
     },
     output: {
         path: __dirname + "/topo_iposs/qtopo",//打包后的文件存放的地方
@@ -37,6 +38,13 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin(),//压缩代码插件
         new ExtractTextPlugin({
             filename:"qtopo.css",allChunks: true
-        })//合并并压缩输出到目录
+        }),//合并并压缩输出到目录
+        new webpack.optimize.CommonsChunkPlugin(
+            {
+                name: 'iposs',
+                chunks: ['iposs'],
+                filename: "../../topo_iposs/qtopo/iposs.min.js"
+            }
+        )//输出到另外个目录
     ]
 };
