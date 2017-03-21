@@ -51,11 +51,13 @@ function setOption(option, clear) {
         QTopo.util.info("set topo complete: ", scene.children);
         scene.goCenter();
     }
+    return this;
 }
 function resize(dom, canvas) {
     return function () {
         canvas.setAttribute('width', $(dom).width());
         canvas.setAttribute('height', $(dom).height());
+        return this;
     }
 }
 function initCanvas(dom, width, height) {

@@ -59,13 +59,16 @@ function Scene(stage, config) {
     });
 }
 //-
+Scene.prototype.get=function(key){
+    return this.attr[key];
+};
 Scene.prototype.val=function(key,value){
     if(!value){
         var result;
-        if(this.attr[key]){
-            result=this.attr[key];
-        }else if(this.extra[key]){
+        if(this.extra[key]){
             result=this.extra[key];
+        }else if(this.attr[key]){
+            result=this.attr[key];
         }else{
             result=this[key];
         }

@@ -40,26 +40,29 @@ function init(instance, config) {
                 wins.tools.imageSelect.setImage(config.images);
             }
         }
+        return instance;
     };
     instance.open = function (type, config) {
+        var result;
         switch (type) {
             case'imageSelect':
-                wins.tools.imageSelect.open(config);
+                result=wins.tools.imageSelect.open(config);
                 break;
             case'styleSelect':
-                wins.tools.styleSelect.open(config);
+                result=wins.tools.styleSelect.open(config);
                 break;
             case'confirm':
-                wins.tools.confirm.open(config);
+                result=wins.tools.confirm.open(config);
                 break;
             case'view':
-                wins.tools.view.open(config);
+                result=wins.tools.view.open(config);
                 break;
             case'progress':
-                wins.tools.progress.open(config);
+                result=wins.tools.progress.open(config);
                 break;
             case'loading':
-                wins.tools.loading.open(config);
+                result= wins.tools.loading.open(config);
         }
+        return result;
     }
 }
