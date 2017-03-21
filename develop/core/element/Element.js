@@ -8,7 +8,7 @@ function Element(jtopo) {
         jtopo.qtopo = this;
     }
     //设置额外属性处理对象
-    this.extra={};
+    this.extra = {};
 }
 Element.prototype.show = function () {
     switch (this.getType()) {
@@ -42,7 +42,7 @@ Element.prototype.getUseType = function () {
 };
 Element.prototype.setText = function (text) {
     if (text) {
-        this.jtopo.text = (text+"").trim();
+        this.jtopo.text = (text + "").trim();
     }
     this.attr.text = this.jtopo.text;
 };
@@ -189,22 +189,22 @@ Element.prototype._setAttr = function (config) {
         }
     });
 };
-Element.prototype.val=function(key,value){
-    var self=this;
-    if(QTopo.util.getClass(key)== "Object"){
-        $.each(key,function(k,v){
-            self.extra[k]=v;
-        });
-    }else{
-        if(!value){
-            var result;
-            if(self.extra[key]){
-                result=self.extra[key];
-            }
-            return result;
+Element.prototype.get=function(name){
+    return this.attr[name];
+}
+Element.prototype.val = function (key, value) {
+    if(!value){
+        var result;
+        if(this.extra[key]){
+            result=this.extra[key];
+        }else if(this.attr[key]){
+            result=this.attr[key];
         }else{
-            self.extra[key]=value;
+            result=this[key];
         }
+        return result;
+    }else{
+        this.extra[key]=value;
     }
 };
 /**对象links属性内的所有线进行切换
@@ -252,9 +252,9 @@ function toggleContainer(flag) {
     }
     toggle(this.links, string);
 }
-Element.prototype.getCenterPosition=function(){
+Element.prototype.getCenterPosition = function () {
     return {
-        x:this.jtopo.cx,
-        y:this.jtopo.cy
+        x: this.jtopo.cx,
+        y: this.jtopo.cy
     }
 };
