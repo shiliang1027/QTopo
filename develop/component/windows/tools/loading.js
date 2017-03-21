@@ -15,45 +15,38 @@ function init(dom,scene) {
         body:temp.find(".loading-body-b").hide()
     }];
     temp.open = function (config) {
-        config=config||{};
-        var body;
-        if($.isNumeric(config.type)){
-            body=type[config.type].body;
+        if(config){
+            var body;
+            if($.isNumeric(config.type)){
+                body=type[config.type].body;
+            }else{
+                body=type[0].body;
+            }
+            if (config.logo) {
+                logo.attr("src",config.logo);
+            }
+            switch (config.position) {
+                case "center":
+                    util.makeCenter(dom, body,{
+                        height:200,
+                        width:200
+                    });
+                    break;
+                case "left":
+                    body.css({left:"20px",bottom:"20px",top:"auto",right:"auto"});
+                    break;
+                default:
+                    body.css({right:"20px",bottom:"20px",top:"auto",left:"auto"});
+                    break;
+            }
+            body.show();
+            temp.show();
         }else{
-            body=type[0].body;
+            type.forEach(function(v){
+                v.body.hide();
+            });
+            temp.hide();
         }
-        if (config.logo) {
-            logo.attr("src",config.logo);
-        }
-        switch (config.position) {
-            case "center":
-                util.makeCenter(dom, body,{
-                    height:200,
-                    width:200
-                });
-                break;
-            case "left":
-                body.css({left:"20px",bottom:"20px"});
-                break;
-            default:
-                util.makeCenter(dom, body,{
-                    height:200,
-                    width:200
-                });
-                break;
-        }
-        body.show();
-        temp.modal({
-            keyboard: false,
-            backdrop: 'static',
-            show: true
-        });
-    };
-    temp.close=function(){
-        type.forEach(function(v){
-            v.body.hide();
-        });
-        temp.modal("hide");
     };
     return temp;
 }

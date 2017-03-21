@@ -63,18 +63,25 @@ Scene.prototype.get=function(key){
     return this.attr[key];
 };
 Scene.prototype.val=function(key,value){
-    if(!value){
-        var result;
-        if(this.extra[key]){
-            result=this.extra[key];
-        }else if(this.attr[key]){
-            result=this.attr[key];
-        }else{
-            result=this[key];
-        }
-        return result;
+    if(QTopo.util.getClass(key)=='Object') {
+        var self=this;
+        $.each(key, function (name, value) {
+            self.extra[name] = value;
+        })
     }else{
-        this.extra[key]=value;
+        if(!value){
+            var result;
+            if(this.extra[key]){
+                result=this.extra[key];
+            }else if(this.attr[key]){
+                result=this.attr[key];
+            }else{
+                result=this[key];
+            }
+            return result;
+        }else{
+            this.extra[key]=value;
+        }
     }
 };
 Scene.prototype.setDefault = function (type, config) {

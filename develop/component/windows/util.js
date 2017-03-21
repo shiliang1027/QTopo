@@ -158,7 +158,9 @@ var util = {
         }
         win.css({
             top:($(dom).height()-height)/2,
-            left:($(dom).width()-width)/2
+            left:($(dom).width()-width)/2,
+            bottom:"auto",
+            right:"auto"
         });
     }
 };
