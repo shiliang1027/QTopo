@@ -174,24 +174,28 @@ function createLink(scene, config) {
 function makeLink(scene,config,findStart,findEnd){
     if ($.isArray(config.data)) {
         $.each(config.data, function (i, item) {
-            var link;
-            //根据确定的条件进行搜索
-            var start = notCasual(scene.find(findStart + "=" + item.start));
-            var end = notCasual(scene.find(findEnd + "=" + item.end));
-            if (start && end) {
-                item.start = start;
-                item.end = end;
-                link = scene.addLink(item);
-                //额外属性添加
-                setExtra(config, link, item);
-            } else {
-                QTopo.util.error("some link path invalid : " + i, item);
-                if (!start) {
-                    QTopo.util.error("start not found : ", item.start);
+            if(item){
+                var link;
+                //根据确定的条件进行搜索
+                var start = notCasual(scene.find(findStart + "=" + item.start));
+                var end = notCasual(scene.find(findEnd + "=" + item.end));
+                if (start && end) {
+                    item.start = start;
+                    item.end = end;
+                    link = scene.addLink(item);
+                    //额外属性添加
+                    setExtra(config, link, item);
+                } else {
+                    QTopo.util.error("some link path invalid : " + i, item);
+                    if (!start) {
+                        QTopo.util.error("start not found : ", item.start);
+                    }
+                    if (!end) {
+                        QTopo.util.error("end not found : ", item.end);
+                    }
                 }
-                if (!end) {
-                    QTopo.util.error("end not found : ", item.end);
-                }
+            }else{
+                QTopo.util.error("some link data invalid: " + i, item);
             }
         });
     }

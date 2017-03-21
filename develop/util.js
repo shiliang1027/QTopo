@@ -202,6 +202,15 @@ var util = {
         if(QTopo.log.error){
             console.error.apply(console,$.merge( [new Date().Format("hh:mm:ss")], arguments));
         }
+    },
+    filterValue:function(filter, data, element){
+        if($.isArray(filter)){
+            $.each(data, function (k, v) {
+                if (filter.indexOf(k) < 0) {
+                    element.val(k, v);
+                }
+            });
+        }
     }
 };
 module.exports = util;
