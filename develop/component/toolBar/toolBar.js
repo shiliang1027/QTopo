@@ -111,7 +111,7 @@ function addSearchMode(instance,scene,toolBar,resultWin){
         if($.isArray(results)){
             resultShow.html("");
             $.each(results,function(i,node){
-                var name=node.val("name");
+                var name=node.attr.name||node.attr.text;
                 var li=$("<li title='"+name+"'>"+ name+"</li>");
                 li.click(function(){
                     scene.moveToNode(node);

@@ -52,12 +52,13 @@ gulp.task("concatJs", function () {
 var iposs="topo_iposs/qtopo";
 gulp.task("concat-ready", function () {
     gulp.src([iposs+'/qtopo.css'])                                          //- 需要处理的css文件，放到一个字符串数组里
-        .pipe(concat('qtopo.min.css'))                            //- 合并后的文件名
+        .pipe(concat('topo.min.css'))                            //- 合并后的文件名
         .pipe(minifyCss())                                      //- 压缩处理成一行
-        .pipe(gulp.dest(iposs));
+        .pipe(gulp.dest("topo_iposs/topo"));
     gulp.src([iposs+"/qtopo.core.min.js",iposs+"/qtopo.component.min.js",iposs+"/qtopo.iposs.min.js"])
-        .pipe(concat('iposs.topo.min.js'))
-        .pipe(uglify()).pipe(gulp.dest(iposs));
+        .pipe(concat('topo.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest("topo_iposs/topo"));
 });
 //合并压缩依赖的css
 var yilaiCss = [lib + "bootstrap-3.3.6-dist/css/bootstrap.css"];

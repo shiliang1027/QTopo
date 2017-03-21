@@ -30,16 +30,19 @@ $(document).ready(function () {
     });
     //QTopo.log.info=false;//关闭日志
     var scene=topo.scene;
-    var component=topo.component;
-    var tools=component.tools;
-    tools.imageSelect.setImage(images);//初始化图片选择窗口内容
-    tools.progress.open({state: 10, info: '正在读取'});
-    //设置鼠标提示框显示内容，以及响应的元素
-    tools.tips.open(function(target){
-        return "<div> name: " + target.val("name") + "</div>" + "<div> id: " + target.val("id") + "</div>";
-    },function(target){
-        return target.getType()==QTopo.constant.NODE;
+    topo.setComponent({
+        images:images,
+        tips:{
+            show:function(target){
+                return "<div> name: " + target.val("name") + "</div>" + "<div> id: " + target.val("id") + "</div>";
+            },
+            filter:function(target){
+                return target.getType()==QTopo.constant.NODE;
+            }
+        }
     });
+    topo.open("progress",{state: 10, info: '正在读取'});
+    //设置鼠标提示框显示内容，以及响应的元素
     //自动设置大小
     $(window).resize(function(){
         topo.resize();
@@ -133,7 +136,7 @@ $(document).ready(function () {
                             var tr=$("<tr><td>"+node.attr.name+"</td><td>"+node.attr.alarm.text+"</td></tr>");
                             var name=$('<div>'+node.attr.name+'</div>');
                             tr.click(function(){
-                                tools.view.open({
+                                topo.open('view',{
                                     content:name,
                                     width:500
                                 });
@@ -145,7 +148,7 @@ $(document).ready(function () {
             });
         });
     });
-    tools.progress.open({state: 100, info: '已完成'});
+    topo.open("progress",{state: 100, info: '已完成'});
     function getTopoData(data, alarm) {
         //这部分是构造数据，怎么获取数据自己定义，只要调用topo对象的setOption方法塞入对应的数据就行
         alarm = QTopo.util.toJson(alarm);

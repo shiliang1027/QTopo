@@ -11,7 +11,10 @@ function init(dom, scene) {
     var body = temp.find(".panel-body");
     var temp_fn;
     var temp_filter;
-    temp.open = function (fn, filter) {
+    temp.open = function (config) {
+        config=config||{};
+        var fn=config.show;
+        var  filter=config.filter;
         if ($.isFunction(fn)) {
             temp_fn = fn;
             scene.on("mousemove", function (e, qtopo) {
