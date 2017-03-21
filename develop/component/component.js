@@ -30,4 +30,16 @@ function init(instance,config) {
         addSearch:addSearch,
         addRightMenu:addRightMenu
     };
+    instance.setComponent=function(config){
+        if(config){
+
+        }
+        switch (type){
+            case"search":
+
+        }
+    };
+    instance.open=function(type,config){
+
+    }
 }

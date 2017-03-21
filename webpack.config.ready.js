@@ -38,13 +38,13 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin(),//压缩代码插件
         new ExtractTextPlugin({
             filename:"qtopo.css",allChunks: true
-        }),//合并并压缩输出到目录
-        new webpack.optimize.CommonsChunkPlugin(
-            {
-                name: 'iposs',
-                chunks: ['iposs'],
-                filename: "../../topo_iposs/qtopo/iposs.min.js"
-            }
-        )//输出到另外个目录
+        })//合并并压缩输出到目录
+        //new webpack.optimize.CommonsChunkPlugin(
+        //    {
+        //        name: 'iposs',
+        //        chunks: ['iposs'],
+        //        filename: "../../topo_iposs/qtopo/iposs.min.js"
+        //    }
+        //)//输出到另外个目录
     ]
 };

@@ -12,7 +12,7 @@ module.exports = {
         "iposs":__dirname+"/iposs/main.js"
     },
     output: {
-        path: __dirname + "/public/qtopo",//打包后的文件存放的地方
+        path: __dirname + "/topo_iposs/qtopo",//打包后的文件存放的地方
         //filename:  "[name]-[hash].bundle.js"//打包后输出文件的文件名
         filename:  "qtopo.[name].min.js"
     },
@@ -38,13 +38,13 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin(),//压缩代码插件
         new ExtractTextPlugin({
             filename:"qtopo.css",allChunks: true
-        }),//合并并压缩输出到目录
-        new webpack.optimize.CommonsChunkPlugin(
-        {
-            name: 'iposs',
-            chunks: ['iposs'],
-            filename: "../../topo_iposs/qtopo/iposs.min.js"
-        }
-        )
+        })//合并并压缩输出到目录
+        //new webpack.optimize.CommonsChunkPlugin(
+        //{
+        //    name: 'iposs',
+        //    chunks: ['iposs'],
+        //    filename: "../../topo_iposs/qtopo/iposs.min.js"
+        //}
+        //)
     ]
 };

@@ -54,8 +54,8 @@ gulp.task("concat-ready", function () {
     gulp.src([iposs+'/qtopo.css'])                                          //- 需要处理的css文件，放到一个字符串数组里
         .pipe(concat('qtopo.min.css'))                            //- 合并后的文件名
         .pipe(minifyCss())                                      //- 压缩处理成一行
-        .pipe(gulp.dest('topo_iposs/qtopo/'));
-    gulp.src([iposs+"/qtopo.core.min.js",iposs+"/qtopo.component.min.js",iposs+"/iposs.min.js"])
+        .pipe(gulp.dest(iposs));
+    gulp.src([iposs+"/qtopo.core.min.js",iposs+"/qtopo.component.min.js",iposs+"/qtopo.iposs.min.js"])
         .pipe(concat('iposs.topo.min.js'))
         .pipe(uglify()).pipe(gulp.dest(iposs));
 });
