@@ -549,6 +549,7 @@
 
             jtopo.stage = this;
             var n = this;
+            var self=this;
             this.initialize = function (c) {
                 m(c), this.canvas = c, this.graphics = c.getContext("2d"), this.childs = [], this.frames = 24, this.messageBus = new jtopo.util.MessageBus, this.eagleEye = b(this), this.wheelZoom = null, this.mouseDownX = 0, this.mouseDownY = 0, this.mouseDown = !1, this.mouseOver = !1, this.needRepaint = !0, this.serializedProperties = ["frames", "wheelZoom"]
             }, null != c && this.initialize(c);
@@ -651,7 +652,7 @@
             }(), setTimeout(function () {
                 n.mousewheel(function (a) {
                     var b = null == a.wheelDelta ? a.detail : a.wheelDelta;
-                    null != this.wheelZoom && (b > 0 ? this.zoomIn(this.wheelZoom) : this.zoomOut(this.wheelZoom))
+                    null != self.wheelZoom && (b > 0 ? self.zoomIn(self.wheelZoom) : self.zoomOut(self.wheelZoom))
                 }), n.paint()
             }, 300), setTimeout(function () {
                 n.paint()
