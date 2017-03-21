@@ -587,19 +587,22 @@
 .qtopo-windows .form-group{
     position: relative;
     height: 40px;
-    line-height: 35px;
 }
 .qtopo-windows-elements .panel {
     position: absolute;
     width: 300px;
 }
 .qtopo-windows .w-label{
-    display: inline-block;
+    display: inline-flex;
+    display: -webkit-inline-flex;
     width: 100px;
     position: absolute;
     left:0;
     top:0;
     text-align: center;
+    height:100%;
+    justify-content: center;
+    align-items: center;
 }
 .qtopo-windows .w-width{
     display: inline-block;

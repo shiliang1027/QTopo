@@ -29,13 +29,14 @@ module.exports = {
 /**
  * 初始化窗口组件
  * @param instance topo实例化对象
+ * @param filter 禁止载入一些窗口
  */
-function init(instance) {
+function init(instance,filter) {
     var wrap = getWrap(instance.document, "qtopo-windows");
     //公用窗口
     var tools = initToolsWindow(wrap, instance.document, instance.scene);
     //私有窗口
-    var wins = initPrivateWin(wrap, tools, instance.document, instance.scene);
+    var wins = initPrivateWin(wrap, tools, instance.document, instance.scene,filter);
     return {
         windows: wins,
         tools: tools
@@ -51,13 +52,16 @@ function initToolsWindow(wrap, dom, scene) {
     });
     return result;
 }
-function initPrivateWin(wrap, tools, dom, scene) {
+function initPrivateWin(wrap, tools, dom, scene,filter) {
     //---windows
+    filter=filter||[];
     var elementWrap = getWrap(wrap, "qtopo-windows-elements");
     var result={};
     $.each(wins,function(name,jq){
-        result[name]=jq.init(dom, scene, tools);
-        elementWrap.append(result[name]);
+        if(filter.indexOf(name)<0){
+            result[name]=jq.init(dom, scene, tools);
+            elementWrap.append(result[name]);
+        }
     });
     return result;
 }

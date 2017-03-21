@@ -22,7 +22,7 @@ $(document).ready(function (e) {
     }
 });
 function init(instance, config) {
-    var wins = windows.init(instance);
+    var wins = windows.init(instance,config.filterWindow);
     var addRightMenu = rightMenu.init(instance, wins, config.filterMenu);
     var addSearch = toolBar.init(instance, wins);
     instance.setComponent = function (config) {
