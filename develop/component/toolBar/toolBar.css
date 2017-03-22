@@ -48,11 +48,11 @@
     width: 0;
     position: relative;
     background-color: white;
-    -webkit-transition: .5s width;
-    -moz-transition: .5s width;
-    -ms-transition: .5s width;
-    -o-transition: .5s width;
-    transition: .5s width;
+    -webkit-transition: .7s width;
+    -moz-transition: .7s width;
+    -ms-transition: .7s width;
+    -o-transition: .7s width;
+    transition: .7s width;
 }
 .qtopo-toolBar .t-search-input .clear-input{
     position: absolute;
@@ -63,11 +63,16 @@
 }
 .qtopo-toolBar .t-search-input input{
     opacity: 0;
+    width: 0;
+    padding:0;
+    -webkit-transition: 1.5s width,padding;
+    -moz-transition:  1.5s width,padding;
+    -ms-transition:  1.5s width,padding;
+    -o-transition:  1.5s width,padding;
+    transition:  1.5s width,padding;
     height:100%;
-    width: 100%;
     border:none;
     border-radius: 0;
-    padding-right: 15px;
 }
 .qtopo-toolBar .search-group:hover select,.qtopo-toolBar .search-group:hover .clear-input{
     display: block;
@@ -77,8 +82,11 @@
     width: 150px;
     opacity: 1;
 }
+.qtopo-toolBar .search-group:hover .t-search-input input{
+    padding:6px 15px 6px 12px;
+}
 .qtopo-toolBar .t-search-mode{
-    width:80px;
+    width:100px;
 }
 .qtopo-toolBar .btn-primary{
     color: #fff;
@@ -94,7 +102,7 @@
     position: absolute;
     background-color: rgba(6,36,62,0.8);
     border:none;
-    width: 200px;
+    width: 400px;
     height: 50px;
     right: 40px;
     top: 50px;

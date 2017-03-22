@@ -23,22 +23,13 @@ $(document).ready(function (e) {
 });
 function init(instance, config) {
     var wins = windows.init(instance,config.filterWindow);
-    var addRightMenu = rightMenu.init(instance, wins, config.filterMenu);
-    var addSearch = toolBar.init(instance, wins);
+    var rightMenuCallBack = rightMenu.init(instance, wins, config.filterMenu);
+    var toolBarCallBack = toolBar.init(instance, wins);
     instance.setComponent = function (config) {
         if (config) {
-            if (config.search) {
-                addSearch(config.search);
-            }
-            if (config.rightMenu) {
-                addRightMenu(config.rightMenu);
-            }
-            if(config.tips){
-                wins.tools.tips.open(config.tips);
-            }
-            if(config.images){
-                wins.tools.imageSelect.setImage(config.images);
-            }
+            configToolBar(toolBarCallBack,config.toolBar);
+            configRightMenu(rightMenuCallBack,config.rightMenu);
+            configWindows(wins,config.windows);
         }
         return instance;
     };
@@ -64,5 +55,35 @@ function init(instance, config) {
                 result= wins.tools.loading.open(config);
         }
         return result;
+    }
+}
+function configToolBar(toolBar,config){
+    if(config){
+        if (config.search) {
+            toolBar.addSearch(config.search);
+        }
+        if(config.save){
+            toolBar.save(config.save);
+        }
+    }
+}
+function configRightMenu(rightMenu,config){
+    if(config){
+        if (config.add) {
+            rightMenu.addMenu(config.add);
+        }
+        if(config.order){
+            rightMenu.reOrder(config.order);
+        }
+    }
+}
+function configWindows(windows,config){
+    if(config){
+        if(config.tips){
+            windows.tools.tips.open(config.tips);
+        }
+        if(config.images){
+            windows.tools.imageSelect.setImage(config.images);
+        }
     }
 }
