@@ -7,7 +7,7 @@ var selectResult = require("./selectResult.html");
 module.exports = {
     init: init
 };
-function init(instance, windows) {
+function init(instance, windows,hideDefaultSearch) {
     var dom = instance.document;
     var scene = instance.scene;
     var wrap = $(dom).find(".qtopo-toolBar");
@@ -56,25 +56,27 @@ function init(instance, windows) {
         windows.windows.autoLayout.open();
     });
     var addSearch = addSearchMode(instance, scene, toolBar, selectResult);
-    addSearch({
-        type: "value",
-        name: "default(同层)",
-        hideResult:false,
-        search: function (val) {
-            return scene.find(val, "node")
-                .map(function(i){
-                    return {
-                        content: i.attr.name,
-                        target:i
-                    }
-                });
-        },
-        clickResult:function(result){
-            if(result.target){
-                scene.moveToNode(result.target);
+    if(!hideDefaultSearch){
+        addSearch({
+            type: "value",
+            name: "default",
+            hideResult:false,
+            search: function (val) {
+                return scene.find(val, "node")
+                    .map(function(i){
+                        return {
+                            content: i.attr.name,
+                            target:i
+                        }
+                    });
+            },
+            clickResult:function(result){
+                if(result.target){
+                    scene.moveToNode(result.target);
+                }
             }
-        }
-    });
+        });
+    }
     function doSave(fn) {
         if ($.isFunction(fn)) {
             toolBar.find("button[name=save]").click(fn);
@@ -108,6 +110,9 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
         clear.hide();
         resultWin.hide();
     });
+    selectWin.change(function(){
+        clear.click();
+    });
     input.keydown(function (e) {
         if (e.keyCode == 13) {
             doSearch();
@@ -125,7 +130,12 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
             $(e.target).data("doResult")();
         }
     });
+    resultShow.on('mouseleave', function (e) {
+        e.stopPropagation();
+        resultShow.hide();
+    });
     function doSearch() {
+        resultWin.hide();
         var searchConfig=selectWin.data("searchMode")[selectWin.val()];
         if ($.isFunction(searchConfig.search)) {
             var results=searchConfig.search(input.val());
@@ -136,7 +146,7 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
     }
 
     function addResult(results,click) {
-        if ($.isArray(results)) {
+        if ($.isArray(results)&&results.length>0) {
             resultShow.empty();
             $.each(results, function (i, result) {
                 var li = $("<li title='" + result.content + "'>" + result.content + "</li>")
@@ -148,6 +158,11 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
                 resultShow.append(li);
             });
             resultWin.show();
+        }else{
+            instance.open("view",{
+                content:"无查询结果!",
+                width:200
+            });
         }
     }
 

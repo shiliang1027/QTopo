@@ -25,7 +25,7 @@ function reset(element){
                 cx.font = this.font;
                 var fontWidth = cx.measureText("田").width;
                 var maxWidth = fontWidth;
-                cx.fillStyle = "rgba(" + this.fontColor + ",1)"; //", " + this.alpha + ")";名称永远不透明
+                cx.fillStyle = "rgba(" + this.fontColor + "," + this.alpha + ")";//;名称永远不透明
                 //换行检测
                 var texts = text.split("\n");
                 for (var i = 0; i < texts.length; i++) {

@@ -3,7 +3,9 @@
  */
 var Scene = require('./Scene.js');
 Scene.prototype.goCenter = function () {
-    this.jtopo.stage.centerAndZoom();
+    if (this.jtopo.childs && this.jtopo.childs.length > 0) {
+        this.jtopo.stage.centerAndZoom();
+    }
 };
 Scene.prototype.resize = function (size) {
     if ($.isNumeric(size)) {
@@ -76,67 +78,88 @@ Scene.prototype.toggleZIndex = function (element, flag) {
  *获取被选中的元素
  * @returns {Array|*}
  */
-var selectedCatch={
-    jtopo:[],
-    qtopo:[]
+var selectedCatch = {
+    jtopo: [],
+    qtopo: []
 };
 Scene.prototype.getSelected = function () {
-    var jtopo=this.jtopo.selectedElements;
-    if($.isArray(jtopo)){
-        if(selectedCatch.jtopo!=jtopo){
-            selectedCatch.jtopo=jtopo;
-            selectedCatch.qtopo=[];
-            jtopo.forEach(function(el){
-                if(el.qtopo&&el.qtopo.getUseType()!=QTopo.constant.CASUAL){
+    var jtopo = this.jtopo.selectedElements;
+    if ($.isArray(jtopo)) {
+        if (selectedCatch.jtopo != jtopo) {
+            selectedCatch.jtopo = jtopo;
+            selectedCatch.qtopo = [];
+            jtopo.forEach(function (el) {
+                if (el.qtopo && el.qtopo.getUseType() != QTopo.constant.CASUAL) {
                     selectedCatch.qtopo.push(el.qtopo);
                 }
             });
         }
         return selectedCatch.qtopo;
-    }else{
+    } else {
         return [];
     }
 };
 /**
- * 高亮目标隐藏其他,若传入数组，则只将数组内容全部高亮，若是节点则隐藏其相关对象
- * @param target 数组或type=QTopo.constant.NODE对象
+ * 高亮目标隐藏其他
+ * @param target 可选参数,数组或对象,高亮其相关对象,无参则全部高亮
+ * @param flag 可选参数，若为true则只高亮传入的对象,不选则只对传入对象相关的对象高亮
  */
-Scene.prototype.toggleLight = function (target) {
+Scene.prototype.toggleLight = function (target, flag) {
     try {
         var alpha = 1;
-        var lighting = [];
+        var lighting;
         if (target) {
-            alpha = 0.3;
-            if ($.isArray(target)) {
-                lighting = target;
-            } else if (target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL) {
-                var links = target.links;
-                lighting.push(target);
-                if (links) {
-                    $.each(links.out, function (l, outlink) {
-                        lighting.push(outlink);
-                        lighting.push(outlink.path.end);
-                    });
-                    $.each(links.in, function (n, inlink) {
-                        lighting.push(inlink);
-                        lighting.push(inlink.path.start);
-                    });
+            alpha = 0.1;
+            if (flag) {
+                if ($.isArray(target)) {
+                    lighting = target;
+                } else {
+                    lighting = [target];
+                }
+            } else {
+                if ($.isArray(target)) {
+                    lighting = getConnectionLightings(target);
+                } else {
+                    lighting = getConnectionLightings([target]);
                 }
             }
         }
-        totalSetAlpha([this.children.node, this.children.link], alpha);
-        totalSetAlpha([lighting], 1);
+        totalSetAlpha(this.children.node.concat(this.children.link), alpha);
+        totalSetAlpha(lighting, 1);
     } catch (e) {
         QTopo.util.error("scene toggleLight error", e);
     }
+    function getConnectionLightings(arr) {
+        var lighting = [];
+        $.each(arr, function (i, target) {
+            if (target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL) {
+                var links = target.links;
+                QTopo.util.arrayPush(lighting, target);
+                if (links) {
+                    if ($.isArray(links.out)) {
+                        $.each(links.out, function (l, outlink) {
+                            QTopo.util.arrayPush(lighting, outlink);
+                            QTopo.util.arrayPush(lighting, outlink.path.end);
+                        });
+                    }
+                    if ($.isArray(links.in)) {
+                        $.each(links.in, function (n, inlink) {
+                            QTopo.util.arrayPush(lighting, inlink);
+                            QTopo.util.arrayPush(lighting, inlink.path.start);
+                        });
+                    }
+                }
+            }
+        });
+        return lighting;
+    }
+
     function totalSetAlpha(total, alpha) {
         //全部隐藏
-        if (total.length > 0) {
-            $.each(total, function (i, arr) {
-                $.each(arr, function (j, element) {
-                    element.set({
-                        alpha: alpha
-                    });
+        if ($.isArray(total)) {
+            $.each(total, function (i, element) {
+                element.set({
+                    alpha: alpha
                 });
             });
         }
@@ -151,11 +174,11 @@ Scene.prototype.moveToNode = function (node) {
         // 闪烁几下
         nodeFlash(node.jtopo, 5);
     }
-    function nodeFlash(node,num){
-        if($.isNumeric(num)){
+    function nodeFlash(node, num) {
+        if ($.isNumeric(num)) {
             if (num == 0) {
                 node.selected = false;
-            }else{
+            } else {
                 node.selected = !node.selected;
                 setTimeout(function () {
                     nodeFlash(node, num - 1);
@@ -193,10 +216,10 @@ function layout_round(scene, jtopos) {
     JTopo.layout.circleLayoutNodes(jtopos, {animate: {time: 1000}});
 }
 function layout_default(elements, rows, rowSpace, columnSpace, begin) {
-    if($.isNumeric(rows)){
-        rows=parseInt(rows);
-        if(rows<1){
-            rows=1;
+    if ($.isNumeric(rows)) {
+        rows = parseInt(rows);
+        if (rows < 1) {
+            rows = 1;
         }
         $.each(elements.sort(function (a, b) {
             return getDegree(b) - getDegree(a);
@@ -212,18 +235,18 @@ function layout_default(elements, rows, rowSpace, columnSpace, begin) {
 //-------工具函数
 //获取节点的度
 function getDegree(node) {
-    var inLinks=node.links.in;
-    var outLinks=node.links.out;
-    var degree=0;
-    if(inLinks.length==1){
-        degree+=inLinks[0].attr.number;
-    }else{
-        degree+=inLinks.length;
+    var inLinks = node.links.in;
+    var outLinks = node.links.out;
+    var degree = 0;
+    if (inLinks.length == 1) {
+        degree += inLinks[0].attr.number;
+    } else {
+        degree += inLinks.length;
     }
-    if(outLinks.length==1){
-        degree+=outLinks[0].attr.number;
-    }else{
-        degree+=outLinks.length;
+    if (outLinks.length == 1) {
+        degree += outLinks[0].attr.number;
+    } else {
+        degree += outLinks.length;
     }
     return degree;
 }
@@ -235,7 +258,7 @@ function move(node, targetX, targetY) {
     var y = node.attr.position[1];
     var partX = parseInt((targetX - x)) / 10;
     var partY = parseInt((targetY - y)) / 10;
-    var part=0;
+    var part = 0;
     var temp = setInterval(function () {
         if (Math.abs(targetX - x) > 1) {
             x += partX;
@@ -247,7 +270,7 @@ function move(node, targetX, targetY) {
         part++;
         if (Math.abs(targetX - x) <= 1 && Math.abs(targetY - y) <= 1) {
             clearInterval(temp);
-        }else if(part>=10){
+        } else if (part >= 10) {
             clearInterval(temp);
         }
     }, 100);

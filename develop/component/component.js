@@ -24,7 +24,8 @@ $(document).ready(function (e) {
 function init(instance, config) {
     var wins = windows.init(instance,config.filterWindow);
     var rightMenuCallBack = rightMenu.init(instance, wins, config.filterMenu);
-    var toolBarCallBack = toolBar.init(instance, wins);
+    var toolBarCallBack = toolBar.init(instance, wins,config.hideDefaultSearch);
+
     instance.setComponent = function (config) {
         if (config) {
             configToolBar(toolBarCallBack,config.toolBar);
@@ -34,27 +35,9 @@ function init(instance, config) {
         return instance;
     };
     instance.open = function (type, config) {
-        var result;
-        switch (type) {
-            case'imageSelect':
-                result=wins.tools.imageSelect.open(config);
-                break;
-            case'styleSelect':
-                result=wins.tools.styleSelect.open(config);
-                break;
-            case'confirm':
-                result=wins.tools.confirm.open(config);
-                break;
-            case'view':
-                result=wins.tools.view.open(config);
-                break;
-            case'progress':
-                result=wins.tools.progress.open(config);
-                break;
-            case'loading':
-                result= wins.tools.loading.open(config);
+        if(wins.tools[type]){
+            return wins.tools[type].open(config);
         }
-        return result;
     }
 }
 function configToolBar(toolBar,config){

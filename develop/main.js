@@ -47,10 +47,7 @@ function setOption(option, clear) {
     createLink(scene, option.link);
     createLine(scene, option.line);
     drawAlarm(scene, option.alarm);
-    if (scene.jtopo.childs && scene.jtopo.childs.length > 0) {
-        QTopo.util.info("set topo complete: ", scene.children);
-        scene.goCenter();
-    }
+    QTopo.util.info("set topo complete: ", scene.children);
     return this;
 }
 function resize(dom, canvas) {
@@ -106,10 +103,10 @@ function notCasual(arr) {
 function createContainer(scene, config) {
     if (config) {
         setDefaults(scene, QTopo.constant.container, config.style);
-        makeContainer(scene,config);
+        makeContainer(scene, config);
     }
 }
-function makeContainer(scene,config){
+function makeContainer(scene, config) {
     //搜索子的总标记
     var findChild;
     if (config.children) {
@@ -127,11 +124,11 @@ function makeContainer(scene,config){
             if (item.children) {
                 findChild_exact = item.children;
             }
-            makeChildren(scene,container,item,findChild_exact);
+            makeChildren(scene, container, item, findChild_exact);
         });
     }
 }
-function makeChildren(scene,container,config,findChild){
+function makeChildren(scene, container, config, findChild) {
     if (findChild) {
         $.each(config.data, function (j, children) {
             var child = scene.find(findChild + "=" + children);
@@ -167,16 +164,16 @@ function createLink(scene, config) {
             //设置默认属性
             setDefaults(scene, QTopo.constant.link, config.style);
             //开始创建
-            makeLink(scene,config,findStart,findEnd);
+            makeLink(scene, config, findStart, findEnd);
         } else {
             QTopo.util.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
         }
     }
 }
-function makeLink(scene,config,findStart,findEnd){
+function makeLink(scene, config, findStart, findEnd) {
     if ($.isArray(config.data)) {
         $.each(config.data, function (i, item) {
-            if(item){
+            if (item) {
                 var link;
                 //根据确定的条件进行搜索
                 var start = notCasual(scene.find(findStart + "=" + item.start));
@@ -196,7 +193,7 @@ function makeLink(scene,config,findStart,findEnd){
                         QTopo.util.error("end not found : ", item.end);
                     }
                 }
-            }else{
+            } else {
                 QTopo.util.error("some link data invalid: " + i, item);
             }
         });
@@ -226,7 +223,7 @@ function drawAlarm(scene, config) {
         if ($.isArray(config.data) && config.node) {
             var alarmData = config.data;
             QTopo.util.info("设置告警条目 :", alarmData.length);
-            var alarmNodes=makeAlarmData(scene,alarmData,config);
+            var alarmNodes = makeAlarmData(scene, alarmData, config);
             QTopo.util.info("实际告警数目 :", alarmNodes.length);
             if (config.animate) {
                 alarmAnimate(config.animate, alarmNodes);
@@ -240,7 +237,7 @@ function drawAlarm(scene, config) {
         }
     }
 }
-function makeAlarmData(scene,alarmData,config){
+function makeAlarmData(scene, alarmData, config) {
     var alarms = [];
     $.each(alarmData, function (k, v) {
         var node = notCasual(scene.find(config.node + "=" + v["node"], "node"));

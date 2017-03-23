@@ -199,7 +199,7 @@ Element.prototype.val = function (key, value) {
             self.extra[name]=value;
         })
     }else{
-        if(!value){
+        if(typeof value=='undefined'){
             var result;
             if(this.extra[key]){
                 result=this.extra[key];

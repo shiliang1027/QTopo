@@ -71,7 +71,6 @@ function makeOrder(rightMenu){
             rightMenu.item.sort(function(a,b){
                 return sort(a.order, b.order);
             });
-            console.info(rightMenu.item);
             rightMenu.item.forEach(function(item){
                 rightMenu.body.append(item.body);
             });

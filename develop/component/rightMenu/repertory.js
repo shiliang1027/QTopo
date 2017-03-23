@@ -133,7 +133,7 @@ function getMenus(scene, menu, windows, tools) {
                 }
             },
             filter: function (target) {
-                return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
+                return isElement(target);
             }
         },
         {
@@ -178,7 +178,7 @@ function getMenus(scene, menu, windows, tools) {
                         scene.toggleZIndex(menu.target);
                     },
                     filter: function (target) {
-                        return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
+                        return isElement(target);
                     }
                 },
                 {
@@ -188,13 +188,10 @@ function getMenus(scene, menu, windows, tools) {
                         lighting = true;
                     },
                     filter: function (target) {
-                        return !lighting && target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
+                        return !lighting && isNode(target);
                     }
                 }
-            ],
-            click:function(){
-                console.info(2);
-            }
+            ]
         },
         {
             name: "创建节点",
@@ -214,7 +211,7 @@ function getMenus(scene, menu, windows, tools) {
                 }
             ],
             filter: function (target) {
-                return !target || target.getType() == QTopo.constant.SCENE;
+                return isScene(target);
             }
         },
         {
@@ -237,7 +234,7 @@ function getMenus(scene, menu, windows, tools) {
                 }
             ],
             filter: function (target) {
-                return target && (target.getType() == QTopo.constant.NODE || target.getType() == QTopo.constant.CONTAINER) && target.getUseType() != QTopo.constant.CASUAL;
+                return isNode(target)||isContainer(target);
             }
         },
         {
@@ -250,7 +247,7 @@ function getMenus(scene, menu, windows, tools) {
                         lockedGroup = menu.target;
                     },
                     filter: function (target) {
-                        return target && target.getType() == QTopo.constant.CONTAINER && target.getUseType() != QTopo.constant.CASUAL;
+                        return isContainer(target);
                     }
                 },
                 {
@@ -259,7 +256,7 @@ function getMenus(scene, menu, windows, tools) {
                         lockedGroup.add(menu.target);
                     },
                     filter: function (target) {
-                        return lockedGroup && target.getType() == QTopo.constant.NODE && !target.parent && target.getUseType() != QTopo.constant.CASUAL;
+                        return lockedGroup && isNode(target)&& !target.parent;
                     }
                 },
                 {
@@ -268,7 +265,7 @@ function getMenus(scene, menu, windows, tools) {
                         menu.target.parent.remove(menu.target);
                     },
                     filter: function (target) {
-                        return target && target.getUseType() != QTopo.constant.CASUAL && target.parent;
+                        return isElement(target) && target.parent;
                     }
                 },
                 {
@@ -298,5 +295,20 @@ function getMenus(scene, menu, windows, tools) {
             ]
         }
     ];
+}
+function isElement(target){
+    return target&&target.getType()!=QTopo.constant.SCENE&&target.getUseType() != QTopo.constant.CASUAL;
+}
+function isScene(target){
+    return !target||target.getType()==QTopo.constant.SCENE;
+}
+function isNode(target){
+    return target&&target.getType() == QTopo.constant.NODE&&target.getUseType() != QTopo.constant.CASUAL;
+}
+function isContainer(target){
+    return target&&target.getType() == QTopo.constant.CONTAINER&&target.getUseType() != QTopo.constant.CASUAL;
+}
+function isLink(target){
+    return target&&target.getType() == QTopo.constant.LINK&&target.getUseType() != QTopo.constant.CASUAL;
 }
 module.exports = getMenus;
