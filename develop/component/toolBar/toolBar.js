@@ -179,7 +179,7 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
         function addSearch(config) {
             if (config) {
                 selectWin.data("searchMode")[config.type] = config;
-                selectWin.prepend("<option value='" + config.type + "'>" + config.name || config.type + "</option>");
+                selectWin.prepend("<option value='" + config.type + "' "+(config.selected?'selected':'')+">" + config.name || config.type + "</option>");
             }
         }
     }

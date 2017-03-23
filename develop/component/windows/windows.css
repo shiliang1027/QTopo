@@ -91,7 +91,7 @@ body {
 .qtopo-windows .w-label{
     display: inline-flex;
     display: -webkit-inline-flex;
-    width: 100px;
+    width: 40%;
     position: absolute;
     left:0;
     top:0;
@@ -102,7 +102,7 @@ body {
 }
 .qtopo-windows .w-width{
     display: inline-block;
-    width: 150px;
+    width: 60%;
     position: absolute;
     right:0;
     top:0;
