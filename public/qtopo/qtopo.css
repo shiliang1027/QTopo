@@ -87,37 +87,45 @@
     width: 0;
     position: relative;
     background-color: white;
-    -webkit-transition: .5s width;
-    -moz-transition: .5s width;
-    -ms-transition: .5s width;
-    -o-transition: .5s width;
-    transition: .5s width;
+    -webkit-transition: .7s width;
+    -moz-transition: .7s width;
+    -ms-transition: .7s width;
+    -o-transition: .7s width;
+    transition: .7s width;
 }
 .qtopo-toolBar .t-search-input .clear-input{
     position: absolute;
     right: 2px;
-    top:7px;
+    top:9px;
     cursor:pointer;
     opacity: 0;
 }
 .qtopo-toolBar .t-search-input input{
     opacity: 0;
+    width: 0;
+    padding:0;
+    -webkit-transition: 1.5s width,padding;
+    -moz-transition:  1.5s width,padding;
+    -ms-transition:  1.5s width,padding;
+    -o-transition:  1.5s width,padding;
+    transition:  1.5s width,padding;
     height:100%;
-    width: 100%;
     border:none;
     border-radius: 0;
-    padding-right: 15px;
 }
 .qtopo-toolBar .search-group:hover select,.qtopo-toolBar .search-group:hover .clear-input{
     display: block;
     opacity: 1;
 }
 .qtopo-toolBar .search-group:hover .t-search-input,.qtopo-toolBar .search-group:hover .t-search-input input{
-    width: 150px;
+    width: 180px;
     opacity: 1;
 }
+.qtopo-toolBar .search-group:hover .t-search-input input{
+    padding:6px 15px 6px 12px;
+}
 .qtopo-toolBar .t-search-mode{
-    width:80px;
+    width:90px;
 }
 .qtopo-toolBar .btn-primary{
     color: #fff;
@@ -128,15 +136,19 @@
     padding:0;
     font-size:13px;
 }
+.qtopo-toolBar select.form-control option{
+    font-size: 14px;
+    font-weight: 300;
+}
 .qtopo-toolBar .result-win{
     display: inline-block;
     position: absolute;
     background-color: rgba(6,36,62,0.8);
-    border:none;
-    width: 200px;
-    height: 50px;
+    width: 250px;
+    height: 55px;
     right: 40px;
     top: 50px;
+    text-align: center;
 }
 .qtopo-toolBar .result-win .panel-body{
     width: 100%;
@@ -155,11 +167,13 @@
     height: 100%;
     width: 100%;
     padding: 0;
-    padding-left: 15px;
-    line-height: 25px;
+    line-height: 30px;
+    font-size: 14px;
     position: relative;
     cursor: pointer;
     color:white;
+    box-shadow: 0 0 10px #337ab7;
+    text-align: center;
     border: 1px solid #337ab7;
     background-color: rgba(6,36,62,0.8);
 }
@@ -178,15 +192,20 @@
     height: auto;
     max-height: 400px;
     overflow: auto;
+    box-shadow: 0 0 10px #337ab7;
+    text-align: center;
+    border: 1px solid #337ab7;
+    border-top:none;
 }
 .result-show li{
-    padding-left: 5px;
     color:white;
     list-style:none;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
     cursor:pointer;
+    padding: 3px 5px;
+    font-size: 13px;
 }
 .result-show li:hover{
     background-color: #3d6cd6;
@@ -530,7 +549,35 @@
 }
 .qtopo-windows .tools-tips{
     z-index:1060;
-}.qtopo-windows{
+}/*滚动条*/
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    /* 滚动槽 */
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0,0.5);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    /* 滑块 */
+    border-radius: 10px;
+    background: rgba(51, 122,183,1);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    /* 未选中*/
+}
+/*IE中滚动条*/
+body {
+    SCROLLBAR-FACE-COLOR: rgba(51, 122, 183, 1);        /*滚动条凸出部分的颜色*/
+    SCROLLBAR-HIGHLIGHT-COLOR: rgba(51, 122, 183, 0);    /*滚动条空白部分的颜色*/
+    SCROLLBAR-SHADOW-COLOR:rgba(0, 100, 150, 0.5);     /*立体滚动条阴影的颜色*/
+    SCROLLBAR-3DLIGHT-COLOR:rgba(51, 122, 183, 0);     /*滚动条亮边的颜色*/
+    SCROLLBAR-ARROW-COLOR: rgba(0, 100, 150, 0.5);     /*上下按钮上三角箭头的颜色*/
+    SCROLLBAR-TRACK-COLOR: rgba(0, 100, 150, 0.5);     /*滚动条的背景颜色*/
+    SCROLLBAR-DARKSHADOW-COLOR: rgba(51, 122, 183, 0);     /*滚动条强阴影的颜色*/
+    SCROLLBAR-BASE-COLOR: rgba(51, 122, 183, 0);     /*滚动条的基本颜色*/
+}
+.qtopo-windows{
     box-sizing:border-box;
     -moz-box-sizing:border-box; /* Firefox */
     -webkit-box-sizing:border-box; /* Safari */
@@ -595,7 +642,7 @@
 .qtopo-windows .w-label{
     display: inline-flex;
     display: -webkit-inline-flex;
-    width: 100px;
+    width: 40%;
     position: absolute;
     left:0;
     top:0;
@@ -606,7 +653,7 @@
 }
 .qtopo-windows .w-width{
     display: inline-block;
-    width: 150px;
+    width: 60%;
     position: absolute;
     right:0;
     top:0;

@@ -56,6 +56,13 @@ $(document).ready(function () {
         //data.node=[];
         //data.link=[];
         //data.container=[];
+        data.container.push({
+            size:[400,400],
+            position:[0,0],
+            layout:{
+                type:"fixed"
+            }
+        });
         data.node.push({
             position:[-200,-200],
             size:[100,100],
@@ -145,7 +152,8 @@ $(document).ready(function () {
                         }
                     }
                 }
-            });
+            })
+                .scene.goCenter();
         });
     });
     topo.open("progress",{state: 100, info: '已完成'});

@@ -46,7 +46,12 @@ function setOption(option, clear) {
     createLink(scene, option.link);
     createLine(scene, option.line);
     drawAlarm(scene, option.alarm);
-    QTopo.util.info("set topo complete: ", scene.children);
+    QTopo.util.info("set topo complete: ", {
+        node:scene.children.node.length,
+        link:scene.children.link.length,
+        container:scene.children.container.length,
+        line:scene.children.line.length
+    });
     return this;
 }
 function resize(dom, canvas) {
@@ -128,7 +133,8 @@ function makeContainer(scene, config) {
     }
 }
 function makeChildren(scene, container, config, findChild) {
-    if (findChild) {
+    if (findChild&& $.isArray(config.data)) {
+        var errorInfo=[];
         $.each(config.data, function (j, children) {
             var child = scene.find(findChild + "=" + children);
             if (child && child.length > 0) {
@@ -138,17 +144,15 @@ function makeChildren(scene, container, config, findChild) {
                     }
                 });
             } else {
-                QTopo.util.error(
-                    "some child not found : ",
-                    {
-                        index: j,
-                        search: findChild + "=" + children
-                    }
-                );
+                errorInfo.push({
+                    index: j,
+                    search: findChild + "=" + children
+                });
             }
         });
-    } else {
-        QTopo.util.error("can't find children,need config children");
+        if(errorInfo.length>0){
+            QTopo.util.error( "some child not found : ",errorInfo);
+        }
     }
 }
 //根据配置创建链接
@@ -177,6 +181,7 @@ function createLink(scene, config) {
 }
 function makeLink(scene, config, findStart, findEnd) {
     if ($.isArray(config.data)) {
+        var errorInfo=[];
         $.each(config.data, function (i, item) {
             if (item) {
                 var link;
@@ -190,22 +195,28 @@ function makeLink(scene, config, findStart, findEnd) {
                     //额外属性添加
                     setExtra(config, link, item);
                 } else {
-                    var errorInfo = {
+                    var errorDate = {
                         index: i,
                         data: item
                     };
                     if (!start) {
-                        errorInfo.missStart = item.start;
+                        errorDate.missStart = item.start;
                     }
                     if (!end) {
-                        errorInfo.missEnd = item.end;
+                        errorDate.missEnd = item.end;
                     }
-                    QTopo.util.error("some link invalid : ", errorInfo);
+                    errorInfo.push(errorDate);
                 }
             } else {
-                QTopo.util.error("some link data invalid index: " + i, config.data);
+                errorInfo.push({
+                        index:i,
+                        info:"undefined data"
+                });
             }
         });
+        if(errorInfo.length>0){
+            QTopo.util.error("some link invalid : ", errorInfo);
+        }
     }
 }
 //根据配置创建线段
@@ -231,9 +242,11 @@ function drawAlarm(scene, config) {
     if (config) {
         if ($.isArray(config.data) && config.node) {
             var alarmData = config.data;
-            QTopo.util.info("设置告警条目 :", alarmData.length);
             var alarmNodes = makeAlarmData(scene, alarmData, config);
-            QTopo.util.info("实际告警数目 :", alarmNodes.length);
+            QTopo.util.info("告警绘制 :", {
+                config:alarmData.length,
+                success:alarmNodes.length
+            });
             if (config.animate) {
                 alarmAnimate(config.animate, alarmNodes);
             } else {
@@ -277,7 +290,6 @@ function alarmAnimate(animate, alarmNodes) {
                     data.node.set({
                         alarm: data.alarm
                     });
-                    QTopo.util.info("未启动:", alarmNodes.length);
                     if ($.isFunction(animate.callBack)) {
                         animate.callBack(data.node);
                     }
