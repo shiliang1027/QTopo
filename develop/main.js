@@ -162,9 +162,9 @@ function makeChildren(scene, container, config, findChild) {
 function createLink(scene, config) {
     if (config) {
         var path = config.path;
+        var findStart;
+        var findEnd;
         if ($.isArray(path) && path.length > 0) {
-            var findStart;
-            var findEnd;
             //path为数组，0为起点条件1为终点条件,确定搜索条件,起始点条件可不同
             if (path.length == 1) {
                 findEnd = path[0];
