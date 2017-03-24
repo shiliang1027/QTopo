@@ -22,7 +22,6 @@ require("./core/tools.js");//加载scene的工具api
 
 //-----------------------对外接口
 QTopo.init = function (dom, config) {
-    reset();
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
     var QtopoInstance = {
@@ -139,7 +138,13 @@ function makeChildren(scene, container, config, findChild) {
                     }
                 });
             } else {
-                QTopo.util.error("some child not found : " + j, findChild + "=" + children);
+                QTopo.util.error(
+                    "some child not found : ",
+                    {
+                        index: j,
+                        search: findChild + "=" + children
+                    }
+                );
             }
         });
     } else {
@@ -185,16 +190,20 @@ function makeLink(scene, config, findStart, findEnd) {
                     //额外属性添加
                     setExtra(config, link, item);
                 } else {
-                    QTopo.util.error("some link path invalid : " + i, item);
+                    var errorInfo = {
+                        index: i,
+                        data: item
+                    };
                     if (!start) {
-                        QTopo.util.error("start not found : ", item.start);
+                        errorInfo.missStart = item.start;
                     }
                     if (!end) {
-                        QTopo.util.error("end not found : ", item.end);
+                        errorInfo.missEnd = item.end;
                     }
+                    QTopo.util.error("some link invalid : ", errorInfo);
                 }
             } else {
-                QTopo.util.error("some link data invalid: " + i, item);
+                QTopo.util.error("some link data invalid index: " + i, config.data);
             }
         });
     }
@@ -304,25 +313,5 @@ function setDefaults(scene, typeArr, style) {
         $.each(typeArr, function (i, types) {
             scene.setDefault(types, style);
         })
-    }
-}
-function reset() {
-    //重写日志函数，加入时间标记
-    if (!$.isFunction(new Date().Format)) {
-        Date.prototype.Format = function (fmt) { //author: meizz
-            var o = {
-                "M+": this.getMonth() + 1, //月份
-                "d+": this.getDate(), //日
-                "h+": this.getHours(), //小时
-                "m+": this.getMinutes(), //分
-                "s+": this.getSeconds(), //秒
-                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-                "S": this.getMilliseconds() //毫秒
-            };
-            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-            for (var k in o)
-                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return fmt;
-        };
     }
 }

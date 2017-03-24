@@ -8,7 +8,7 @@ var util = {
      * @param json
      * @returns {*}
      */
-    toJson:function(json){
+    toJson: function (json) {
         if (typeof json == 'string') {
             json = $.parseJSON(json.replace(/'/g, '"'));
         }
@@ -37,7 +37,7 @@ var util = {
         }
         function deep(attr, config) {
             $.each(attr, function (key, value) {
-                if (attr[key]&&typeof attr[key] == "object" && typeof config[key] == "object") {
+                if (attr[key] && typeof attr[key] == "object" && typeof config[key] == "object") {
                     if ($.isArray(attr[key]) && $.isArray(config[key])) {
                         attr[key] = config[key];
                     } else if ($.isFunction(attr[key]) && $.isFunction(config[key])) {
@@ -188,29 +188,58 @@ var util = {
         }
         return result;
     },
-    getClass:function(o){
+    getClass: function (o) {
         if (o === null) return "Null";
         if (o === undefined) return "Undefined";
         return Object.prototype.toString.call(o).slice(8, -1);
     },
-    info:function(){
-        if(QTopo.log.info) {
-            console.info.apply(console, $.merge([new Date().Format("hh:mm:ss")], arguments));
+    info: function () {
+        if (QTopo.log.info) {
+            console.info.apply(console, $.merge([util.dateFormat(new Date(),"hh:mm:ss")], arguments));
         }
     },
-    error:function(){
-        if(QTopo.log.error){
-            console.error.apply(console,$.merge( [new Date().Format("hh:mm:ss")], arguments));
+    error: function () {
+        if (QTopo.log.error) {
+            console.error.apply(console, $.merge([util.dateFormat(new Date(),"hh:mm:ss")], arguments));
         }
     },
-    filterValue:function(filter, data, element){
-        if($.isArray(filter)){
+    filterValue: function (filter, data, element) {
+        if ($.isArray(filter)) {
             $.each(data, function (k, v) {
                 if (filter.indexOf(k) < 0) {
                     element.val(k, v);
                 }
             });
         }
+    },
+    dateFormat: function (date, ftString) {
+        if (date instanceof Date) {
+            var fomat = {
+                "M+": date.getMonth() + 1, //月份
+                "d+": date.getDate(), //日
+                "h+": date.getHours(), //小时
+                "m+": date.getMinutes(), //分
+                "s+": date.getSeconds(), //秒
+                "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+                "S": date.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(ftString)) {
+                ftString = ftString.replace(RegExp.$1, (date.getFullYear() + "")
+                    .substr(4 - RegExp.$1.length));
+            }
+            for (var type in fomat) {
+                if (new RegExp("(" + type + ")").test(ftString)) {
+                    var temp;
+                    if (RegExp.$1.length == 1) {
+                        temp = fomat[type];
+                    } else {
+                        temp = ("00" + fomat[type]).substr(("" + fomat[type]).length);
+                    }
+                    ftString = ftString.replace(RegExp.$1, temp);
+                }
+            }
+        }
+        return ftString;
     }
 };
 module.exports = util;
