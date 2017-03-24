@@ -109,7 +109,6 @@ $(document).ready(function () {
                         size:[60,60],
                         image: "img/node.png"
                     },
-                    value: ["id", "pid", "alarmId"],//value属性决定 将把data中各个节点对象的哪些属性额外挂在节点上
                     data: myData.node //数组，每个成员为一个节点
                 },
                 container: {
@@ -122,7 +121,6 @@ $(document).ready(function () {
                         namePosition:"top"
                     },
                     children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的value中有配置
-                    value: ["id", "pid"],
                     data: myData.container//数组 每个成员为一个分组，成员的data属性表明要检索的属性对应的子，如children设定为id,那么data数组内的数据该是对应的id值以查找
                     // 分组中可单独设置children属性指明该分组按什么属性查找插入的子。
                 },
@@ -131,7 +129,6 @@ $(document).ready(function () {
                         color:"#00FFFF"
                     },
                     path: ["id"],//决定了线的起始节点由什么属性决定,数组长度为1则起始节点按统一属性查找，可分别设不同，0为起始节点属性.1为终点,该属性应在node中的value中有配置
-                    value: ["pid"],
                     data: myData.link//数组，每个成员表明一条线，线的start和end的值应对应path中的设定
                 },
                 alarm: {
@@ -153,7 +150,7 @@ $(document).ready(function () {
                     }
                 }
             })
-                .scene.goCenter();
+            ;
         });
     });
     topo.open("progress",{state: 100, info: '已完成'});
@@ -198,19 +195,19 @@ $(document).ready(function () {
         //构造分组数据
         var containerData = [];
         $.each(group, function (i, v) {
-            var data = [];
+            var childrenData = [];
             if ($.isArray(v["Node"])) {
                 $.each(v["Node"], function (j, k) {
-                    data.push(k["@id"]);
+                    childrenData.push(k["@id"]);
                 });
             } else {
-                data.push(v["Node"]["@id"]);
+                childrenData.push(v["Node"]["@id"]);
             }
             containerData.push({
                 id: v["@id"],
                 pid: v["@pid"],
                 name: v["@name"],
-                data: data,
+                childrenData: childrenData,
                 toggle:{
                     name:v["@name"],
                     image: "img/node.png"

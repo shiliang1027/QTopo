@@ -147,7 +147,7 @@ var util = {
      */
     makeCenter:function(dom,win,fixed){
         var height=win.height()||300;
-        var width=win.width();
+        var width=win.width()||300;
         if(fixed){
             if($.isNumeric(fixed.height)){
                 height=fixed.height;

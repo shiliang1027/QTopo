@@ -59,7 +59,7 @@ $.fn.setForm = function (jsonValue) {
         else if ($oinput.attr("type") == "textarea"&&ival) {
             obj.find("[name=" + name + "]").html(ival);
         }
-        else if(ival){
+        else if(typeof ival!='undefined'){
             obj.find("[name=" + name + "]").val(ival);
         }
     })

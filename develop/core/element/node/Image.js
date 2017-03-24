@@ -112,6 +112,9 @@ ImageNode.prototype.getDefault=getDefault;
 ImageNode.prototype.setAlarm=function(config) {
     alarmAttr(this,this.attr.alarm,config);
 };
+ImageNode.prototype.getSerializeProperties=function(){
+    return SERIALIZED;
+};
 function alarmAttr(qtopo,alarm,config){
     var jtopo=qtopo.jtopo;
     if(typeof config.show=="undefined"){

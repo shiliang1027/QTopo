@@ -82,14 +82,16 @@ function createNode(scene, config) {
     if (config) {
         setDefaults(scene, QTopo.constant.node, config.style);
         if ($.isArray(config.data)) {
+            var fitler=[];
             $.each(config.data, function (i, item) {
                 var node = scene.createNode(item);
                 //额外属性添加
-                setExtra(config, node, item);
+                setExtra(fitler, node, item);
             });
         }
     }
 }
+
 //排除临时元素
 function notCasual(arr) {
     if (arr.length == 1) {
@@ -116,13 +118,14 @@ function makeContainer(scene, config) {
     if (config.children) {
         findChild = config.children;
     }
-    if ($.isArray(config.data)) {
+    if ($.isArray(config.childrenData)) {
         //开始构造分组
-        $.each(config.data, function (i, item) {
+        var filter=["childrenData"];
+        $.each(config.childrenData, function (i, item) {
             //无论是否有子元素，分组先创造出来
             var container = scene.createContainer(item);
             //额外属性添加
-            setExtra(config, container, item);
+            setExtra(filter, container, item);
             //确定查找子元素的标记
             var findChild_exact = findChild;
             if (item.children) {
@@ -182,6 +185,7 @@ function createLink(scene, config) {
 function makeLink(scene, config, findStart, findEnd) {
     if ($.isArray(config.data)) {
         var errorInfo=[];
+        var fitler=["start","end"];
         $.each(config.data, function (i, item) {
             if (item) {
                 var link;
@@ -193,7 +197,7 @@ function makeLink(scene, config, findStart, findEnd) {
                     item.end = end;
                     link = scene.addLink(item);
                     //额外属性添加
-                    setExtra(config, link, item);
+                    setExtra(fitler, link, item);
                 } else {
                     var errorDate = {
                         index: i,
@@ -226,11 +230,12 @@ function createLine(scene, config) {
         //设置默认属性
         setDefaults(scene, QTopo.constant.line, config.style);
         //开始创建
+        var filter=[];
         if ($.isArray(config.data)) {
             $.each(config.data, function (i, v) {
                 var line = scene.createLine(v);
                 //额外属性添加
-                setExtra(config, line, v);
+                setExtra(filter, line, v);
             });
         } else {
             QTopo.util.error("can not draw line,need config 'path' and 'path' is Array and not empty,path's element need config x y, path used to find start and end");
@@ -273,7 +278,6 @@ function makeAlarmData(scene, alarmData, config) {
                     font: v.font
                 }
             });
-            setExtra(config, node, v);
         }
     });
     return alarms;
@@ -307,18 +311,17 @@ function clearAnimat() {
         animateRuning = "";
     }
 }
-//通用属性处理
-function setExtra(config, element, data) {
-    if (config && $.isArray(config.value) && element && data) {
-        $.each(config.value, function (j, key) {
-            if (data[key]) {
-                if (!element.extra) {
-                    element.extra = {};
-                }
-                element.extra[key] = data[key];
+function setExtra(filter,element,data){
+    if(data){
+        $.each(data,function(key,value){
+            if(filterConfig(element,key)&&filter.indexOf(key)<0){
+                element.extra[key]=value;
             }
-        });
+        })
     }
+}
+function filterConfig(element,key){
+    return element&&typeof element.attr[key]=='undefined';
 }
 function setDefaults(scene, typeArr, style) {
     if (style) {

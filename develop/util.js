@@ -147,7 +147,6 @@ var util = {
         return false;
     }, /**
      * 构造类继承关系
-     * @memberOf module:zrender/tool/util
      * @param {Function} clazz 源类
      * @param {Function} baseClazz 基类
      */
