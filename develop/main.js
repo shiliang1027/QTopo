@@ -82,11 +82,11 @@ function createNode(scene, config) {
     if (config) {
         setDefaults(scene, QTopo.constant.node, config.style);
         if ($.isArray(config.data)) {
-            var fitler=[];
+            var filter=["type"];
             $.each(config.data, function (i, item) {
                 var node = scene.createNode(item);
                 //额外属性添加
-                setExtra(fitler, node, item);
+                setExtra(filter, node, item);
             });
         }
     }
@@ -118,10 +118,10 @@ function makeContainer(scene, config) {
     if (config.children) {
         findChild = config.children;
     }
-    if ($.isArray(config.childrenData)) {
+    if ($.isArray(config.data)) {
         //开始构造分组
-        var filter=["childrenData"];
-        $.each(config.childrenData, function (i, item) {
+        var filter=["childrenData","toggle","type"];
+        $.each(config.data, function (i, item) {
             //无论是否有子元素，分组先创造出来
             var container = scene.createContainer(item);
             //额外属性添加
@@ -136,9 +136,9 @@ function makeContainer(scene, config) {
     }
 }
 function makeChildren(scene, container, config, findChild) {
-    if (findChild&& $.isArray(config.data)) {
+    if (findChild&& $.isArray(config.childrenData)) {
         var errorInfo=[];
-        $.each(config.data, function (j, children) {
+        $.each(config.childrenData, function (j, children) {
             var child = scene.find(findChild + "=" + children);
             if (child && child.length > 0) {
                 $.each(child, function (m, one) {
@@ -185,7 +185,7 @@ function createLink(scene, config) {
 function makeLink(scene, config, findStart, findEnd) {
     if ($.isArray(config.data)) {
         var errorInfo=[];
-        var fitler=["start","end"];
+        var filter=["start","end","type"];
         $.each(config.data, function (i, item) {
             if (item) {
                 var link;
@@ -197,7 +197,7 @@ function makeLink(scene, config, findStart, findEnd) {
                     item.end = end;
                     link = scene.addLink(item);
                     //额外属性添加
-                    setExtra(fitler, link, item);
+                    setExtra(filter, link, item);
                 } else {
                     var errorDate = {
                         index: i,
@@ -230,7 +230,7 @@ function createLine(scene, config) {
         //设置默认属性
         setDefaults(scene, QTopo.constant.line, config.style);
         //开始创建
-        var filter=[];
+        var filter=["type"];
         if ($.isArray(config.data)) {
             $.each(config.data, function (i, v) {
                 var line = scene.createLine(v);
