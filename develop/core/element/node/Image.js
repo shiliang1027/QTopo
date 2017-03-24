@@ -77,8 +77,8 @@ function getDefault(){
     };
 //------
 function ImageNode(config) {
-    Node.call(this,new JTopo.Node());
     this.attr = QTopo.util.extend(getDefault(), config || {});
+    Node.call(this,new JTopo.Node());
     //告警闪烁 ...paintChilds函数内,638行附近调用
     this.jtopo.alarmFlash=alarmFlash;
     //函数

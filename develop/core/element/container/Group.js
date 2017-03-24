@@ -47,8 +47,8 @@ function getDefault(){
 //----
 //----
 function Group(config) {
-    Container.call(this, new JTopo.Container());
     this.attr =  QTopo.util.extend(getDefault(), config || {});
+    Container.call(this, new JTopo.Container());
     //函数
     this.set = setJTopo;
     //初始化

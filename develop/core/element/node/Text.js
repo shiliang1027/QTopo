@@ -67,9 +67,8 @@ var jtopoReset = {
 };
 //----
 function TextNode(config) {
-    Node.call(this, new JTopo.TextNode());
-    //函数
     this.attr = QTopo.util.extend(getDefault(), config || {});
+    Node.call(this, new JTopo.TextNode());
     this.set = setJTopo;
     //初始化
     this.set(this.attr);

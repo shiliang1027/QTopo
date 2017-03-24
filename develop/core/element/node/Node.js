@@ -64,6 +64,9 @@ Node.prototype.setName=function(name){
         this.attr.name = (name+"").trim();
     }
 };
+Node.prototype.getSerializeProperties=function(){
+    return $.extend({},this.extra,this.attr);
+};
 Node.prototype.getLinks=function(){
     var jtopo=this.jtopo;
     if(!this.links){

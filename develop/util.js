@@ -194,12 +194,12 @@ var util = {
     },
     info: function () {
         if (QTopo.log.info) {
-            console.info.apply(console, $.merge([util.dateFormat(new Date(),"hh:mm:ss")], arguments));
+            console.info.apply(console, $.merge([util.dateFormat(new Date(), "hh:mm:ss")], arguments));
         }
     },
     error: function () {
         if (QTopo.log.error) {
-            console.error.apply(console, $.merge([util.dateFormat(new Date(),"hh:mm:ss")], arguments));
+            console.error.apply(console, $.merge([util.dateFormat(new Date(), "hh:mm:ss")], arguments));
         }
     },
     filterValue: function (filter, data, element) {
@@ -239,6 +239,12 @@ var util = {
             }
         }
         return ftString;
+    },
+    makeId: function () {
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
     }
 };
+function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+}
 module.exports = util;

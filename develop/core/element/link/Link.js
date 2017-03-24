@@ -105,3 +105,7 @@ Link.prototype.setDashed = function (dashedPattern) {
     }
     this.attr.dashed = this.jtopo.dashedPattern;
 };
+Link.prototype.getSerializeProperties=function(){
+    var serializ=$.extend({},this.extra,this.attr);
+    return serializ;
+};

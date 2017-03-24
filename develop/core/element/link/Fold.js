@@ -79,8 +79,8 @@ function FoldLink(config){
         QTopo.util.error("Create Link need start and end");
         return;
     }
-    Link.call(this, new JTopo.FoldLink(config.start.jtopo, config.end.jtopo));
     this.attr =  QTopo.util.extend(getDefault(), config || {});
+    Link.call(this, new JTopo.FoldLink(config.start.jtopo, config.end.jtopo));
     //函数
     this.set = setJTopo;
     //初始化
