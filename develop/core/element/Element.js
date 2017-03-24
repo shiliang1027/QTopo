@@ -7,12 +7,12 @@ function Element(jtopo) {
         this.jtopo = jtopo;
         jtopo.qtopo = this;
     }
-    this.attr.elementId=QTopo.util.makeId();
+    this._id=QTopo.util.makeId();
     //设置额外属性处理对象
     this.extra = {};
 }
 Element.prototype.setElementId=function(id){
-    this.attr.elementId=id;
+    this._id=id;
 };
 Element.prototype.show = function () {
     switch (this.getType()) {
