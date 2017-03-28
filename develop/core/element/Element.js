@@ -7,12 +7,15 @@ function Element(jtopo) {
         this.jtopo = jtopo;
         jtopo.qtopo = this;
     }
-    this._id=QTopo.util.makeId();
+    if(!this.attr.serializeId){
+        this.attr.serializeId=QTopo.util.makeId();
+    }
     //设置额外属性处理对象
     this.extra = {};
 }
-Element.prototype.setElementId=function(id){
-    this._id=id;
+
+Element.prototype.setSerializeId=function(id){
+    this.attr.serializeId=id;
 };
 Element.prototype.show = function () {
     switch (this.getType()) {
