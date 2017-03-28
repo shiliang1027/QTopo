@@ -88,6 +88,9 @@ $(document).ready(function () {
                 start:true,
                 size:10
             },
+            extra:{
+                type:1
+            },
             type:QTopo.constant.link.FLEXIONAL
         });
         data.link.push({
@@ -120,7 +123,7 @@ $(document).ready(function () {
                         },
                         namePosition:"top"
                     },
-                    children: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的value中有配置
+                    findChildren: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的value中有配置
                     data: myData.container//数组 每个成员为一个分组，成员的data属性表明要检索的属性对应的子，如children设定为id,那么data数组内的数据该是对应的id值以查找
                     // 分组中可单独设置children属性指明该分组按什么属性查找插入的子。
                 },

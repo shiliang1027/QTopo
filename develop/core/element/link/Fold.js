@@ -18,6 +18,7 @@ var DEFAULT ={
             start:false,
             end:false
         },
+        serializeId:"",
         gap:20,
         width: 2,
         dashed:  null,

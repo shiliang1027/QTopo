@@ -65,7 +65,9 @@ Node.prototype.setName=function(name){
     }
 };
 Node.prototype.getSerializeProperties=function(){
-    return $.extend({},this.extra,this.attr);
+    var serialize=$.extend({},this.attr);
+    serialize.extra=$.extend({},this.extra);
+    return serialize;
 };
 Node.prototype.getLinks=function(){
     var jtopo=this.jtopo;

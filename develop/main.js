@@ -82,11 +82,10 @@ function createNode(scene, config) {
     if (config) {
         setDefaults(scene, QTopo.constant.node, config.style);
         if ($.isArray(config.data)) {
-            var filter=["type"];
             $.each(config.data, function (i, item) {
                 var node = scene.createNode(item);
                 //额外属性添加
-                setExtra(filter, node, item);
+                setExtra(node, item);
             });
         }
     }
@@ -115,28 +114,29 @@ function createContainer(scene, config) {
 function makeContainer(scene, config) {
     //搜索子的总标记
     var findChild;
-    if (config.children) {
-        findChild = config.children;
+    if (config.findChildren) {
+        findChild = config.findChildren;
     }
     if ($.isArray(config.data)) {
         //开始构造分组
-        var filter=["childrenData","toggle","type"];
         $.each(config.data, function (i, item) {
             //无论是否有子元素，分组先创造出来
             var container = scene.createContainer(item);
             //额外属性添加
-            setExtra(filter, container, item);
+            setExtra(container, item);
             //确定查找子元素的标记
             var findChild_exact = findChild;
-            if (item.children) {
-                findChild_exact = item.children;
+            if (item.findChildren) {
+                findChild_exact = item.findChildren;
             }
             makeChildren(scene, container, item, findChild_exact);
         });
     }
 }
 function makeChildren(scene, container, config, findChild) {
-    if (findChild&& $.isArray(config.childrenData)) {
+    //过滤搜索子类的标记
+    findChild=filterTag(findChild);
+    if ($.isArray(config.childrenData)) {
         var errorInfo=[];
         $.each(config.childrenData, function (j, children) {
             var child = scene.find(findChild + "=" + children);
@@ -158,6 +158,12 @@ function makeChildren(scene, container, config, findChild) {
         }
     }
 }
+function filterTag(tag){
+    if(!tag){
+        tag='serializeId'
+    }
+    return tag;
+}
 //根据配置创建链接
 function createLink(scene, config) {
     if (config) {
@@ -173,19 +179,19 @@ function createLink(scene, config) {
                 findStart = path[0];
                 findEnd = path[1];
             }
-            //设置默认属性
-            setDefaults(scene, QTopo.constant.link, config.style);
-            //开始创建
-            makeLink(scene, config, findStart, findEnd);
         } else {
-            QTopo.util.error("can not draw link,need config 'path' and 'path' is Array and not empty, path used to find start and end");
+            findStart=filterTag(findStart);
+            findEnd=filterTag(findEnd);
         }
+        //设置默认属性
+        setDefaults(scene, QTopo.constant.link, config.style);
+        //开始创建
+        makeLink(scene, config, findStart, findEnd);
     }
 }
 function makeLink(scene, config, findStart, findEnd) {
     if ($.isArray(config.data)) {
         var errorInfo=[];
-        var filter=["start","end","type"];
         $.each(config.data, function (i, item) {
             if (item) {
                 var link;
@@ -197,7 +203,7 @@ function makeLink(scene, config, findStart, findEnd) {
                     item.end = end;
                     link = scene.addLink(item);
                     //额外属性添加
-                    setExtra(filter, link, item);
+                    setExtra(link, item);
                 } else {
                     var errorDate = {
                         index: i,
@@ -230,12 +236,11 @@ function createLine(scene, config) {
         //设置默认属性
         setDefaults(scene, QTopo.constant.line, config.style);
         //开始创建
-        var filter=["type"];
         if ($.isArray(config.data)) {
             $.each(config.data, function (i, v) {
                 var line = scene.createLine(v);
                 //额外属性添加
-                setExtra(filter, line, v);
+                setExtra(line, v);
             });
         } else {
             QTopo.util.error("can not draw line,need config 'path' and 'path' is Array and not empty,path's element need config x y, path used to find start and end");
@@ -311,13 +316,20 @@ function clearAnimat() {
         animateRuning = "";
     }
 }
-function setExtra(filter,element,data){
+function setExtra(element,data){
     if(data){
         $.each(data,function(key,value){
-            if(filterConfig(element,key)&&filter.indexOf(key)<0){
+            if(filterConfig(element,key)&&["start","end","childrenData","toggle","type","extra"].indexOf(key)<0){
                 element.extra[key]=value;
             }
-        })
+        });
+        if(data.extra){
+            $.each(data.extra,function(key,value){
+                if(value){
+                    element.extra[key]=value;
+                }
+            });
+        }
     }
 }
 function filterConfig(element,key){
