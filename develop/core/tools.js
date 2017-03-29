@@ -2,6 +2,18 @@
  * Created by qiyc on 2017/2/27.
  */
 var Scene = require('./Scene.js');
+Scene.prototype.isChildren=function(element){
+    var result=false;
+    if(element.jtopo){
+        $.each(this.children,function(name,arr){
+            if(arr.indexOf(element)>-1){
+                result=true;
+                return false;
+            }
+        });
+    }
+    return result;
+};
 Scene.prototype.goCenter = function () {
     if (this.jtopo.childs && this.jtopo.childs.length > 0) {
         this.jtopo.stage.centerAndZoom();

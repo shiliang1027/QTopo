@@ -2,6 +2,7 @@
  * Created by qiyc on 2017/2/17.
  */
 function getMenus(scene, menu, windows, tools) {
+    var Qutil=QTopo.util;
     //高亮控制
     var lighting = false;
     var lockedGroup;
@@ -133,7 +134,7 @@ function getMenus(scene, menu, windows, tools) {
                 }
             },
             filter: function (target) {
-                return isElement(target);
+                return Qutil.isElement(target);
             }
         },
         {
@@ -178,7 +179,7 @@ function getMenus(scene, menu, windows, tools) {
                         scene.toggleZIndex(menu.target);
                     },
                     filter: function (target) {
-                        return isElement(target);
+                        return Qutil.isElement(target);
                     }
                 },
                 {
@@ -188,7 +189,7 @@ function getMenus(scene, menu, windows, tools) {
                         lighting = true;
                     },
                     filter: function (target) {
-                        return !lighting && isNode(target);
+                        return !lighting && Qutil.isNode(target);
                     }
                 }
             ]
@@ -211,7 +212,7 @@ function getMenus(scene, menu, windows, tools) {
                 }
             ],
             filter: function (target) {
-                return isScene(target);
+                return Qutil.isScene(target);
             }
         },
         {
@@ -234,7 +235,7 @@ function getMenus(scene, menu, windows, tools) {
                 }
             ],
             filter: function (target) {
-                return isNode(target)||isContainer(target);
+                return Qutil.isNode(target)||Qutil.isContainer(target);
             }
         },
         {
@@ -247,7 +248,7 @@ function getMenus(scene, menu, windows, tools) {
                         lockedGroup = menu.target;
                     },
                     filter: function (target) {
-                        return isContainer(target);
+                        return Qutil.isContainer(target);
                     }
                 },
                 {
@@ -256,7 +257,7 @@ function getMenus(scene, menu, windows, tools) {
                         lockedGroup.add(menu.target);
                     },
                     filter: function (target) {
-                        return lockedGroup && isNode(target)&& !target.parent;
+                        return lockedGroup && Qutil.isNode(target)&& !target.parent;
                     }
                 },
                 {
@@ -265,7 +266,7 @@ function getMenus(scene, menu, windows, tools) {
                         menu.target.parent.remove(menu.target);
                     },
                     filter: function (target) {
-                        return isElement(target) && target.parent;
+                        return Qutil.isElement(target) && target.parent;
                     }
                 },
                 {
@@ -295,20 +296,5 @@ function getMenus(scene, menu, windows, tools) {
             ]
         }
     ];
-}
-function isElement(target){
-    return target&&target.getType()!=QTopo.constant.SCENE&&target.getUseType() != QTopo.constant.CASUAL;
-}
-function isScene(target){
-    return !target||target.getType()==QTopo.constant.SCENE;
-}
-function isNode(target){
-    return target&&target.getType() == QTopo.constant.NODE&&target.getUseType() != QTopo.constant.CASUAL;
-}
-function isContainer(target){
-    return target&&target.getType() == QTopo.constant.CONTAINER&&target.getUseType() != QTopo.constant.CASUAL;
-}
-function isLink(target){
-    return target&&target.getType() == QTopo.constant.LINK&&target.getUseType() != QTopo.constant.CASUAL;
 }
 module.exports = getMenus;

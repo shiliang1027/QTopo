@@ -27,34 +27,36 @@ function initRigheMenu(instance, windows, filter) {
         QTopo.util.error("windows is not init ,menu options about windows may not work");
     }
     var add = makeAdd(instance, scene, rightMenu, windows.windows, windows.tools);
-    add(getMenus, filter);
+    if(filter&&filter!='all'){
+        add(getMenus, filter);
+    }
     return {
         addMenu: add,
-        reOrder:makeOrder(rightMenu)
+        reOrder: makeOrder(rightMenu)
     };
 }
 function makeAdd(instance, scene, rightMenu, windows, tools) {
     return function (fn, filter) {
         if ($.isFunction(fn)) {
             var menus = fn(scene, rightMenu, windows, tools);
-            if($.isArray(filter)){
-                menus=menus.filter(function(v){
-                    return filter.indexOf(v.name)<0;
+            if ($.isArray(filter)) {
+                menus = menus.filter(function (v) {
+                    return filter.indexOf(v.name) < 0;
                 });
             }
-            makeRightMenu(rightMenu,menus);
+            makeRightMenu(rightMenu, menus);
         }
         return instance;
     }
 }
-function makeRightMenu(father, menus){
-    if(father&& $.isArray(menus)){
-        menus.map(function(menu){
-            if($.isArray(menu.item)){
-                if(father&&menu){
-                    makeRightMenu(father.addSubMenu(menu),menu.item);
+function makeRightMenu(father, menus) {
+    if (father && $.isArray(menus)) {
+        menus.map(function (menu) {
+            if ($.isArray(menu.item)) {
+                if (father && menu) {
+                    makeRightMenu(father.addSubMenu(menu), menu.item);
                 }
-            }else{
+            } else {
                 if (father && menu) {
                     father.addItem(menu);
                 }
@@ -65,13 +67,13 @@ function makeRightMenu(father, menus){
 function filterMenu(arr, menu) {
     return !(arr && arr.indexOf(menu.name) > -1);
 }
-function makeOrder(rightMenu){
-    return function(sort){
-        if($.isFunction(sort)){
-            rightMenu.item.sort(function(a,b){
+function makeOrder(rightMenu) {
+    return function (sort) {
+        if ($.isFunction(sort)) {
+            rightMenu.item.sort(function (a, b) {
                 return sort(a.order, b.order);
             });
-            rightMenu.item.forEach(function(item){
+            rightMenu.item.forEach(function (item) {
                 rightMenu.body.append(item.body);
             });
         }
