@@ -64,28 +64,11 @@ Node.prototype.setName=function(name){
         this.attr.name = (name+"").trim();
     }
 };
-Node.prototype.getSerializeProperties=function(){
+/**
+ * 实例序列化
+ */
+Node.prototype.serialize=function(){
     var serialize=$.extend({},this.attr);
     serialize.extra=$.extend({},this.extra);
     return serialize;
-};
-Node.prototype.getLinks=function(){
-    var jtopo=this.jtopo;
-    if(!this.links){
-        this.links = {};
-    }
-    var links=this.links;
-    links.in=[];
-    links.out=[];
-    if(jtopo.inLinks&&jtopo.inLinks.length>0){
-        for(var i=0;i<jtopo.inLinks.length;i++){
-            links.in.push(jtopo.inLinks[i].qtopo);
-        }
-    }
-    if(jtopo.outLinks&&jtopo.outLinks.length>0){
-        for(var j=0;j<jtopo.outLinks.length;j++){
-            links.out.push(jtopo.outLinks[j].qtopo);
-        }
-    }
-    return links;
 };

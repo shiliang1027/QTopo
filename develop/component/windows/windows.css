@@ -117,7 +117,7 @@ body {
 }
 /*图片选择*/
 .qtopo-windows .image-select-group input{
-    width: 110px;
+    width: 75%;
     display: inline-block;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;

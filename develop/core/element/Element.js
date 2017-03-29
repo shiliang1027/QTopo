@@ -7,15 +7,15 @@ function Element(jtopo) {
         this.jtopo = jtopo;
         jtopo.qtopo = this;
     }
-    if(!this.attr.serializeId){
-        this.attr.serializeId=QTopo.util.makeId();
+    if (!this.attr.serializeId) {
+        this.attr.serializeId = QTopo.util.makeId();
     }
     //设置额外属性处理对象
     this.extra = {};
 }
 
-Element.prototype.setSerializeId=function(id){
-    this.attr.serializeId=id;
+Element.prototype.setSerializeId = function (id) {
+    this.attr.serializeId = id;
 };
 Element.prototype.show = function () {
     switch (this.getType()) {
@@ -196,28 +196,28 @@ Element.prototype._setAttr = function (config) {
         }
     });
 };
-Element.prototype.get=function(name){
+Element.prototype.get = function (name) {
     return this.attr[name];
 };
 Element.prototype.val = function (key, value) {
-    if(QTopo.util.getClass(key)=='Object'){
-        var self=this;
-        $.each(key,function(name,value){
-            self.extra[name]=value;
+    if (QTopo.util.getClass(key) == 'Object') {
+        var self = this;
+        $.each(key, function (name, value) {
+            self.extra[name] = value;
         })
-    }else{
-        if(typeof value=='undefined'){
+    } else {
+        if (typeof value == 'undefined') {
             var result;
-            if(this.extra[key]){
-                result=this.extra[key];
-            }else if(this.attr[key]){
-                result=this.attr[key];
-            }else{
-                result=this[key];
+            if (this.extra[key]) {
+                result = this.extra[key];
+            } else if (this.attr[key]) {
+                result = this.attr[key];
+            } else {
+                result = this[key];
             }
             return result;
-        }else{
-            this.extra[key]=value;
+        } else {
+            this.extra[key] = value;
         }
     }
 };
@@ -242,23 +242,19 @@ function toggleLink(flag) {
         if (this.path.start.jtopo && this.path.end.jtopo) {
             if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {
                 this.jtopo.visible = true;
-                this.attr.show = this.jtopo.visible;
             }
         }
     } else {
         this.jtopo.visible = false;
-        this.attr.show = this.jtopo.visible;
     }
 }
 function toggleNode(flag) {
     this.jtopo.visible = flag;
-    this.attr.show = this.jtopo.visible;
     var string = flag ? "show" : "hide";
     toggle(this.links, string);
 }
 function toggleContainer(flag) {
     this.jtopo.visible = flag;
-    this.attr.show = this.jtopo.visible;
     var string = flag ? "show" : "hide";
     //切换子类显示隐藏
     for (var i = 0; i < this.children.length; i++) {

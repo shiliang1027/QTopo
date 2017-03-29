@@ -136,26 +136,6 @@ Container.prototype.setChildren = function (children) {
     }
     this.attr.children.dragble = jtopo.childDragble;
 };
-Container.prototype.getLinks = function () {
-    var jtopo = this.jtopo;
-    if (!this.links) {
-        this.links = {};
-    }
-    var links = this.links;
-    links.in = [];
-    links.out = [];
-    if (jtopo.inLinks && jtopo.inLinks.length > 0) {
-        for (var i = 0; i < jtopo.inLinks.length; i++) {
-            links.in.push(jtopo.inLinks[i].qtopo);
-        }
-    }
-    if (jtopo.outLinks && jtopo.outLinks.length > 0) {
-        for (var j = 0; j < jtopo.outLinks.length; j++) {
-            links.out.push(jtopo.outLinks[j].qtopo);
-        }
-    }
-    return links;
-};
 /**
  * 分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作
  * @param flag 为true则缩放为false则展开，无值则根据现状切换,
@@ -205,5 +185,17 @@ Container.prototype.isInside = function (element) {
     } else {
         return false;
     }
-
+};
+/**
+ * 实例序列化
+ */
+Container.prototype.serialize=function(){
+    var serialize=$.extend({},this.attr);
+    serialize.extra=$.extend({},this.extra);
+    serialize.children=[];
+    this.children.map(function(child){
+        serialize.children.push(child.get('serializeId'));
+    });
+    serialize.toggle=this.toggleTo.serialize();
+    return serialize;
 };

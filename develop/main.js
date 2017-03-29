@@ -28,7 +28,8 @@ QTopo.init = function (dom, config) {
         scene: new Scene(new JTopo.Stage(canvas), config),
         setOption: setOption,
         document: dom,
-        resize: resize(dom, canvas)
+        resize: resize(dom, canvas),
+        serialize:serialize
     };
     this.instance.push(QtopoInstance);
     return QtopoInstance;
@@ -60,6 +61,36 @@ function resize(dom, canvas) {
         canvas.setAttribute('height', $(dom).height());
         return this;
     }
+}
+function serialize(){
+    var data=this.scene.children;
+    var serialized={
+        init:this.scene.serialize(),
+        option:{
+            node:{
+                data:[]
+            },
+            link:{
+                data:[]
+            },
+            container:{
+                data:[]
+            },
+            line:{
+                data:[]
+            }
+        }
+    };
+    $.each(data,function(name,elements){
+        if($.isArray(elements)){
+            elements.map(function(element){
+                if(serialized.option[name]){
+                    serialized.option[name].data.push(element.serialize());
+                }
+            });
+        }
+    });
+    return serialized;
 }
 function initCanvas(dom, width, height) {
     if (width <= 0 || height <= 0) {
@@ -136,9 +167,9 @@ function makeContainer(scene, config) {
 function makeChildren(scene, container, config, findChild) {
     //过滤搜索子类的标记
     findChild=filterTag(findChild);
-    if ($.isArray(config.childrenData)) {
+    if ($.isArray(config.children)) {
         var errorInfo=[];
-        $.each(config.childrenData, function (j, children) {
+        $.each(config.children, function (j, children) {
             var child = scene.find(findChild + "=" + children);
             if (child && child.length > 0) {
                 $.each(child, function (m, one) {
@@ -319,7 +350,7 @@ function clearAnimat() {
 function setExtra(element,data){
     if(data){
         $.each(data,function(key,value){
-            if(filterConfig(element,key)&&["start","end","childrenData","toggle","type","extra"].indexOf(key)<0){
+            if(filterConfig(element,key)&&["start","end","children","toggle","type","extra"].indexOf(key)<0){
                 element.extra[key]=value;
             }
         });

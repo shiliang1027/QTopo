@@ -31,13 +31,15 @@ $(document).ready(function () {
     //QTopo.log.info=false;//关闭日志
     var scene=topo.scene;
     topo.setComponent({
-        images:images,
-        tips:{
-            show:function(target){
-                return "<div> name: " + target.val("name") + "</div>" + "<div> id: " + target.val("id") + "</div>";
-            },
-            filter:function(target){
-                return target.getType()==QTopo.constant.NODE;
+        windows:{
+            images:images,
+            tips:{
+                show:function(target){
+                    return "<div> name: " + target.val("name") + "</div>" + "<div> id: " + target.val("id") + "</div>";
+                },
+                filter:function(target){
+                    return target.getType()==QTopo.constant.NODE;
+                }
             }
         }
     });
@@ -152,8 +154,7 @@ $(document).ready(function () {
                         }
                     }
                 }
-            })
-            ;
+            }).scene.goCenter();
         });
     });
     topo.open("progress",{state: 100, info: '已完成'});
@@ -210,7 +211,7 @@ $(document).ready(function () {
                 id: v["@id"],
                 pid: v["@pid"],
                 name: v["@name"],
-                childrenData: childrenData,
+                children: childrenData,
                 toggle:{
                     name:v["@name"],
                     image: "img/node.png"

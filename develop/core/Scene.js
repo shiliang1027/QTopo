@@ -534,3 +534,8 @@ function removeContainer(container) {
     }
 }
 //-
+Scene.prototype.serialize=function(){
+    var serialize=$.extend({},this.attr);
+    serialize.extra=$.extend({},this.extra);
+    return serialize;
+};
