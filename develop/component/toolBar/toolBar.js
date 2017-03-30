@@ -177,7 +177,6 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
             clearTimeout(showTime);
         }
         showTime=setTimeout(function () {
-            console.info(1);
             clear.attr("style","");
             selectWin.attr("style","");
             input.attr("style","");
