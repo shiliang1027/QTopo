@@ -27,7 +27,7 @@ function initRigheMenu(instance, windows, filter) {
         QTopo.util.error("windows is not init ,menu options about windows may not work");
     }
     var add = makeAdd(instance, scene, rightMenu, windows.windows, windows.tools);
-    if(filter&&filter!='all'){
+    if(!(filter&&filter=='all')){
         add(getMenus, filter);
     }
     return {

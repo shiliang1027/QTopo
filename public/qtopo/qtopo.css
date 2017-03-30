@@ -98,11 +98,12 @@
     right: 2px;
     top:9px;
     cursor:pointer;
+    display: none;
     opacity: 0;
 }
 .qtopo-toolBar .t-search-input input{
-    opacity: 0;
-    width: 0;
+    opacity: 1;
+    width: 100%;
     padding:0;
     -webkit-transition: 1.5s width,padding;
     -moz-transition:  1.5s width,padding;
@@ -113,11 +114,13 @@
     border:none;
     border-radius: 0;
 }
-.qtopo-toolBar .search-group:hover select,.qtopo-toolBar .search-group:hover .clear-input{
-    display: block;
+.qtopo-toolBar .search-group:hover .clear-input{
     opacity: 1;
 }
-.qtopo-toolBar .search-group:hover .t-search-input,.qtopo-toolBar .search-group:hover .t-search-input input{
+.qtopo-toolBar .search-group:hover select{
+    display: block;
+}
+.qtopo-toolBar .search-group:hover .t-search-input{
     width: 180px;
     opacity: 1;
 }
@@ -668,7 +671,7 @@ body {
 }
 /*图片选择*/
 .qtopo-windows .image-select-group input{
-    width: 110px;
+    width: 75%;
     display: inline-block;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
