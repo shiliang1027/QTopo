@@ -7,7 +7,7 @@ var selectResult = require("./selectResult.html");
 module.exports = {
     init: init
 };
-function init(instance, windows,hideDefaultSearch) {
+function init(instance, windows, hideDefaultSearch) {
     var dom = instance.document;
     var scene = instance.scene;
     var wrap = $(dom).find(".qtopo-toolBar");
@@ -56,22 +56,22 @@ function init(instance, windows,hideDefaultSearch) {
         windows.windows.autoLayout.open();
     });
     var addSearch = addSearchMode(instance, scene, toolBar, selectResult);
-    if(!hideDefaultSearch){
+    if (!hideDefaultSearch) {
         addSearch({
             type: "value",
             name: "default",
-            hideResult:false,
+            hideResult: false,
             search: function (val) {
                 return scene.find(val, "node")
-                    .map(function(i){
+                    .map(function (i) {
                         return {
                             content: i.attr.name,
-                            target:i
+                            target: i
                         }
                     });
             },
-            clickResult:function(result){
-                if(result.target){
+            clickResult: function (result) {
+                if (result.target) {
                     scene.moveToNode(result.target);
                 }
             }
@@ -103,6 +103,7 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
     var searchBtn = toolBar.find("button[name=search]");
     var input = toolBar.find("input[name=search_value]");
     var clear = toolBar.find(".clear-input");
+    var inputGroup = toolBar.find(".t-search-input");
     selectWin.data("searchMode", {});
     clear.hide();
     clear.click(function () {
@@ -110,7 +111,8 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
         clear.hide();
         resultWin.hide();
     });
-    selectWin.change(function(){
+    selectWin.change(function () {
+        showGroup();
         clear.click();
     });
     input.keydown(function (e) {
@@ -125,8 +127,8 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
     resultSelect.click(function () {
         resultShow.toggle();
     });
-    resultShow.click(function(e){
-        if(e.target){
+    resultShow.click(function (e) {
+        if (e.target) {
             $(e.target).data("doResult")();
         }
     });
@@ -136,34 +138,51 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
     });
     function doSearch() {
         resultWin.hide();
-        var searchConfig=selectWin.data("searchMode")[selectWin.val()];
+        var searchConfig = selectWin.data("searchMode")[selectWin.val()];
         if ($.isFunction(searchConfig.search)) {
-            var results=searchConfig.search(input.val());
-            if(!searchConfig.hideResult){
-                addResult(results,searchConfig.clickResult);
+            var results = searchConfig.search(input.val());
+            if (!searchConfig.hideResult) {
+                addResult(results, searchConfig.clickResult);
             }
         }
     }
 
-    function addResult(results,click) {
-        if ($.isArray(results)&&results.length>0) {
+    function addResult(results, click) {
+        if ($.isArray(results) && results.length > 0) {
             resultShow.empty();
             $.each(results, function (i, result) {
                 var li = $("<li title='" + result.content + "'>" + result.content + "</li>")
-                    .data('doResult',function(){
-                        if($.isFunction(click)){
+                    .data('doResult', function () {
+                        if ($.isFunction(click)) {
                             click(result);
                         }
                     });
                 resultShow.append(li);
             });
             resultWin.show();
-        }else{
-            instance.open("view",{
-                content:"无查询结果!",
-                width:200
+        } else {
+            instance.open("view", {
+                content: "无查询结果!",
+                width: 200
             });
         }
+    }
+    var showTime;
+    function showGroup() {
+        clear.attr("style","opacity: 1");
+        selectWin.attr("style","display:block");
+        input.attr("style","padding: 6px 15px 6px 12px");
+        inputGroup.attr("style","width: 180px;opacity: 1");
+        if(showTime){
+            clearTimeout(showTime);
+        }
+        showTime=setTimeout(function () {
+            console.info(1);
+            clear.attr("style","");
+            selectWin.attr("style","");
+            input.attr("style","");
+            inputGroup.attr("style","");
+        },3000);
     }
 
     return function (search) {
@@ -179,7 +198,7 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
         function addSearch(config) {
             if (config) {
                 selectWin.data("searchMode")[config.type] = config;
-                selectWin.prepend("<option value='" + config.type + "' "+(config.selected?'selected':'')+">" + config.name || config.type + "</option>");
+                selectWin.prepend("<option value='" + config.type + "' " + (config.selected ? 'selected' : '') + ">" + config.name || config.type + "</option>");
             }
         }
     }

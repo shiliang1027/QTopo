@@ -51,3 +51,6 @@ function init(dom){
     };
     return temp;
 }
+function moveTo(bar,end){
+
+}
