@@ -83,8 +83,8 @@
             bottom_center: "n-resize",
             bottom_right: "nw-resize",
             move: "move",
-            open_hand: "url(./img/cur/openhand.cur) 8 8, default",
-            closed_hand: "url(./img/cur/closedhand.cur) 8 8, default"
+            open_hand: "default",
+            closed_hand: "default"
         },
         createStageFromJson: function (jsonStr, canvas) {
             eval("var jsonObj = " + jsonStr);
@@ -253,15 +253,15 @@
         return g
     }
 
-    function removeFromArray(a, b) {
-        for (var c = 0; c < a.length; c++) {
-            var d = a[c];
-            if (d === b) {
-                a = a.del(c);
+    function removeFromArray(arr, item) {
+        for (var c = 0; c < arr.length; c++) {
+            var d = arr[c];
+            if (d === item) {
+                arr = arr.del(c);
                 break
             }
         }
-        return a
+        return arr
     }
 
     function randomColor() {
@@ -380,18 +380,34 @@
         return d;
     }
 
-    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (a) {
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (a) {
             setTimeout(a, 1e3 / 24)
-        }, Array.prototype.del = function (a) {
-        if ("number" != typeof a) {
-            for (var b = 0; b < this.length; b++)if (this[b] === a)return this.slice(0, b).concat(this.slice(b + 1, this.length));
+        };
+    Array.prototype.del = function (item) {
+        if ("number" != typeof item) {
+            var index = this.indexOf(item);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
             return this
+        } else {
+            if (item > -1) {
+                this.splice(item, 1);
+            }
+            return this;
         }
-        return 0 > a ? this : this.slice(0, a).concat(this.slice(a + 1, this.length))
-    }, [].indexOf || (Array.prototype.indexOf = function (a) {
-        for (var b = 0; b < this.length; b++)if (this[b] === a)return b;
-        return -1
-    }), window.console || (window.console = {
+    };
+    if (![].indexOf) {
+        Array.prototype.indexOf = function (a) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] === a) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+    window.console || (window.console = {
         log: function () {
         }, info: function () {
         }, debug: function () {
@@ -549,7 +565,7 @@
 
             jtopo.stage = this;
             var n = this;
-            var self=this;
+            var self = this;
             this.initialize = function (c) {
                 m(c), this.canvas = c, this.graphics = c.getContext("2d"), this.childs = [], this.frames = 24, this.messageBus = new jtopo.util.MessageBus, this.eagleEye = b(this), this.wheelZoom = null, this.mouseDownX = 0, this.mouseDownY = 0, this.mouseDown = !1, this.mouseOver = !1, this.needRepaint = !0, this.serializedProperties = ["frames", "wheelZoom"]
             }, null != c && this.initialize(c);
@@ -685,7 +701,7 @@
                 }
             }
 
-            var e = this;
+            var scene_self = this;
             this.initialize = function () {
                 scene.prototype.initialize.apply(this, arguments);
                 this.messageBus = new jtopo.util.MessageBus;
@@ -757,15 +773,45 @@
                 }
                 return b
             };
-            this.paintChilds = function (b) {
-                for (var c = 0; c < this.zIndexArray.length; c++)for (var d = this.zIndexArray[c], e = this.zIndexMap[d], f = 0; f < e.length; f++) {
-                    var g = e[f];
-                    if (1 == this.paintAll || this.isVisiable(g)) {
-                        if (b.save(), 1 == g.transformAble) {
-                            var h = g.getCenterLocation();
-                            b.translate(h.x, h.y), g.rotate && b.rotate(g.rotate), g.scaleX && g.scaleY ? b.scale(g.scaleX, g.scaleY) : g.scaleX ? b.scale(g.scaleX, 1) : g.scaleY && b.scale(1, g.scaleY)
+            this.paintChilds = function (context) {
+                for (var i = 0; i < this.zIndexArray.length; i++) {
+                    var zIndex = this.zIndexArray[i];
+                    var zIndexElements = this.zIndexMap[zIndex];
+                    for (var j = 0; j < zIndexElements.length; j++) {
+                        var element = zIndexElements[j];
+                        if (1 == this.paintAll || this.isVisiable(element)) {
+                            context.save();
+                            if (1 == element.transformAble) {
+                                var center = element.getCenterLocation();
+                                context.translate(center.x, center.y);
+                                if (element.rotate) {
+                                    context.rotate(element.rotate);
+                                }
+                                if (element.scaleX && element.scaleY) {
+                                    context.scale(element.scaleX, element.scaleY)
+                                } else if (element.scaleX) {
+                                    context.scale(element.scaleX, 1);
+                                } else if (element.scaleY) {
+                                    context.scale(1, element.scaleY);
+                                }
+                            }
+                            if (1 == element.shadow) {
+                                context.shadowBlur = element.shadowBlur;
+                                context.shadowColor = element.shadowColor;
+                                context.shadowOffsetX = element.shadowOffsetX;
+                                context.shadowOffsetY = element.shadowOffsetY;
+                            }
+                            if (element instanceof jtopo.InteractiveElement) {
+                                if (element.selected && 1 == element.showSelected) {
+                                    element.paintSelected(context)
+                                }
+                                if (1 == element.isMouseOver) {
+                                    element.paintMouseover(context)
+                                }
+                            }
+                            element.paint(context);
+                            context.restore();
                         }
-                        1 == g.shadow && (b.shadowBlur = g.shadowBlur, b.shadowColor = g.shadowColor, b.shadowOffsetX = g.shadowOffsetX, b.shadowOffsetY = g.shadowOffsetY), g instanceof jtopo.InteractiveElement && (g.selected && 1 == g.showSelected && g.paintSelected(b), 1 == g.isMouseOver && g.paintMouseover(b)), g.paint(b), b.restore()
                     }
                 }
             };
@@ -809,14 +855,23 @@
                 return d
             };
             this.add = function (a) {
-                this.childs.push(a), null == this.zIndexMap[a.zIndex] && (this.zIndexMap[a.zIndex] = [], this.zIndexArray.push(a.zIndex), this.zIndexArray.sort(function (a, b) {
-                    return a - b
-                })), this.zIndexMap["" + a.zIndex].push(a)
+                this.childs.push(a);
+                if (null == this.zIndexMap[a.zIndex]) {
+                    this.zIndexMap[a.zIndex] = [];
+                    this.zIndexArray.push(a.zIndex);
+                    this.zIndexArray.sort(function (a, b) {
+                        return a - b
+                    });
+                }
+                this.zIndexMap["" + a.zIndex].push(a);
             };
-            this.remove = function (b) {
-                this.childs = jtopo.util.removeFromArray(this.childs, b);
-                var c = this.zIndexMap[b.zIndex];
-                c && (this.zIndexMap[b.zIndex] = jtopo.util.removeFromArray(c, b)), b.removeHandler(this)
+            this.remove = function (item) {
+                this.childs = jtopo.util.removeFromArray(this.childs, item);
+                var elements = this.zIndexMap[item.zIndex];
+                if (elements) {
+                    this.zIndexMap[item.zIndex] = jtopo.util.removeFromArray(elements, item);
+                }
+                item.removeHandler(this);
             };
             this.clear = function () {
                 var self = this;
@@ -854,14 +909,14 @@
                 return null != c.dx && (c.dx /= this.scaleX, c.dy /= this.scaleY), null != this.currentElement && (c.target = this.currentElement), c.scene = this, c
             };
             this.selectElement = function (a) {
-                var b = e.getElementByXY(a.x, a.y);
-                if (null != b)if (a.target = b, b.mousedownHander(a), b.selectedHandler(a), e.notInSelectedNodes(b))a.ctrlKey || e.cancleAllSelected(), e.addToSelected(b); else {
+                var b = scene_self.getElementByXY(a.x, a.y);
+                if (null != b)if (a.target = b, b.mousedownHander(a), b.selectedHandler(a), scene_self.notInSelectedNodes(b))a.ctrlKey || scene_self.cancleAllSelected(), scene_self.addToSelected(b); else {
                     1 == a.ctrlKey && (b.unselectedHandler(), this.removeFromSelected(b));
                     for (var c = 0; c < this.selectedElements.length; c++) {
                         var d = this.selectedElements[c];
                         d.selectedHandler(a)
                     }
-                } else a.ctrlKey || e.cancleAllSelected();
+                } else a.ctrlKey || scene_self.cancleAllSelected();
                 this.currentElement = b
             };
             this.mousedownHandler = function (b) {
@@ -870,12 +925,12 @@
                     if (this.mode == jtopo.SceneMode.drag && 1 == this.translate)return this.lastTranslateX = this.translateX, void(this.lastTranslateY = this.translateY);
                     this.mode == jtopo.SceneMode.select ? this.selectElement(c) : this.mode == jtopo.SceneMode.edit && (this.selectElement(c), (null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate && (this.lastTranslateX = this.translateX, this.lastTranslateY = this.translateY))
                 }
-                e.dispatchEvent("mousedown", c)
+                scene_self.dispatchEvent("mousedown", c)
             };
             this.mouseupHandler = function (b) {
-                this.stage.cursor != jtopo.MouseCursor.normal && (this.stage.cursor = jtopo.MouseCursor.normal), e.clearOperations();
+                this.stage.cursor != jtopo.MouseCursor.normal && (this.stage.cursor = jtopo.MouseCursor.normal), scene_self.clearOperations();
                 var c = this.toSceneEvent(b);
-                null != this.currentElement && (c.target = e.currentElement, this.currentElement.mouseupHandler(c)), this.dispatchEvent("mouseup", c), this.mouseDown = !1
+                null != this.currentElement && (c.target = scene_self.currentElement, this.currentElement.mouseupHandler(c)), this.dispatchEvent("mouseup", c), this.mouseDown = !1
             };
             this.dragElements = function (b) {
                 if (null != this.currentElement && 1 == this.currentElement.dragable)for (var c = 0; c < this.selectedElements.length; c++) {
@@ -892,19 +947,53 @@
             };
             this.areaSelectHandle = function (a) {
                 var b = a.offsetLeft, c = a.offsetTop, f = this.mouseDownEvent.offsetLeft, g = this.mouseDownEvent.offsetTop, h = b >= f ? f : b, i = c >= g ? g : c, j = Math.abs(a.dx) * this.scaleX, k = Math.abs(a.dy) * this.scaleY, l = new d(h, i, j, k);
-                e.clearOperations().addOperation(l), b = a.x, c = a.y, f = this.mouseDownEvent.x, g = this.mouseDownEvent.y, h = b >= f ? f : b, i = c >= g ? g : c, j = Math.abs(a.dx), k = Math.abs(a.dy);
-                for (var m = h + j, n = i + k, o = 0; o < e.childs.length; o++) {
-                    var p = e.childs[o];
-                    p.x > h && p.x + p.width < m && p.y > i && p.y + p.height < n && e.notInSelectedNodes(p) && (p.selectedHandler(a), e.addToSelected(p))
+                scene_self.clearOperations().addOperation(l), b = a.x, c = a.y, f = this.mouseDownEvent.x, g = this.mouseDownEvent.y, h = b >= f ? f : b, i = c >= g ? g : c, j = Math.abs(a.dx), k = Math.abs(a.dy);
+                for (var m = h + j, n = i + k, o = 0; o < scene_self.childs.length; o++) {
+                    var p = scene_self.childs[o];
+                    p.x > h && p.x + p.width < m && p.y > i && p.y + p.height < n && scene_self.notInSelectedNodes(p) && (p.selectedHandler(a), scene_self.addToSelected(p))
                 }
             };
             this.mousemoveHandler = function (b) {
-                this.mousecoord = {x: b.x, y: b.y};
+                this.mousecoord = {
+                    x: b.x,
+                    y: b.y
+                };
                 var c = this.toSceneEvent(b);
-                if (this.mode == jtopo.SceneMode.drag)return void(this.stage.cursor = jtopo.MouseCursor.open_hand);
-                this.mode == jtopo.SceneMode.normal ? this.stage.cursor = jtopo.MouseCursor.normal : this.mode == jtopo.SceneMode.select && (this.stage.cursor = jtopo.MouseCursor.normal);
-                var d = e.getElementByXY(c.x, c.y);
-                null != d ? (e.mouseOverelement && e.mouseOverelement !== d && (c.target = d, e.mouseOverelement.mouseoutHandler(c)), e.mouseOverelement = d, 0 == d.isMouseOver ? (c.target = d, d.mouseoverHandler(c), e.dispatchEvent("mouseover", c)) : (c.target = d, d.mousemoveHandler(c), e.dispatchEvent("mousemove", c))) : e.mouseOverelement ? (c.target = d, e.mouseOverelement.mouseoutHandler(c), e.mouseOverelement = null, e.dispatchEvent("mouseout", c)) : (c.target = null, e.dispatchEvent("mousemove", c))
+                if (this.mode == jtopo.SceneMode.drag) {
+                    return void(this.stage.cursor = jtopo.MouseCursor.open_hand);
+                }
+                if (this.mode == jtopo.SceneMode.normal) {
+                    this.stage.cursor = jtopo.MouseCursor.normal;
+                } else if (this.mode == jtopo.SceneMode.select) {
+                    this.stage.cursor = jtopo.MouseCursor.normal;
+                }
+
+                var d = scene_self.getElementByXY(c.x, c.y);
+                if (null != d) {
+                    if (scene_self.mouseOverelement && scene_self.mouseOverelement !== d) {
+                        c.target = d, scene_self.mouseOverelement.mouseoutHandler(c)
+                    }
+                    scene_self.mouseOverelement = d;
+                    if (0 == d.isMouseOver) {
+                        c.target = d;
+                        d.mouseoverHandler(c);
+                        scene_self.dispatchEvent("mouseover", c);
+                    } else {
+                        c.target = d;
+                        d.mousemoveHandler(c);
+                        scene_self.dispatchEvent("mousemove", c);
+                    }
+                } else {
+                    if (scene_self.mouseOverelement) {
+                        c.target = d;
+                        scene_self.mouseOverelement.mouseoutHandler(c);
+                        scene_self.mouseOverelement = null;
+                        scene_self.dispatchEvent("mouseout", c);
+                    } else {
+                        c.target = null;
+                        scene_self.dispatchEvent("mousemove", c)
+                    }
+                }
             }, this.mouseoverHandler = function (a) {
                 var b = this.toSceneEvent(a);
                 this.dispatchEvent("mouseover", b)
@@ -916,7 +1005,7 @@
                 this.currentElement && (b.target = this.currentElement, this.currentElement.clickHandler(b)), this.dispatchEvent("click", b)
             }, this.dbclickHandler = function (a) {
                 var b = this.toSceneEvent(a);
-                this.currentElement ? (b.target = this.currentElement, this.currentElement.dbclickHandler(b)) : e.cancleAllSelected(), this.dispatchEvent("dbclick", b)
+                this.currentElement ? (b.target = this.currentElement, this.currentElement.dbclickHandler(b)) : scene_self.cancleAllSelected(), this.dispatchEvent("dbclick", b)
             }, this.mousewheelHandler = function (a) {
                 var b = this.toSceneEvent(a);
                 this.dispatchEvent("mousewheel", b)
@@ -969,7 +1058,7 @@
                 }
                 this.zoom(a, b)
             }, this.getCenterLocation = function () {
-                return {x: e.stage.canvas.width / 2, y: e.stage.canvas.height / 2}
+                return {x: scene_self.stage.canvas.width / 2, y: scene_self.stage.canvas.height / 2}
             }, this.doLayout = function (a) {
                 a && a(this, this.childs)
             }, this.toJson = function () {
@@ -985,7 +1074,7 @@
                 return this.childs.forEach(function (a, d) {
                     b += a.toJson(), c > d + 1 && (b += ",")
                 }), b += "]", b += "}"
-            }, e
+            }, scene_self
         }
 
         scene.prototype = new jtopo.Element;
@@ -1008,129 +1097,321 @@
     function (jtopo) {
         function DisplayElement() {
             this.initialize = function () {
-                DisplayElement.prototype.initialize.apply(this, arguments), this.elementType = "displayElement", this.x = 0, this.y = 0, this.width = 32, this.height = 32, this.visible = !0, this.alpha = 1, this.rotate = 0, this.scaleX = 1, this.scaleY = 1, this.strokeColor = "22,124,255", this.borderColor = "22,124,255", this.fillColor = "22,124,255", this.shadow = !1, this.shadowBlur = 5, this.shadowColor = "rgba(0,0,0,0.5)", this.shadowOffsetX = 3, this.shadowOffsetY = 6, this.transformAble = !1, this.zIndex = 0;
+                DisplayElement.prototype.initialize.apply(this, arguments);
+                this.elementType = "displayElement";
+                this.x = 0;
+                this.y = 0;
+                this.width = 32;
+                this.height = 32;
+                this.visible = !0;
+                this.alpha = 1;
+                this.rotate = 0;
+                this.scaleX = 1;
+                this.scaleY = 1;
+                this.strokeColor = "22,124,255";
+                this.borderColor = "22,124,255";
+                this.fillColor = "22,124,255";
+                this.shadow = !1;
+                this.shadowBlur = 5;
+                this.shadowColor = "rgba(0,0,0,0.5)";
+                this.shadowOffsetX = 3;
+                this.shadowOffsetY = 6;
+                this.transformAble = !1;
+                this.zIndex = 0;
                 var a = "x,y,width,height,visible,alpha,rotate,scaleX,scaleY,strokeColor,fillColor,shadow,shadowColor,shadowOffsetX,shadowOffsetY,transformAble,zIndex".split(",");
                 this.serializedProperties = this.serializedProperties.concat(a)
-            }, this.initialize(), this.paint = function (a) {
-                a.beginPath(), a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")", a.rect(-this.width / 2, -this.height / 2, this.width, this.height), a.fill(), a.stroke(), a.closePath()
-            }, this.getLocation = function () {
-                return {x: this.x, y: this.y}
-            }, this.setLocation = function (a, b) {
+            };
+            this.initialize();
+            this.paint = function (a) {
+                a.beginPath();
+                a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
+                a.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+                a.fill();
+                a.stroke();
+                a.closePath();
+            };
+            this.getLocation = function () {
+                return {
+                    x: this.x,
+                    y: this.y
+                }
+            };
+            this.setLocation = function (a, b) {
                 if (this.qtopo && this.qtopo.attr && this.qtopo.attr.position) {
                     this.qtopo.attr.position[0] = a;
                     this.qtopo.attr.position[1] = b;
                 }
                 return this.x = a, this.y = b, this
-            }, this.getCenterLocation = function () {
-                return {x: this.x + this.width / 2, y: this.y + this.height / 2}
-            }, this.setCenterLocation = function (a, b) {
-                return this.x = a - this.width / 2, this.y = b - this.height / 2, this
-            }, this.getSize = function () {
-                return {width: this.width, height: this.heith}
-            }, this.setSize = function (a, b) {
-                return this.width = a, this.height = b, this
-            }, this.getBound = function () {
-                return {left: this.x, top: this.y, right: this.x + this.width, bottom: this.y + this.height, width: this.width, height: this.height}
-            }, this.setBound = function (a, b, c, d) {
-                return this.setLocation(a, b), this.setSize(c, d), this
-            }, this.getDisplayBound = function () {
-                return {left: this.x, top: this.y, right: this.x + this.width * this.scaleX, bottom: this.y + this.height * this.scaleY}
-            }, this.getDisplaySize = function () {
-                return {width: this.width * this.scaleX, height: this.height * this.scaleY}
-            }, this.getPosition = function (a) {
-                var b, c = this.getBound();
-                return "Top_Left" == a ? b = {x: c.left, y: c.top} : "Top_Center" == a ? b = {x: this.cx, y: c.top} : "Top_Right" == a ? b = {x: c.right, y: c.top} : "Middle_Left" == a ? b = {
-                    x: c.left,
-                    y: this.cy
-                } : "Middle_Center" == a ? b = {x: this.cx, y: this.cy} : "Middle_Right" == a ? b = {x: c.right, y: this.cy} : "Bottom_Left" == a ? b = {
-                    x: c.left,
-                    y: c.bottom
-                } : "Bottom_Center" == a ? b = {x: this.cx, y: c.bottom} : "Bottom_Right" == a && (b = {x: c.right, y: c.bottom}), b
-            }
+            };
+            this.getCenterLocation = function () {
+                return {
+                    x: this.x + this.width / 2,
+                    y: this.y + this.height / 2
+                }
+            };
+            this.setCenterLocation = function (a, b) {
+                this.x = a - this.width / 2;
+                this.y = b - this.height / 2;
+                return this;
+            };
+            this.getSize = function () {
+                return {
+                    width: this.width,
+                    height: this.heith
+                }
+            };
+            this.setSize = function (a, b) {
+                this.width = a;
+                this.height = b;
+                return this;
+            };
+            this.getBound = function () {
+                return {
+                    left: this.x,
+                    top: this.y,
+                    right: this.x + this.width,
+                    bottom: this.y + this.height,
+                    width: this.width,
+                    height: this.height
+                }
+            };
+            this.setBound = function (a, b, c, d) {
+                this.setLocation(a, b);
+                this.setSize(c, d);
+                return this;
+            };
+            this.getDisplayBound = function () {
+                return {
+                    left: this.x,
+                    top: this.y,
+                    right: this.x + this.width * this.scaleX,
+                    bottom: this.y + this.height * this.scaleY
+                }
+            };
+            this.getDisplaySize = function () {
+                return {
+                    width: this.width * this.scaleX,
+                    height: this.height * this.scaleY
+                }
+            };
+            this.getPosition = function (a) {
+                var position,
+                    c = this.getBound();
+                switch (a) {
+                    case "Top_Left":
+                        position = {x: c.left, y: c.top};
+                        break;
+                    case "Top_Center":
+                        position = {x: this.cx, y: c.top};
+                        break;
+                    case "Top_Right":
+                        position = {x: c.right, y: c.top};
+                        break;
+                    case "Middle_Left":
+                        position = {x: c.left, y: this.cy};
+                        break;
+                    case "Middle_Center":
+                        position = {x: this.cx, y: this.cy};
+                        break;
+                    case "Middle_Right":
+                        position = {x: c.right, y: this.cy};
+                        break;
+                    case "Bottom_Left":
+                        position = {x: c.left, y: c.bottom};
+                        break;
+                    case "Bottom_Center":
+                        position = {x: this.cx, y: c.bottom};
+                        break;
+                    case  "Bottom_Right":
+                        position = {x: c.right, y: c.bottom};
+                        break;
+                    default:
+                        position = {x: c.left, y: c.top};
+                }
+                return position;
+            };
         }
 
         function interactiveElement() {
             this.initialize = function () {
-                interactiveElement.prototype.initialize.apply(this, arguments), this.elementType = "interactiveElement", this.dragable = !1, this.selected = !1, this.showSelected = !0, this.selectedLocation = null, this.isMouseOver = !1;
+                interactiveElement.prototype.initialize.apply(this, arguments);
+                this.elementType = "interactiveElement";
+                this.dragable = !1;
+                this.selected = !1;
+                this.showSelected = !0;
+                this.selectedLocation = null;
+                this.isMouseOver = !1;
                 var a = "dragable,selected,showSelected,isMouseOver".split(",");
-                this.serializedProperties = this.serializedProperties.concat(a)
-            }, this.initialize(), this.paintSelected = function (a) {
-                0 != this.showSelected && (a.save(), a.beginPath(), a.strokeStyle = "rgba(168,202,255, 0.9)", a.fillStyle = "rgba(168,202,236,0.7)", a.rect(-this.width / 2 - 3, -this.height / 2 - 3, this.width + 6, this.height + 6), a.fill(), a.stroke(), a.closePath(), a.restore())
-            }, this.paintMouseover = function (a) {
-                return this.paintSelected(a)
-            }, this.isInBound = function (a, b) {
-                return a > this.x && a < this.x + this.width * Math.abs(this.scaleX) && b > this.y && b < this.y + this.height * Math.abs(this.scaleY)
-            }, this.selectedHandler = function () {
-                this.selected = !0, this.selectedLocation = {x: this.x, y: this.y}
-            }, this.unselectedHandler = function () {
-                this.selected = !1, this.selectedLocation = null
-            }, this.dbclickHandler = function (a) {
-                this.dispatchEvent("dbclick", a)
-            }, this.clickHandler = function (a) {
-                this.dispatchEvent("click", a)
-            }, this.mousedownHander = function (a) {
-                this.dispatchEvent("mousedown", a)
-            }, this.mouseupHandler = function (a) {
-                this.dispatchEvent("mouseup", a)
-            }, this.mouseoverHandler = function (a) {
-                this.isMouseOver = !0, this.dispatchEvent("mouseover", a)
-            }, this.mousemoveHandler = function (a) {
-                this.dispatchEvent("mousemove", a)
-            }, this.mouseoutHandler = function (a) {
-                this.isMouseOver = !1, this.dispatchEvent("mouseout", a)
-            }, this.mousedragHandler = function (a) {
-                var b = this.selectedLocation.x + a.dx, c = this.selectedLocation.y + a.dy;
-                this.setLocation(b, c), this.dispatchEvent("mousedrag", a)
-            }, this.addEventListener = function (b, c) {
-                return this.messageBus || (this.messageBus = new jtopo.util.MessageBus), this.messageBus.subscribe(b, c), this
-            }, this.dispatchEvent = function (a, b) {
-                return this.messageBus ? (this.messageBus.publish(a, b), this) : null
-            }, this.removeEventListener = function (a, f) {
-                this.messageBus.unsubscribe(a, f)
-            }, this.removeAllEventListener = function () {
+                this.serializedProperties = this.serializedProperties.concat(a);
+            };
+            this.initialize();
+            this.paintSelected = function (a) {
+                if (0 != this.showSelected) {
+                    a.save();
+                    a.beginPath();
+                    a.strokeStyle = "rgba(168,202,255, 0.9)";
+                    a.fillStyle = "rgba(168,202,236,0.7)";
+                    a.rect(-this.width / 2 - 3, -this.height / 2 - 3, this.width + 6, this.height + 6);
+                    a.fill();
+                    a.stroke();
+                    a.closePath();
+                    a.restore();
+                }
+                return this;
+            };
+            this.paintMouseover = function (a) {
+                return this.paintSelected(a);
+            };
+            this.isInBound = function (pointX, pointY) {
+                return pointX > this.x && pointX < this.x + this.width * Math.abs(this.scaleX) && pointY > this.y && pointY < this.y + this.height * Math.abs(this.scaleY)
+            };
+            this.selectedHandler = function () {
+                this.selected = !0;
+                this.selectedLocation = {
+                    x: this.x,
+                    y: this.y
+                };
+                return this;
+            };
+            this.unselectedHandler = function () {
+                this.selected = !1;
+                this.selectedLocation = null;
+                return this;
+            };
+            this.dbclickHandler = function (a) {
+                this.dispatchEvent("dbclick", a);
+                return this;
+            };
+            this.clickHandler = function (a) {
+                this.dispatchEvent("click", a);
+                return this;
+            };
+            this.mousedownHander = function (a) {
+                this.dispatchEvent("mousedown", a);
+                return this;
+            };
+            this.mouseupHandler = function (a) {
+                this.dispatchEvent("mouseup", a);
+                return this;
+            };
+            this.mouseoverHandler = function (a) {
+                this.isMouseOver = !0;
+                this.dispatchEvent("mouseover", a);
+                return this;
+            };
+            this.mousemoveHandler = function (a) {
+                this.dispatchEvent("mousemove", a);
+                return this;
+            };
+            this.mouseoutHandler = function (a) {
+                this.isMouseOver = !1;
+                this.dispatchEvent("mouseout", a);
+                return this;
+            };
+            this.mousedragHandler = function (a) {
+                var b = this.selectedLocation.x + a.dx;
+                var c = this.selectedLocation.y + a.dy;
+                this.setLocation(b, c);
+                this.dispatchEvent("mousedrag", a);
+                return this;
+            };
+            this.addEventListener = function (event, fn) {
+                if (!this.messageBus) {
+                    this.messageBus = new jtopo.util.MessageBus;
+                }
+                this.messageBus.subscribe(event, fn);
+                return this;
+            };
+            this.dispatchEvent = function (event, e) {
+                if (this.messageBus) {
+                    this.messageBus.publish(event, e);
+                    return this;
+                }
+            };
+            this.removeEventListener = function (event, fn) {
+                this.messageBus.unsubscribe(event, fn);
+            };
+            this.removeAllEventListener = function () {
                 this.messageBus = new jtopo.util.MessageBus
             };
-            var b = "click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,touchstart,touchmove,touchend".split(","), d = this;
-            b.forEach(function (a) {
-                d[a] = function (b) {
-                    null != b ? this.addEventListener(a, b) : this.dispatchEvent(a)
-                }
-            })
+            var self = this;
+            "click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,touchstart,touchmove,touchend".split(",")
+                .forEach(function (eventName) {
+                    self[eventName] = function (e) {
+                        if (null != e) {
+                            this.addEventListener(eventName, e);
+                        } else {
+                            this.dispatchEvent(eventName);
+                        }
+                    }
+                });
         }
 
         function EditableElement() {
             this.initialize = function () {
-                EditableElement.prototype.initialize.apply(this, arguments), this.editAble = !1, this.selectedPoint = null
-            }, this.getCtrlPosition = function (a) {
-                var b = 5, c = 5, d = this.getPosition(a);
-                return {left: d.x - b, top: d.y - c, right: d.x + b, bottom: d.y + c}
-            }, this.selectedHandler = function (b) {
+                EditableElement.prototype.initialize.apply(this, arguments);
+                this.editAble = !1;
+                this.selectedPoint = null;
+            };
+            this.getCtrlPosition = function (a) {
+                var b = 5;
+                var c = 5;
+                var d = this.getPosition(a);
+                return {
+                    left: d.x - b,
+                    top: d.y - c,
+                    right: d.x + b,
+                    bottom: d.y + c
+                }
+            };
+            this.selectedHandler = function (b) {
                 EditableElement.prototype.selectedHandler.apply(this, arguments), this.selectedSize = {
                     width: this.width,
                     height: this.height
-                }, b.scene.mode == jtopo.SceneMode.edit && (this.editAble = !0)
-            }, this.unselectedHandler = function () {
-                EditableElement.prototype.unselectedHandler.apply(this, arguments), this.selectedSize = null, this.editAble = !1
+                };
+                if (b.scene.mode == jtopo.SceneMode.edit) {
+                    this.editAble = !0
+                }
+            };
+            this.unselectedHandler = function () {
+                EditableElement.prototype.unselectedHandler.apply(this, arguments);
+                this.selectedSize = null;
+                this.editAble = !1;
             };
             var b = ["Top_Left", "Top_Center", "Top_Right", "Middle_Left", "Middle_Right", "Bottom_Left", "Bottom_Center", "Bottom_Right"];
-            this.paintCtrl = function (a) {
+            this.paintCtrl = function (cx) {
                 if (0 != this.editAble) {
-                    a.save();
+                    cx.save();
                     for (var c = 0; c < b.length; c++) {
                         var d = this.getCtrlPosition(b[c]);
-                        d.left -= this.cx, d.right -= this.cx, d.top -= this.cy, d.bottom -= this.cy;
-                        var e = d.right - d.left, f = d.bottom - d.top;
-                        a.beginPath(), a.strokeStyle = "rgba(0,0,0,0.8)", a.rect(d.left, d.top, e, f), a.stroke(), a.closePath(), a.beginPath(), a.strokeStyle = "rgba(255,255,255,0.3)", a.rect(d.left + 1, d.top + 1, e - 2, f - 2), a.stroke(), a.closePath()
+                        d.left -= this.cx;
+                        d.right -= this.cx;
+                        d.top -= this.cy;
+                        d.bottom -= this.cy;
+                        var e = d.right - d.left;
+                        var f = d.bottom - d.top;
+                        cx.beginPath();
+                        cx.strokeStyle = "rgba(0,0,0,0.8)";
+                        cx.rect(d.left, d.top, e, f);
+                        cx.stroke();
+                        cx.closePath();
+                        cx.beginPath();
+                        cx.strokeStyle = "rgba(255,255,255,0.3)";
+                        cx.rect(d.left + 1, d.top + 1, e - 2, f - 2);
+                        cx.stroke();
+                        cx.closePath();
                     }
-                    a.restore()
+                    cx.restore();
                 }
-            }, this.isInBound = function (a, c) {
+            };
+            this.isInBound = function (a, c) {
                 if (this.selectedPoint = null, 1 == this.editAble)for (var e = 0; e < b.length; e++) {
                     var f = this.getCtrlPosition(b[e]);
                     if (a > f.left && a < f.right && c > f.top && c < f.bottom)return this.selectedPoint = b[e], !0
                 }
                 return EditableElement.prototype.isInBound.apply(this, arguments)
-            }, this.mousedragHandler = function (a) {
+            };
+            this.mousedragHandler = function (a) {
                 if (null == this.selectedPoint) {
                     var b = this.selectedLocation.x + a.dx, c = this.selectedLocation.y + a.dy;
                     this.setLocation(b, c), this.dispatchEvent("mousedrag", a)
@@ -1303,13 +1584,23 @@
                         j[a] = d, 1 == b && c.setSize(d.width, d.height), c.image = d, c.alarmColor = null == c.alarmColor ? "255,0,0" : c.alarmColor
                     }) : (b && this.setSize(d.width, d.height), c.image = d, c.alarmColor = null == c.alarmColor ? "255,0,0" : c.alarmColor)
                 } else this.image = a, c.alarmColor = null == c.alarmColor ? "255,0,0" : c.alarmColor, 1 == b && this.setSize(a.width, a.height)
-            }, this.removeHandler = function (a) {
-                var b = this;
-                this.outLinks && (this.outLinks.forEach(function (c) {
-                    c.nodeA === b && a.remove(c)
-                }), this.outLinks = null), this.inLinks && (this.inLinks.forEach(function (c) {
-                    c.nodeZ === b && a.remove(c)
-                }), this.inLinks = null)
+            };
+            this.removeHandler = function (scene) {
+                var self = this;
+                if (this.outLinks) {
+                    this.outLinks.forEach(function (c) {
+                        if (c.nodeA === self) {
+                            scene.remove(c)
+                        }
+                    });
+                    this.outLinks = null;
+                }
+                if (this.inLinks) {
+                    this.inLinks.forEach(function (c) {
+                        c.nodeZ === self && scene.remove(c)
+                    });
+                    this.inLinks = null;
+                }
             }
         }
 

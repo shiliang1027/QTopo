@@ -23,7 +23,7 @@ var shell = require('gulp-shell');
 gulp.task('webpack', shell.task(['webpack --config webpack.config.js']));
 gulp.task('webpack-ready', shell.task(['webpack --config webpack.config.ready.js']));
 gulp.task('build', function(callback) {
-    runSequence('webpack',"reload",callback);
+    runSequence('webpack',"reload",'copy',callback);
 });
 gulp.task('ready', function(callback) {
     runSequence('webpack-ready',"concat-ready",callback);
@@ -83,4 +83,8 @@ gulp.task('serve', function () {
         port: 8090,
         livereload: true
     });
+});
+gulp.task("copy",function(){
+    return gulp.src(['topo_iposs/qtopo/qtopo.component.min.js','topo_iposs/qtopo/qtopo.core.min.js'])
+        .pipe(gulp.dest('public/qtopo'));
 });

@@ -4,3 +4,4 @@ MessageBus对象unsubscribe函数    增加参数，由原本对应事件名下�
 baseNode中的getTextPostion函數和container中的getTextPostion函數增加參數height表明多少行，改了top_center時的文字起始位置
 DisplayElement和container中setLocation中同步属性
 container默认布局AutoBoundLayout函数重写
+优化原有Array.prototype.del函数
