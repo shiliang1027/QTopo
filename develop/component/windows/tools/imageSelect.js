@@ -1,17 +1,8 @@
-/**
- * Created by qiyc on 2017/2/22.
- */
 var temp=require("./imageSelect.html");
 var util=require("../util.js");
 module.exports={
     init:init
 };
-/**
- * 公用的图片选择窗口
- * @param dom
- * @param scene
- * @returns {*}窗口的Jquery对象 包含open函数，函数返回一个延迟函数，在确认按钮点击后释放
- */
 var temp_image;
 function init(dom, scene){
     temp=$(temp);

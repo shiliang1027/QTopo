@@ -1,6 +1,4 @@
-/**
- * Created by qiyc on 2017/2/6.
- */
+/** @module QTopo */
 //核心依赖
 require("./core/jtopo/jtopo-min.js");
 if (typeof jQuery == "undefined") {
@@ -19,8 +17,17 @@ var QTopo = {
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
 require("./core/tools.js");//加载scene的工具api
-
-//-----------------------对外接口
+/**
+ * 初始化Qtopo
+ * @param dom
+ * @param config
+ * @see module:QTopo
+ * @returns {{scene: (Scene|exports|module.exports), setOption: setOption, document: *, resize, serialize: serialize}}
+ */
+/**
+ * 初始化
+ * @alias module:Qtopo.init
+ */
 QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
@@ -34,6 +41,7 @@ QTopo.init = function (dom, config) {
     this.instance.push(QtopoInstance);
     return QtopoInstance;
 };
+module.exports=QTopo;
 //---------------------
 function setOption(option, clear) {
     option = option || {};

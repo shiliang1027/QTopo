@@ -1,12 +1,9 @@
-/**
- * Created by qiyc on 2017/3/14.
- */
 var temp = require("./styleSelect.html");
 var util = require("../util.js");
 module.exports = {
     init: init
 };
-/**
+/*
  * 公用的样式选择窗口
  * @param dom
  * @param scene

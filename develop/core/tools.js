@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/27.
- */
 var Scene = require('./Scene.js');
 Scene.prototype.isChildren=function(element){
     var result=false;
@@ -86,14 +83,14 @@ Scene.prototype.toggleZIndex = function (element, flag) {
         }
     }
 };
-/**
- *获取被选中的元素
- * @returns {Array|*}
- */
 var selectedCatch = {
     jtopo: [],
     qtopo: []
 };
+/**
+ *获取被选中的元素
+ * @returns {Array|*}
+ */
 Scene.prototype.getSelected = function () {
     var jtopo = this.jtopo.selectedElements;
     if ($.isArray(jtopo)) {

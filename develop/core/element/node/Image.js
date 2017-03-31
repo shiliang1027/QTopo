@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/7.
- */
 var Node=require("./Node.js");
 module.exports = {
     constructor:ImageNode,

@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/3/10.
- */
 var temp = require("./loading.html");
 var util=require("../util.js");
 module.exports = {

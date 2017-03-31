@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/20.
- */
 module.exports = {
     SCENE:'10',
     CONTAINER:"100",

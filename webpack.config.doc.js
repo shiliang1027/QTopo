@@ -5,16 +5,13 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');//npm install autoprefixer --save-dev 自动加css前缀
 module.exports = {
-    //devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
+    devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
     entry: {
-        "core":__dirname + "/develop/main.js",//入口文件
-        "component":__dirname + "/develop/component/component.js",
-        "iposs":__dirname+"/iposs/main.js"
+        "core":__dirname + "/doc/docs/main.js"
     },
     output: {
-        path: __dirname + "/topo_iposs/qtopo",//打包后的文件存放的地方
-        //filename:  "[name]-[hash].bundle.js"//打包后输出文件的文件名
-        filename:  "qtopo.[name].min.js"
+        path: __dirname + "/doc/js",
+        filename:  "doc.min.js"
     },
     module: {//在配置文件里添加JSON loader
         loaders: [
@@ -38,13 +35,6 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin(),//压缩代码插件
         new ExtractTextPlugin({
             filename:"qtopo.css",allChunks: true
-        })//合并并压缩输出到目录
-        //new webpack.optimize.CommonsChunkPlugin(
-        //    {
-        //        name: 'iposs',
-        //        chunks: ['iposs'],
-        //        filename: "../../topo_iposs/qtopo/iposs.min.js"
-        //    }
-        //)//输出到另外个目录
+        })
     ]
 };

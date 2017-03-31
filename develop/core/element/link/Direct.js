@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/7.
- */
 var Link = require("./Link.js");
 module.exports = {
     constructor: DirectLink,

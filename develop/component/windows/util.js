@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/21.
- */
 var mutex = [];
 var util = {
     /**

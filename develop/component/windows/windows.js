@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/20.
- */
 require("./tools/style.css");
 require("./windows.css");
 require("./tools.css");
@@ -26,7 +23,7 @@ module.exports = {
     init: init,
     set: set
 };
-/**
+/*
  * 初始化窗口组件
  * @param instance topo实例化对象
  * @param filter 禁止载入一些窗口

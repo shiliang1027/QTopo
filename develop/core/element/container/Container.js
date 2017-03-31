@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/7.
- */
 var Element = require("../Element.js");
 module.exports = Container;
 var jtopoReset = {

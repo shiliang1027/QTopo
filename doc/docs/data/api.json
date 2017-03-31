@@ -1,0 +1,27 @@
+{
+  "QTopo":{
+    "detail":"",
+    "sub":{
+      "constant": {
+        "detail": {}
+      },
+      "init": {
+        "detail": {}
+      },
+      "instance": {
+        "detail": {}
+      },
+      "log":{
+
+      },
+      "util":{
+        "detail":{},
+        "sub":{}
+      },
+      "windowUtil":{
+        "detail":{},
+        "sub":{}
+      }
+    }
+  }
+}

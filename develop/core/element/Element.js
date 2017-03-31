@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/7.
- */
 module.exports = Element;
 function Element(jtopo) {
     if (jtopo) {
@@ -221,7 +218,8 @@ Element.prototype.val = function (key, value) {
         }
     }
 };
-/**对象links属性内的所有线进行切换
+/*
+ * 对象links属性内的所有线进行切换
  *@links node/container的links属性
  * @fnName 'show'/'hide'方法名
  */

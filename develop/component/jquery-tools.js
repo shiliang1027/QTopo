@@ -1,7 +1,4 @@
-/**
- * Created by qiyc on 2017/2/20.
- */
-/**
+/*
  * 将form里面的内容序列化成json
  * 相同的checkbox用分号拼接起来
  * @param {dom} 指定的选择器
@@ -21,7 +18,7 @@ $.fn.serializeJson = function () {
     return serializeObj;
 };
 
-/**
+/*
  * 将josn对象赋值给form
  * @param {dom} 指定的选择器
  * @param {obj} 需要给form赋值的json对象
@@ -65,7 +62,7 @@ $.fn.setForm = function (jsonValue) {
     })
 };
 inteColorPalette();
-/**
+/*
  * 颜色选择器插件初始化
  * */
 function inteColorPalette() {

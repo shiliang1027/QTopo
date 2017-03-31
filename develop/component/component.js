@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/16.
- */
 //自写的jquery插件
 require("./jquery-tools");
 var rightMenu = require("./rightMenu/rightMenu.js");

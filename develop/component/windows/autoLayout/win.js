@@ -1,10 +1,7 @@
-/**
- * Created by qiyc on 2017/2/20.
- */
 var temp=require("./win.html");
 var util=require("../util.js");
 module.exports={
-    init:main
+    init:init
 };
 var defaultAttr={
     name:"",
@@ -13,14 +10,14 @@ var defaultAttr={
     size:70,
     image:""
 };
-/**
+/*
  * 初始化图片节点的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层
  * @param imageSelect 需要支持的一般窗口组件
  * @returns {*|jQuery|HTMLElement} 返回初始化后的窗口对象,包含open和close函数
  */
-function main(dom, scene, imageSelect){
+function init(dom, scene, imageSelect){
     var win=$(temp);
     var select=initSelect(win);
     //注册窗口打开和关闭事件

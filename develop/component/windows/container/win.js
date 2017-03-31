@@ -1,15 +1,9 @@
-/**
- * Created by qiyc on 2017/3/6.
- */
-/**
- * Created by qiyc on 2017/2/20.
- */
 var temp=require("./win.html");
 var util=require("../util.js");
 module.exports={
     init:init
 };
-/**
+/*
  * 初始化分组的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层

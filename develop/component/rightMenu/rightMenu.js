@@ -1,13 +1,10 @@
-/**
- * Created by qiyc on 2017/2/17.
- */
 require("./rightMenu.css");
 var Menu = require("./Menu.js");
 var getMenus = require("./repertory.js");//右键菜单函数仓库
 module.exports = {
     init: initRigheMenu
 };
-/**
+/*
  * 从函数仓库中取数据构造菜单栏
  * @param instance topo实例对象
  * @param windows 可能操作到的窗口

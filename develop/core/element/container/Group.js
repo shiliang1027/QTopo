@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/8.
- */
 var Container=require("./Container.js");
 module.exports =  {
     constructor:Group,

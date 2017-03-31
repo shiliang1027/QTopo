@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/17.
- */
 module.exports = Menu;//菜单对象
 function Menu(dom) {
     var self = this;
@@ -37,7 +34,7 @@ Menu.prototype.init = function (scene) {
         self.body.hide();
     });
 };
-/**
+/*
  * 在菜单中添加子栏目
  * @param options 应包含name 菜单名,可选：click点击后处理事件filter 过滤条件
  */
@@ -61,7 +58,7 @@ Menu.prototype.addItem = function (options) {
         return item;
     }
 };
-/**
+/*
  * 在菜单中添加子菜单栏,返回新Menu对象，可迭代添加
  * @param options 应包含name 菜单名，可选：click点击后处理事件filter 过滤条件
  * @returns {Menu}
@@ -88,7 +85,7 @@ Menu.prototype.addSubMenu = function (options) {
         return subMenu;
     }
 };
-/**
+/*
  * 过滤显示的菜单栏
  * @param parent 菜单栏的父菜单
  * @param array 保存的菜单栏列表

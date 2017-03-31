@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/7.
- */
 var Line=require("./Line.js");
 module.exports =  {
     constructor:DirectLine,

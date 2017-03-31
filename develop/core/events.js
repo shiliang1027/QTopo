@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/20.
- */
 var events = {
     init: function (scene) {
         //注册分组切换

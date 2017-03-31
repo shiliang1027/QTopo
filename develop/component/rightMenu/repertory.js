@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/17.
- */
 function getMenus(scene, menu, windows, tools) {
     var Qutil=QTopo.util;
     //高亮控制

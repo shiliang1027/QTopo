@@ -1,12 +1,9 @@
-/**
- * Created by qiyc on 2017/2/20.
- */
 var temp=require("./win.html");
 var util=require("../util.js");
 module.exports={
     init:main
 };
-/**
+/*
  * 初始化文字节点的属性操作窗口
  * @param dom  topo对象包裹外壳
  * @param scene topo对象图层

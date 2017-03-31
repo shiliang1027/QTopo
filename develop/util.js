@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/6.
- */
 var ruler;
 var util = {
         /**

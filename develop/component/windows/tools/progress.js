@@ -1,6 +1,3 @@
-/**
- * Created by qiyc on 2017/2/22.
- */
 var temp=require("./progress.html");
 var util=require("../util.js");
 module.exports={
