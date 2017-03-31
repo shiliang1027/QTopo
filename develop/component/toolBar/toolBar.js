@@ -1,6 +1,3 @@
-/**
- * Created by Administrator on 2017/2/17 0017.
- */
 require("./toolBar.css");
 var toolBar = require("./toolBar.html");
 var selectResult = require("./selectResult.html");
@@ -88,7 +85,7 @@ function init(instance, windows, hideDefaultSearch) {
         save: doSave
     };
 }
-/**
+/*
  * 添加搜索模块
  * @param instance
  * @param scene
