@@ -167,9 +167,9 @@ function addSearchMode(instance, scene, toolBar, resultWin) {
     var showTime;
     function showGroup() {
         clear.attr("style","opacity: 1");
-        selectWin.attr("style","display:block");
-        input.attr("style","padding: 6px 15px 6px 12px");
-        inputGroup.attr("style","width: 180px;opacity: 1");
+        selectWin.attr("style","display: block");
+        input.attr("style","display: block");
+        inputGroup.attr("style","width: 180px");
         if(showTime){
             clearTimeout(showTime);
         }
