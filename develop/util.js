@@ -1,5 +1,12 @@
 var ruler;
 var util = {
+        cached: function (fn) {
+            var cache = Object.create(null);
+            return (function cachedFn(str) {
+                var hit = cache[str];
+                return hit || (cache[str] = fn(str))
+            })
+        },
         /**
          * 字符串转化json
          * @param json
@@ -16,11 +23,9 @@ var util = {
          * @param string
          * @returns {XML|*|void}
          */
-        upFirst: function (string) {
-            return string.replace(/(^|\s+)\w/g, function (s) {
-                return s.toUpperCase();//首字母大寫
-            })
-        },
+        upFirst: util.cached(function (string) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }),
         extend: function (base, config) {
             try {
                 if (typeof base == "object" && typeof config == "object") {
