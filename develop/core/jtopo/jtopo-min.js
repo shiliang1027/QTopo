@@ -137,120 +137,127 @@
         }
     };
     MessageBus.prototype.publish = function (evenName, e, boolean) {
-        var event = this.messageMap[evenName];
-        if (null != event) {
-            for (var f = 0; f < event.length; f++) {
+        var eventMap = this.messageMap[evenName];
+        if (null != eventMap) {
+            eventMap.forEach(function (fn) {
                 if (boolean) {
-                    //!function (a, b) {
-                    //    setTimeout(function () {
-                    //        a(b)
-                    //    }, 10)
-                    //}(event[f], e);
                     setTimeout(function () {
-                        event[f](e)
-                    }, 10);
+                        fn(e);
+                    });
                 } else {
                     if (e.target && e.target.qtopo) {
-                        event[f](e, e.target.qtopo);
+                        fn(e, e.target.qtopo);
                     } else {
-                        event[f](e);
+                        fn(e);
                     }
-
                 }
-            }
+            });
         }
     };
-    function getDistance(a, b, c, d) {
-        var e, f;
+    function getDistance(pointA, pointB, c, d) {
+        var width, height;
         if (null == c && null == d) {
-            if (a && b) {
-                e = b.x - a.x;
-                f = b.y - a.y;
+            if (pointA && pointB) {
+                width = pointB.x - pointA.x;
+                height = pointB.y - pointA.y;
             }
         } else {
-            (e = c - a, f = d - b);
+            width = c - pointA;
+            height = d - pointB;
         }
-        return Math.sqrt(e * e + f * f);
+        return Math.sqrt(width * width + height * height);
     }
 
-    function getElementsBound(a) {
-        for (var b = {left: Number.MAX_VALUE, right: Number.MIN_VALUE, top: Number.MAX_VALUE, bottom: Number.MIN_VALUE}, c = 0; c < a.length; c++) {
-            var d = a[c];
-            d instanceof JTopo.Link || (b.left > d.x && (b.left = d.x, b.leftNode = d), b.right < d.x + d.width && (b.right = d.x + d.width, b.rightNode = d), b.top > d.y && (b.top = d.y, b.topNode = d), b.bottom < d.y + d.height && (b.bottom = d.y + d.height, b.bottomNode = d))
-        }
-        return b.width = b.right - b.left, b.height = b.bottom - b.top, b
-    }
-
-    function mouseCoords(a) {
-        return a = cloneEvent(a), a.pageX || (a.pageX = a.clientX + document.body.scrollLeft - document.body.clientLeft, a.pageY = a.clientY + document.body.scrollTop - document.body.clientTop), a
+    function getElementsBound(elements) {
+        var b = {
+            left: Number.MAX_VALUE,
+            right: Number.MIN_VALUE,
+            top: Number.MAX_VALUE,
+            bottom: Number.MIN_VALUE
+        };
+        elements.forEach(function (element) {
+            if (!(element instanceof JTopo.Link)) {
+                if (b.left > element.x) {
+                    b.left = element.x;
+                    b.leftNode = element;
+                }
+                if (b.right < element.x + element.width) {
+                    b.right = element.x + element.width;
+                    b.rightNode = element;
+                }
+                if (b.top > element.y) {
+                    b.top = element.y;
+                    b.topNode = element;
+                }
+                if (b.bottom < element.y + element.height) {
+                    b.bottom = element.y + element.height;
+                    b.bottomNode = element;
+                }
+            }
+        });
+        b.width = b.right - b.left;
+        b.height = b.bottom - b.top;
+        return b;
     }
 
     function getEventPosition(a) {
-        return a = mouseCoords(a)
+        a = cloneEvent(a);
+        if (!a.pageX) {
+            a.pageX = a.clientX + document.body.scrollLeft - document.body.clientLeft;
+            a.pageY = a.clientY + document.body.scrollTop - document.body.clientTop;
+        }
+        return a;
     }
 
-    function rotatePoint(a, b, c, d, e) {
-        var f = c - a, g = d - b, h = Math.sqrt(f * f + g * g), i = Math.atan2(g, f) + e;
-        return {x: a + Math.cos(i) * h, y: b + Math.sin(i) * h}
+    function rotatePoint(aX, aY, bX, bY, c) {
+        var width = bX - aX;
+        var height = bY - aY;
+        var ditance = Math.sqrt(width * width + height * height);
+        var i = Math.atan2(height, width) + c;
+        return {
+            x: aX + Math.cos(i) * ditance,
+            y: aY + Math.sin(i) * ditance
+        }
     }
 
-    function rotatePoints(a, b, c) {
-        for (var d = [], e = 0; e < b.length; e++) {
-            var f = rotatePoint(a.x, a.y, b[e].x, b[e].y, c);
-            d.push(f)
+    function rotatePoints(root, childs, beginAngle) {
+        for (var d = [], e = 0; e < childs.length; e++) {
+            d.push(rotatePoint(root.x, root.y, childs[e].x, childs[e].y, beginAngle));
         }
         return d
     }
 
-    function $foreach(a, b, c) {
-        function d(e) {
-            e != a.length && (b(a[e]), setTimeout(function () {
-                d(++e)
-            }, c))
-        }
-
-        if (0 != a.length) {
-            var e = 0;
-            d(e)
-        }
-    }
-
-    function $for(a, b, c, d) {
-        function e(a) {
-            a != b && (c(b), setTimeout(function () {
-                e(++a)
-            }, d))
-        }
-
-        if (!(a > b)) {
-            var f = 0;
-            e(f)
-        }
-    }
-
     function cloneEvent(a) {
         var b = {};
-        for (var c in a)"returnValue" != c && "keyLocation" != c && (b[c] = a[c]);
+        for (var c in a) {
+            if ("returnValue" != c && "keyLocation" != c) {
+                b[c] = a[c];
+            }
+        }
         return b
     }
 
-    function clone(a) {
+    function clone(object) {
         var b = {};
-        for (var c in a)b[c] = a[c];
+        for (var c in object) {
+            b[c] = object[c];
+        }
         return b
     }
 
-    function isPointInRect(a, b) {
-        var c = b.x, d = b.y, e = b.width, f = b.height;
-        return a.x > c && a.x < c + e && a.y > d && a.y < d + f
+    function isPointInRect(rect, points) {
+        var X = points.x;
+        var Y = points.y;
+        var W = points.width;
+        var H = points.height;
+        return rect.x > X && rect.x < X + W && rect.y > Y && rect.y < Y + H;
     }
 
-    function isPointInLine(a, b, c) {
-        var d = JTopo.util.getDistance(b, c),
-            e = JTopo.util.getDistance(b, a),
-            f = JTopo.util.getDistance(c, a),
-            g = Math.abs(e + f - d) <= .5;
-        return g
+    function isPointInLine(points, start, end) {
+        var line = JTopo.util.getDistance(start, end);
+        var toStart = JTopo.util.getDistance(start, points);
+        var toEnd = JTopo.util.getDistance(end, points);
+        return Math.abs(toStart + toEnd - line) <= 0.5;
     }
 
     function removeFromArray(arr, item) {
@@ -268,17 +275,6 @@
         return Math.floor(255 * Math.random()) + "," + Math.floor(255 * Math.random()) + "," + Math.floor(255 * Math.random())
     }
 
-    function isIntsect() {
-    }
-
-    function getProperties(a, b) {
-        for (var c = "", d = 0; d < b.length; d++) {
-            d > 0 && (c += ",");
-            var e = a[b[d]];
-            "string" == typeof e ? e = '"' + e + '"' : void 0 == e && (e = null), c += b[d] + ":" + e
-        }
-        return c
-    }
 
     function loadStageFromJson(json, canvas) {
         var obj = eval(json), stage = new JTopo.Stage(canvas);
@@ -294,38 +290,44 @@
         return console.log(stage), stage
     }
 
-    function toJson(a) {
-        var b = "backgroundColor,visible,mode,rotate,alpha,scaleX,scaleY,shadow,translateX,translateY,areaSelect,paintAll".split(","), c = "text,elementType,x,y,width,height,visible,alpha,rotate,scaleX,scaleY,fillColor,shadow,transformAble,zIndex,dragable,selected,showSelected,font,fontColor,textPosition,textOffsetX,textOffsetY".split(","), d = "{";
-        d += "frames:" + a.frames, d += ", scenes:[";
-        for (var e = 0; e < a.childs.length; e++) {
-            var f = a.childs[e];
-            d += "{", d += getProperties(f, b), d += ", elements:[";
-            for (var g = 0; g < f.childs.length; g++) {
-                var h = f.childs[g];
-                g > 0 && (d += ","), d += "{", d += getProperties(h, c), d += "}"
+    function changeColor(ctx, image, color) {
+        var colorArr = color.split(",");
+        var R = parseInt(colorArr[0]);
+        var G = parseInt(colorArr[1]);
+        var B = parseInt(colorArr[2]);
+        var imageWidth = canvas.width = image.width;
+        var imageHeight = canvas.height = image.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0);
+        var ImageData = ctx.getImageData(0, 0, image.width, image.height);
+        var data = ImageData.data;
+        for (var i = 0; imageWidth > i; i++) {
+            for (var j = 0; imageHeight > j; j++) {
+                var n = 4 * (i + j * imageWidth);
+                if(0 != data[n + 3]){
+                    if(null != R){
+                        data[n + 0] += R;
+                    }
+                    if(null != G){
+                        data[n + 1] += G;
+                    }
+                    if(null != B){
+                        data[n + 2] += B;
+                    }
+                }
             }
-            d += "]}"
         }
-        return d += "]", d += "}"
+        ctx.putImageData(ImageData, 0, 0, 0, 0, image.width, image.height);
+        return canvas.toDataURL();
     }
 
-    function changeColor(a, b, c) {
-        var d = c.split(","), e = parseInt(d[0]), f = parseInt(d[1]), g = parseInt(d[2]), h = canvas.width = b.width, i = canvas.height = b.height;
-        a.clearRect(0, 0, canvas.width, canvas.height), a.drawImage(b, 0, 0);
-        for (var j = a.getImageData(0, 0, b.width, b.height), k = j.data, l = 0; h > l; l++)for (var m = 0; i > m; m++) {
-            var n = 4 * (l + m * h);
-            0 != k[n + 3] && (null != e && (k[n + 0] += e), null != f && (k[n + 1] += f), null != g && (k[n + 2] += g))
-        }
-        a.putImageData(j, 0, 0, 0, 0, b.width, b.height);
-        var o = canvas.toDataURL();
-        return o
-    }
-
-    function genImageAlarm(a, b) {
-        var c = a.src + b;
-        if (alarmImageCache[c])return alarmImageCache[c];
-        var d = new Image;
-        return d.src = changeColor(graphics, a, b), alarmImageCache[c] = d, d
+    function genImageAlarm(image, color) {
+        var src = image.src + color;
+        if (alarmImageCache[src])return alarmImageCache[src];
+        var newImage = new Image;
+        newImage.src = changeColor(graphics, image, color);
+        alarmImageCache[src] = newImage;
+        return newImage;
     }
 
     function getOffsetPosition(a) {
@@ -421,7 +423,6 @@
         rotatePoints: rotatePoints,
         getDistance: getDistance,
         getEventPosition: getEventPosition,
-        mouseCoords: mouseCoords,
         MessageBus: MessageBus,
         isFirefox: navigator.userAgent.indexOf("Firefox") > 0,
         isIE: !(!window.attachEvent || -1 !== navigator.userAgent.indexOf("Opera")),
@@ -432,8 +433,6 @@
         removeFromArray: removeFromArray,
         cloneEvent: cloneEvent,
         randomColor: randomColor,
-        isIntsect: isIntsect,
-        toJson: toJson,
         loadStageFromJson: loadStageFromJson,
         getElementsBound: getElementsBound,
         genImageAlarm: genImageAlarm,
@@ -441,7 +440,7 @@
         lineF: lineF,
         intersection: intersection,
         intersectionLineBound: intersectionLineBound
-    }, window.$for = $for, window.$foreach = $foreach
+    }
 }(JTopo),
     function (jtopo) {
         function b(a) {
@@ -1700,10 +1699,13 @@
             alarmColor: {
                 get: function () {
                     return this._alarmColor
-                }, set: function (b) {
-                    if (this._alarmColor = b, null != this.image) {
-                        var c = jtopo.util.genImageAlarm(this.image, b);
-                        c && (this.alarmImage = c)
+                }, set: function (color) {
+                    this._alarmColor = color;
+                    if (null != this.image) {
+                        var c = jtopo.util.genImageAlarm(this.image, color);
+                        if (c) {
+                            this.alarmImage = c;
+                        }
                     }
                 }
             }
@@ -1786,7 +1788,29 @@
 
             this.initialize = function (b, c, d) {
                 if (Link.prototype.initialize.apply(this, arguments), this.elementType = "link", this.zIndex = jtopo.zIndex_Link, 0 != arguments.length) {
-                    this.text = d, this.nodeA = b, this.nodeZ = c, this.nodeA && null == this.nodeA.outLinks && (this.nodeA.outLinks = []), this.nodeA && null == this.nodeA.inLinks && (this.nodeA.inLinks = []), this.nodeZ && null == this.nodeZ.inLinks && (this.nodeZ.inLinks = []), this.nodeZ && null == this.nodeZ.outLinks && (this.nodeZ.outLinks = []), null != this.nodeA && this.nodeA.outLinks.push(this), null != this.nodeZ && this.nodeZ.inLinks.push(this), this.caculateIndex(), this.font = "12px Consolas", this.fontColor = "255,255,255", this.lineWidth = 2, this.lineJoin = "miter", this.transformAble = !1, this.bundleOffset = 20, this.bundleGap = 12, this.textOffsetX = 0, this.textOffsetY = 0, this.arrowsRadius = null, this.arrowsOffset = 0, this.dashedPattern = null, this.path = [];
+                    this.text = d;
+                    this.nodeA = b;
+                    this.nodeZ = c;
+                    this.nodeA && null == this.nodeA.outLinks && (this.nodeA.outLinks = []);
+                    this.nodeA && null == this.nodeA.inLinks && (this.nodeA.inLinks = []);
+                    this.nodeZ && null == this.nodeZ.inLinks && (this.nodeZ.inLinks = []);
+                    this.nodeZ && null == this.nodeZ.outLinks && (this.nodeZ.outLinks = []);
+                    null != this.nodeA && this.nodeA.outLinks.push(this);
+                    null != this.nodeZ && this.nodeZ.inLinks.push(this);
+                    this.caculateIndex();
+                    this.font = "12px Consolas";
+                    this.fontColor = "255,255,255";
+                    this.lineWidth = 2;
+                    this.lineJoin = "miter";
+                    this.transformAble = !1;
+                    this.bundleOffset = 20;
+                    this.bundleGap = 12;
+                    this.textOffsetX = 0;
+                    this.textOffsetY = 0;
+                    this.arrowsRadius = null;
+                    this.arrowsOffset = 0;
+                    this.dashedPattern = null;
+                    this.path = [];
                     var e = "text,font,fontColor,lineWidth,lineJoin".split(",");
                     this.serializedProperties = this.serializedProperties.concat(e)
                 }
@@ -2205,34 +2229,37 @@
             }
         }
 
-        function getRootNodes(b) {
-            var c = [], d = b.filter(function (b) {
-                return b instanceof jtopo.Link ? !0 : (c.push(b), !1)
+        /**
+         * 找到可以作为根的节点
+         * */
+        function getRootNodes(elements) {
+            return elements.filter(function (element) {
+                return (element instanceof jtopo.Node) &&
+                    (!element.inLinks || element.inLinks.length == 0) &&
+                    (element.outLinks && element.outLinks.length > 0);
             });
-            return b = c.filter(function (a) {
-                for (var b = 0; b < d.length; b++)if (d[b].nodeZ === a)return !1;
-                return !0
-            }), b = b.filter(function (a) {
-                for (var b = 0; b < d.length; b++)if (d[b].nodeA === a)return !0;
-                return !1
-            })
         }
 
-        function h(a) {
-            var b = 0, c = 0;
-            return a.forEach(function (a) {
-                b += a.width, c += a.height
-            }), {width: b / a.length, height: c / a.length}
+        function getGap(arr) {
+            var totalWidth = 0, totalHeight = 0;
+            arr.forEach(function (a) {
+                totalWidth += a.width;
+                totalHeight += a.height;
+            });
+            return {
+                width: totalWidth / arr.length,
+                height: totalHeight / arr.length
+            }
         }
 
         function i(a, b, c, d) {
             b.x += c, b.y += d;
-            for (var e = getNodeChilds(a, b), f = 0; f < e.length; f++)i(a, e[f], c, d)
+            for (var e = getRootChilds(a, b), f = 0; f < e.length; f++)i(a, e[f], c, d)
         }
 
         function j(a, b) {
             function c(b, e) {
-                var f = getNodeChilds(a, b);
+                var f = getRootChilds(a, b);
                 null == d[e] && (d[e] = {}, d[e].nodes = [], d[e].childs = []), d[e].nodes.push(b), d[e].childs.push(f);
                 for (var g = 0; g < f.length; g++)c(f[g], e + 1), f[g].parent = b
             }
@@ -2241,56 +2268,88 @@
             return c(b, 0), d
         }
 
-        function TreeLayout(b, c, d) {
-            return function (e) {
-                function f(f, g) {
-                    for (var h = jtopo.layout.getTreeDeep(f, g), k = j(f, g), l = k["" + h].nodes, m = 0; m < l.length; m++) {
-                        var n = l[m], o = (m + 1) * (c + 10), p = h * d;
-                        "down" == b || ("up" == b ? p = -p : "left" == b ? (o = -h * d, p = (m + 1) * (c + 10)) : "right" == b && (o = h * d, p = (m + 1) * (c + 10))), n.setLocation(o, p)
+        function TreeLayout(direction, gap, top) {
+            return function (scene) {
+                function f(childs, root) {
+                    var h = jtopo.layout.getTreeDeep(childs, root);
+                    var k = j(childs, root);
+                    var l = k["" + h].nodes;
+                    for (var m = 0; m < l.length; m++) {
+                        var n = l[m], o = (m + 1) * (gap + 10), p = h * top;
+                        "down" == direction || ("up" == direction ? p = -p : "left" == direction ? (o = -h * top, p = (m + 1) * (gap + 10)) : "right" == direction && (o = h * top, p = (m + 1) * (gap + 10))), n.setLocation(o, p)
                     }
                     for (var q = h - 1; q >= 0; q--)for (var r = k["" + q].nodes, s = k["" + q].childs, m = 0; m < r.length; m++) {
                         var t = r[m], u = s[m];
-                        if ("down" == b ? t.y = q * d : "up" == b ? t.y = -q * d : "left" == b ? t.x = -q * d : "right" == b && (t.x = q * d), u.length > 0 ? "down" == b || "up" == b ? t.x = (u[0].x + u[u.length - 1].x) / 2 : ("left" == b || "right" == b) && (t.y = (u[0].y + u[u.length - 1].y) / 2) : m > 0 && ("down" == b || "up" == b ? t.x = r[m - 1].x + r[m - 1].width + c : ("left" == b || "right" == b) && (t.y = r[m - 1].y + r[m - 1].height + c)), m > 0)if ("down" == b || "up" == b) {
-                            if (t.x < r[m - 1].x + r[m - 1].width)for (var v = r[m - 1].x + r[m - 1].width + c, w = Math.abs(v - t.x), x = m; x < r.length; x++)i(e.childs, r[x], w, 0)
-                        } else if (("left" == b || "right" == b) && t.y < r[m - 1].y + r[m - 1].height)for (var y = r[m - 1].y + r[m - 1].height + c, z = Math.abs(y - t.y), x = m; x < r.length; x++)i(e.childs, r[x], 0, z)
+                        if ("down" == direction ? t.y = q * top : "up" == direction ? t.y = -q * top : "left" == direction ? t.x = -q * top : "right" == direction && (t.x = q * top), u.length > 0 ? "down" == direction || "up" == direction ? t.x = (u[0].x + u[u.length - 1].x) / 2 : ("left" == direction || "right" == direction) && (t.y = (u[0].y + u[u.length - 1].y) / 2) : m > 0 && ("down" == direction || "up" == direction ? t.x = r[m - 1].x + r[m - 1].width + gap : ("left" == direction || "right" == direction) && (t.y = r[m - 1].y + r[m - 1].height + gap)), m > 0)if ("down" == direction || "up" == direction) {
+                            if (t.x < r[m - 1].x + r[m - 1].width)for (var v = r[m - 1].x + r[m - 1].width + gap, w = Math.abs(v - t.x), x = m; x < r.length; x++)i(scene.childs, r[x], w, 0)
+                        } else if (("left" == direction || "right" == direction) && t.y < r[m - 1].y + r[m - 1].height)for (var y = r[m - 1].y + r[m - 1].height + gap, z = Math.abs(y - t.y), x = m; x < r.length; x++)i(scene.childs, r[x], 0, z)
                     }
                 }
 
-                var g = null;
-                null == c && (g = h(e.childs), c = g.width, ("left" == b || "right" == b) && (c = g.width + 10)), null == d && (null == g && (g = h(e.childs)), d = 2 * g.height), null == b && (b = "down");
-                var k = jtopo.layout.getRootNodes(e.childs);
-                if (k.length > 0) {
-                    f(e.childs, k[0]);
-                    var l = jtopo.util.getElementsBound(e.childs), m = e.getCenterLocation(), n = m.x - (l.left + l.right) / 2, o = m.y - (l.top + l.bottom) / 2;
-                    e.childs.forEach(function (b) {
-                        b instanceof jtopo.Node && (b.x += n, b.y += o)
+                var realGap = null;
+                if (null == gap) {
+                    realGap = getGap(scene.childs);
+                    gap = realGap.width;
+                    if ("left" == direction || "right" == direction) {
+                        gap = realGap.width + 10;
+                    }
+                }
+                if (null == top) {
+                    if (null == realGap) {
+                        realGap = getGap(scene.childs)
+                    }
+                    top = 2 * realGap.height;
+                }
+                direction = direction || "down";
+                var roots = jtopo.layout.getRootNodes(scene.childs);
+                if (roots.length > 0) {
+                    f(scene.childs, roots[0]);
+                    var bound = jtopo.util.getElementsBound(scene.childs);
+                    var center = scene.getCenterLocation();
+                    var startX = center.x - (bound.left + bound.right) / 2,
+                        startY = center.y - (bound.top + bound.bottom) / 2;
+                    scene.childs.forEach(function (element) {
+                        if (element instanceof jtopo.Node) {
+                            element.x += startX;
+                            element.y += startY;
+                        }
                     })
                 }
             }
         }
 
-        function CircleLayout(b) {
-            return function (c) {
-                function d(a, c, e) {
-                    var f = getNodeChilds(a, c);
-                    if (0 != f.length) {
-                        null == e && (e = b);
-                        var g = 2 * Math.PI / f.length;
-                        f.forEach(function (b, f) {
-                            var h = c.x + e * Math.cos(g * f), i = c.y + e * Math.sin(g * f);
-                            b.setLocation(h, i);
-                            var j = e / 2;
-                            d(a, b, j)
+        //必须得是有向无环图才可以布局
+        function CircleLayout(radius) {
+            return function (scene) {
+                function locationSet(allChilds, root, ra) {
+                    var rootsArr = getRootChilds(allChilds, root);
+                    if (0 != rootsArr.length) {
+                        if (null == ra) {
+                            ra = radius;
+                        }
+                        var step = 2 * Math.PI / rootsArr.length;
+                        rootsArr.forEach(function (child, i) {
+                            child.setLocation(
+                                root.x + ra * Math.cos(step * i),
+                                root.y + ra * Math.sin(step * i)
+                            );
+                            locationSet(allChilds, child, ra / 2);
                         })
                     }
                 }
 
-                var e = jtopo.layout.getRootNodes(c.childs);
-                if (e.length > 0) {
-                    d(c.childs, e[0]);
-                    var f = jtopo.util.getElementsBound(c.childs), g = c.getCenterLocation(), h = g.x - (f.left + f.right) / 2, i = g.y - (f.top + f.bottom) / 2;
-                    c.childs.forEach(function (b) {
-                        b instanceof jtopo.Node && (b.x += h, b.y += i)
+                var roots = jtopo.layout.getRootNodes(scene.childs);
+                if (roots.length > 0) {
+                    locationSet(scene.childs, roots[0]);
+                    var bound = jtopo.util.getElementsBound(scene.childs);
+                    var center = scene.getCenterLocation();
+                    var left = center.x - (bound.left + bound.right) / 2;
+                    var top = center.y - (bound.top + bound.bottom) / 2;
+                    scene.childs.forEach(function (b) {
+                        if (b instanceof jtopo.Node) {
+                            b.x += left;
+                            b.y += top;
+                        }
                     })
                 }
             }
@@ -2301,17 +2360,23 @@
             return g
         }
 
-        function n(a, b, c, d, e, f) {
-            var g = e ? e : 0, h = f ? f : 2 * Math.PI, i = h - g, j = i / c, k = [];
-            g += j / 2;
-            for (var l = g; h >= l; l += j) {
-                var m = a + Math.cos(l) * d, n = b + Math.sin(l) * d;
-                k.push({x: m, y: n})
+        function circlePosition(centerX, centerY, total, raidus, beginAngle, endAngle) {
+            var begin = beginAngle ? beginAngle : 0;
+            var end = endAngle ? endAngle : 2 * Math.PI;
+            var totalAngle = end - begin;
+            var step = totalAngle / total;
+            var position = [];
+            begin += step / 2;
+            for (var i = begin; end >= i; i += step) {
+                position.push({
+                    x: centerX + Math.cos(i) * raidus,
+                    y: centerY + Math.sin(i) * raidus
+                });
             }
-            return k
+            return position
         }
 
-        function o(a, b, c, d, e, f) {
+        function treePostion(a, b, c, d, e, f) {
             var g = f || "bottom", h = [];
             if ("bottom" == g)for (var i = a - c / 2 * d + d / 2, j = 0; c >= j; j++)h.push({
                 x: i + j * d,
@@ -2326,37 +2391,74 @@
             return h
         }
 
-        function m(a, b, c, d, e, f) {
+        function gridPosition(a, b, c, d, e, f) {
             for (var g = [], h = 0; c > h; h++)for (var i = 0; d > i; i++)g.push({x: a + i * e, y: b + h * f});
             return g
         }
 
-        function adjustPosition(a, b) {
-            if (a.layout) {
-                var c = a.layout, d = c.type, e = null;
-                if ("circle" == d) {
-                    var f = c.radius || Math.max(a.width, a.height);
-                    e = n(a.cx, a.cy, b.length, f, a.layout.beginAngle, a.layout.endAngle)
-                } else if ("tree" == d) {
-                    var g = c.width || 50, h = c.height || 50, i = c.direction;
-                    e = o(a.cx, a.cy, b.length, g, h, i)
-                } else {
-                    if ("grid" != d)return;
-                    e = m(a.x, a.y, c.rows, c.cols, c.horizontal || 0, c.vertical || 0)
+        function adjustPosition(root, rootChilds) {
+            if (root.layout) {
+                var layout = root.layout;
+                var locationArr = null;
+                switch (layout.type) {
+                    case 'circle':
+                        var radius = layout.radius || Math.max(root.width, root.height);
+                        locationArr = circlePosition(
+                            root.cx,
+                            root.cy,
+                            rootChilds.length,
+                            radius,
+                            root.layout.beginAngle,
+                            root.layout.endAngle
+                        );
+                        break;
+                    case 'tree':
+                        locationArr = treePostion(
+                            root.cx,
+                            root.cy,
+                            rootChilds.length,
+                            layout.width || 50,
+                            layout.height || 50,
+                            layout.direction
+                        );
+                        break;
+                    case 'grid':
+                        locationArr = gridPosition(
+                            root.x,
+                            root.y,
+                            layout.rows,
+                            layout.cols,
+                            layout.horizontal || 0,
+                            layout.vertical || 0
+                        );
+                        break;
                 }
-                for (var j = 0; j < b.length; j++)b[j].setCenterLocation(e[j].x, e[j].y)
+                for (var i = 0; i < rootChilds.length; i++) {
+                    rootChilds[i].setCenterLocation(locationArr[i].x, locationArr[i].y);
+                }
             }
         }
 
-        function getNodeChilds(b, c) {
-            for (var d = [], e = 0; e < b.length; e++)b[e] instanceof jtopo.Link && b[e].nodeA === c && d.push(b[e].nodeZ);
-            return d
+        function getRootChilds(allChilds, rootNode) {
+            var rootChilds;
+            if (rootNode.outLinks instanceof Array && rootNode.outLinks.length > 0) {
+                rootChilds = rootNode.outLinks.map(function (link) {
+                    return link.nodeZ;
+                });
+            }
+            return rootChilds || [];
         }
 
-        function layoutNode(a, b, c) {
-            var d = getNodeChilds(a.childs, b);
-            if (0 == d.length)return null;
-            if (adjustPosition(b, d), 1 == c)for (var e = 0; e < d.length; e++)layoutNode(a, d[e], c);
+        function layoutNode(scene, root, recursion) {
+            var rootChilds = getRootChilds(scene.childs, root);
+            if (0 != rootChilds.length) {
+                adjustPosition(root, rootChilds);
+                if (1 == recursion) {
+                    for (var e = 0; e < rootChilds.length; e++) {
+                        layoutNode(scene, rootChilds[e], recursion);
+                    }
+                }
+            }
             return null
         }
 
@@ -2377,20 +2479,25 @@
             e()
         }
 
-        function getTreeDeep(a, b) {
-            function c(a, b, e) {
-                var f = getNodeChilds(a, b);
-                e > d && (d = e);
-                for (var g = 0; g < f.length; g++)c(a, f[g], e + 1)
+        function getTreeDeep(childs, root) {
+            function reDeep(childs, root, deep) {
+                var rootChilds = getRootChilds(childs, root);
+                if (deep > d) {
+                    d = deep;
+                }
+                for (var g = 0; g < rootChilds.length; g++) {
+                    reDeep(childs, rootChilds[g], deep + 1);
+                }
             }
 
             var d = 0;
-            return c(a, b, 0), d
+            reDeep(childs, root, 0);
+            return d;
         }
 
         jtopo.layout = jtopo.Layout = {
             layoutNode: layoutNode,
-            getNodeChilds: getNodeChilds,
+            getNodeChilds: getRootChilds,
             adjustPosition: adjustPosition,
             springLayout: springLayout,
             getTreeDeep: getTreeDeep,
