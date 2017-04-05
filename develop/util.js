@@ -1,12 +1,13 @@
 var ruler;
+function cached(fn) {
+    var cache = Object.create(null);
+    return (function cachedFn(str) {
+        var hit = cache[str];
+        return hit || (cache[str] = fn(str))
+    })
+}
 var util = {
-        cached: function (fn) {
-            var cache = Object.create(null);
-            return (function cachedFn(str) {
-                var hit = cache[str];
-                return hit || (cache[str] = fn(str))
-            })
-        },
+        cached:cached,
         /**
          * 字符串转化json
          * @param json
@@ -23,7 +24,7 @@ var util = {
          * @param string
          * @returns {XML|*|void}
          */
-        upFirst: util.cached(function (string) {
+        upFirst: cached(function (str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }),
         extend: function (base, config) {

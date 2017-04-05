@@ -10,3 +10,4 @@
     同步属性
 6.container.AutoBoundLayout函数重写
 7.优化原有Array.prototype.del函数
+8.getRootNodes,getRootChilds优化,删除无用util块里的$foreach,$for,mouseCoords,isIntsect,toJson

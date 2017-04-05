@@ -65,14 +65,14 @@ $(document).ready(function () {
                 type:"fixed"
             }
         });
-        for(var i= 0;i<5000;i++){
-            data.node.push({
-                position:[Math.random()*10000,Math.random()*10000],
-                size:[60,60],
-                id:i,
-                name:"测试"+i
-            });
-        }
+        //for(var i= 0;i<100;i++){
+        //    data.node.push({
+        //        position:[Math.random()*10000,Math.random()*10000],
+        //        size:[60,60],
+        //        id:i,
+        //        name:"测试"+i
+        //    });
+        //}
         data.node.push({
             position:[-200,-200],
             size:[100,100],
