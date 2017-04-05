@@ -22,7 +22,6 @@ gulp.task('default', ['watch', 'serve']);
 var shell = require('gulp-shell');
 gulp.task('webpack', shell.task(['webpack --config webpack.config.js']));
 gulp.task('webpack-ready', shell.task(['webpack --config webpack.config.ready.js']));
-gulp.task('webpack-doc', shell.task(['webpack --config webpack.config.doc.js']));
 gulp.task('build', function(callback) {
     runSequence('webpack',"reload",'copy',callback);
 });
@@ -88,18 +87,4 @@ gulp.task('serve', function () {
 gulp.task("copy",function(){
     return gulp.src(['topo_iposs/qtopo/qtopo.component.min.js','topo_iposs/qtopo/qtopo.core.min.js'])
         .pipe(gulp.dest('public/qtopo'));
-});
-gulp.task("doc",function(){
-    connect.server({
-        root: "./doc",
-        port: 8110,
-        livereload: true
-    });
-    gulp.watch(["./doc/docs/*.js","./doc/**/*.html","./doc/**/*.css"],['build-doc']);
-});
-gulp.task("doc-reload",function(){
-    gulp.src("./doc/index.html").pipe(connect.reload());
-});
-gulp.task('build-doc', function(callback) {
-    runSequence('webpack-doc',"doc-reload",callback);
 });
