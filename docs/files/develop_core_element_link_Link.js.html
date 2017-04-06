@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\core\element\link\Link.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\core\element\link\Link.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+var Element = require(&quot;../Element.js&quot;);
+module.exports = Link;
+var jtopoReset = {
+    paintSelected: function (a) {
+        a.shadowBlur = 10;
+        a.shadowColor = &quot;rgba(255,255,255,1)&quot;;
+        a.shadowOffsetX = 0;
+        a.shadowOffsetY = 0;
+    }
+};
+function Link(jtopo) {
+    if (!jtopo) {
+        QTopo.util.error(&quot;create Link without jtopo&quot;, this);
+        return;
+    }
+    Element.call(this, jtopo);
+    //记录两端的节点
+    this.path = {
+        start: this.jtopo.nodeA.qtopo,
+        end: this.jtopo.nodeZ.qtopo
+    };
+    //在线路两端的对象上的links属性中更新自己
+    if (this.path.start.links &amp;&amp; $.isArray(this.path.start.links.out)) {
+        if (this.path.start.links.out.indexOf(this) &lt; 0) {
+            this.path.start.links.out.push(this);
+        }
+    }
+    if (this.path.end.links &amp;&amp; $.isArray(this.path.end.links.in)) {
+        if (this.path.end.links.in.indexOf(this) &lt; 0) {
+            this.path.end.links.in.push(this);
+        }
+    }
+    reset(this.jtopo);
+}
+QTopo.util.inherits(Link, Element);
+
+function reset(jtopo) {
+    //被選中后的样式
+    jtopo.paintSelected = jtopoReset.paintSelected;
+}
+Link.prototype.getType = function () {
+    return QTopo.constant.LINK;
+};
+Link.prototype.setColor = function (color) {
+    if (color) {
+        this.jtopo.strokeColor = QTopo.util.transHex(color.toLowerCase());
+    }
+    this.attr.color = this.jtopo.strokeColor;
+};
+Link.prototype.setNumber = function (number) {
+    if ($.isNumeric(number)) {
+        number = parseInt(number);
+        if (number &gt; 1) {
+            this.jtopo.text = &#x27;(+&#x27; + number + &#x27;)&#x27;;
+        } else {
+            number = 1;
+            this.jtopo.text = &#x27;&#x27;;
+        }
+        this.attr.number = number;
+    }
+};
+Link.prototype.setWidth = function (width) {
+    if ($.isNumeric(width)) {
+        var newWidth = parseInt(width);
+        this.jtopo.lineWidth = newWidth &gt; 0 ? newWidth : 1; // 线宽
+    }
+    this.attr.width = this.jtopo.lineWidth;
+};
+Link.prototype.setArrow = function (arrow) {
+    if (arrow) {
+        if(typeof arrow.size!=&#x27;undefined&#x27;){
+            this.jtopo.arrowsRadius = $.isNumeric(arrow.size) ? parseInt(arrow.size) : 0;
+        }
+        if(typeof arrow.offset!=&#x27;undefined&#x27;){
+            this.jtopo.arrowsOffset = $.isNumeric(arrow.offset) ? parseInt(arrow.offset) : 0;
+        }
+        if (!this.attr.arrow) {
+            this.attr.arrow = {};
+        }
+
+        if (typeof arrow.start!=&#x27;undefined&#x27;) {
+            this.attr.arrow.start = typeof arrow.start == &quot;boolean&quot; ? arrow.start : arrow.start == &quot;true&quot;;
+        }
+        if (typeof arrow.end!=&#x27;undefined&#x27;) {
+            this.attr.arrow.end = typeof arrow.end == &quot;boolean&quot; ? arrow.end : arrow.end == &quot;true&quot;;
+        }
+    }
+    this.attr.arrow.size = this.jtopo.arrowsRadius;
+    this.attr.arrow.offset = this.jtopo.arrowsOffset;
+};
+Link.prototype.setGap = function (gap) {
+    if (gap) {
+        this.jtopo.bundleGap = $.isNumeric(gap) ? parseInt(gap) : 0; // 线条之间的间隔
+    }
+    this.attr.gap = this.jtopo.bundleGap;
+};
+Link.prototype.setDashed = function (dashedPattern) {
+    if ($.isNumeric(dashedPattern) &amp;&amp; dashedPattern &gt; 0) {
+        this.jtopo.dashedPattern = parseInt(dashedPattern);
+    } else {
+        this.jtopo.dashedPattern = null;
+    }
+    this.attr.dashed = this.jtopo.dashedPattern;
+};
+/**
+ * 实例序列化
+ */
+Link.prototype.toJson=function(){
+    var json=$.extend({},this.attr);
+    json.extra=$.extend({},this.extra);
+    json.start=this.path.start.get(&#x27;jsonId&#x27;);
+    json.end=this.path.end.get(&#x27;jsonId&#x27;);
+    return json;
+};
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

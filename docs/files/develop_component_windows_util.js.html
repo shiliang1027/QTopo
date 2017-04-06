@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\component\windows\util.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\component\windows\util.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+var mutex = [];
+var util = {
+    /**
+     * 根据窗口以及topo包裹外壳的高度确认窗口的默认位置
+     * @param dom topo外层包裹
+     * @param win 设定高度的窗口
+     */
+    defaultPosition: function (dom, win) {
+        win.css({
+            top: ($(dom).height() - $(win).height()) / 2,
+            left: 0
+        });
+    },
+    /**基于Bootstrap下拉列表的颜色选择框绑定
+     * @win 初始化的窗口
+     */
+    initColorSelect: function (win) {
+        //被控制的下拉列表中的div,用以插入颜色按钮
+        win.each(function(){
+            var self=$(this);
+            var input=self.find(&quot;input.color-selected&quot;);
+            self.find(&quot;[name=color_palette]&quot;).colorPalette().on(&#x27;selectColor&#x27;, function (e) {
+                input.val(e.color);//选中颜色按钮后将值赋予的input框
+            });
+        });
+    },
+    /**
+     * 阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key
+     * 需要jquery-tools中的插件支持
+     * 需要jquery-tools中的插件支持
+     * @param dom form表单的jquery对象
+     * @param fn 处理json对象的函数
+     */
+    initFormSubmit: function (dom, fn) {
+        dom.submit(function (e) {
+            try {
+                if ($.isFunction(fn)) {
+                    fn($(this).serializeJson());
+                }
+            } catch (e) {
+                QTopo.util.error(&quot;form trans json error : &quot;, dom, fn, e);
+            }
+            return false;
+        });
+    },
+    /**
+     * json组装form表单
+     * 需要jquery-tools中的插件支持
+     * @param dom form表单的jquery对象
+     * @param json 对象中的键对应表单中的name，自动将值赋上
+     */
+    setFormInput: function (dom, json) {
+        dom.setForm(json);
+    },
+    /**
+     * 初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化
+     * @dom topo存在的包裹dom,用以注册包裹空间内窗口移动
+     * @win 需要初始化的窗口
+     */
+    initBase: function (dom, win) {
+        win.hide();
+        var head = win.find(&quot;.panel-heading&quot;);
+        head.find(&quot;.close&quot;).click(function (e) {
+            win.trigger(&quot;window.close&quot;);
+        });
+        //窗体可移动
+        moveAble(dom, win, head);
+        //窗口互斥
+        mutex.push(win);
+        win.on(&quot;window.open&quot;, function () {
+            $.each(mutex, function (i, v) {
+                if (win != v &amp;&amp; v.css(&quot;display&quot;) != &quot;none&quot;) {
+                    v.trigger(&quot;window.close&quot;);
+                }
+            });
+        });
+        //提供api触发窗口开关
+        var name = head.text().trim();
+        win.on(&quot;window.close&quot;,function(){
+            win.data(&quot;todo&quot;,&quot;&quot;);
+            win.hide();
+        });
+        win.on(&quot;window.open&quot;,function(){
+            util.defaultPosition(dom,win);
+            win.show();
+        });
+        win.close = function () {
+            try {
+                win.trigger(&quot;window.close&quot;);
+            } catch (e) {
+                QTopo.util.error(&quot;window close error : &quot; + name,e);
+            }
+        };
+        win.open = function (data) {
+            try {
+                win.data(&quot;todo&quot;,data);
+                win.trigger(&quot;window.open&quot;);
+            } catch (e) {
+                QTopo.util.error(&quot;window open error : &quot; + name,e);
+            }
+        };
+        function moveAble(dom, win, head) {
+            win.movement = false;
+            head.mousedown(function (e) {
+                win.movePageX = e.pageX - win.offset().left;
+                win.movePageY = e.pageY - win.offset().top;
+                win.movement = true;
+            });
+            head.mouseup(function (e) {
+                win.movement = false;
+            });
+            $(dom).mousemove(function (e) {
+                if (win.movement) {
+                    win.css({
+                        left: e.pageX - win.movePageX,
+                        top: e.pageY - win.movePageY
+                    });
+                }
+            });
+        }
+    },
+    /**
+     * 封装统一的jquery-niceScroll插件的设定值
+     * @param win 需要添加滚动条的窗口
+     */
+    addScroll: function (win) {
+        $(win).niceScroll({
+            cursorcolor: &quot;#659ae6&quot;,//滚动滑块颜色
+            cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
+            touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备
+            cursorwidth: &quot;5px&quot;, //像素光标的宽度
+            cursorborderradius: &quot;6px&quot;,//以像素为光标边界半径
+            autohidemode: false, //是否隐藏滚动条,
+            background: &quot;#0e1c39&quot;,
+            cursorborder: &quot;1px solid #0e1c39&quot;
+        });
+    },
+
+    /**
+     * 让子窗口在父窗口的正中
+     * @param dom 父窗口
+     * @param win 子窗口
+     * @param fixed 固定计算的窗口高宽
+     */
+    makeCenter:function(dom,win,fixed){
+        var height=win.height()||300;
+        var width=win.width()||300;
+        if(fixed){
+            if($.isNumeric(fixed.height)){
+                height=fixed.height;
+            }
+            if($.isNumeric(fixed.width)){
+                width=fixed.width;
+            }
+        }
+        win.css({
+            top:($(dom).height()-height)/2,
+            left:($(dom).width()-width)/2,
+            bottom:&quot;auto&quot;,
+            right:&quot;auto&quot;
+        });
+    }
+};
+module.exports = util;
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

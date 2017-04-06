@@ -1,0 +1,2347 @@
+{
+    "project": {
+        "name": "Documenting JavaScript with YUIDoc",
+        "description": "A tutorial about YUIDoc, for Nettuts+",
+        "version": "1.0.0"
+    },
+    "files": {
+        "develop\\component\\windows\\util.js": {
+            "name": "develop\\component\\windows\\util.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\container\\Container.js": {
+            "name": "develop\\core\\element\\container\\Container.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\link\\Direct.js": {
+            "name": "develop\\core\\element\\link\\Direct.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\link\\Link.js": {
+            "name": "develop\\core\\element\\link\\Link.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\node\\Node.js": {
+            "name": "develop\\core\\element\\node\\Node.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\Element.js": {
+            "name": "develop\\core\\element\\Element.js",
+            "modules": {
+                "core": 1
+            },
+            "classes": {
+                "Element": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\jtopo\\jtopo-min.js": {
+            "name": "develop\\core\\jtopo\\jtopo-min.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\Scene.js": {
+            "name": "develop\\core\\Scene.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\events.js": {
+            "name": "develop\\core\\events.js",
+            "modules": {},
+            "classes": {
+                "Scene": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\constant.js": {
+            "name": "develop\\constant.js",
+            "modules": {
+                "QTopo": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\main.js": {
+            "name": "develop\\main.js",
+            "modules": {},
+            "classes": {
+                "QTopo": 1,
+                "QTopo.instance": 1,
+                "option配置": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\util.js": {
+            "name": "develop\\util.js",
+            "modules": {},
+            "classes": {
+                "QTopo.util": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "core": {
+            "name": "core",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Element": 1,
+                "Scene": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "develop\\core\\events.js",
+            "line": 4
+        },
+        "QTopo": {
+            "name": "QTopo",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "QTopo": 1,
+                "QTopo.instance": 1,
+                "option配置": 1,
+                "QTopo.util": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "develop\\util.js",
+            "line": 4
+        }
+    },
+    "classes": {
+        "Element": {
+            "name": "Element",
+            "shortname": "Element",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\Element.js",
+            "line": 5,
+            "description": "基本元素对象",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "jtopo",
+                    "description": "元素核心的jtopo对象"
+                }
+            ]
+        },
+        "Scene": {
+            "name": "Scene",
+            "shortname": "Scene",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\events.js",
+            "line": 4,
+            "description": "图层对象",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "canvas",
+                    "description": "绘图所在的canvas标签对象"
+                },
+                {
+                    "name": "config",
+                    "description": "图层的基本设置,参见attr属性"
+                }
+            ]
+        },
+        "QTopo": {
+            "name": "QTopo",
+            "shortname": "QTopo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\main.js",
+            "line": 8,
+            "static": 1,
+            "description": "主入口,window.QTopo"
+        },
+        "QTopo.instance": {
+            "name": "QTopo.instance",
+            "shortname": "QTopo.instance",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\main.js",
+            "line": 58,
+            "description": "QTopo初始化的topo实例",
+            "static": 1
+        },
+        "option配置": {
+            "name": "option配置",
+            "shortname": "option配置",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\main.js",
+            "line": 188,
+            "description": "option配置\n\n可以随时使用setOption生成对应元素或告警操作，也可以一次生成全局",
+            "static": 1
+        },
+        "QTopo.util": {
+            "name": "QTopo.util",
+            "shortname": "QTopo.util",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\util.js",
+            "line": 4,
+            "static": 1
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 3,
+            "description": "根据窗口以及topo包裹外壳的高度确认窗口的默认位置",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": "topo外层包裹"
+                },
+                {
+                    "name": "win",
+                    "description": "设定高度的窗口"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 14,
+            "win": "初始化的窗口",
+            "class": "Element"
+        },
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 27,
+            "description": "阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key\n需要jquery-tools中的插件支持\n需要jquery-tools中的插件支持",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": "form表单的jquery对象"
+                },
+                {
+                    "name": "fn",
+                    "description": "处理json对象的函数"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 46,
+            "description": "json组装form表单\n需要jquery-tools中的插件支持",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": "form表单的jquery对象"
+                },
+                {
+                    "name": "json",
+                    "description": "对象中的键对应表单中的name，自动将值赋上"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 55,
+            "description": "初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
+            "dom": "topo存在的包裹dom,用以注册包裹空间内窗口移动",
+            "win": "需要初始化的窗口",
+            "class": "Element"
+        },
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 122,
+            "description": "封装统一的jquery-niceScroll插件的设定值",
+            "params": [
+                {
+                    "name": "win",
+                    "description": "需要添加滚动条的窗口"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\component\\windows\\util.js",
+            "line": 139,
+            "description": "让子窗口在父窗口的正中",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": "父窗口"
+                },
+                {
+                    "name": "win",
+                    "description": "子窗口"
+                },
+                {
+                    "name": "fixed",
+                    "description": "固定计算的窗口高宽"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 55,
+            "description": "将元素加入分组内",
+            "params": [
+                {
+                    "name": "element",
+                    "description": ""
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 86,
+            "description": "将子元素从分组中删除",
+            "params": [
+                {
+                    "name": "element",
+                    "description": ""
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 136,
+            "description": "分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作",
+            "params": [
+                {
+                    "name": "flag",
+                    "description": "为true则缩放为false则展开，无值则根据现状切换,"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 158,
+            "description": "判断元素是否已是子元素",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "判断的子元素"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 173,
+            "description": "判断元素是否在分组覆盖的范围内,临时元素不考虑",
+            "params": [
+                {
+                    "name": "element",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 186,
+            "description": "实例序列化",
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Direct.js",
+            "line": 109,
+            "description": "直线切换",
+            "params": [
+                {
+                    "name": "flag",
+                    "description": "为true则展开为false则缩放，无值则根据现状切换,"
+                }
+            ],
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 105,
+            "description": "实例序列化",
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Node.js",
+            "line": 64,
+            "description": "实例序列化",
+            "class": "Element"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 13,
+            "description": "核心Jtopo对象",
+            "itemtype": "property",
+            "name": "jtopo",
+            "type": "Object",
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 21,
+            "description": "唯一标识",
+            "itemtype": "property",
+            "name": "jsonId",
+            "type": "String",
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 27,
+            "description": "额外属性",
+            "itemtype": "property",
+            "name": "extra",
+            "type": "String",
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 32,
+            "description": "基本属性",
+            "itemtype": "property",
+            "name": "attr",
+            "type": "String",
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 37,
+            "description": "设置jsonId",
+            "itemtype": "method",
+            "name": "setJsonId",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "id",
+                    "type": "String"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 45,
+            "description": "显示元素",
+            "itemtype": "method",
+            "name": "show",
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 61,
+            "description": "隐藏元素",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 77,
+            "description": "设置使用类型",
+            "itemtype": "method",
+            "name": "setUseType",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 85,
+            "description": "获取使用类型",
+            "itemtype": "method",
+            "name": "getUseType",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 93,
+            "description": "设置元素文本",
+            "itemtype": "method",
+            "name": "setText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 104,
+            "description": "设置元素边框",
+            "itemtype": "method",
+            "name": "setBorder",
+            "params": [
+                {
+                    "name": "border",
+                    "description": "\ncolor:颜色,width:宽度,radius:角弧度",
+                    "type": "Object"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 125,
+            "description": "绑定事件,可用off删除对应事件",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "事件名\n\nclick,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "处理函数",
+                    "type": "Function"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 143,
+            "description": "解除事件，可删除on绑定的事件",
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "事件名\n\nclick,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "处理的函数对象，若无参则删除该事件下所有函数",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 155,
+            "description": "设置元素层级",
+            "itemtype": "method",
+            "name": "setZIndex",
+            "params": [
+                {
+                    "name": "zIndex",
+                    "description": "值高的元素覆盖在值低的元素上,默认节点>链接>分组",
+                    "type": "Number"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 166,
+            "description": "设置元素字体",
+            "itemtype": "method",
+            "name": "setFont",
+            "params": [
+                {
+                    "name": "font",
+                    "description": "\n\ntype:字体,\ncolor:颜色,\nsize:大小",
+                    "type": "Object"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 194,
+            "description": "设置元素透明度",
+            "itemtype": "method",
+            "name": "setAlpha",
+            "params": [
+                {
+                    "name": "alpha",
+                    "description": "值域0-1",
+                    "type": "Number"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 207,
+            "description": "设置元素位置",
+            "itemtype": "method",
+            "name": "setPosition",
+            "params": [
+                {
+                    "name": "position",
+                    "description": "[x,y]在图层上的坐标",
+                    "type": "Array"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 219,
+            "description": "设置元素大小",
+            "itemtype": "method",
+            "name": "setSize",
+            "params": [
+                {
+                    "name": "size",
+                    "description": "[width,height]",
+                    "type": "Array"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 232,
+            "description": "元素是否锁定位置",
+            "itemtype": "method",
+            "name": "setDragable",
+            "params": [
+                {
+                    "name": "dragable",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 243,
+            "description": "设置元素文字位置",
+            "itemtype": "method",
+            "name": "setNamePosition",
+            "params": [
+                {
+                    "name": "namePosition",
+                    "description": "无参则设为bottom\n\nhide,bottom,top,left,right,center",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 298,
+            "description": "私有函数,设置元素属性,只要有对应函数则传入参数设置",
+            "itemtype": "method",
+            "name": "_setAttr",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 316,
+            "description": "获取元素基本属性",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "属性名",
+                    "type": "String"
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 324,
+            "description": "获取/设置元素额外属性",
+            "itemtype": "method",
+            "name": "val",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "属性名",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "值,无参则为取值",
+                    "type": "String|object",
+                    "optional": true
+                }
+            ],
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\Element.js",
+            "line": 394,
+            "description": "获取元素中心坐标",
+            "itemtype": "method",
+            "name": "getCenterPosition",
+            "return": {
+                "description": "{x,y}",
+                "type": "Object"
+            },
+            "class": "Element",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\jtopo\\jtopo-min.js",
+            "line": 2232,
+            "description": "找到可以作为根的节点",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 41,
+            "description": "核心Jtopo对象",
+            "itemtype": "property",
+            "name": "jtopo",
+            "type": "Object",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 47,
+            "description": "图层中记录的元素",
+            "itemtype": "property",
+            "name": "children",
+            "type": "Array",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 57,
+            "description": "图层的主要属性",
+            "itemtype": "property",
+            "name": "attr",
+            "type": "Objcet",
+            "class": "Scene",
+            "module": "core",
+            "subprops": [
+                {
+                    "name": "mode",
+                    "description": ",",
+                    "optional": true,
+                    "optdefault": "QTopo.constant.mode.NORMAL"
+                },
+                {
+                    "name": "backgroundImage",
+                    "description": ",",
+                    "optional": true,
+                    "optdefault": "''"
+                },
+                {
+                    "name": "backgroundColor",
+                    "description": ",",
+                    "optional": true,
+                    "optdefault": "''"
+                }
+            ]
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 65,
+            "description": "图层的额外属性",
+            "itemtype": "property",
+            "name": "extra",
+            "type": "Objcet",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 88,
+            "description": "获取图层的基本属性",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "要获取的属性名",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "属性值",
+                "type": "String|object"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 97,
+            "description": "获取图层的额外属性,或添加/修改额外属性",
+            "itemtype": "method",
+            "name": "val",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "要操作的属性名",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "属性值，若无则函数为获取属性，若有则为修改/添加属性",
+                    "type": "String|object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String|object|void"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 126,
+            "description": "配置图层中元素全局样式",
+            "itemtype": "method",
+            "name": "setDefault",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "要配置的元素类型 例：QTopo.constant.node.IMAGE",
+                    "type": "String"
+                },
+                {
+                    "name": "config",
+                    "description": "样式属性，可参考对应的元素attr属性",
+                    "type": "Object"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 163,
+            "description": "获取图层中元素全局样式",
+            "itemtype": "method",
+            "name": "getDefault",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "要配置的元素类型 例：QTopo.constant.node.IMAGE",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "样式属性，可参考对应的元素attr属性",
+                "type": "Object"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 202,
+            "description": "设置图层背景图片，与setBackgroundColor冲突",
+            "itemtype": "method",
+            "name": "setBackgroundImage",
+            "params": [
+                {
+                    "name": "image",
+                    "description": "图片url",
+                    "type": "String"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 211,
+            "description": "设置图层背景颜色，与setBackgroundImage冲突",
+            "itemtype": "method",
+            "name": "setBackgroundColor",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "可以是\"#xxxxxx\"或\"255,255,255\"格式",
+                    "type": "String"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 221,
+            "description": "设置图层模式",
+            "itemtype": "method",
+            "name": "setMode",
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "例:QTopo.constant.mode.NORMAL",
+                    "type": "String"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 234,
+            "description": "图层清空，清除图层内所有元素",
+            "itemtype": "method",
+            "name": "clear",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 248,
+            "description": "获取类型，常用在右键菜单上对触发对象的识别",
+            "itemtype": "method",
+            "name": "getType",
+            "return": {
+                "description": "QTopo.constant.SCENE"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 256,
+            "description": "获取使用类型，常用在右键菜单上对触发对象的识别",
+            "itemtype": "method",
+            "name": "getUseType",
+            "return": {
+                "description": "QTopo.constant.SCENE"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 264,
+            "description": "绑定事件，可用off删除对应事件",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "事件名\n\nclick,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "处理函数",
+                    "type": "Function"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 276,
+            "description": "删除事件，可删除on绑定的事件",
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "事件名\n\nclick,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "处理的函数对象，若无参则删除该事件下所有函数",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 288,
+            "description": "根据搜索当前图层，查找基本属性或额外属性满足条件的元素",
+            "itemtype": "method",
+            "name": "find",
+            "params": [
+                {
+                    "name": "scan",
+                    "description": "查询条件,格式为\"key=value,key=value\",多个条件用,分割",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "可指定元素类型精确查找",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "返回数组，数组成员为满足至少一个条件的元素",
+                "type": "Array"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 346,
+            "description": "获取当前图层在正常视角下(未放大缩小)最左上角的坐标",
+            "itemtype": "method",
+            "name": "getOrigin",
+            "return": {
+                "description": "包含 x,y属性",
+                "type": "Object"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 372,
+            "description": "根据配置在当前图层上绘制节点",
+            "itemtype": "method",
+            "name": "createNode",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "\n\n无参则根据全局配置绘制QTopo.constant.node.IMAGE对应的节点,\n\nconfig.type可指定绘制节点类型\n\n参考QTopo.contant.node选择可绘制的种类",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "创建成功返回节点对象，失败返回false",
+                "type": "Node|boolean"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 404,
+            "description": "根据配置在两个元素之间绘制新的链接",
+            "itemtype": "method",
+            "name": "createLink",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "\n无参则根据全局配置绘制QTopo.constant.link.DIRECT对应的链接,\n\nconfig.type可指定绘制链接类型\n\n参考QTopo.contant.link选择可绘制的种类",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "创建成功返回链接对象，失败返回false",
+                "type": "Link|boolean"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 442,
+            "description": "根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,\n可操作于有展开功能的链接上，可自适应选择添加新链接或计数+1",
+            "itemtype": "method",
+            "name": "addLink",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "创建新链接时所依赖的配置，可参考createLink函数",
+                    "type": "Object"
+                },
+                {
+                    "name": "fn",
+                    "description": "判断两元素间无链接时的可选操作，若无则调用createLink函数建立链接",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "创建成功返回链接对象，失败返回false",
+                "type": "Link|boolean"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 484,
+            "description": "获取两元素之间所有的链接",
+            "itemtype": "method",
+            "name": "linksBetween",
+            "params": [
+                {
+                    "name": "start",
+                    "description": "元素，起始无关",
+                    "type": "Element"
+                },
+                {
+                    "name": "end",
+                    "description": "元素，起始无关",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "元素间的链接集合，按链接的计数右大到小排列",
+                "type": "Array"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 515,
+            "description": "在图层上绘制不可以移动的线元素",
+            "itemtype": "method",
+            "name": "createLine",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数,若无则按全局配置创建",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "创建成功返回线元素，失败返回false",
+                "type": "Line|boolean"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 540,
+            "description": "在图层上绘制分组元素",
+            "itemtype": "method",
+            "name": "createContainer",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数,若无则按全局配置创建",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "创建成功返回线元素，失败返回false",
+                "type": "Container|boolean"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 582,
+            "description": "删除图层内元素,元素删除其上的链接也会删除和更新",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 698,
+            "description": "图层信息转化为json",
+            "itemtype": "method",
+            "name": "toJson",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 709,
+            "description": "判断元素是否在当前图层内",
+            "itemtype": "method",
+            "name": "isChildren",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 728,
+            "description": "图层缩放,元素一屏显示",
+            "itemtype": "method",
+            "name": "goCenter",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 738,
+            "description": "图层缩放",
+            "itemtype": "method",
+            "name": "resize",
+            "params": [
+                {
+                    "name": "size",
+                    "description": "根据比例放大或缩小 参数可 0-1缩小 1-n放大",
+                    "type": "Number"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 750,
+            "description": "启用/禁用鼠标缩放",
+            "itemtype": "method",
+            "name": "toggleZoom",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 762,
+            "description": "启用/禁用鹰眼",
+            "itemtype": "method",
+            "name": "toggleEagleEye",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 770,
+            "description": "获取当前图层的png格式图片在新的窗口打开",
+            "itemtype": "method",
+            "name": "getPicture",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 787,
+            "description": "切换元素的层次",
+            "itemtype": "method",
+            "name": "toggleZIndex",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "待控制元素"
+                },
+                {
+                    "name": "flag",
+                    "description": "true为降低false为提升，无参则默认提升，若已提升到最高则降至最低",
+                    "optional": true
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 825,
+            "description": "获取被选中的元素",
+            "itemtype": "method",
+            "name": "getSelected",
+            "return": {
+                "description": "返回图层中被选中的元素",
+                "type": "Array"
+            },
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 847,
+            "description": "高亮目标隐藏其他",
+            "itemtype": "method",
+            "name": "toggleLight",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "数组或对象,高亮其相关对象,无参则全部高亮",
+                    "optional": true
+                },
+                {
+                    "name": "flag",
+                    "description": "若为true则只高亮传入的对象,不选则只对传入对象相关的对象高亮",
+                    "optional": true
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 914,
+            "description": "正常尺寸展示，并将视角移动到以参数节点为中心的位置",
+            "itemtype": "method",
+            "name": "moveToNode",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "节点对象"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\Scene.js",
+            "line": 941,
+            "description": "自动布局",
+            "itemtype": "method",
+            "name": "autoLayout",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "自动布局配置参数"
+                }
+            ],
+            "example": [
+                "\n     参数配置:\n         config:{\n             type:\n                 1.'round'   无需其他配置\n                 2.'default' 需配置行数，列间距，行间距\n             rows:行数\n             rowSpace:行间距\n             columnSpace:列间距\n         }"
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\events.js",
+            "line": 19,
+            "description": "分组切换,点击分组可进行缩放和还原",
+            "itemtype": "event",
+            "name": "toggleGroup",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\events.js",
+            "line": 36,
+            "description": "链路切换,QTopo.constant.link.DIRECT类型的链路计数大于1时可展开和合并",
+            "itemtype": "event",
+            "name": "toggleLink",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\constant.js",
+            "line": 8,
+            "description": "定义的通用常量,一般用getType()来区分元素基本类型,getUseType()区分元素具体类型",
+            "itemtype": "property",
+            "name": "constant",
+            "type": "Object",
+            "example": [
+                "\n     if(node.getType()==QTopo.constant.NODE){.....}\n     if(node.getUseType()!=QTopo.constant.CASUAL){.....}\n     if(node.getUseType()==QTopo.constant.node.IMAGE){.....}"
+            ],
+            "class": "QTopo",
+            "module": "QTopo",
+            "subprops": [
+                {
+                    "name": "SCENE",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "CONTAINER",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "LINK",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "LINE",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "NODE",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "CASUAL",
+                    "description": "临时元素，用以元素变换收缩等操作的过渡元素,一般不对其做操作",
+                    "type": "String"
+                },
+                {
+                    "name": "node.IMAGE",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "node.TEXT",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "container.GROUP",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "link.CURVE",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "link.DIRECT",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "link.FLEXIONAL",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "link.FOLD",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "line.DIRECT",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "mode.NORMAL",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "mode.EDIT",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "mode.DRAG",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "mode.SELECT",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 14,
+            "description": "存放当前页面中所初始化的topo实例",
+            "itemtype": "property",
+            "name": "instance",
+            "type": "Array",
+            "class": "QTopo",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 19,
+            "description": "一系列工具函数,详细内容参考 QTopo.util",
+            "itemtype": "property",
+            "name": "util",
+            "type": "Object",
+            "class": "QTopo",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 25,
+            "description": "可开启或屏蔽控制台日志,对应用QTopo.util.info以及QTopo.util.error函数输出的日志",
+            "itemtype": "property",
+            "name": "log",
+            "type": "Object",
+            "class": "QTopo",
+            "module": "QTopo",
+            "subprops": [
+                {
+                    "name": "error",
+                    "description": "默认为true,开启",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "info",
+                    "description": "默认为true,开启",
+                    "type": "Boolean"
+                }
+            ]
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 38,
+            "description": "初始化Qtopo",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": "指定初始化所在的dom,若是数组则自动取第一个",
+                    "type": "Document"
+                },
+                {
+                    "name": "config",
+                    "description": "{object} 配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "instance QTopo实例"
+            },
+            "example": [
+                "\n     IPOSS = QTopo.init(\n          document.getElementsByClassName(\"topo_base\")[0],\n         {\n             backgroundColor: \"#06243e\",\n             hideDefaultSearch: true,\n             filterMenu: [\"创建节点\", \"添加链路\", \"删除\", \"编辑\", \"元素切换\",\"分组操作\"],\n             filterWindow: [\"imageNode\", \"link\"]\n         }\n     );"
+            ],
+            "class": "QTopo",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 64,
+            "description": "topo实例化的图层对象",
+            "itemtype": "property",
+            "name": "scene",
+            "type": "Object",
+            "class": "QTopo.instance",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 70,
+            "description": "topo实例所在dom",
+            "itemtype": "property",
+            "name": "document",
+            "type": "Document",
+            "class": "QTopo.instance",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 83,
+            "description": "实例的内容绘制",
+            "itemtype": "method",
+            "name": "setOption",
+            "params": [
+                {
+                    "name": "option",
+                    "description": "配置属性,详细参考Option配置",
+                    "type": "Object"
+                },
+                {
+                    "name": "clear",
+                    "description": "是否清空图层，默认不清除",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "return": {
+                "description": "instance\n QTopo实例自身,用以链式操作"
+            },
+            "class": "QTopo.instance",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 111,
+            "description": "实例自适应大小",
+            "itemtype": "method",
+            "name": "resize",
+            "return": {
+                "description": "instance QTopo实例自身,用以链式操作"
+            },
+            "example": [
+                "\n     $(window).resize(function () {\n         IPOSS.resize();\n     });"
+            ],
+            "class": "QTopo.instance",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 127,
+            "description": "当前图层数据转化为json结构",
+            "itemtype": "method",
+            "name": "toJson",
+            "return": {
+                "description": "init:图层参数\n option:可直接用以setOption函数构造出图层",
+                "type": "Object"
+            },
+            "example": [
+                "\n       var IPOSS=QTopo.instance[0];\n       var json=IPOSS.toJson();\n       IPOSS.setOption(json.option,true);"
+            ],
+            "class": "QTopo.instance",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 195,
+            "itemtype": "property",
+            "name": "node",
+            "type": "Object",
+            "example": [
+                "\n       setOption(\n           node: {\n               style: {\n                   size: [60, 60],\n                   image: \"img/node.png\"\n               },\n               data: [{\n                   position:[0,0],\n                   size:[60,60],\n                   id:11,\n                   extra:{\n                       id:\"11\"\n                   }\n               },{..}]\n           }\n       )"
+            ],
+            "class": "option配置",
+            "module": "QTopo",
+            "subprops": [
+                {
+                    "name": "style",
+                    "description": "设定全局的节点样式，未配置样式的节点会采用默认样式",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "包含有节点对象配置的数组，每个组员是一个节点的配置参数，样式或者挂接的业务属性.\n\n自动过滤非样式属性，将其放在生成元素的extra属性中，可以通过node.val('id')的形式获取。\n\n和样式重名的业务属性可以放在extar对象中，自动挂到生成的节点的extra中.\n\nextar中的属性覆盖原有业务属性",
+                    "type": "Array"
+                }
+            ]
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 250,
+            "itemtype": "property",
+            "name": "container",
+            "type": "Object",
+            "example": [
+                "\n       setOption(\n           container: {\n               style: {\n                   color: \"#165782\",\n                   alpha: 0.3,\n                   border: {\n                       radius: 10\n                   },\n                   namePosition: \"top\"\n               },\n               findChildren: \"id\",\n               data: [{\n                   id:\"111\"\n                   name:\"分组1\",\n                   findChildren: \"id\",\n                   children:[\"1/e38c0cf2-751b-4bca-8fc1-a0ccb600b10b\",\"1/1513d8dc-4fec-4bd9-8a54-95933468588a\"]，\n                   toggle:{\n                       image: \"img/node.png\"\n                   ｝\n               },{..}]\n           }\n       )"
+            ],
+            "class": "option配置",
+            "module": "QTopo",
+            "subprops": [
+                {
+                    "name": "style",
+                    "description": "设定全局的分组样式，未配置样式的分组会采用默认样式",
+                    "type": "Object"
+                },
+                {
+                    "name": "findChildren",
+                    "description": "通知分组通过什么属性去查找成员",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "\n\n包含有分组对象配置的数组，每个组员是一个分组的配置参数，样式或者挂接的业务属性,成员标记,分组切换的配置\n\n自动过滤非样式属性，将其放在生成元素的extra属性中，可以通过container.val('id')的形式获取。\n\n和样式重名的业务属性可以放在extar对象中，自动挂到生成的分组的extra中.\n\nextar中的属性覆盖原有业务属性\n\n children是数组,通过该属性和分组的findChildren属性在全局中查找对应节点加入分组\n\n 也可以针对个别分组单独设置findChildren标记\n\n toggle为可选项，用以设置分组缩放为的节点采用的样式或属性",
+                    "type": "Array"
+                }
+            ]
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 354,
+            "itemtype": "property",
+            "name": "link",
+            "type": "Object",
+            "example": [
+                "\n       setOption(\n           link: {\n               style: {\n                   color: \"#00FFFF\"\n               },\n               path: [\"id\"],\n               data: [{\n                   end:\"1/e38c0cf2-751b-4bca-8fc1-a0ccb600b10b\",\n                   start:\"1/1513d8dc-4fec-4bd9-8a54-95933468588a\",\n                   pid:\"1/vote\"\n               },{..}]\n           }\n       )"
+            ],
+            "class": "option配置",
+            "module": "QTopo",
+            "subprops": [
+                {
+                    "name": "style",
+                    "description": "设定全局的分组样式，未配置样式的分组会采用默认样式",
+                    "type": "Object"
+                },
+                {
+                    "name": "path",
+                    "description": "通知链接通过什么属性去查找起始点和终点,数组参数可以为1个或2个，当设置为2个时，通过不同属性查找起始点和终点",
+                    "type": "Array"
+                },
+                {
+                    "name": "data",
+                    "description": "\n\n包含有链接对象配置的数组，每个组员是一个链接的配置参数，样式或者挂接的业务属性\n\n自动过滤非样式属性，将其放在生成元素的extra属性中,如下例的pid，可以通过link.val('pid')的形式获取。\n\n和样式重名的业务属性可以放在extar对象中，自动挂到生成的链接的extra中.\n\nextar中的属性覆盖原有业务属性",
+                    "type": "Array"
+                }
+            ]
+        },
+        {
+            "file": "develop\\main.js",
+            "line": 466,
+            "itemtype": "property",
+            "name": "alarm",
+            "type": "Object",
+            "example": [
+                "\n       setOption(\n           alarm: {\n               node: \"alarmId\",\n               animate: {\n                   time: 1000,\n                   callBack: function (node) {\n                       //todo\n                   }\n               },\n               data: [{\n                   color:\"255,204,0\",\n                   node:\"1.intelligentho.344136306\",\n                   text:\"告警数6\"\n               },{..}],\n           }\n       )"
+            ],
+            "class": "option配置",
+            "module": "QTopo",
+            "subprops": [
+                {
+                    "name": "node",
+                    "description": "通知告警模块如何查找需要设定告警的节点",
+                    "type": "String"
+                },
+                {
+                    "name": "animate",
+                    "description": "可选，配置告警动画\n\n参数包括:\n\ntime 设定间隔时间\n\ncallBack 回调函数 传入参数为当前处理告警的节点",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "包含对告警的设置\n\ncolor:告警展示的颜色\n\nnode:以该值查找告警设置的节点\n\ntext:告警显示的文字信息，可不设或为空",
+                    "type": "Array"
+                }
+            ]
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 17,
+            "description": "给函数添加缓存机制",
+            "itemtype": "method",
+            "name": "cached",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "需处理的函数",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "处理过的函数",
+                "type": "Function"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 24,
+            "description": "字符串转化json",
+            "itemtype": "method",
+            "name": "toJson",
+            "params": [
+                {
+                    "name": "json",
+                    "description": "",
+                    "type": "String|object"
+                }
+            ],
+            "return": {
+                "description": "json对象",
+                "type": "Json"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 36,
+            "description": "首字母大写",
+            "itemtype": "method",
+            "name": "upFirst",
+            "params": [
+                {
+                    "name": "string",
+                    "description": "字符串"
+                }
+            ],
+            "return": {
+                "description": "首字母大写的字符串",
+                "type": "String"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 45,
+            "description": "对象深度合并，只继承原对象有的属性",
+            "itemtype": "method",
+            "name": "extend",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "原对象"
+                },
+                {
+                    "name": "config",
+                    "description": "合并对象"
+                }
+            ],
+            "return": {
+                "description": "处理完的原对象",
+                "type": "Object"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 81,
+            "description": "获取浏览器连接上的参数",
+            "itemtype": "method",
+            "name": "getParameter",
+            "params": [
+                {
+                    "name": "param",
+                    "description": "参数名"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 99,
+            "description": "仅画布全屏展示",
+            "itemtype": "method",
+            "name": "runPrefixMethod",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "例:canvas",
+                    "type": "Document"
+                },
+                {
+                    "name": "method",
+                    "description": "\"RequestFullScreen\"全屏的模式",
+                    "type": "String"
+                }
+            ],
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 124,
+            "description": "浏览器全屏展示",
+            "itemtype": "method",
+            "name": "launchFullScreen",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "例:document.documentElement",
+                    "type": "Document"
+                }
+            ],
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 140,
+            "description": "关闭浏览器全屏",
+            "itemtype": "method",
+            "name": "exitFullScreen",
+            "params": [
+                {
+                    "name": "document",
+                    "description": "例:window.document",
+                    "type": "Document"
+                }
+            ],
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 154,
+            "description": "颜色字符串转换成rgb 16进制",
+            "itemtype": "method",
+            "name": "transHex",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "例:\"#asdd00\"",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "16进制 例:\"255,255,255\"",
+                "type": "String"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 171,
+            "description": "数组添加元素,如果数组中不存在则存入，否则不做操作",
+            "itemtype": "method",
+            "name": "arrayPush",
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "操作的数组"
+                },
+                {
+                    "name": "value",
+                    "description": "操作的元素"
+                }
+            ],
+            "return": {
+                "description": "操作是否成功",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 185,
+            "description": "数组删除元素,如果数组中不存在则删除，否则不做操作",
+            "itemtype": "method",
+            "name": "arrayDelete",
+            "params": [
+                {
+                    "name": "arr",
+                    "description": "操作的数组"
+                },
+                {
+                    "name": "value",
+                    "description": "操作的元素"
+                }
+            ],
+            "return": {
+                "description": "操作是否成功",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 200,
+            "description": "构造类继承关系",
+            "itemtype": "method",
+            "name": "inherits",
+            "params": [
+                {
+                    "name": "clazz",
+                    "description": "源类",
+                    "type": "Function"
+                },
+                {
+                    "name": "baseClazz",
+                    "description": "基类",
+                    "type": "Function"
+                }
+            ],
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 220,
+            "description": "深度克隆对象",
+            "itemtype": "method",
+            "name": "deepClone",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "待克隆对象",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "克隆后的新对象",
+                "type": "Object"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 248,
+            "description": "获取对象的类",
+            "itemtype": "method",
+            "name": "getClass",
+            "params": [
+                {
+                    "name": "o",
+                    "description": "待处理对象",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "类名，如\"Object\",\"Array\"",
+                "type": "String"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 259,
+            "description": "加入时间戳的信息日志",
+            "itemtype": "method",
+            "name": "info",
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 268,
+            "description": "加入时间戳的错误日志",
+            "itemtype": "method",
+            "name": "error",
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 277,
+            "description": "格式化Date对象",
+            "itemtype": "method",
+            "name": "dateFormat",
+            "params": [
+                {
+                    "name": "date",
+                    "description": "Date对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "ftString",
+                    "description": "格式化字符串,如\"hh:mm:ss\"",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 313,
+            "description": "构造唯一Id字符串",
+            "itemtype": "method",
+            "name": "makeId",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 321,
+            "description": "判断对象是否是元素",
+            "itemtype": "method",
+            "name": "isElement",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 329,
+            "description": "判断QTopo对象是否是图层",
+            "itemtype": "method",
+            "name": "isScene",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 337,
+            "description": "判断QTopo对象是否是节点",
+            "itemtype": "method",
+            "name": "isNode",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 345,
+            "description": "判断QTopo对象是否是分组",
+            "itemtype": "method",
+            "name": "isContainer",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\util.js",
+            "line": 353,
+            "description": "判断QTopo对象是否是链接",
+            "itemtype": "method",
+            "name": "isLink",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "QTopo.util",
+            "module": "QTopo"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: win",
+            "line": " develop\\component\\windows\\util.js:14"
+        },
+        {
+            "message": "unknown tag: dom",
+            "line": " develop\\component\\windows\\util.js:55"
+        },
+        {
+            "message": "unknown tag: win",
+            "line": " develop\\component\\windows\\util.js:55"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\core\\element\\container\\Container.js:173"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\core\\Scene.js:88"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\core\\Scene.js:97"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\main.js:38"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\main.js:83"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\main.js:111"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\main.js:127"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\util.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\util.js:24"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\util.js:36"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\util.js:45"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " develop\\util.js:81"
+        },
+        {
+            "message": "Missing item type\n根据窗口以及topo包裹外壳的高度确认窗口的默认位置",
+            "line": " develop\\component\\windows\\util.js:3"
+        },
+        {
+            "message": "Missing item type",
+            "line": " develop\\component\\windows\\util.js:14"
+        },
+        {
+            "message": "Missing item type\n阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key\n需要jquery-tools中的插件支持\n需要jquery-tools中的插件支持",
+            "line": " develop\\component\\windows\\util.js:27"
+        },
+        {
+            "message": "Missing item type\njson组装form表单\n需要jquery-tools中的插件支持",
+            "line": " develop\\component\\windows\\util.js:46"
+        },
+        {
+            "message": "Missing item type\n初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
+            "line": " develop\\component\\windows\\util.js:55"
+        },
+        {
+            "message": "Missing item type\n封装统一的jquery-niceScroll插件的设定值",
+            "line": " develop\\component\\windows\\util.js:122"
+        },
+        {
+            "message": "Missing item type\n让子窗口在父窗口的正中",
+            "line": " develop\\component\\windows\\util.js:139"
+        },
+        {
+            "message": "Missing item type\n将元素加入分组内",
+            "line": " develop\\core\\element\\container\\Container.js:55"
+        },
+        {
+            "message": "Missing item type\n将子元素从分组中删除",
+            "line": " develop\\core\\element\\container\\Container.js:86"
+        },
+        {
+            "message": "Missing item type\n分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作",
+            "line": " develop\\core\\element\\container\\Container.js:136"
+        },
+        {
+            "message": "Missing item type\n判断元素是否已是子元素",
+            "line": " develop\\core\\element\\container\\Container.js:158"
+        },
+        {
+            "message": "Missing item type\n判断元素是否在分组覆盖的范围内,临时元素不考虑",
+            "line": " develop\\core\\element\\container\\Container.js:173"
+        },
+        {
+            "message": "Missing item type\n实例序列化",
+            "line": " develop\\core\\element\\container\\Container.js:186"
+        },
+        {
+            "message": "Missing item type\n直线切换",
+            "line": " develop\\core\\element\\link\\Direct.js:109"
+        },
+        {
+            "message": "Missing item type\n实例序列化",
+            "line": " develop\\core\\element\\link\\Link.js:105"
+        },
+        {
+            "message": "Missing item type\n实例序列化",
+            "line": " develop\\core\\element\\node\\Node.js:64"
+        },
+        {
+            "message": "Missing item type\n找到可以作为根的节点",
+            "line": " develop\\core\\jtopo\\jtopo-min.js:2232"
+        }
+    ]
+}

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\util.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\util.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module QTopo
+ */
+/**
+ * @class QTopo.util
+ * @static
+ */
+function cached(fn) {
+    var cache = Object.create(null);
+    return (function cachedFn(str) {
+        var hit = cache[str];
+        return hit || (cache[str] = fn(str))
+    })
+}
+
+var util = {
+        /**
+         *  给函数添加缓存机制
+         *  @method cached
+         *  @param fn {function} 需处理的函数
+         *  @returns {function} 处理过的函数
+         */
+        cached:cached,
+        /**
+         * 字符串转化json
+         * @method toJson
+         * @param json {string|object}
+         * @returns json对象 {json}
+         */
+        toJson: function (json) {
+            if (typeof json == &#x27;string&#x27;) {
+                json = $.parseJSON(json.replace(/&#x27;/g, &#x27;&quot;&#x27;));
+            }
+            return json;
+        },
+        /**
+         * 首字母大写
+         * @method upFirst
+         * @param string 字符串
+         * @returns {string} 首字母大写的字符串
+         */
+        upFirst: cached(function (str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }),
+        /**
+         * 对象深度合并，只继承原对象有的属性
+         * @method extend
+         * @param base 原对象
+         * @param config 合并对象
+         * @returns {object} 处理完的原对象
+         */
+        extend: function (base, config) {
+            try {
+                if (typeof base == &quot;object&quot; &amp;&amp; typeof config == &quot;object&quot;) {
+                    deep(base, config);
+                }
+                else {
+                    QTopo.util.error(&quot;some extend error:&quot;, base, config);
+                }
+            } catch (e) {
+                QTopo.util.error(&quot;extend error&quot;, e, base, config);
+            }
+            function deep(attr, config) {
+                $.each(attr, function (key, value) {
+                    if (attr[key] &amp;&amp; typeof attr[key] == &quot;object&quot; &amp;&amp; typeof config[key] == &quot;object&quot;) {
+                        if ($.isArray(attr[key]) &amp;&amp; $.isArray(config[key])) {
+                            attr[key] = config[key];
+                        } else if ($.isFunction(attr[key]) &amp;&amp; $.isFunction(config[key])) {
+                            attr[key] = config[key];
+                        } else {
+                            deep(attr[key], config[key]);
+                        }
+                    } else if (typeof attr[key] != &quot;undefined&quot; &amp;&amp; typeof config[key] != &quot;undefined&quot;) {
+                        attr[key] = config[key];
+                    }
+                });
+            }
+
+            return base;
+        },
+        /**
+         * 获取浏览器连接上的参数
+         * @method getParameter
+         * @param param 参数名
+         * @returns {string}
+         */
+        getParameter: function (param) {
+            var query = window.location.search;//获取URL地址中？后的所有字符
+            var iLen = param.length;//获取你的参数名称长度
+            var iStart = query.indexOf(param);//获取你该参数名称的其实索引
+            if (iStart == -1)//-1为没有该参数
+                return &quot;&quot;;
+            iStart += iLen + 1;
+            var iEnd = query.indexOf(&quot;&amp;&quot;, iStart);//获取第二个参数的其实索引
+            if (iEnd == -1)//只有一个参数
+                return query.substring(iStart);//获取单个参数的参数值
+            return query.substring(iStart, iEnd);//获取第二个参数的值
+        },
+        /**
+         * 仅画布全屏展示
+         * @method runPrefixMethod
+         * @param element {document} 例:canvas
+         * @param method {string} &quot;RequestFullScreen&quot;全屏的模式
+         */
+        runPrefixMethod: function (element, method) {
+            var usablePrefixMethod;
+            [&quot;webkit&quot;, &quot;moz&quot;, &quot;ms&quot;, &quot;o&quot;, &quot;&quot;].forEach(function (prefix) {
+                    if (usablePrefixMethod) return;
+                    if (prefix === &quot;&quot;) {
+                        // 无前缀，方法首字母小写
+                        method = method.slice(0, 1).toLowerCase() + method.slice(1);
+                    }
+                    var typePrefixMethod = typeof element[prefix + method];
+                    if (typePrefixMethod + &quot;&quot; !== &quot;undefined&quot;) {
+                        if (typePrefixMethod === &quot;function&quot;) {
+                            usablePrefixMethod = element[prefix + method]();
+                        } else {
+                            usablePrefixMethod = element[prefix + method];
+                        }
+                    }
+                }
+            );
+        },
+        /**
+         * 浏览器全屏展示
+         * @method launchFullScreen
+         * @param element {document} 例:document.documentElement
+         */
+        launchFullScreen: function (element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        },
+        /**
+         * 关闭浏览器全屏
+         * @method exitFullScreen
+         * @param document {document} 例:window.document
+         */
+        exitFullScreen: function (document) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        },
+        /**
+         * 颜色字符串转换成rgb 16进制
+         * @method transHex
+         * @param color {string} 例:&quot;#asdd00&quot;
+         * @return {string} 16进制 例:&quot;255,255,255&quot;
+         */
+        transHex: cached(function (color) {
+            if (color &amp;&amp; color.length == 7 &amp;&amp; color.charAt(0) == &#x27;#&#x27;) {
+                return [
+                    parseInt(color.substr(1, 2), 16),
+                    parseInt(color.substr(3, 2), 16),
+                    parseInt(color.substr(5, 2), 16)
+                ].join(&#x27;,&#x27;);
+            } else {
+                return color;
+            }
+        }),
+        /**
+         * 数组添加元素,如果数组中不存在则存入，否则不做操作
+         * @method arrayPush
+         * @param arr 操作的数组
+         * @param value 操作的元素
+         * @return {boolean} 操作是否成功
+         */
+        arrayPush: function (arr, value) {
+            if (arr.indexOf(value) &lt; 0) {
+                arr.push(value);
+                return true;
+            }
+            return false;
+        },
+        /**
+         * 数组删除元素,如果数组中不存在则删除，否则不做操作
+         * @method arrayDelete
+         * @param arr 操作的数组
+         * @param value 操作的元素
+         * @return {boolean} 操作是否成功
+         */
+        arrayDelete: function (arr, value) {
+            var i = arr.indexOf(value);
+            if (i &gt;= 0) {
+                arr.splice(i, 1);
+                return true;
+            }
+            return false;
+        },
+        /**
+         * 构造类继承关系
+         * @method inherits
+         * @param {Function} clazz 源类
+         * @param {Function} baseClazz 基类
+         */
+        inherits: function (clazz, baseClazz) {
+            var clazzPrototype = clazz.prototype;
+
+            function F() {
+            }
+
+            F.prototype = baseClazz.prototype;
+            clazz.prototype = new F();
+
+            for (var prop in clazzPrototype) {
+                clazz.prototype[prop] = clazzPrototype[prop];
+            }
+            clazz.constructor = clazz;
+        },
+        /**
+         * 深度克隆对象
+         * @method deepClone
+         * @param {object} obj 待克隆对象
+         * @return {object} 克隆后的新对象
+         */
+        deepClone: function (obj) {
+            var result, oClass = util.getClass(obj);
+            //确定result的类型
+            if (oClass === &quot;Object&quot;) {
+                result = {};
+            } else if (oClass === &quot;Array&quot;) {
+                result = [];
+            } else {
+                return obj;
+            }
+            for (key in obj) {
+                var copy = obj[key];
+                if (util.getClass(copy) == &quot;Object&quot;) {
+                    result[key] = arguments.callee(copy);//递归调用
+                } else if ($.isArray(copy)) {
+                    result[key] = arguments.callee(copy);
+                } else {
+                    result[key] = obj[key];
+                }
+            }
+            return result;
+        },
+        /**
+         * 获取对象的类
+         * @method getClass
+         * @param {object} o 待处理对象
+         * @return {string} 类名，如&quot;Object&quot;,&quot;Array&quot;
+         */
+        getClass: function (o) {
+            if (o === null) return &quot;Null&quot;;
+            if (o === undefined) return &quot;Undefined&quot;;
+            return Object.prototype.toString.call(o).slice(8, -1);
+        },
+        /**
+         * 加入时间戳的信息日志
+         * @method info
+         */
+        info: function () {
+            if (QTopo.log.info) {
+                console.info.apply(console, $.merge([util.dateFormat(new Date(), &quot;hh:mm:ss&quot;)], arguments));
+            }
+        },
+        /**
+         * 加入时间戳的错误日志
+         * @method error
+         */
+        error: function () {
+            if (QTopo.log.error) {
+                console.error.apply(console, $.merge([util.dateFormat(new Date(), &quot;hh:mm:ss&quot;)], arguments));
+            }
+        },
+        /**
+         * 格式化Date对象
+         * @method dateFormat
+         * @param {object} date Date对象
+         * @param {string} ftString 格式化字符串,如&quot;hh:mm:ss&quot;
+         * @return {string}
+         */
+        dateFormat: function (date, ftString) {
+            if (date instanceof Date) {
+                var fomat = {
+                    &quot;M+&quot;: date.getMonth() + 1, //月份
+                    &quot;d+&quot;: date.getDate(), //日
+                    &quot;h+&quot;: date.getHours(), //小时
+                    &quot;m+&quot;: date.getMinutes(), //分
+                    &quot;s+&quot;: date.getSeconds(), //秒
+                    &quot;q+&quot;: Math.floor((date.getMonth() + 3) / 3), //季度
+                    &quot;S&quot;: date.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(ftString)) {
+                    ftString = ftString.replace(RegExp.$1, (date.getFullYear() + &quot;&quot;)
+                        .substr(4 - RegExp.$1.length));
+                }
+                for (var type in fomat) {
+                    if (new RegExp(&quot;(&quot; + type + &quot;)&quot;).test(ftString)) {
+                        var temp;
+                        if (RegExp.$1.length == 1) {
+                            temp = fomat[type];
+                        } else {
+                            temp = (&quot;00&quot; + fomat[type]).substr((&quot;&quot; + fomat[type]).length);
+                        }
+                        ftString = ftString.replace(RegExp.$1, temp);
+                    }
+                }
+            }
+            return ftString;
+        },
+        /**
+         * 构造唯一Id字符串
+         * @method makeId
+         * @return {string}
+         */
+        makeId: function () {
+            return S4() + &quot;-&quot; + S4() + &quot;-&quot; + S4();
+        },
+        /**
+         * 判断对象是否是元素
+         * @method isElement
+         * @return {boolean}
+         */
+        isElement: function (target) {
+            return target &amp;&amp;target.getType &amp;&amp;target.getType() != QTopo.constant.SCENE &amp;&amp; target.getUseType() != QTopo.constant.CASUAL;
+        },
+        /**
+         * 判断QTopo对象是否是图层
+         * @method isScene
+         * @return {boolean}
+         */
+        isScene: function (target) {
+            return !target || target.getType() == QTopo.constant.SCENE;
+        },
+        /**
+         * 判断QTopo对象是否是节点
+         * @method isNode
+         * @return {boolean}
+         */
+        isNode: function (target) {
+            return target &amp;&amp; target.getType() == QTopo.constant.NODE &amp;&amp; target.getUseType() != QTopo.constant.CASUAL;
+        },
+        /**
+         * 判断QTopo对象是否是分组
+         * @method isContainer
+         * @return {boolean}
+         */
+        isContainer: function (target) {
+            return target &amp;&amp; target.getType() == QTopo.constant.CONTAINER &amp;&amp; target.getUseType() != QTopo.constant.CASUAL;
+        },
+        /**
+         * 判断QTopo对象是否是链接
+         * @method isLink
+         * @return {boolean}
+         */
+        isLink: function (target) {
+            return target &amp;&amp; target.getType() == QTopo.constant.LINK &amp;&amp; target.getUseType() != QTopo.constant.CASUAL;
+        }
+    }
+    ;
+function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+}
+module.exports = util;
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

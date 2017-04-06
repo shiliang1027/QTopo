@@ -1,3 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\core\element\Element.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\core\element\Element.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
 /**
  * @module core
  */
@@ -97,7 +186,7 @@ Element.prototype.getUseType = function () {
  */
 Element.prototype.setText = function (text) {
     if (text) {
-        this.jtopo.text = (text + "").trim();
+        this.jtopo.text = (text + &quot;&quot;).trim();
     }
     this.attr.text = this.jtopo.text;
 };
@@ -133,7 +222,7 @@ Element.prototype.setBorder = function (border) {
  */
 Element.prototype.on = function (name, fn) {
     this.jtopo.addEventListener(name, function (e) {
-        if (e.target && e.target.qtopo) {
+        if (e.target &amp;&amp; e.target.qtopo) {
             fn(e, e.target.qtopo);
         } else {
             fn(e);
@@ -155,7 +244,7 @@ Element.prototype.off = function (name, fn) {
 /**
  *  设置元素层级
  *  @method setZIndex
- *  @param zIndex {number} 值高的元素覆盖在值低的元素上,默认节点>链接>分组
+ *  @param zIndex {number} 值高的元素覆盖在值低的元素上,默认节点&gt;链接&gt;分组
  */
 Element.prototype.setZIndex = function (zIndex) {
     if ($.isNumeric(zIndex)) {
@@ -182,7 +271,7 @@ Element.prototype.setFont = function (font) {
         if (font.type) {
             type = font.type;
         }
-        this.jtopo.font = (size ? size : 14) + "px " + type;
+        this.jtopo.font = (size ? size : 14) + &quot;px &quot; + type;
         if (font.color) {
             this.jtopo.fontColor = QTopo.util.transHex(font.color.toLowerCase());
         }
@@ -197,7 +286,7 @@ Element.prototype.setFont = function (font) {
  *  @param alpha {number} 值域0-1
  */
 Element.prototype.setAlpha = function (alpha) {
-    if ($.isNumeric(alpha) && alpha <= 1 && alpha > 0) {
+    if ($.isNumeric(alpha) &amp;&amp; alpha &lt;= 1 &amp;&amp; alpha &gt; 0) {
         this.jtopo.alpha = alpha;
     } else {
         this.jtopo.alpha = 1;
@@ -210,8 +299,8 @@ Element.prototype.setAlpha = function (alpha) {
  *  @param position {array} [x,y]在图层上的坐标
  */
 Element.prototype.setPosition = function (position) {
-    if ($.isArray(position) && position.length >= 2) {
-        if ($.isNumeric(position[0]) && $.isNumeric(position[1])) {
+    if ($.isArray(position) &amp;&amp; position.length &gt;= 2) {
+        if ($.isNumeric(position[0]) &amp;&amp; $.isNumeric(position[1])) {
             this.jtopo.setLocation(parseInt(position[0]), parseInt(position[1]));
         }
     }
@@ -222,7 +311,7 @@ Element.prototype.setPosition = function (position) {
  *  @param size {array} [width,height]
  */
 Element.prototype.setSize = function (size) {
-    if ($.isArray(size) && $.isNumeric(size[0]) && $.isNumeric(size[1])) {
+    if ($.isArray(size) &amp;&amp; $.isNumeric(size[0]) &amp;&amp; $.isNumeric(size[1])) {
         this.jtopo.setSize(parseInt(size[0]), parseInt(size[1]));
     } else {
         this.jtopo.setSize(64, 64);
@@ -235,7 +324,7 @@ Element.prototype.setSize = function (size) {
  *  @param dragable {boolean}
  */
 Element.prototype.setDragable = function (dragable) {
-    if (typeof dragable == 'boolean') {
+    if (typeof dragable == &#x27;boolean&#x27;) {
         this.jtopo.dragable = dragable;
     }
     this.attr.dragable = this.jtopo.dragable;
@@ -250,48 +339,48 @@ Element.prototype.setDragable = function (dragable) {
  */
 Element.prototype.setNamePosition = function (namePosition) {
     var jtopo = this.jtopo;
-    jtopo.text = this.attr.name || "";
+    jtopo.text = this.attr.name || &quot;&quot;;
     switch (namePosition) {
-        case 'hide':
-            jtopo.text = '';
-            this.attr.namePosition = "hide";
+        case &#x27;hide&#x27;:
+            jtopo.text = &#x27;&#x27;;
+            this.attr.namePosition = &quot;hide&quot;;
             break;
-        case 'bottom':
+        case &#x27;bottom&#x27;:
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
-            jtopo.textPosition = "Bottom_Center";
-            this.attr.namePosition = "bottom";
+            jtopo.textPosition = &quot;Bottom_Center&quot;;
+            this.attr.namePosition = &quot;bottom&quot;;
             break;
-        case 'top':
+        case &#x27;top&#x27;:
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
-            jtopo.textPosition = "Top_Center";
-            this.attr.namePosition = "top";
+            jtopo.textPosition = &quot;Top_Center&quot;;
+            this.attr.namePosition = &quot;top&quot;;
             break;
-        case 'left':
+        case &#x27;left&#x27;:
             jtopo.textOffsetX = -5;
             jtopo.textOffsetY = 0;
-            jtopo.textPosition = "Middle_Left";
-            this.attr.namePosition = "left";
+            jtopo.textPosition = &quot;Middle_Left&quot;;
+            this.attr.namePosition = &quot;left&quot;;
             break;
-        case 'right':
+        case &#x27;right&#x27;:
             jtopo.textOffsetX = 5;
             jtopo.textOffsetY = 0;
-            jtopo.textPosition = "Middle_Right";
-            this.attr.namePosition = "right";
+            jtopo.textPosition = &quot;Middle_Right&quot;;
+            this.attr.namePosition = &quot;right&quot;;
             break;
-        case "center":
+        case &quot;center&quot;:
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
-            jtopo.textPosition = "Middle_Center";
-            this.attr.namePosition = "center";
+            jtopo.textPosition = &quot;Middle_Center&quot;;
+            this.attr.namePosition = &quot;center&quot;;
             break;
         default:
             jtopo.textOffsetX = 0;
             jtopo.textOffsetY = 0;
-            jtopo.textPosition = 'Bottom_Center';
-            this.attr.namePosition = "bottom";
-            QTopo.util.error(this, "set wrong namePosition,default is bottom");
+            jtopo.textPosition = &#x27;Bottom_Center&#x27;;
+            this.attr.namePosition = &quot;bottom&quot;;
+            QTopo.util.error(this, &quot;set wrong namePosition,default is bottom&quot;);
             break;
     }
 };
@@ -304,12 +393,12 @@ Element.prototype._setAttr = function (config) {
     var self = this;
     $.each(config, function (k, v) {
         try {
-            var fn = self['set' + QTopo.util.upFirst(k)];
+            var fn = self[&#x27;set&#x27; + QTopo.util.upFirst(k)];
             if (fn) {
                 fn.call(self, v);
             }
         } catch (e) {
-            QTopo.util.error(self, "Element _setAttr error :" + k, e);
+            QTopo.util.error(self, &quot;Element _setAttr error :&quot; + k, e);
         }
     });
 };
@@ -328,13 +417,13 @@ Element.prototype.get = function (name) {
  *  @param [value] {string|object} 值,无参则为取值
  */
 Element.prototype.val = function (key, value) {
-    if (QTopo.util.getClass(key) == 'Object') {
+    if (QTopo.util.getClass(key) == &#x27;Object&#x27;) {
         var self = this;
         $.each(key, function (name, value) {
             self.extra[name] = value;
         })
     } else {
-        if (typeof value == 'undefined') {
+        if (typeof value == &#x27;undefined&#x27;) {
             var result;
             if (this.extra[key]) {
                 result = this.extra[key];
@@ -352,7 +441,7 @@ Element.prototype.val = function (key, value) {
 /*
  * 对象links属性内的所有线进行切换
  * @links node/container的links属性
- * @fnName 'show'/'hide'方法名
+ * @fnName &#x27;show&#x27;/&#x27;hide&#x27;方法名
  */
 function toggle(links, fnName) {
     try {
@@ -362,14 +451,14 @@ function toggle(links, fnName) {
             });
         })
     } catch (e) {
-        QTopo.util.error("切换隐藏/显示时错误", e);
+        QTopo.util.error(&quot;切换隐藏/显示时错误&quot;, e);
     }
 }
 //线的显示只有当其两端节点都显示时才显示
 function toggleLink(flag) {
     if (flag) {
-        if (this.path.start.jtopo && this.path.end.jtopo) {
-            if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {
+        if (this.path.start.jtopo &amp;&amp; this.path.end.jtopo) {
+            if (this.path.start.jtopo.visible &amp;&amp; this.path.end.jtopo.visible) {
                 this.jtopo.visible = true;
             }
         }
@@ -379,14 +468,14 @@ function toggleLink(flag) {
 }
 function toggleNode(flag) {
     this.jtopo.visible = flag;
-    var string = flag ? "show" : "hide";
+    var string = flag ? &quot;show&quot; : &quot;hide&quot;;
     toggle(this.links, string);
 }
 function toggleContainer(flag) {
     this.jtopo.visible = flag;
-    var string = flag ? "show" : "hide";
+    var string = flag ? &quot;show&quot; : &quot;hide&quot;;
     //切换子类显示隐藏
-    for (var i = 0; i < this.children.length; i++) {
+    for (var i = 0; i &lt; this.children.length; i++) {
         this.children[i][string]();
     }
     toggle(this.links, string);
@@ -402,3 +491,22 @@ Element.prototype.getCenterPosition = function () {
         y: this.jtopo.cy
     }
 };
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

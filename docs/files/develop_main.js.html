@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\main.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\main.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module QTopo
+ */
+require(&quot;./core/jtopo/jtopo-min.js&quot;);
+if (typeof jQuery == &quot;undefined&quot;) {
+    throw new Error(&quot;need jquery&quot;);
+}
+/**
+ * 主入口,window.QTopo
+ * @class QTopo
+ * @static
+ */
+var QTopo = {
+    /**
+     * 存放当前页面中所初始化的topo实例
+     * @property instance {array}
+     */
+    instance: [],
+    /**
+     * 一系列工具函数,详细内容参考 QTopo.util
+     * @property util {object}
+     */
+    util: require(&#x27;./util.js&#x27;),
+    constant: require(&#x27;./constant.js&#x27;),
+    /**
+     * 可开启或屏蔽控制台日志,对应用QTopo.util.info以及QTopo.util.error函数输出的日志
+     * @property log {object}
+     * @param error {boolean} 默认为true,开启
+     * @param info {boolean} 默认为true,开启
+     */
+    log: {
+        error: true,
+        info: true
+    }
+};
+window.QTopo = QTopo;
+var Scene = require(&#x27;./core/Scene.js&#x27;);
+/**
+ * 初始化Qtopo
+ *  @method init
+ *  @param dom {document} 指定初始化所在的dom,若是数组则自动取第一个
+ *  @param [config={}] {object} 配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)
+ *  @returns instance QTopo实例
+ *  @example
+ *      IPOSS = QTopo.init(
+ *           document.getElementsByClassName(&quot;topo_base&quot;)[0],
+ *          {
+ *              backgroundColor: &quot;#06243e&quot;,
+ *              hideDefaultSearch: true,
+ *              filterMenu: [&quot;创建节点&quot;, &quot;添加链路&quot;, &quot;删除&quot;, &quot;编辑&quot;, &quot;元素切换&quot;,&quot;分组操作&quot;],
+ *              filterWindow: [&quot;imageNode&quot;, &quot;link&quot;]
+ *          }
+ *      );
+ */
+QTopo.init = function (dom, config) {
+    dom = dom instanceof Array ? dom[0] : dom;
+    var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
+    /**
+     * QTopo初始化的topo实例
+     * @class QTopo.instance
+     * @static
+     */
+    var QtopoInstance = {
+        /**
+         * topo实例化的图层对象
+         * @property scene {object}
+         */
+        scene: new Scene(canvas, config),
+        setOption: setOption,
+        /**
+         * topo实例所在dom
+         * @property document {document}
+         */
+        document: dom,
+        resize: resize(dom, canvas),
+        toJson: toJson
+    };
+    this.instance.push(QtopoInstance);
+    return QtopoInstance;
+};
+module.exports = QTopo;
+//---------------------
+/**
+ * 实例的内容绘制
+ *  @method setOption
+ *  @param option {object} 配置属性,详细参考Option配置
+ *  @param [clear=false] {boolean} 是否清空图层，默认不清除
+ *  @returns instance
+ *  QTopo实例自身,用以链式操作
+ */
+function setOption(option, clear) {
+    option = option || {};
+    QTopo.util.info(&quot;start set topo: &quot;, option);
+    var scene = this.scene;
+    if (clear) {
+        scene.clear();
+    }
+    createNode(scene, option.node);
+    createContainer(scene, option.container);
+    createLink(scene, option.link);
+    createLine(scene, option.line);
+    drawAlarm(scene, option.alarm);
+    QTopo.util.info(&quot;set topo complete: &quot;, {
+        node: scene.children.node.length,
+        link: scene.children.link.length,
+        container: scene.children.container.length,
+        line: scene.children.line.length
+    });
+    return this;
+}
+/**
+ * 实例自适应大小
+ *  @method resize
+ *  @returns instance QTopo实例自身,用以链式操作
+ *  @example
+ *      $(window).resize(function () {
+ *          IPOSS.resize();
+ *      });
+ */
+function resize(dom, canvas) {
+    return function () {
+        canvas.setAttribute(&#x27;width&#x27;, $(dom).width());
+        canvas.setAttribute(&#x27;height&#x27;, $(dom).height());
+        return this;
+    }
+}
+/**
+ * 当前图层数据转化为json结构
+ *  @method toJson
+ *  @returns {object}
+ *
+ *  init:图层参数
+ *  option:可直接用以setOption函数构造出图层
+ *
+ *  @example
+        var IPOSS=QTopo.instance[0];
+        var json=IPOSS.toJson();
+        IPOSS.setOption(json.option,true);
+ */
+function toJson() {
+    var data = this.scene.children;
+    var serialized = {
+        init: this.scene.toJson(),
+        option: {
+            node: {
+                data: []
+            },
+            link: {
+                data: []
+            },
+            container: {
+                data: []
+            },
+            line: {
+                data: []
+            }
+        }
+    };
+    $.each(data, function (name, elements) {
+        if ($.isArray(elements)) {
+            elements.map(function (element) {
+                if (serialized.option[name]) {
+                    serialized.option[name].data.push(element.toJson());
+                }
+            });
+        }
+    });
+    return serialized;
+}
+function initCanvas(dom, width, height) {
+    if (width &lt;= 0 || height &lt;= 0) {
+        throw new Error(&quot;The dom is not exist /not config width and height!&quot;);
+    }
+    dom.style.position = &#x27;relative&#x27;;
+    dom.style.overflow = &#x27;hidden&#x27;;
+    var canvas = document.createElement(&#x27;canvas&#x27;);
+    dom.appendChild(canvas);
+    canvas.setAttribute(&#x27;width&#x27;, width);
+    canvas.setAttribute(&#x27;height&#x27;, height);
+    canvas.style.position = &quot;absolute&quot;;
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.style[&#x27;user-select&#x27;] = &#x27;none&#x27;;
+    canvas.style[&#x27;-webkit-tap-highlight-color&#x27;] = &#x27;rgba(0, 0, 0, 0)&#x27;;
+    return canvas;
+}
+
+/**
+ * option配置
+ *
+ * 可以随时使用setOption生成对应元素或告警操作，也可以一次生成全局
+ * @class option配置
+ * @static
+ */
+/**
+ * @property node {object}
+ * @param style {object} 设定全局的节点样式，未配置样式的节点会采用默认样式
+ * @param data {array}包含有节点对象配置的数组，每个组员是一个节点的配置参数，样式或者挂接的业务属性.
+ *
+ * 自动过滤非样式属性，将其放在生成元素的extra属性中，可以通过node.val(&#x27;id&#x27;)的形式获取。
+ *
+ * 和样式重名的业务属性可以放在extar对象中，自动挂到生成的节点的extra中.
+ *
+ * extar中的属性覆盖原有业务属性
+ * @example
+        setOption(
+            node: {
+                style: {
+                    size: [60, 60],
+                    image: &quot;img/node.png&quot;
+                },
+                data: [{
+                    position:[0,0],
+                    size:[60,60],
+                    id:11,
+                    extra:{
+                        id:&quot;11&quot;
+                    }
+                },{..}]
+            }
+        )
+ */
+function createNode(scene, config) {
+    if (config) {
+        setDefaults(scene, QTopo.constant.node, config.style);
+        if ($.isArray(config.data)) {
+            $.each(config.data, function (i, item) {
+                var node = scene.createNode(item);
+                //额外属性添加
+                setExtra(node, item);
+            });
+        }
+    }
+}
+
+//排除临时元素
+function notCasual(arr) {
+    if (arr.length == 1) {
+        return arr[0];
+    } else {
+        for (var i = 0; i &lt; arr.length; i++) {
+            if (arr[i].getUseType() != QTopo.constant.CASUAL) {
+                arr = arr[i];
+                return arr;
+            }
+        }
+    }
+}
+
+/**
+ * @property container {object}
+ * @param style {object} 设定全局的分组样式，未配置样式的分组会采用默认样式
+ * @param findChildren {string} 通知分组通过什么属性去查找成员
+ * @param data {array}
+ *
+ * 包含有分组对象配置的数组，每个组员是一个分组的配置参数，样式或者挂接的业务属性,成员标记,分组切换的配置
+ *
+ * 自动过滤非样式属性，将其放在生成元素的extra属性中，可以通过container.val(&#x27;id&#x27;)的形式获取。
+ *
+ * 和样式重名的业务属性可以放在extar对象中，自动挂到生成的分组的extra中.
+ *
+ * extar中的属性覆盖原有业务属性
+ *
+ *  children是数组,通过该属性和分组的findChildren属性在全局中查找对应节点加入分组
+ *
+ *  也可以针对个别分组单独设置findChildren标记
+ *
+ *  toggle为可选项，用以设置分组缩放为的节点采用的样式或属性
+ *
+ * @example
+        setOption(
+            container: {
+                style: {
+                    color: &quot;#165782&quot;,
+                    alpha: 0.3,
+                    border: {
+                        radius: 10
+                    },
+                    namePosition: &quot;top&quot;
+                },
+                findChildren: &quot;id&quot;,
+                data: [{
+                    id:&quot;111&quot;
+                    name:&quot;分组1&quot;,
+                    findChildren: &quot;id&quot;,
+                    children:[&quot;1/e38c0cf2-751b-4bca-8fc1-a0ccb600b10b&quot;,&quot;1/1513d8dc-4fec-4bd9-8a54-95933468588a&quot;]，
+                    toggle:{
+                        image: &quot;img/node.png&quot;
+                    ｝
+                },{..}]
+            }
+        )
+ */
+function createContainer(scene, config) {
+    if (config) {
+        setDefaults(scene, QTopo.constant.container, config.style);
+        makeContainer(scene, config);
+    }
+}
+function makeContainer(scene, config) {
+    //搜索子的总标记
+    var findChild;
+    if (config.findChildren) {
+        findChild = config.findChildren;
+    }
+    if ($.isArray(config.data)) {
+        //开始构造分组
+        $.each(config.data, function (i, item) {
+            //无论是否有子元素，分组先创造出来
+            var container = scene.createContainer(item);
+            //额外属性添加
+            setExtra(container, item);
+            //确定查找子元素的标记
+            var findChild_exact = findChild;
+            if (item.findChildren) {
+                findChild_exact = item.findChildren;
+            }
+            makeChildren(scene, container, item, findChild_exact);
+        });
+    }
+}
+function makeChildren(scene, container, config, findChild) {
+    //过滤搜索子类的标记
+    findChild = filterTag(findChild);
+    if ($.isArray(config.children)) {
+        var errorInfo = [];
+        $.each(config.children, function (j, children) {
+            var child = scene.find(findChild + &quot;=&quot; + children);
+            if (child &amp;&amp; child.length &gt; 0) {
+                $.each(child, function (m, one) {
+                    if (one.getUseType() != QTopo.constant.CASUAL) {
+                        container.add(one);
+                    }
+                });
+            } else {
+                errorInfo.push({
+                    index: j,
+                    search: findChild + &quot;=&quot; + children
+                });
+            }
+        });
+        if (errorInfo.length &gt; 0) {
+            QTopo.util.error(&quot;some child not found : &quot;, errorInfo);
+        }
+    }
+}
+function filterTag(tag) {
+    if (!tag) {
+        tag = &#x27;jsonId&#x27;
+    }
+    return tag;
+}
+
+/**
+ * @property link {object}
+ * @param style {object} 设定全局的分组样式，未配置样式的分组会采用默认样式
+ * @param path {array} 通知链接通过什么属性去查找起始点和终点,数组参数可以为1个或2个，当设置为2个时，通过不同属性查找起始点和终点
+ * @param data {array}
+ *
+ * 包含有链接对象配置的数组，每个组员是一个链接的配置参数，样式或者挂接的业务属性
+ *
+ * 自动过滤非样式属性，将其放在生成元素的extra属性中,如下例的pid，可以通过link.val(&#x27;pid&#x27;)的形式获取。
+ *
+ * 和样式重名的业务属性可以放在extar对象中，自动挂到生成的链接的extra中.
+ *
+ * extar中的属性覆盖原有业务属性
+ *
+ * @example
+        setOption(
+            link: {
+                style: {
+                    color: &quot;#00FFFF&quot;
+                },
+                path: [&quot;id&quot;],
+                data: [{
+                    end:&quot;1/e38c0cf2-751b-4bca-8fc1-a0ccb600b10b&quot;,
+                    start:&quot;1/1513d8dc-4fec-4bd9-8a54-95933468588a&quot;,
+                    pid:&quot;1/vote&quot;
+                },{..}]
+            }
+        )
+ */
+function createLink(scene, config) {
+    if (config) {
+        var path = config.path;
+        var findStart;
+        var findEnd;
+        if ($.isArray(path) &amp;&amp; path.length &gt; 0) {
+            //path为数组，0为起点条件1为终点条件,确定搜索条件,起始点条件可不同
+            if (path.length == 1) {
+                findEnd = path[0];
+                findStart = findEnd;
+            } else {
+                findStart = path[0];
+                findEnd = path[1];
+            }
+        } else {
+            findStart = filterTag(findStart);
+            findEnd = filterTag(findEnd);
+        }
+        //设置默认属性
+        setDefaults(scene, QTopo.constant.link, config.style);
+        //开始创建
+        makeLink(scene, config, findStart, findEnd);
+    }
+}
+function makeLink(scene, config, findStart, findEnd) {
+    if ($.isArray(config.data)) {
+        var errorInfo = [];
+        $.each(config.data, function (i, item) {
+            if (item) {
+                var link;
+                //根据确定的条件进行搜索
+                var start = notCasual(scene.find(findStart + &quot;=&quot; + item.start));
+                var end = notCasual(scene.find(findEnd + &quot;=&quot; + item.end));
+                if (start &amp;&amp; end) {
+                    item.start = start;
+                    item.end = end;
+                    link = scene.addLink(item);
+                    //额外属性添加
+                    setExtra(link, item);
+                } else {
+                    var errorDate = {
+                        index: i,
+                        data: item
+                    };
+                    if (!start) {
+                        errorDate.missStart = item.start;
+                    }
+                    if (!end) {
+                        errorDate.missEnd = item.end;
+                    }
+                    errorInfo.push(errorDate);
+                }
+            } else {
+                errorInfo.push({
+                    index: i,
+                    info: &quot;undefined data&quot;
+                });
+            }
+        });
+        if (errorInfo.length &gt; 0) {
+            QTopo.util.error(&quot;some link invalid : &quot;, errorInfo);
+        }
+    }
+}
+//根据配置创建线段
+function createLine(scene, config) {
+    if (config) {
+        //设置默认属性
+        //设置默认属性
+        setDefaults(scene, QTopo.constant.line, config.style);
+        //开始创建
+        if ($.isArray(config.data)) {
+            $.each(config.data, function (i, v) {
+                var line = scene.createLine(v);
+                //额外属性添加
+                setExtra(line, v);
+            });
+        } else {
+            QTopo.util.error(&quot;can not draw line,need config &#x27;path&#x27; and &#x27;path&#x27; is Array and not empty,path&#x27;s element need config x y, path used to find start and end&quot;);
+        }
+    }
+}
+
+/**
+ * @property alarm {object}
+ * @param node {string} 通知告警模块如何查找需要设定告警的节点
+ * @param animate {object} 可选，配置告警动画
+ *
+ * 参数包括:
+ *
+ * time 设定间隔时间
+ *
+ * callBack 回调函数 传入参数为当前处理告警的节点
+ *
+ * @param data {array} 包含对告警的设置
+ *
+ * color:告警展示的颜色
+ *
+ * node:以该值查找告警设置的节点
+ *
+ * text:告警显示的文字信息，可不设或为空
+ *
+ * @example
+        setOption(
+            alarm: {
+                node: &quot;alarmId&quot;,
+                animate: {
+                    time: 1000,
+                    callBack: function (node) {
+                        //todo
+                    }
+                },
+                data: [{
+                    color:&quot;255,204,0&quot;,
+                    node:&quot;1.intelligentho.344136306&quot;,
+                    text:&quot;告警数6&quot;
+                },{..}],
+            }
+        )
+ */
+function drawAlarm(scene, config) {
+    if (config) {
+        if ($.isArray(config.data) &amp;&amp; config.node) {
+            var alarmData = config.data;
+            var alarmNodes = makeAlarmData(scene, alarmData, config);
+            QTopo.util.info(&quot;告警绘制 :&quot;, {
+                config: alarmData.length,
+                success: alarmNodes.length
+            });
+            if (config.animate) {
+                alarmAnimate(config.animate, alarmNodes);
+            } else {
+                $.each(alarmNodes, function (i, v) {
+                    v.node.set({
+                        alarm: v.alarm
+                    });
+                });
+            }
+        }
+    }
+}
+function makeAlarmData(scene, alarmData, config) {
+    var alarms = [];
+    $.each(alarmData, function (k, v) {
+        var node = notCasual(scene.find(config.node + &quot;=&quot; + v[&quot;node&quot;], &quot;node&quot;));
+        if (node) {
+            alarms.push({
+                node: node,
+                alarm: {
+                    show: typeof v.show == &quot;boolean&quot; ? v.show : true,
+                    text: v.text,
+                    color: v.color,
+                    font: v.font
+                }
+            });
+        }
+    });
+    return alarms;
+}
+var animateRuning;
+function alarmAnimate(animate, alarmNodes) {
+    if (animate) {
+        if ($.isNumeric(animate.time)) {
+            clearAnimat();
+            QTopo.util.info(&quot;启用告警动画&quot;);
+            animateRuning = setInterval(function () {
+                if (alarmNodes.length &gt; 0) {
+                    var data = alarmNodes.pop();
+                    data.node.set({
+                        alarm: data.alarm
+                    });
+                    if ($.isFunction(animate.callBack)) {
+                        animate.callBack(data.node);
+                    }
+                } else {
+                    QTopo.util.info(&quot;告警动画结束&quot;);
+                    clearAnimat();
+                }
+            }, parseInt(animate.time));
+        }
+    }
+}
+function clearAnimat() {
+    if (animateRuning) {
+        clearInterval(animateRuning);
+        animateRuning = &quot;&quot;;
+    }
+}
+function setExtra(element, data) {
+    if (data) {
+        $.each(data, function (key, value) {
+            if (filterConfig(element, key) &amp;&amp; [&quot;start&quot;, &quot;end&quot;, &quot;children&quot;, &quot;toggle&quot;, &quot;type&quot;, &quot;extra&quot;].indexOf(key) &lt; 0) {
+                element.extra[key] = value;
+            }
+        });
+        if (data.extra) {
+            $.each(data.extra, function (key, value) {
+                if (value) {
+                    element.extra[key] = value;
+                }
+            });
+        }
+    }
+}
+function filterConfig(element, key) {
+    return element &amp;&amp; typeof element.attr[key] == &#x27;undefined&#x27;;
+}
+function setDefaults(scene, typeArr, style) {
+    if (style) {
+        $.each(typeArr, function (i, types) {
+            scene.setDefault(types, style);
+        })
+    }
+}
+
+
+
+
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

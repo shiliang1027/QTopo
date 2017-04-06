@@ -1,0 +1,3075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\core\jtopo\jtopo-min.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\core\jtopo\jtopo-min.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+!function (window) {
+    function Element() {
+        this.initialize = function () {
+            this.elementType = &quot;element&quot;, this.serializedProperties = [&quot;elementType&quot;], this.propertiesStack = [], this._id = &quot;&quot; + (new Date).getTime()
+        }, this.distroy = function () {
+        }, this.removeHandler = function () {
+        }, this.attr = function (a, b) {
+            if (null != a &amp;&amp; null != b)this[a] = b; else if (null != a)return this[a];
+            return this
+        }, this.save = function () {
+            var a = this, b = {};
+            this.serializedProperties.forEach(function (c) {
+                b[c] = a[c]
+            }), this.propertiesStack.push(b)
+        }, this.restore = function () {
+            if (null != this.propertiesStack &amp;&amp; 0 != this.propertiesStack.length) {
+                var a = this, b = this.propertiesStack.pop();
+                this.serializedProperties.forEach(function (c) {
+                    a[c] = b[c]
+                })
+            }
+        }, this.toJson = function () {
+            var a = this, b = &quot;{&quot;, c = this.serializedProperties.length;
+            return this.serializedProperties.forEach(function (d, e) {
+                var f = a[d];
+                &quot;string&quot; == typeof f &amp;&amp; (f = &#x27;&quot;&#x27; + f + &#x27;&quot;&#x27;), b += &#x27;&quot;&#x27; + d + &#x27;&quot;:&#x27; + f, c &gt; e + 1 &amp;&amp; (b += &quot;,&quot;)
+            }), b += &quot;}&quot;
+        }
+    }
+
+    /*a=this.x - this.borderWidth / 2 b=this.y - this.borderWidth / 2,*/
+    CanvasRenderingContext2D.prototype.JTopoRoundRect = function (a, b, w_borderWidth, h_borderWidth, borderRadius) {
+        //画元素圆角边框
+        &quot;undefined&quot; == typeof borderRadius &amp;&amp; (borderRadius = 5),
+            this.beginPath(),
+            this.moveTo(a + borderRadius, b),
+            this.lineTo(a + w_borderWidth - borderRadius, b),
+            this.quadraticCurveTo(a + w_borderWidth, b, a + w_borderWidth, b + borderRadius),
+            this.lineTo(a + w_borderWidth, b + h_borderWidth - borderRadius),
+            this.quadraticCurveTo(a + w_borderWidth, b + h_borderWidth, a + w_borderWidth - borderRadius, b + h_borderWidth),
+            this.lineTo(a + borderRadius, b + h_borderWidth),
+            this.quadraticCurveTo(a, b + h_borderWidth, a, b + h_borderWidth - borderRadius),
+            this.lineTo(a, b + borderRadius),
+            this.quadraticCurveTo(a, b, a + borderRadius, b),
+            this.closePath()
+    };
+    CanvasRenderingContext2D.prototype.JTopoDashedLineTo = function (sX, sY, eX, eY, dashedPattern) {
+        //画虚线
+        if (&quot;undefined&quot; == typeof dashedPattern) {
+            dashedPattern = 5;
+        }
+        var dX = eX - sX;
+        var dY = eY - sY;
+        var length = Math.floor(Math.sqrt(dX * dX + dY * dY));
+        var dashL = 0 &gt;= dashedPattern ? length : length / dashedPattern;
+        var tY = dY / length * dashedPattern;
+        var tX = dX / length * dashedPattern;
+        this.beginPath();
+        for (var m = 0; dashL &gt; m; m++) {
+            if (m % 2) {
+                this.lineTo(sX + m * tX, sY + m * tY);
+            } else {
+                this.moveTo(sX + m * tX, sY + m * tY);
+            }
+        }
+        this.stroke();
+    };
+    var JTopo = {
+        version: &quot;0.4.8_01&quot;,
+        zIndex_Container: 1,
+        zIndex_Link: 2,
+        zIndex_Node: 3,
+        SceneMode: {normal: &quot;normal&quot;, drag: &quot;drag&quot;, edit: &quot;edit&quot;, select: &quot;select&quot;},
+        MouseCursor: {
+            normal: &quot;default&quot;,
+            pointer: &quot;pointer&quot;,
+            top_left: &quot;nw-resize&quot;,
+            top_center: &quot;n-resize&quot;,
+            top_right: &quot;ne-resize&quot;,
+            middle_left: &quot;e-resize&quot;,
+            middle_right: &quot;e-resize&quot;,
+            bottom_left: &quot;ne-resize&quot;,
+            bottom_center: &quot;n-resize&quot;,
+            bottom_right: &quot;nw-resize&quot;,
+            move: &quot;move&quot;,
+            open_hand: &quot;default&quot;,
+            closed_hand: &quot;default&quot;
+        },
+        createStageFromJson: function (jsonStr, canvas) {
+            eval(&quot;var jsonObj = &quot; + jsonStr);
+            var stage = new JTopo.Stage(canvas);
+            for (var k in jsonObj)&quot;childs&quot; != k &amp;&amp; (stage[k] = jsonObj[k]);
+            var scenes = jsonObj.childs;
+            return scenes.forEach(function (a) {
+                var b = new JTopo.Scene(stage);
+                for (var c in a)&quot;childs&quot; != c &amp;&amp; (b[c] = a[c]), &quot;background&quot; == c &amp;&amp; (b.background = a[c]);
+                var d = a.childs;
+                d.forEach(function (a) {
+                    var c = null, d = a.elementType;
+                    &quot;node&quot; == d ? c = new JTopo.Node : &quot;CircleNode&quot; == d &amp;&amp; (c = new JTopo.CircleNode);
+                    for (var e in a)c[e] = a[e];
+                    b.add(c)
+                })
+            }), stage
+        }
+    };
+    JTopo.Element = Element;
+    window.JTopo = JTopo;
+}(window), function (JTopo) {
+    function MessageBus(a) {
+        this.name = a;
+        this.messageMap = {};
+        this.messageCount = 0;
+    }
+
+    MessageBus.prototype.subscribe = function (evenName, fn) {
+        var d = this.messageMap[evenName];
+        if (null == d) {
+            this.messageMap[evenName] = [];
+        }
+        this.messageMap[evenName].push(fn);
+        this.messageCount++;
+    };
+    MessageBus.prototype.unsubscribe = function (evenName, fn) {
+        var event = this.messageMap[evenName];
+        if (null != event) {
+            if (fn &amp;&amp; &#x27;function&#x27; == typeof fn) {
+                var index = event.indexOf(fn);
+                if (index &gt; -1) {
+                    event.splice(index, 1);
+                }
+            } else {
+                this.messageMap[evenName] = null;
+                delete this.messageMap[evenName];
+                this.messageCount--;
+            }
+        }
+    };
+    MessageBus.prototype.publish = function (evenName, e, boolean) {
+        var eventMap = this.messageMap[evenName];
+        if (null != eventMap) {
+            eventMap.forEach(function (fn) {
+                if (boolean) {
+                    setTimeout(function () {
+                        fn(e);
+                    });
+                } else {
+                    if (e.target &amp;&amp; e.target.qtopo) {
+                        fn(e, e.target.qtopo);
+                    } else {
+                        fn(e);
+                    }
+                }
+            });
+        }
+    };
+    function getDistance(pointA, pointB, c, d) {
+        var width, height;
+        if (null == c &amp;&amp; null == d) {
+            if (pointA &amp;&amp; pointB) {
+                width = pointB.x - pointA.x;
+                height = pointB.y - pointA.y;
+            }
+        } else {
+            width = c - pointA;
+            height = d - pointB;
+        }
+        return Math.sqrt(width * width + height * height);
+    }
+
+    function getElementsBound(elements) {
+        var b = {
+            left: Number.MAX_VALUE,
+            right: Number.MIN_VALUE,
+            top: Number.MAX_VALUE,
+            bottom: Number.MIN_VALUE
+        };
+        elements.forEach(function (element) {
+            if (!(element instanceof JTopo.Link)) {
+                if (b.left &gt; element.x) {
+                    b.left = element.x;
+                    b.leftNode = element;
+                }
+                if (b.right &lt; element.x + element.width) {
+                    b.right = element.x + element.width;
+                    b.rightNode = element;
+                }
+                if (b.top &gt; element.y) {
+                    b.top = element.y;
+                    b.topNode = element;
+                }
+                if (b.bottom &lt; element.y + element.height) {
+                    b.bottom = element.y + element.height;
+                    b.bottomNode = element;
+                }
+            }
+        });
+        b.width = b.right - b.left;
+        b.height = b.bottom - b.top;
+        return b;
+    }
+
+    function getEventPosition(a) {
+        a = cloneEvent(a);
+        if (!a.pageX) {
+            a.pageX = a.clientX + document.body.scrollLeft - document.body.clientLeft;
+            a.pageY = a.clientY + document.body.scrollTop - document.body.clientTop;
+        }
+        return a;
+    }
+
+    function rotatePoint(aX, aY, bX, bY, c) {
+        var width = bX - aX;
+        var height = bY - aY;
+        var ditance = Math.sqrt(width * width + height * height);
+        var i = Math.atan2(height, width) + c;
+        return {
+            x: aX + Math.cos(i) * ditance,
+            y: aY + Math.sin(i) * ditance
+        }
+    }
+
+    function rotatePoints(root, childs, beginAngle) {
+        for (var d = [], e = 0; e &lt; childs.length; e++) {
+            d.push(rotatePoint(root.x, root.y, childs[e].x, childs[e].y, beginAngle));
+        }
+        return d
+    }
+
+    function cloneEvent(a) {
+        var b = {};
+        for (var c in a) {
+            if (&quot;returnValue&quot; != c &amp;&amp; &quot;keyLocation&quot; != c) {
+                b[c] = a[c];
+            }
+        }
+        return b
+    }
+
+    function clone(object) {
+        var b = {};
+        for (var c in object) {
+            b[c] = object[c];
+        }
+        return b
+    }
+
+    function isPointInRect(rect, points) {
+        var X = points.x;
+        var Y = points.y;
+        var W = points.width;
+        var H = points.height;
+        return rect.x &gt; X &amp;&amp; rect.x &lt; X + W &amp;&amp; rect.y &gt; Y &amp;&amp; rect.y &lt; Y + H;
+    }
+
+    function isPointInLine(points, start, end) {
+        var line = JTopo.util.getDistance(start, end);
+        var toStart = JTopo.util.getDistance(start, points);
+        var toEnd = JTopo.util.getDistance(end, points);
+        return Math.abs(toStart + toEnd - line) &lt;= 0.5;
+    }
+
+    function removeFromArray(arr, item) {
+        for (var c = 0; c &lt; arr.length; c++) {
+            var d = arr[c];
+            if (d === item) {
+                arr = arr.del(c);
+                break
+            }
+        }
+        return arr
+    }
+
+    function randomColor() {
+        return Math.floor(255 * Math.random()) + &quot;,&quot; + Math.floor(255 * Math.random()) + &quot;,&quot; + Math.floor(255 * Math.random())
+    }
+
+
+    function loadStageFromJson(json, canvas) {
+        var obj = eval(json), stage = new JTopo.Stage(canvas);
+        for (var k in stageObj)if (&quot;scenes&quot; != k)stage[k] = obj[k]; else for (var scenes = obj.scenes, i = 0; i &lt; scenes.length; i++) {
+            var sceneObj = scenes[i], scene = new JTopo.Scene(stage);
+            for (var p in sceneObj)if (&quot;elements&quot; != p)scene[p] = sceneObj[p]; else for (var nodeMap = {}, elements = sceneObj.elements, m = 0; m &lt; elements.length; m++) {
+                var elementObj = elements[m], type = elementObj.elementType, element;
+                &quot;Node&quot; == type &amp;&amp; (element = new JTopo.Node);
+                for (var mk in elementObj)element[mk] = elementObj[mk];
+                nodeMap[element.text] = element, scene.add(element)
+            }
+        }
+        return console.log(stage), stage
+    }
+
+    function changeColor(ctx, image, color) {
+        var colorArr = color.split(&quot;,&quot;);
+        var R = parseInt(colorArr[0]);
+        var G = parseInt(colorArr[1]);
+        var B = parseInt(colorArr[2]);
+        var imageWidth = canvas.width = image.width;
+        var imageHeight = canvas.height = image.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0);
+        var ImageData = ctx.getImageData(0, 0, image.width, image.height);
+        var data = ImageData.data;
+        for (var i = 0; imageWidth &gt; i; i++) {
+            for (var j = 0; imageHeight &gt; j; j++) {
+                var n = 4 * (i + j * imageWidth);
+                if(0 != data[n + 3]){
+                    if(null != R){
+                        data[n + 0] += R;
+                    }
+                    if(null != G){
+                        data[n + 1] += G;
+                    }
+                    if(null != B){
+                        data[n + 2] += B;
+                    }
+                }
+            }
+        }
+        ctx.putImageData(ImageData, 0, 0, 0, 0, image.width, image.height);
+        return canvas.toDataURL();
+    }
+
+    function genImageAlarm(image, color) {
+        var src = image.src + color;
+        if (alarmImageCache[src])return alarmImageCache[src];
+        var newImage = new Image;
+        newImage.src = changeColor(graphics, image, color);
+        alarmImageCache[src] = newImage;
+        return newImage;
+    }
+
+    function getOffsetPosition(a) {
+        if (!a)return {left: 0, top: 0};
+        var b = 0, c = 0;
+        if (&quot;getBoundingClientRect&quot; in document.documentElement)var d = a.getBoundingClientRect(), e = a.ownerDocument, f = e.body, g = e.documentElement, h = g.clientTop || f.clientTop || 0, i = g.clientLeft || f.clientLeft || 0, b = d.top + (self.pageYOffset || g &amp;&amp; g.scrollTop || f.scrollTop) - h, c = d.left + (self.pageXOffset || g &amp;&amp; g.scrollLeft || f.scrollLeft) - i; else do b += a.offsetTop || 0, c += a.offsetLeft || 0, a = a.offsetParent; while (a);
+        return {left: c, top: b}
+    }
+
+    function lineF(x1, y1, x2, y2) {
+        function e(a) {
+            return a * f + g
+        }
+
+        var f = (y2 - y1) / (x2 - x1), g = y1 - x1 * f;
+        return e.k = f, e.b = g, e.x1 = x1, e.x2 = x2, e.y1 = y1, e.y2 = y2, e
+    }
+
+    function inRange(a, b, c) {
+        var d = Math.abs(b - c), e = Math.abs(b - a), f = Math.abs(c - a), g = Math.abs(d - (e + f));
+        return 1e-6 &gt; g ? !0 : !1
+    }
+
+    function isPointInLineSeg(a, b, c) {
+        return inRange(a, c.x1, c.x2) &amp;&amp; inRange(b, c.y1, c.y2)
+    }
+
+    function intersection(a, b) {
+        var c, d;
+        return a.k == b.k ? null : (1 / 0 == a.k || a.k == -1 / 0 ? (c = a.x1, d = b(a.x1)) : 1 / 0 == b.k || b.k == -1 / 0 ? (c = b.x1, d = a(b.x1)) : (c = (b.b - a.b) / (a.k - b.k), d = a(c)), 0 == isPointInLineSeg(c, d, a) ? null : 0 == isPointInLineSeg(c, d, b) ? null : {
+            x: c,
+            y: d
+        })
+    }
+
+    function intersectionLineBound(link, bound) {
+        var c = JTopo.util.lineF(bound.left, bound.top, bound.left, bound.bottom);
+        var d = JTopo.util.intersection(link, c);
+        if (null == d) {
+            c = JTopo.util.lineF(bound.left, bound.top, bound.right, bound.top);
+            d = JTopo.util.intersection(link, c);
+            if (null == d) {
+                c = JTopo.util.lineF(bound.right, bound.top, bound.right, bound.bottom);
+                d = JTopo.util.intersection(link, c);
+                if (null == d) {
+                    c = JTopo.util.lineF(bound.left, bound.bottom, bound.right, bound.bottom);
+                    d = JTopo.util.intersection(link, c);
+                }
+            }
+        }
+
+        return d;
+    }
+
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (a) {
+            setTimeout(a, 1e3 / 24)
+        };
+    Array.prototype.del = function (item) {
+        if (&quot;number&quot; != typeof item) {
+            var index = this.indexOf(item);
+            if (index &gt; -1) {
+                this.splice(index, 1);
+            }
+            return this
+        } else {
+            if (item &gt; -1) {
+                this.splice(item, 1);
+            }
+            return this;
+        }
+    };
+    if (![].indexOf) {
+        Array.prototype.indexOf = function (a) {
+            for (var i = 0; i &lt; this.length; i++) {
+                if (this[i] === a) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+    window.console || (window.console = {
+        log: function () {
+        }, info: function () {
+        }, debug: function () {
+        }, warn: function () {
+        }, error: function () {
+        }
+    });
+    var canvas = document.createElement(&quot;canvas&quot;), graphics = canvas.getContext(&quot;2d&quot;), alarmImageCache = {};
+    JTopo.util = {
+        rotatePoint: rotatePoint,
+        rotatePoints: rotatePoints,
+        getDistance: getDistance,
+        getEventPosition: getEventPosition,
+        MessageBus: MessageBus,
+        isFirefox: navigator.userAgent.indexOf(&quot;Firefox&quot;) &gt; 0,
+        isIE: !(!window.attachEvent || -1 !== navigator.userAgent.indexOf(&quot;Opera&quot;)),
+        isChrome: null != navigator.userAgent.toLowerCase().match(/chrome/),
+        clone: clone,
+        isPointInRect: isPointInRect,
+        isPointInLine: isPointInLine,
+        removeFromArray: removeFromArray,
+        cloneEvent: cloneEvent,
+        randomColor: randomColor,
+        loadStageFromJson: loadStageFromJson,
+        getElementsBound: getElementsBound,
+        genImageAlarm: genImageAlarm,
+        getOffsetPosition: getOffsetPosition,
+        lineF: lineF,
+        intersection: intersection,
+        intersectionLineBound: intersectionLineBound
+    }
+}(JTopo),
+    function (jtopo) {
+        function b(a) {
+            return {
+                hgap: 16, visible: !1, exportCanvas: document.createElement(&quot;canvas&quot;), getImage: function (b, c) {
+                    var d = a.getBound(), e = 1, f = 1;
+                    this.exportCanvas.width = a.canvas.width, this.exportCanvas.height = a.canvas.height, null != b &amp;&amp; null != c ? (this.exportCanvas.width = b, this.exportCanvas.height = c, e = b / d.width, f = c / d.height) : (d.width &gt; a.canvas.width &amp;&amp; (this.exportCanvas.width = d.width), d.height &gt; a.canvas.height &amp;&amp; (this.exportCanvas.height = d.height));
+                    var g = this.exportCanvas.getContext(&quot;2d&quot;);
+                    return a.childs.length &gt; 0 &amp;&amp; (g.save(), g.clearRect(0, 0, this.exportCanvas.width, this.exportCanvas.height), a.childs.forEach(function (a) {
+                        1 == a.visible &amp;&amp; (a.save(), a.translateX = 0, a.translateY = 0, a.scaleX = 1, a.scaleY = 1, g.scale(e, f), d.left &lt; 0 &amp;&amp; (a.translateX = Math.abs(d.left)), d.top &lt; 0 &amp;&amp; (a.translateY = Math.abs(d.top)), a.paintAll = !0, a.repaint(g), a.paintAll = !1, a.restore())
+                    }), g.restore()), this.exportCanvas.toDataURL(&quot;image/png&quot;)
+                }, canvas: document.createElement(&quot;canvas&quot;), update: function () {
+                    this.eagleImageDatas = this.getData(a)
+                }, setSize: function (a, b) {
+                    this.width = this.canvas.width = a, this.height = this.canvas.height = b
+                }, getData: function (b, c) {
+                    function d(a) {
+                        var b = a.stage.canvas.width, c = a.stage.canvas.height, d = b / a.scaleX / 2, e = c / a.scaleY / 2;
+                        return {translateX: a.translateX + d - d * a.scaleX, translateY: a.translateY + e - e * a.scaleY}
+                    }
+
+                    null != j &amp;&amp; null != k ? this.setSize(b, c) : this.setSize(200, 160);
+                    var e = this.canvas.getContext(&quot;2d&quot;);
+                    if (a.childs.length &gt; 0) {
+                        e.save(), e.clearRect(0, 0, this.canvas.width, this.canvas.height), a.childs.forEach(function (a) {
+                            1 == a.visible &amp;&amp; (a.save(), a.centerAndZoom(null, null, e), a.repaint(e), a.restore())
+                        });
+                        var f = d(a.childs[0]), g = f.translateX * (this.canvas.width / a.canvas.width) * a.childs[0].scaleX, h = f.translateY * (this.canvas.height / a.canvas.height) * a.childs[0].scaleY, i = a.getBound(), j = a.canvas.width / a.childs[0].scaleX / i.width, k = a.canvas.height / a.childs[0].scaleY / i.height;
+                        j &gt; 1 &amp;&amp; (j = 1), k &gt; 1 &amp;&amp; (j = 1), g *= j, h *= k, i.left &lt; 0 &amp;&amp; (g -= Math.abs(i.left) * (this.width / i.width)), i.top &lt; 0 &amp;&amp; (h -= Math.abs(i.top) * (this.height / i.height)), e.save(), e.lineWidth = 1, e.strokeStyle = &quot;rgba(255,0,0,1)&quot;, e.strokeRect(-g, -h, e.canvas.width * j, e.canvas.height * k), e.restore();
+                        var l = null;
+                        try {
+                            l = e.getImageData(0, 0, e.canvas.width, e.canvas.height)
+                        } catch (m) {
+                        }
+                        return l
+                    }
+                    return null
+                }, paint: function () {
+                    if (null != this.eagleImageDatas) {
+                        var b = a.graphics;
+                        b.save(), b.fillStyle = &quot;rgba(211,211,211,0.3)&quot;, b.fillRect(a.canvas.width - this.canvas.width - 2 * this.hgap, a.canvas.height - this.canvas.height - 1, a.canvas.width - this.canvas.width, this.canvas.height + 1), b.fill(), b.save(), b.lineWidth = 1, b.strokeStyle = &quot;rgba(0,0,0,1)&quot;, b.rect(a.canvas.width - this.canvas.width - 2 * this.hgap, a.canvas.height - this.canvas.height - 1, a.canvas.width - this.canvas.width, this.canvas.height + 1), b.stroke(), b.restore(), b.putImageData(this.eagleImageDatas, a.canvas.width - this.canvas.width - this.hgap, a.canvas.height - this.canvas.height), b.restore()
+                    } else this.eagleImageDatas = this.getData(a)
+                }, eventHandler: function (a, b, c) {
+                    var d = b.x, e = b.y;
+                    if (d &gt; c.canvas.width - this.canvas.width &amp;&amp; e &gt; c.canvas.height - this.canvas.height) {
+                        if (d = b.x - this.canvas.width, e = b.y - this.canvas.height, &quot;mousedown&quot; == a &amp;&amp; (this.lastTranslateX = c.childs[0].translateX, this.lastTranslateY = c.childs[0].translateY), &quot;mousedrag&quot; == a &amp;&amp; c.childs.length &gt; 0) {
+                            var f = b.dx, g = b.dy, h = c.getBound(), i = this.canvas.width / c.childs[0].scaleX / h.width, j = this.canvas.height / c.childs[0].scaleY / h.height;
+                            c.childs[0].translateX = this.lastTranslateX - f / i, c.childs[0].translateY = this.lastTranslateY - g / j
+                        }
+                    } else;
+                }
+            }
+        }
+
+        function stage(c) {
+            function d(b) {
+                var c = jtopo.util.getEventPosition(b), d = jtopo.util.getOffsetPosition(n.canvas);
+                return c.offsetLeft = c.pageX - d.left, c.offsetTop = c.pageY - d.top, c.x = c.offsetLeft, c.y = c.offsetTop, c.target = null, c
+            }
+
+            function e(a) {
+                document.onselectstart = function () {
+                    return !1
+                }, this.mouseOver = !0;
+                var b = d(a);
+                n.dispatchEventToScenes(&quot;mouseover&quot;, b), n.dispatchEvent(&quot;mouseover&quot;, b)
+            }
+
+            function f(a) {
+                p = setTimeout(function () {
+                    o = !0
+                }, 500), document.onselectstart = function () {
+                    return !0
+                };
+                var b = d(a);
+                n.dispatchEventToScenes(&quot;mouseout&quot;, b), n.dispatchEvent(&quot;mouseout&quot;, b), n.needRepaint = 0 == n.animate ? !1 : !0
+            }
+
+            function g(a) {
+                var b = d(a);
+                n.mouseDown = !0, n.mouseDownX = b.x, n.mouseDownY = b.y, n.dispatchEventToScenes(&quot;mousedown&quot;, b), n.dispatchEvent(&quot;mousedown&quot;, b)
+            }
+
+            function h(a) {
+                var b = d(a);
+                n.dispatchEventToScenes(&quot;mouseup&quot;, b), n.dispatchEvent(&quot;mouseup&quot;, b), n.mouseDown = !1, n.needRepaint = 0 == n.animate ? !1 : !0
+            }
+
+            function i(a) {
+                p &amp;&amp; (window.clearTimeout(p), p = null), o = !1;
+                var b = d(a);
+                n.mouseDown ? 0 == a.button &amp;&amp; (b.dx = b.x - n.mouseDownX, b.dy = b.y - n.mouseDownY, n.dispatchEventToScenes(&quot;mousedrag&quot;, b), n.dispatchEvent(&quot;mousedrag&quot;, b), 1 == n.eagleEye.visible &amp;&amp; n.eagleEye.update()) : (n.dispatchEventToScenes(&quot;mousemove&quot;, b), n.dispatchEvent(&quot;mousemove&quot;, b))
+            }
+
+            function j(a) {
+                var b = d(a);
+                n.dispatchEventToScenes(&quot;click&quot;, b), n.dispatchEvent(&quot;click&quot;, b)
+            }
+
+            function k(a) {
+                var b = d(a);
+                n.dispatchEventToScenes(&quot;dbclick&quot;, b), n.dispatchEvent(&quot;dbclick&quot;, b)
+            }
+
+            function l(a) {
+                var b = d(a);
+                n.dispatchEventToScenes(&quot;mousewheel&quot;, b), n.dispatchEvent(&quot;mousewheel&quot;, b), null != n.wheelZoom &amp;&amp; (a.preventDefault ? a.preventDefault() : (a = a || window.event, a.returnValue = !1), 1 == n.eagleEye.visible &amp;&amp; n.eagleEye.update())
+            }
+
+            function m(b) {
+                jtopo.util.isIE || !window.addEventListener ? (b.onmouseout = f, b.onmouseover = e, b.onmousedown = g, b.onmouseup = h, b.onmousemove = i, b.onclick = j, b.ondblclick = k, b.onmousewheel = l, b.touchstart = g, b.touchmove = i, b.touchend = h) : (b.addEventListener(&quot;mouseout&quot;, f), b.addEventListener(&quot;mouseover&quot;, e), b.addEventListener(&quot;mousedown&quot;, g), b.addEventListener(&quot;mouseup&quot;, h), b.addEventListener(&quot;mousemove&quot;, i), b.addEventListener(&quot;click&quot;, j), b.addEventListener(&quot;dblclick&quot;, k), jtopo.util.isFirefox ? b.addEventListener(&quot;DOMMouseScroll&quot;, l) : b.addEventListener(&quot;mousewheel&quot;, l)), window.addEventListener &amp;&amp; (window.addEventListener(&quot;keydown&quot;, function (b) {
+                    n.dispatchEventToScenes(&quot;keydown&quot;, jtopo.util.cloneEvent(b));
+                    var c = b.keyCode;
+                    (37 == c || 38 == c || 39 == c || 40 == c) &amp;&amp; (b.preventDefault ? b.preventDefault() : (b = b || window.event, b.returnValue = !1))
+                }, !0), window.addEventListener(&quot;keyup&quot;, function (b) {
+                    n.dispatchEventToScenes(&quot;keyup&quot;, jtopo.util.cloneEvent(b));
+                    var c = b.keyCode;
+                    (37 == c || 38 == c || 39 == c || 40 == c) &amp;&amp; (b.preventDefault ? b.preventDefault() : (b = b || window.event, b.returnValue = !1))
+                }, !0))
+            }
+
+            jtopo.stage = this;
+            var n = this;
+            var self = this;
+            this.initialize = function (c) {
+                m(c), this.canvas = c, this.graphics = c.getContext(&quot;2d&quot;), this.childs = [], this.frames = 24, this.messageBus = new jtopo.util.MessageBus, this.eagleEye = b(this), this.wheelZoom = null, this.mouseDownX = 0, this.mouseDownY = 0, this.mouseDown = !1, this.mouseOver = !1, this.needRepaint = !0, this.serializedProperties = [&quot;frames&quot;, &quot;wheelZoom&quot;]
+            }, null != c &amp;&amp; this.initialize(c);
+            var o = !0, p = null;
+            document.oncontextmenu = function () {
+                return o
+            }, this.dispatchEventToScenes = function (a, b) {
+                if (0 != this.frames &amp;&amp; (this.needRepaint = !0), 1 == this.eagleEye.visible &amp;&amp; -1 != a.indexOf(&quot;mouse&quot;)) {
+                    var c = b.x, d = b.y;
+                    if (c &gt; this.width - this.eagleEye.width &amp;&amp; d &gt; this.height - this.eagleEye.height)return void this.eagleEye.eventHandler(a, b, this)
+                }
+                this.childs.forEach(function (c) {
+                    if (1 == c.visible) {
+                        var d = c[a + &quot;Handler&quot;];
+                        if (null == d)throw new Error(&quot;Function not found:&quot; + a + &quot;Handler&quot;);
+                        d.call(c, b)
+                    }
+                })
+            }, this.add = function (a) {
+                for (var b = 0; b &lt; this.childs.length; b++)if (this.childs[b] === a)return;
+                a.addTo(this), this.childs.push(a)
+            }, this.remove = function (a) {
+                if (null == a)throw new Error(&quot;Stage.remove出错: 参数为null!&quot;);
+                for (var b = 0; b &lt; this.childs.length; b++)if (this.childs[b] === a)return a.stage = null, this.childs = this.childs.del(b), this;
+                return this
+            }, this.clear = function () {
+                this.childs = []
+            }, this.addEventListener = function (eventName, fn) {
+                var self = this;
+                var b = function (e) {
+                    fn.call(self, e);
+                };
+                this.messageBus.subscribe(eventName, fn);
+                return this;
+            }, this.removeEventListener = function (a, f) {
+                this.messageBus.unsubscribe(a, f)
+            }, this.removeAllEventListener = function () {
+                this.messageBus = new jtopo.util.MessageBus
+            }, this.dispatchEvent = function (a, b) {
+                return this.messageBus.publish(a, b), this
+            };
+            var q = &quot;click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup&quot;.split(&quot;,&quot;), r = this;
+            q.forEach(function (a) {
+                r[a] = function (b) {
+                    null != b ? this.addEventListener(a, b) : this.dispatchEvent(a)
+                }
+            }), this.saveImageInfo = function (a, b) {
+                var c = this.eagleEye.getImage(a, b), d = window.open(&quot;about:blank&quot;);
+                return d.document.write(&quot;&lt;img src=&#x27;&quot; + c + &quot;&#x27; alt=&#x27;from canvas&#x27;/&gt;&quot;), this
+            }, this.saveAsLocalImage = function (a, b) {
+                var c = this.eagleEye.getImage(a, b);
+                return c.replace(&quot;image/png&quot;, &quot;image/octet-stream&quot;), window.location.href = c, this
+            }, this.paint = function () {
+                null != this.canvas &amp;&amp; (this.graphics.save(), this.graphics.clearRect(0, 0, this.width, this.height), this.childs.forEach(function (a) {
+                    1 == a.visible &amp;&amp; a.repaint(n.graphics)
+                }), 1 == this.eagleEye.visible &amp;&amp; this.eagleEye.paint(this), this.graphics.restore())
+            }, this.repaint = function () {
+                0 != this.frames &amp;&amp; (this.frames &lt; 0 &amp;&amp; 0 == this.needRepaint || (this.paint(), this.frames &lt; 0 &amp;&amp; (this.needRepaint = !1)))
+            }, this.zoom = function (a) {
+                this.childs.forEach(function (b) {
+                    0 != b.visible &amp;&amp; b.zoom(a)
+                })
+            }, this.zoomOut = function (a) {
+                this.childs.forEach(function (b) {
+                    0 != b.visible &amp;&amp; b.zoomOut(a)
+                })
+            }, this.zoomIn = function (a) {
+                this.childs.forEach(function (b) {
+                    0 != b.visible &amp;&amp; b.zoomIn(a)
+                })
+            }, this.centerAndZoom = function () {
+                this.childs.forEach(function (a) {
+                    0 != a.visible &amp;&amp; a.centerAndZoom()
+                })
+            }, this.setCenter = function (a, b) {
+                var c = this;
+                this.childs.forEach(function (d) {
+                    var e = a - c.canvas.width / 2, f = b - c.canvas.height / 2;
+                    d.translateX = -e, d.translateY = -f
+                })
+            }, this.getBound = function () {
+                var a = {left: Number.MAX_VALUE, right: Number.MIN_VALUE, top: Number.MAX_VALUE, bottom: Number.MIN_VALUE};
+                return this.childs.forEach(function (b) {
+                    var c = b.getElementsBound();
+                    c.left &lt; a.left &amp;&amp; (a.left = c.left, a.leftNode = c.leftNode), c.top &lt; a.top &amp;&amp; (a.top = c.top, a.topNode = c.topNode), c.right &gt; a.right &amp;&amp; (a.right = c.right, a.rightNode = c.rightNode), c.bottom &gt; a.bottom &amp;&amp; (a.bottom = c.bottom, a.bottomNode = c.bottomNode)
+                }), a.width = a.right - a.left, a.height = a.bottom - a.top, a
+            }, this.toJson = function () {
+                {
+                    var b = this, c = &#x27;{&quot;version&quot;:&quot;&#x27; + jtopo.version + &#x27;&quot;,&#x27;;
+                    this.serializedProperties.length
+                }
+                return this.serializedProperties.forEach(function (a) {
+                    var d = b[a];
+                    &quot;string&quot; == typeof d &amp;&amp; (d = &#x27;&quot;&#x27; + d + &#x27;&quot;&#x27;), c += &#x27;&quot;&#x27; + a + &#x27;&quot;:&#x27; + d + &quot;,&quot;
+                }), c += &#x27;&quot;childs&quot;:[&#x27;, this.childs.forEach(function (a) {
+                    c += a.toJson()
+                }), c += &quot;]&quot;, c += &quot;}&quot;
+            }, function () {
+                0 == n.frames ? setTimeout(arguments.callee, 100) : n.frames &lt; 0 ? (n.repaint(), setTimeout(arguments.callee, 1e3 / -n.frames)) : (n.repaint(), setTimeout(arguments.callee, 1e3 / n.frames))
+            }(), setTimeout(function () {
+                n.mousewheel(function (a) {
+                    var b = null == a.wheelDelta ? a.detail : a.wheelDelta;
+                    null != self.wheelZoom &amp;&amp; (b &gt; 0 ? self.zoomIn(self.wheelZoom) : self.zoomOut(self.wheelZoom))
+                }), n.paint()
+            }, 300), setTimeout(function () {
+                n.paint()
+            }, 1e3), setTimeout(function () {
+                n.paint()
+            }, 3e3)
+        }
+
+        stage.prototype = {
+            get width() {
+                return this.canvas.width
+            }, get height() {
+                return this.canvas.height
+            }, set cursor(a) {
+                this.canvas.style.cursor = a
+            }, get cursor() {
+                return this.canvas.style.cursor
+            }, set mode(a) {
+                this.childs.forEach(function (b) {
+                    b.mode = a
+                })
+            }
+        }, jtopo.Stage = stage
+    }(JTopo),
+    function (jtopo) {
+        function scene(c) {
+            function d(a, b, c, d) {
+                return function (e) {
+                    e.beginPath(), e.strokeStyle = &quot;rgba(0,0,236,0.5)&quot;, e.fillStyle = &quot;rgba(0,0,236,0.1)&quot;, e.rect(a, b, c, d), e.fill(), e.stroke(), e.closePath()
+                }
+            }
+
+            var scene_self = this;
+            this.initialize = function () {
+                scene.prototype.initialize.apply(this, arguments);
+                this.messageBus = new jtopo.util.MessageBus;
+                this.elementType = &quot;scene&quot;;
+                this.childs = [];
+                this.zIndexMap = {};
+                this.zIndexArray = [];
+                this.backgroundColor = &quot;255,255,255&quot;;
+                this.visible = !0;
+                this.alpha = 0;
+                this.scaleX = 1;
+                this.scaleY = 1;
+                this.mode = jtopo.SceneMode.normal;
+                this.translate = !0;
+                this.translateX = 0;
+                this.translateY = 0;
+                this.lastTranslateX = 0;
+                this.lastTranslateY = 0;
+                this.mouseDown = !1;
+                this.mouseDownX = null;
+                this.mouseDownY = null;
+                this.mouseDownEvent = null;
+                this.areaSelect = !0;
+                this.operations = [];
+                this.selectedElements = [];
+                this.paintAll = !1;
+                var c = &quot;background,backgroundColor,mode,paintAll,areaSelect,translate,translateX,translateY,lastTranslatedX,lastTranslatedY,alpha,visible,scaleX,scaleY&quot;.split(&quot;,&quot;);
+                this.serializedProperties = this.serializedProperties.concat(c);
+            };
+            this.initialize();
+            this.setBackground = function (a) {
+                this.background = a
+            };
+            this.addTo = function (a) {
+                this.stage !== a &amp;&amp; null != a &amp;&amp; (this.stage = a)
+            };
+            null != c &amp;&amp; (c.add(this), this.addTo(c)), this.show = function () {
+                this.visible = !0
+            };
+            this.hide = function () {
+                this.visible = !1
+            };
+            this.paint = function (a) {
+                if (0 != this.visible &amp;&amp; null != this.stage) {
+                    if (a.save(), this.paintBackgroud(a), a.restore(), a.save(), a.scale(this.scaleX, this.scaleY), 1 == this.translate) {
+                        var b = this.getOffsetTranslate(a);
+                        a.translate(b.translateX, b.translateY)
+                    }
+                    this.paintChilds(a), a.restore(), a.save(), this.paintOperations(a, this.operations), a.restore()
+                }
+            };
+            this.repaint = function (a) {
+                0 != this.visible &amp;&amp; this.paint(a)
+            };
+            this.paintBackgroud = function (a) {
+                null != this.background ? a.drawImage(this.background, 0, 0, a.canvas.width, a.canvas.height) : (a.beginPath(), a.fillStyle = &quot;rgba(&quot; + this.backgroundColor + &quot;,&quot; + this.alpha + &quot;)&quot;, a.fillRect(0, 0, a.canvas.width, a.canvas.height), a.closePath())
+            };
+            this.getDisplayedElements = function () {
+                for (var a = [], b = 0; b &lt; this.zIndexArray.length; b++)for (var c = this.zIndexArray[b], d = this.zIndexMap[c], e = 0; e &lt; d.length; e++) {
+                    var f = d[e];
+                    this.isVisiable(f) &amp;&amp; a.push(f)
+                }
+                return a
+            };
+            this.getDisplayedNodes = function () {
+                for (var b = [], c = 0; c &lt; this.childs.length; c++) {
+                    var d = this.childs[c];
+                    d instanceof jtopo.Node &amp;&amp; this.isVisiable(d) &amp;&amp; b.push(d)
+                }
+                return b
+            };
+            this.paintChilds = function (context) {
+                for (var i = 0; i &lt; this.zIndexArray.length; i++) {
+                    var zIndex = this.zIndexArray[i];
+                    var zIndexElements = this.zIndexMap[zIndex];
+                    for (var j = 0; j &lt; zIndexElements.length; j++) {
+                        var element = zIndexElements[j];
+                        if (1 == this.paintAll || this.isVisiable(element)) {
+                            context.save();
+                            if (1 == element.transformAble) {
+                                var center = element.getCenterLocation();
+                                context.translate(center.x, center.y);
+                                if (element.rotate) {
+                                    context.rotate(element.rotate);
+                                }
+                                if (element.scaleX &amp;&amp; element.scaleY) {
+                                    context.scale(element.scaleX, element.scaleY)
+                                } else if (element.scaleX) {
+                                    context.scale(element.scaleX, 1);
+                                } else if (element.scaleY) {
+                                    context.scale(1, element.scaleY);
+                                }
+                            }
+                            if (1 == element.shadow) {
+                                context.shadowBlur = element.shadowBlur;
+                                context.shadowColor = element.shadowColor;
+                                context.shadowOffsetX = element.shadowOffsetX;
+                                context.shadowOffsetY = element.shadowOffsetY;
+                            }
+                            if (element instanceof jtopo.InteractiveElement) {
+                                if (element.selected &amp;&amp; 1 == element.showSelected) {
+                                    element.paintSelected(context)
+                                }
+                                if (1 == element.isMouseOver) {
+                                    element.paintMouseover(context)
+                                }
+                            }
+                            element.paint(context);
+                            context.restore();
+                        }
+                    }
+                }
+            };
+            this.getOffsetTranslate = function (a) {
+                var b = this.stage.canvas.width, c = this.stage.canvas.height;
+                null != a &amp;&amp; &quot;move&quot; != a &amp;&amp; (b = a.canvas.width, c = a.canvas.height);
+                var d = b / this.scaleX / 2, e = c / this.scaleY / 2, f = {translateX: this.translateX + (d - d * this.scaleX), translateY: this.translateY + (e - e * this.scaleY)};
+                return f
+            };
+            this.isVisiable = function (b) {
+                if (1 != b.visible)return !1;
+                if (b instanceof jtopo.Link)return !0;
+                var c = this.getOffsetTranslate(), d = b.x + c.translateX, e = b.y + c.translateY;
+                d *= this.scaleX, e *= this.scaleY;
+                var f = d + b.width * this.scaleX, g = e + b.height * this.scaleY;
+                return d &gt; this.stage.canvas.width || e &gt; this.stage.canvas.height || 0 &gt; f || 0 &gt; g ? !1 : !0
+            };
+            this.paintOperations = function (a, b) {
+                for (var c = 0; c &lt; b.length; c++)b[c](a)
+            };
+            this.findElements = function (a) {
+                for (var b = [], c = 0; c &lt; this.childs.length; c++)1 == a(this.childs[c]) &amp;&amp; b.push(this.childs[c]);
+                return b
+            };
+            this.getElementsByClass = function (a) {
+                return this.findElements(function (b) {
+                    return b instanceof a
+                })
+            };
+            this.addOperation = function (a) {
+                return this.operations.push(a), this
+            };
+            this.clearOperations = function () {
+                return this.operations = [], this
+            };
+            this.getElementByXY = function (b, c) {
+                for (var d = null, e = this.zIndexArray.length - 1; e &gt;= 0; e--)for (var f = this.zIndexArray[e], g = this.zIndexMap[f], h = g.length - 1; h &gt;= 0; h--) {
+                    var i = g[h];
+                    if (i instanceof jtopo.InteractiveElement &amp;&amp; this.isVisiable(i) &amp;&amp; i.isInBound(b, c))return d = i
+                }
+                return d
+            };
+            this.add = function (a) {
+                this.childs.push(a);
+                if (null == this.zIndexMap[a.zIndex]) {
+                    this.zIndexMap[a.zIndex] = [];
+                    this.zIndexArray.push(a.zIndex);
+                    this.zIndexArray.sort(function (a, b) {
+                        return a - b
+                    });
+                }
+                this.zIndexMap[&quot;&quot; + a.zIndex].push(a);
+            };
+            this.remove = function (item) {
+                this.childs = jtopo.util.removeFromArray(this.childs, item);
+                var elements = this.zIndexMap[item.zIndex];
+                if (elements) {
+                    this.zIndexMap[item.zIndex] = jtopo.util.removeFromArray(elements, item);
+                }
+                item.removeHandler(this);
+            };
+            this.clear = function () {
+                var self = this;
+                this.childs.forEach(function (child) {
+                    child.removeHandler(self);
+                });
+                this.childs = [];
+                this.operations = [];
+                this.zIndexArray = [];
+                this.zIndexMap = {};
+            };
+            this.addToSelected = function (a) {
+                this.selectedElements.push(a)
+            };
+            this.cancleAllSelected = function (a) {
+                for (var b = 0; b &lt; this.selectedElements.length; b++)this.selectedElements[b].unselectedHandler(a);
+                this.selectedElements = []
+            };
+            this.notInSelectedNodes = function (a) {
+                for (var b = 0; b &lt; this.selectedElements.length; b++)if (a === this.selectedElements[b])return !1;
+                return !0
+            };
+            this.removeFromSelected = function (a) {
+                for (var b = 0; b &lt; this.selectedElements.length; b++) {
+                    var c = this.selectedElements[b];
+                    a === c &amp;&amp; (this.selectedElements = this.selectedElements.del(b))
+                }
+            };
+            this.toSceneEvent = function (b) {
+                var c = jtopo.util.clone(b);
+                if (c.x /= this.scaleX, c.y /= this.scaleY, 1 == this.translate) {
+                    var d = this.getOffsetTranslate();
+                    c.x -= d.translateX, c.y -= d.translateY
+                }
+                return null != c.dx &amp;&amp; (c.dx /= this.scaleX, c.dy /= this.scaleY), null != this.currentElement &amp;&amp; (c.target = this.currentElement), c.scene = this, c
+            };
+            this.selectElement = function (a) {
+                var b = scene_self.getElementByXY(a.x, a.y);
+                if (null != b)if (a.target = b, b.mousedownHander(a), b.selectedHandler(a), scene_self.notInSelectedNodes(b))a.ctrlKey || scene_self.cancleAllSelected(), scene_self.addToSelected(b); else {
+                    1 == a.ctrlKey &amp;&amp; (b.unselectedHandler(), this.removeFromSelected(b));
+                    for (var c = 0; c &lt; this.selectedElements.length; c++) {
+                        var d = this.selectedElements[c];
+                        d.selectedHandler(a)
+                    }
+                } else a.ctrlKey || scene_self.cancleAllSelected();
+                this.currentElement = b
+            };
+            this.mousedownHandler = function (b) {
+                var c = this.toSceneEvent(b);
+                if (this.mouseDown = !0, this.mouseDownX = c.x, this.mouseDownY = c.y, this.mouseDownEvent = c, this.mode == jtopo.SceneMode.normal)this.selectElement(c), (null == this.currentElement || this.currentElement instanceof jtopo.Link) &amp;&amp; 1 == this.translate &amp;&amp; (this.lastTranslateX = this.translateX, this.lastTranslateY = this.translateY); else {
+                    if (this.mode == jtopo.SceneMode.drag &amp;&amp; 1 == this.translate)return this.lastTranslateX = this.translateX, void(this.lastTranslateY = this.translateY);
+                    this.mode == jtopo.SceneMode.select ? this.selectElement(c) : this.mode == jtopo.SceneMode.edit &amp;&amp; (this.selectElement(c), (null == this.currentElement || this.currentElement instanceof jtopo.Link) &amp;&amp; 1 == this.translate &amp;&amp; (this.lastTranslateX = this.translateX, this.lastTranslateY = this.translateY))
+                }
+                scene_self.dispatchEvent(&quot;mousedown&quot;, c)
+            };
+            this.mouseupHandler = function (b) {
+                this.stage.cursor != jtopo.MouseCursor.normal &amp;&amp; (this.stage.cursor = jtopo.MouseCursor.normal), scene_self.clearOperations();
+                var c = this.toSceneEvent(b);
+                null != this.currentElement &amp;&amp; (c.target = scene_self.currentElement, this.currentElement.mouseupHandler(c)), this.dispatchEvent(&quot;mouseup&quot;, c), this.mouseDown = !1
+            };
+            this.dragElements = function (b) {
+                if (null != this.currentElement &amp;&amp; 1 == this.currentElement.dragable)for (var c = 0; c &lt; this.selectedElements.length; c++) {
+                    var d = this.selectedElements[c];
+                    if (0 != d.dragable) {
+                        var e = jtopo.util.clone(b);
+                        e.target = d, d.mousedragHandler(e)
+                    }
+                }
+            };
+            this.mousedragHandler = function (b) {
+                var c = this.toSceneEvent(b);
+                this.mode == jtopo.SceneMode.normal ? null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate &amp;&amp; (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.dragElements(c) : this.mode == jtopo.SceneMode.drag ? 1 == this.translate &amp;&amp; (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.mode == jtopo.SceneMode.select ? null != this.currentElement ? 1 == this.currentElement.dragable &amp;&amp; this.dragElements(c) : 1 == this.areaSelect &amp;&amp; this.areaSelectHandle(c) : this.mode == jtopo.SceneMode.edit &amp;&amp; (null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate &amp;&amp; (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.dragElements(c)), this.dispatchEvent(&quot;mousedrag&quot;, c)
+            };
+            this.areaSelectHandle = function (a) {
+                var b = a.offsetLeft, c = a.offsetTop, f = this.mouseDownEvent.offsetLeft, g = this.mouseDownEvent.offsetTop, h = b &gt;= f ? f : b, i = c &gt;= g ? g : c, j = Math.abs(a.dx) * this.scaleX, k = Math.abs(a.dy) * this.scaleY, l = new d(h, i, j, k);
+                scene_self.clearOperations().addOperation(l), b = a.x, c = a.y, f = this.mouseDownEvent.x, g = this.mouseDownEvent.y, h = b &gt;= f ? f : b, i = c &gt;= g ? g : c, j = Math.abs(a.dx), k = Math.abs(a.dy);
+                for (var m = h + j, n = i + k, o = 0; o &lt; scene_self.childs.length; o++) {
+                    var p = scene_self.childs[o];
+                    p.x &gt; h &amp;&amp; p.x + p.width &lt; m &amp;&amp; p.y &gt; i &amp;&amp; p.y + p.height &lt; n &amp;&amp; scene_self.notInSelectedNodes(p) &amp;&amp; (p.selectedHandler(a), scene_self.addToSelected(p))
+                }
+            };
+            this.mousemoveHandler = function (b) {
+                this.mousecoord = {
+                    x: b.x,
+                    y: b.y
+                };
+                var c = this.toSceneEvent(b);
+                if (this.mode == jtopo.SceneMode.drag) {
+                    return void(this.stage.cursor = jtopo.MouseCursor.open_hand);
+                }
+                if (this.mode == jtopo.SceneMode.normal) {
+                    this.stage.cursor = jtopo.MouseCursor.normal;
+                } else if (this.mode == jtopo.SceneMode.select) {
+                    this.stage.cursor = jtopo.MouseCursor.normal;
+                }
+
+                var d = scene_self.getElementByXY(c.x, c.y);
+                if (null != d) {
+                    if (scene_self.mouseOverelement &amp;&amp; scene_self.mouseOverelement !== d) {
+                        c.target = d, scene_self.mouseOverelement.mouseoutHandler(c)
+                    }
+                    scene_self.mouseOverelement = d;
+                    if (0 == d.isMouseOver) {
+                        c.target = d;
+                        d.mouseoverHandler(c);
+                        scene_self.dispatchEvent(&quot;mouseover&quot;, c);
+                    } else {
+                        c.target = d;
+                        d.mousemoveHandler(c);
+                        scene_self.dispatchEvent(&quot;mousemove&quot;, c);
+                    }
+                } else {
+                    if (scene_self.mouseOverelement) {
+                        c.target = d;
+                        scene_self.mouseOverelement.mouseoutHandler(c);
+                        scene_self.mouseOverelement = null;
+                        scene_self.dispatchEvent(&quot;mouseout&quot;, c);
+                    } else {
+                        c.target = null;
+                        scene_self.dispatchEvent(&quot;mousemove&quot;, c)
+                    }
+                }
+            }, this.mouseoverHandler = function (a) {
+                var b = this.toSceneEvent(a);
+                this.dispatchEvent(&quot;mouseover&quot;, b)
+            }, this.mouseoutHandler = function (a) {
+                var b = this.toSceneEvent(a);
+                this.dispatchEvent(&quot;mouseout&quot;, b)
+            }, this.clickHandler = function (a) {
+                var b = this.toSceneEvent(a);
+                this.currentElement &amp;&amp; (b.target = this.currentElement, this.currentElement.clickHandler(b)), this.dispatchEvent(&quot;click&quot;, b)
+            }, this.dbclickHandler = function (a) {
+                var b = this.toSceneEvent(a);
+                this.currentElement ? (b.target = this.currentElement, this.currentElement.dbclickHandler(b)) : scene_self.cancleAllSelected(), this.dispatchEvent(&quot;dbclick&quot;, b)
+            }, this.mousewheelHandler = function (a) {
+                var b = this.toSceneEvent(a);
+                this.dispatchEvent(&quot;mousewheel&quot;, b)
+            }, this.touchstart = this.mousedownHander, this.touchmove = this.mousedragHandler, this.touchend = this.mousedownHander, this.keydownHandler = function (a) {
+                this.dispatchEvent(&quot;keydown&quot;, a)
+            }, this.keyupHandler = function (a) {
+                this.dispatchEvent(&quot;keyup&quot;, a)
+            }, this.addEventListener = function (eventName, fn) {
+                var self = this;
+                var b = function (e) {
+                    fn.call(self, e);
+                };
+                this.messageBus.subscribe(eventName, fn);
+                return this;
+            }, this.removeEventListener = function (a, f) {
+                this.messageBus.unsubscribe(a, f)
+            }, this.removeAllEventListener = function () {
+                this.messageBus = new jtopo.util.MessageBus
+            }, this.dispatchEvent = function (a, b) {
+                return this.messageBus.publish(a, b), this
+            };
+            var f = &quot;click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup&quot;.split(&quot;,&quot;), g = this;
+            return f.forEach(function (a) {
+                g[a] = function (b) {
+                    null != b ? this.addEventListener(a, b) : this.dispatchEvent(a)
+                }
+            }), this.zoom = function (a, b) {
+                null != a &amp;&amp; 0 != a &amp;&amp; (this.scaleX = a), null != b &amp;&amp; 0 != b &amp;&amp; (this.scaleY = b)
+            }, this.zoomOut = function (a) {
+                0 != a &amp;&amp; (null == a &amp;&amp; (a = .8), this.scaleX /= a, this.scaleY /= a)
+            }, this.zoomIn = function (a) {
+                0 != a &amp;&amp; (null == a &amp;&amp; (a = .8), this.scaleX *= a, this.scaleY *= a)
+            }, this.getBound = function () {
+                return {left: 0, top: 0, right: this.stage.canvas.width, bottom: this.stage.canvas.height, width: this.stage.canvas.width, height: this.stage.canvas.height}
+            }, this.getElementsBound = function () {
+                return jtopo.util.getElementsBound(this.childs)
+            }, this.translateToCenter = function (a) {
+                var b = this.getElementsBound(), c = this.stage.canvas.width / 2 - (b.left + b.right) / 2, d = this.stage.canvas.height / 2 - (b.top + b.bottom) / 2;
+                a &amp;&amp; (c = a.canvas.width / 2 - (b.left + b.right) / 2, d = a.canvas.height / 2 - (b.top + b.bottom) / 2), this.translateX = c, this.translateY = d
+            }, this.setCenter = function (a, b) {
+                var c = a - this.stage.canvas.width / 2, d = b - this.stage.canvas.height / 2;
+                this.translateX = -c, this.translateY = -d
+            }, this.centerAndZoom = function (a, b, c) {
+                if (this.translateToCenter(c), null == a || null == b) {
+                    var d = this.getElementsBound(), e = d.right - d.left, f = d.bottom - d.top, g = this.stage.canvas.width / e, h = this.stage.canvas.height / f;
+                    c &amp;&amp; (g = c.canvas.width / e, h = c.canvas.height / f);
+                    var i = Math.min(g, h);
+                    if (i &gt; 1)return;
+                    this.zoom(i, i)
+                }
+                this.zoom(a, b)
+            }, this.getCenterLocation = function () {
+                return {x: scene_self.stage.canvas.width / 2, y: scene_self.stage.canvas.height / 2}
+            }, this.doLayout = function (a) {
+                a &amp;&amp; a(this, this.childs)
+            }, this.toJson = function () {
+                {
+                    var a = this, b = &quot;{&quot;;
+                    this.serializedProperties.length
+                }
+                this.serializedProperties.forEach(function (c) {
+                    var d = a[c];
+                    &quot;background&quot; == c &amp;&amp; (d = a._background.src), &quot;string&quot; == typeof d &amp;&amp; (d = &#x27;&quot;&#x27; + d + &#x27;&quot;&#x27;), b += &#x27;&quot;&#x27; + c + &#x27;&quot;:&#x27; + d + &quot;,&quot;
+                }), b += &#x27;&quot;childs&quot;:[&#x27;;
+                var c = this.childs.length;
+                return this.childs.forEach(function (a, d) {
+                    b += a.toJson(), c &gt; d + 1 &amp;&amp; (b += &quot;,&quot;)
+                }), b += &quot;]&quot;, b += &quot;}&quot;
+            }, scene_self
+        }
+
+        scene.prototype = new jtopo.Element;
+        var c = {};
+        Object.defineProperties(scene.prototype, {
+            background: {
+                get: function () {
+                    return this._background
+                }, set: function (a) {
+                    if (&quot;string&quot; == typeof a) {
+                        var b = c[a];
+                        null == b &amp;&amp; (b = new Image, b.src = a, b.onload = function () {
+                            c[a] = b
+                        }), this._background = b
+                    } else this._background = a
+                }
+            }
+        }), jtopo.Scene = scene
+    }(JTopo),
+    function (jtopo) {
+        function DisplayElement() {
+            this.initialize = function () {
+                DisplayElement.prototype.initialize.apply(this, arguments);
+                this.elementType = &quot;displayElement&quot;;
+                this.x = 0;
+                this.y = 0;
+                this.width = 32;
+                this.height = 32;
+                this.visible = !0;
+                this.alpha = 1;
+                this.rotate = 0;
+                this.scaleX = 1;
+                this.scaleY = 1;
+                this.strokeColor = &quot;22,124,255&quot;;
+                this.borderColor = &quot;22,124,255&quot;;
+                this.fillColor = &quot;22,124,255&quot;;
+                this.shadow = !1;
+                this.shadowBlur = 5;
+                this.shadowColor = &quot;rgba(0,0,0,0.5)&quot;;
+                this.shadowOffsetX = 3;
+                this.shadowOffsetY = 6;
+                this.transformAble = !1;
+                this.zIndex = 0;
+                var a = &quot;x,y,width,height,visible,alpha,rotate,scaleX,scaleY,strokeColor,fillColor,shadow,shadowColor,shadowOffsetX,shadowOffsetY,transformAble,zIndex&quot;.split(&quot;,&quot;);
+                this.serializedProperties = this.serializedProperties.concat(a)
+            };
+            this.initialize();
+            this.paint = function (a) {
+                a.beginPath();
+                a.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
+                a.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+                a.fill();
+                a.stroke();
+                a.closePath();
+            };
+            this.getLocation = function () {
+                return {
+                    x: this.x,
+                    y: this.y
+                }
+            };
+            this.setLocation = function (a, b) {
+                if (this.qtopo &amp;&amp; this.qtopo.attr &amp;&amp; this.qtopo.attr.position) {
+                    this.qtopo.attr.position[0] = a;
+                    this.qtopo.attr.position[1] = b;
+                }
+                return this.x = a, this.y = b, this
+            };
+            this.getCenterLocation = function () {
+                return {
+                    x: this.x + this.width / 2,
+                    y: this.y + this.height / 2
+                }
+            };
+            this.setCenterLocation = function (a, b) {
+                this.x = a - this.width / 2;
+                this.y = b - this.height / 2;
+                return this;
+            };
+            this.getSize = function () {
+                return {
+                    width: this.width,
+                    height: this.heith
+                }
+            };
+            this.setSize = function (a, b) {
+                this.width = a;
+                this.height = b;
+                return this;
+            };
+            this.getBound = function () {
+                return {
+                    left: this.x,
+                    top: this.y,
+                    right: this.x + this.width,
+                    bottom: this.y + this.height,
+                    width: this.width,
+                    height: this.height
+                }
+            };
+            this.setBound = function (a, b, c, d) {
+                this.setLocation(a, b);
+                this.setSize(c, d);
+                return this;
+            };
+            this.getDisplayBound = function () {
+                return {
+                    left: this.x,
+                    top: this.y,
+                    right: this.x + this.width * this.scaleX,
+                    bottom: this.y + this.height * this.scaleY
+                }
+            };
+            this.getDisplaySize = function () {
+                return {
+                    width: this.width * this.scaleX,
+                    height: this.height * this.scaleY
+                }
+            };
+            this.getPosition = function (a) {
+                var position,
+                    c = this.getBound();
+                switch (a) {
+                    case &quot;Top_Left&quot;:
+                        position = {x: c.left, y: c.top};
+                        break;
+                    case &quot;Top_Center&quot;:
+                        position = {x: this.cx, y: c.top};
+                        break;
+                    case &quot;Top_Right&quot;:
+                        position = {x: c.right, y: c.top};
+                        break;
+                    case &quot;Middle_Left&quot;:
+                        position = {x: c.left, y: this.cy};
+                        break;
+                    case &quot;Middle_Center&quot;:
+                        position = {x: this.cx, y: this.cy};
+                        break;
+                    case &quot;Middle_Right&quot;:
+                        position = {x: c.right, y: this.cy};
+                        break;
+                    case &quot;Bottom_Left&quot;:
+                        position = {x: c.left, y: c.bottom};
+                        break;
+                    case &quot;Bottom_Center&quot;:
+                        position = {x: this.cx, y: c.bottom};
+                        break;
+                    case  &quot;Bottom_Right&quot;:
+                        position = {x: c.right, y: c.bottom};
+                        break;
+                    default:
+                        position = {x: c.left, y: c.top};
+                }
+                return position;
+            };
+        }
+
+        function interactiveElement() {
+            this.initialize = function () {
+                interactiveElement.prototype.initialize.apply(this, arguments);
+                this.elementType = &quot;interactiveElement&quot;;
+                this.dragable = !1;
+                this.selected = !1;
+                this.showSelected = !0;
+                this.selectedLocation = null;
+                this.isMouseOver = !1;
+                var a = &quot;dragable,selected,showSelected,isMouseOver&quot;.split(&quot;,&quot;);
+                this.serializedProperties = this.serializedProperties.concat(a);
+            };
+            this.initialize();
+            this.paintSelected = function (a) {
+                if (0 != this.showSelected) {
+                    a.save();
+                    a.beginPath();
+                    a.strokeStyle = &quot;rgba(168,202,255, 0.9)&quot;;
+                    a.fillStyle = &quot;rgba(168,202,236,0.7)&quot;;
+                    a.rect(-this.width / 2 - 3, -this.height / 2 - 3, this.width + 6, this.height + 6);
+                    a.fill();
+                    a.stroke();
+                    a.closePath();
+                    a.restore();
+                }
+                return this;
+            };
+            this.paintMouseover = function (a) {
+                return this.paintSelected(a);
+            };
+            this.isInBound = function (pointX, pointY) {
+                return pointX &gt; this.x &amp;&amp; pointX &lt; this.x + this.width * Math.abs(this.scaleX) &amp;&amp; pointY &gt; this.y &amp;&amp; pointY &lt; this.y + this.height * Math.abs(this.scaleY)
+            };
+            this.selectedHandler = function () {
+                this.selected = !0;
+                this.selectedLocation = {
+                    x: this.x,
+                    y: this.y
+                };
+                return this;
+            };
+            this.unselectedHandler = function () {
+                this.selected = !1;
+                this.selectedLocation = null;
+                return this;
+            };
+            this.dbclickHandler = function (a) {
+                this.dispatchEvent(&quot;dbclick&quot;, a);
+                return this;
+            };
+            this.clickHandler = function (a) {
+                this.dispatchEvent(&quot;click&quot;, a);
+                return this;
+            };
+            this.mousedownHander = function (a) {
+                this.dispatchEvent(&quot;mousedown&quot;, a);
+                return this;
+            };
+            this.mouseupHandler = function (a) {
+                this.dispatchEvent(&quot;mouseup&quot;, a);
+                return this;
+            };
+            this.mouseoverHandler = function (a) {
+                this.isMouseOver = !0;
+                this.dispatchEvent(&quot;mouseover&quot;, a);
+                return this;
+            };
+            this.mousemoveHandler = function (a) {
+                this.dispatchEvent(&quot;mousemove&quot;, a);
+                return this;
+            };
+            this.mouseoutHandler = function (a) {
+                this.isMouseOver = !1;
+                this.dispatchEvent(&quot;mouseout&quot;, a);
+                return this;
+            };
+            this.mousedragHandler = function (a) {
+                var b = this.selectedLocation.x + a.dx;
+                var c = this.selectedLocation.y + a.dy;
+                this.setLocation(b, c);
+                this.dispatchEvent(&quot;mousedrag&quot;, a);
+                return this;
+            };
+            this.addEventListener = function (event, fn) {
+                if (!this.messageBus) {
+                    this.messageBus = new jtopo.util.MessageBus;
+                }
+                this.messageBus.subscribe(event, fn);
+                return this;
+            };
+            this.dispatchEvent = function (event, e) {
+                if (this.messageBus) {
+                    this.messageBus.publish(event, e);
+                    return this;
+                }
+            };
+            this.removeEventListener = function (event, fn) {
+                this.messageBus.unsubscribe(event, fn);
+            };
+            this.removeAllEventListener = function () {
+                this.messageBus = new jtopo.util.MessageBus
+            };
+            var self = this;
+            &quot;click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,touchstart,touchmove,touchend&quot;.split(&quot;,&quot;)
+                .forEach(function (eventName) {
+                    self[eventName] = function (e) {
+                        if (null != e) {
+                            this.addEventListener(eventName, e);
+                        } else {
+                            this.dispatchEvent(eventName);
+                        }
+                    }
+                });
+        }
+
+        function EditableElement() {
+            this.initialize = function () {
+                EditableElement.prototype.initialize.apply(this, arguments);
+                this.editAble = !1;
+                this.selectedPoint = null;
+            };
+            this.getCtrlPosition = function (a) {
+                var b = 5;
+                var c = 5;
+                var d = this.getPosition(a);
+                return {
+                    left: d.x - b,
+                    top: d.y - c,
+                    right: d.x + b,
+                    bottom: d.y + c
+                }
+            };
+            this.selectedHandler = function (b) {
+                EditableElement.prototype.selectedHandler.apply(this, arguments), this.selectedSize = {
+                    width: this.width,
+                    height: this.height
+                };
+                if (b.scene.mode == jtopo.SceneMode.edit) {
+                    this.editAble = !0
+                }
+            };
+            this.unselectedHandler = function () {
+                EditableElement.prototype.unselectedHandler.apply(this, arguments);
+                this.selectedSize = null;
+                this.editAble = !1;
+            };
+            var b = [&quot;Top_Left&quot;, &quot;Top_Center&quot;, &quot;Top_Right&quot;, &quot;Middle_Left&quot;, &quot;Middle_Right&quot;, &quot;Bottom_Left&quot;, &quot;Bottom_Center&quot;, &quot;Bottom_Right&quot;];
+            this.paintCtrl = function (cx) {
+                if (0 != this.editAble) {
+                    cx.save();
+                    for (var c = 0; c &lt; b.length; c++) {
+                        var d = this.getCtrlPosition(b[c]);
+                        d.left -= this.cx;
+                        d.right -= this.cx;
+                        d.top -= this.cy;
+                        d.bottom -= this.cy;
+                        var e = d.right - d.left;
+                        var f = d.bottom - d.top;
+                        cx.beginPath();
+                        cx.strokeStyle = &quot;rgba(0,0,0,0.8)&quot;;
+                        cx.rect(d.left, d.top, e, f);
+                        cx.stroke();
+                        cx.closePath();
+                        cx.beginPath();
+                        cx.strokeStyle = &quot;rgba(255,255,255,0.3)&quot;;
+                        cx.rect(d.left + 1, d.top + 1, e - 2, f - 2);
+                        cx.stroke();
+                        cx.closePath();
+                    }
+                    cx.restore();
+                }
+            };
+            this.isInBound = function (a, c) {
+                if (this.selectedPoint = null, 1 == this.editAble)for (var e = 0; e &lt; b.length; e++) {
+                    var f = this.getCtrlPosition(b[e]);
+                    if (a &gt; f.left &amp;&amp; a &lt; f.right &amp;&amp; c &gt; f.top &amp;&amp; c &lt; f.bottom)return this.selectedPoint = b[e], !0
+                }
+                return EditableElement.prototype.isInBound.apply(this, arguments)
+            };
+            this.mousedragHandler = function (a) {
+                if (null == this.selectedPoint) {
+                    var b = this.selectedLocation.x + a.dx, c = this.selectedLocation.y + a.dy;
+                    this.setLocation(b, c), this.dispatchEvent(&quot;mousedrag&quot;, a)
+                } else {
+                    if (&quot;Top_Left&quot; == this.selectedPoint) {
+                        var d = this.selectedSize.width - a.dx, e = this.selectedSize.height - a.dy, b = this.selectedLocation.x + a.dx, c = this.selectedLocation.y + a.dy;
+                        b &lt; this.x + this.width &amp;&amp; (this.x = b, this.width = d), c &lt; this.y + this.height &amp;&amp; (this.y = c, this.height = e)
+                    } else if (&quot;Top_Center&quot; == this.selectedPoint) {
+                        var e = this.selectedSize.height - a.dy, c = this.selectedLocation.y + a.dy;
+                        c &lt; this.y + this.height &amp;&amp; (this.y = c, this.height = e)
+                    } else if (&quot;Top_Right&quot; == this.selectedPoint) {
+                        var d = this.selectedSize.width + a.dx, c = this.selectedLocation.y + a.dy;
+                        c &lt; this.y + this.height &amp;&amp; (this.y = c, this.height = this.selectedSize.height - a.dy), d &gt; 1 &amp;&amp; (this.width = d)
+                    } else if (&quot;Middle_Left&quot; == this.selectedPoint) {
+                        var d = this.selectedSize.width - a.dx, b = this.selectedLocation.x + a.dx;
+                        b &lt; this.x + this.width &amp;&amp; (this.x = b), d &gt; 1 &amp;&amp; (this.width = d)
+                    } else if (&quot;Middle_Right&quot; == this.selectedPoint) {
+                        var d = this.selectedSize.width + a.dx;
+                        d &gt; 1 &amp;&amp; (this.width = d)
+                    } else if (&quot;Bottom_Left&quot; == this.selectedPoint) {
+                        var d = this.selectedSize.width - a.dx, b = this.selectedLocation.x + a.dx;
+                        d &gt; 1 &amp;&amp; (this.x = b, this.width = d);
+                        var e = this.selectedSize.height + a.dy;
+                        e &gt; 1 &amp;&amp; (this.height = e)
+                    } else if (&quot;Bottom_Center&quot; == this.selectedPoint) {
+                        var e = this.selectedSize.height + a.dy;
+                        e &gt; 1 &amp;&amp; (this.height = e)
+                    } else if (&quot;Bottom_Right&quot; == this.selectedPoint) {
+                        var d = this.selectedSize.width + a.dx;
+                        d &gt; 1 &amp;&amp; (this.width = d);
+                        var e = this.selectedSize.height + a.dy;
+                        e &gt; 1 &amp;&amp; (this.height = e)
+                    }
+                    this.dispatchEvent(&quot;resize&quot;, a)
+                }
+            }
+        }
+
+        DisplayElement.prototype = new jtopo.Element, Object.defineProperties(DisplayElement.prototype, {
+            cx: {
+                get: function () {
+                    return this.x + this.width / 2
+                }, set: function (a) {
+                    this.x = a - this.width / 2
+                }
+            }, cy: {
+                get: function () {
+                    return this.y + this.height / 2
+                }, set: function (a) {
+                    this.y = a - this.height / 2
+                }
+            }
+        });
+        interactiveElement.prototype = new DisplayElement;
+        EditableElement.prototype = new interactiveElement;
+        jtopo.DisplayElement = DisplayElement;
+        jtopo.InteractiveElement = interactiveElement;
+        jtopo.EditableElement = EditableElement;
+    }(JTopo),
+    function (jtopo) {
+        function baseNode(c) {
+            this.initialize = function (c) {
+                baseNode.prototype.initialize.apply(this, arguments), this.elementType = &quot;node&quot;, this.zIndex = jtopo.zIndex_Node, this.text = c, this.font = &quot;12px Consolas&quot;, this.fontColor = &quot;255,255,255&quot;, this.borderWidth = 0, this.borderColor = &quot;255,255,255&quot;, this.borderRadius = null, this.dragable = !0, this.textPosition = &quot;Bottom_Center&quot;, this.textOffsetX = 0, this.textOffsetY = 0, this.transformAble = !0, this.inLinks = null, this.outLinks = null;
+                var d = &quot;text,font,fontColor,textPosition,textOffsetX,textOffsetY,borderRadius&quot;.split(&quot;,&quot;);
+                this.serializedProperties = this.serializedProperties.concat(d)
+            }, this.initialize(c), this.paint = function (a) {
+                if (this.image) {
+                    var b = a.globalAlpha;
+                    a.globalAlpha = this.alpha, null != this.alarmImage &amp;&amp; null != this.alarm ? a.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height) : a.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height), a.globalAlpha = b
+                } else a.beginPath(), a.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;, null == this.borderRadius || 0 == this.borderRadius ? a.rect(-this.width / 2, -this.height / 2, this.width, this.height) : a.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius), a.fill(), a.closePath();
+                this.paintText(a), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+            }, this.paintAlarmText = function (a) {
+                if (null != this.alarm &amp;&amp; &quot;&quot; != this.alarm) {
+                    var b = this.alarmColor || &quot;255,0,0&quot;, c = this.alarmAlpha || .5;
+                    a.beginPath(), a.font = this.alarmFont || &quot;10px 微软雅黑&quot;;
+                    var d = a.measureText(this.alarm).width + 6, e = a.measureText(&quot;田&quot;).width + 6, f = this.width / 2 - d / 2, g = -this.height / 2 - e - 8;
+                    a.strokeStyle = &quot;rgba(&quot; + b + &quot;, &quot; + c + &quot;)&quot;, a.fillStyle = &quot;rgba(&quot; + b + &quot;, &quot; + c + &quot;)&quot;, a.lineCap = &quot;round&quot;, a.lineWidth = 1, a.moveTo(f, g), a.lineTo(f + d, g), a.lineTo(f + d, g + e), a.lineTo(f + d / 2 + 6, g + e), a.lineTo(f + d / 2, g + e + 8), a.lineTo(f + d / 2 - 6, g + e), a.lineTo(f, g + e), a.lineTo(f, g), a.fill(), a.stroke(), a.closePath(), a.beginPath(), a.strokeStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillText(this.alarm, f + 2, g + e - 4), a.closePath()
+                }
+            }, this.paintText = function (a) {
+                var b = this.text;
+                if (null != b &amp;&amp; &quot;&quot; != b) {
+                    a.beginPath(), a.font = this.font;
+                    var c = a.measureText(b).width, d = a.measureText(&quot;田&quot;).width;
+                    a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;;
+                    var e = this.getTextPostion(this.textPosition, c, d);
+                    a.fillText(b, e.x, e.y), a.closePath()
+                }
+            }, this.paintBorder = function (a) {
+                if (0 != this.borderWidth) {
+                    a.beginPath(), a.lineWidth = this.borderWidth, a.strokeStyle = &quot;rgba(&quot; + this.borderColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
+                    var b = this.borderWidth / 2;
+                    null == this.borderRadius || 0 == this.borderRadius ? a.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth) : a.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius), a.stroke(), a.closePath()
+                }
+            }, this.getTextPostion = function (position, maxWidth, fontWidth, height) {
+                var d = null;
+                switch (position) {
+                    case &quot;Bottom_Center&quot;:
+                        d = {
+                            x: -this.width / 2 + (this.width - maxWidth) / 2,
+                            y: this.height / 2 + fontWidth
+                        };
+                        break;
+                    case &quot;Top_Center&quot;:
+                        d = {
+                            x: -this.width / 2 + (this.width - maxWidth) / 2,
+                            y: -this.height / 2 - fontWidth / 2 - fontWidth * (height - 1)
+                        };
+                        break;
+                    case &quot;Top_Right&quot;:
+                        d = {
+                            x: this.width / 2,
+                            y: -this.height / 2 - fontWidth / 2
+                        };
+                        break;
+                    case &quot;Top_Left&quot;:
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: -this.height / 2 - fontWidth / 2
+                        };
+                        break;
+                    case &quot;Bottom_Right&quot;:
+                        d = {
+                            x: this.width / 2,
+                            y: this.height / 2 + fontWidth
+                        };
+                        break;
+                    case &quot;Bottom_Left&quot;:
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: this.height / 2 + fontWidth
+                        };
+                        break;
+                    case &quot;Middle_Center&quot;:
+                        d = {
+                            x: -this.width / 2 + (this.width - maxWidth) / 2,
+                            y: fontWidth / 2
+                        };
+                        break;
+                    case &quot;Middle_Right&quot;:
+                        d = {
+                            x: this.width / 2,
+                            y: fontWidth / 2
+                        };
+                        break;
+                    case &quot;Middle_Left&quot;:
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: fontWidth / 2
+                        };
+                        break;
+                    default:
+                        d = {
+                            x: -this.width / 2 - maxWidth,
+                            y: fontWidth / 2
+                        };
+                }
+                if (null != this.textOffsetX) {
+                    d.x += this.textOffsetX
+                }
+                if (null != this.textOffsetY) {
+                    d.y += this.textOffsetY
+                }
+                return d;
+            }, this.setImage = function (a, b) {
+                if (null == a)throw new Error(&quot;Node.setImage(): 参数Image对象为空!&quot;);
+                var c = this;
+                if (&quot;string&quot; == typeof a) {
+                    var d = j[a];
+                    null == d ? (d = new Image, d.src = a, d.onload = function () {
+                        j[a] = d, 1 == b &amp;&amp; c.setSize(d.width, d.height), c.image = d, c.alarmColor = null == c.alarmColor ? &quot;255,0,0&quot; : c.alarmColor
+                    }) : (b &amp;&amp; this.setSize(d.width, d.height), c.image = d, c.alarmColor = null == c.alarmColor ? &quot;255,0,0&quot; : c.alarmColor)
+                } else this.image = a, c.alarmColor = null == c.alarmColor ? &quot;255,0,0&quot; : c.alarmColor, 1 == b &amp;&amp; this.setSize(a.width, a.height)
+            };
+            this.removeHandler = function (scene) {
+                var self = this;
+                if (this.outLinks) {
+                    this.outLinks.forEach(function (c) {
+                        if (c.nodeA === self) {
+                            scene.remove(c)
+                        }
+                    });
+                    this.outLinks = null;
+                }
+                if (this.inLinks) {
+                    this.inLinks.forEach(function (c) {
+                        c.nodeZ === self &amp;&amp; scene.remove(c)
+                    });
+                    this.inLinks = null;
+                }
+            }
+        }
+
+        function Node() {
+            Node.prototype.initialize.apply(this, arguments)
+        }
+
+        function TextNode(a) {
+            this.initialize(), this.text = a, this.elementType = &quot;TextNode&quot;, this.paint = function (a) {
+                a.beginPath(), a.font = this.font, this.width = a.measureText(this.text).width, this.height = a.measureText(&quot;田&quot;).width, a.strokeStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillText(this.text, -this.width / 2, this.height / 2), a.closePath(), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+            }
+        }
+
+        function LinkNode(a, b, c) {
+            this.initialize(), this.text = a, this.href = b, this.target = c, this.elementType = &quot;LinkNode&quot;, this.isVisited = !1, this.visitedColor = null, this.paint = function (a) {
+                a.beginPath(), a.font = this.font, this.width = a.measureText(this.text).width, this.height = a.measureText(&quot;田&quot;).width, this.isVisited &amp;&amp; null != this.visitedColor ? (a.strokeStyle = &quot;rgba(&quot; + this.visitedColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillStyle = &quot;rgba(&quot; + this.visitedColor + &quot;, &quot; + this.alpha + &quot;)&quot;) : (a.strokeStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;), a.fillText(this.text, -this.width / 2, this.height / 2), this.isMouseOver &amp;&amp; (a.moveTo(-this.width / 2, this.height), a.lineTo(this.width / 2, this.height), a.stroke()), a.closePath(), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+            }, this.mousemove(function () {
+                var a = document.getElementsByTagName(&quot;canvas&quot;);
+                if (a &amp;&amp; a.length &gt; 0)for (var b = 0; b &lt; a.length; b++)a[b].style.cursor = &quot;pointer&quot;
+            }), this.mouseout(function () {
+                var a = document.getElementsByTagName(&quot;canvas&quot;);
+                if (a &amp;&amp; a.length &gt; 0)for (var b = 0; b &lt; a.length; b++)a[b].style.cursor = &quot;default&quot;
+            }), this.click(function () {
+                &quot;_blank&quot; == this.target ? window.open(this.href) : location = this.href, this.isVisited = !0
+            })
+        }
+
+        function CircleNode(a) {
+            this.initialize(arguments), this._radius = 20, this.beginDegree = 0, this.endDegree = 2 * Math.PI, this.text = a, this.paint = function (a) {
+                a.save(), a.beginPath(), a.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;, a.arc(0, 0, this.radius, this.beginDegree, this.endDegree, !0), a.fill(), a.closePath(), a.restore(), this.paintText(a), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+            }, this.paintSelected = function (a) {
+                a.save(), a.beginPath(), a.strokeStyle = &quot;rgba(168,202,255, 0.9)&quot;, a.fillStyle = &quot;rgba(168,202,236,0.7)&quot;, a.arc(0, 0, this.radius + 3, this.beginDegree, this.endDegree, !0), a.fill(), a.stroke(), a.closePath(), a.restore()
+            }
+        }
+
+        function g(a, b, c) {
+            this.initialize();
+            this.frameImages = a || [];
+            this.frameIndex = 0;
+            this.isStop = !0;
+            var d = b || 1e3;
+            this.repeatPlay = !1;
+            var e = this;
+            this.nextFrame = function () {
+                if (!this.isStop &amp;&amp; null != this.frameImages.length) {
+                    this.frameIndex++;
+                    if (this.frameIndex &gt;= this.frameImages.length) {
+                        if (!this.repeatPlay)return;
+                        this.frameIndex = 0;
+                    }
+                    this.setImage(this.frameImages[this.frameIndex], c);
+                    setTimeout(function () {
+                        e.nextFrame();
+                    }, d / a.length);
+                }
+            }
+        }
+
+        function h(a, b, c, d, e) {
+            this.initialize();
+            var f = this;
+            this.setImage(a), this.frameIndex = 0, this.isPause = !0, this.repeatPlay = !1;
+            var g = d || 1e3;
+            e = e || 0, this.paint = function (a) {
+                if (this.image) {
+                    var b = this.width, d = this.height;
+                    a.save(), a.beginPath(), a.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
+                    var f = (Math.floor(this.frameIndex / c) + e) * d, g = Math.floor(this.frameIndex % c) * b;
+                    a.drawImage(this.image, g, f, b, d, -b / 2, -d / 2, b, d), a.fill(), a.closePath(), a.restore(), this.paintText(a), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+                }
+            }, this.nextFrame = function () {
+                if (!this.isStop) {
+                    if (this.frameIndex++, this.frameIndex &gt;= b * c) {
+                        if (!this.repeatPlay)return;
+                        this.frameIndex = 0
+                    }
+                    setTimeout(function () {
+                        f.isStop || f.nextFrame()
+                    }, g / (b * c))
+                }
+            }
+        }
+
+        function AnimateNode() {
+            var a = null;
+            return a = arguments.length &lt;= 3 ? new g(arguments[0], arguments[1], arguments[2]) : new h(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]), a.stop = function () {
+                a.isStop = !0
+            }, a.play = function () {
+                a.isStop = !1, a.frameIndex = 0, a.nextFrame()
+            }, a
+        }
+
+        var j = {};
+        baseNode.prototype = new jtopo.EditableElement;
+        Node.prototype = new baseNode;
+        Object.defineProperties(Node.prototype, {
+            alarmColor: {
+                get: function () {
+                    return this._alarmColor
+                }, set: function (color) {
+                    this._alarmColor = color;
+                    if (null != this.image) {
+                        var c = jtopo.util.genImageAlarm(this.image, color);
+                        if (c) {
+                            this.alarmImage = c;
+                        }
+                    }
+                }
+            }
+        });
+        TextNode.prototype = new Node;
+        LinkNode.prototype = new TextNode;
+        CircleNode.prototype = new Node;
+        Object.defineProperties(CircleNode.prototype, {
+            radius: {
+                get: function () {
+                    return this._radius
+                }, set: function (a) {
+                    this._radius = a;
+                    var b = 2 * this.radius, c = 2 * this.radius;
+                    this.width = b, this.height = c
+                }
+            }, width: {
+                get: function () {
+                    return this._width
+                }, set: function (a) {
+                    this._radius = a / 2, this._width = a
+                }
+            }, height: {
+                get: function () {
+                    return this._height
+                }, set: function (a) {
+                    this._radius = a / 2, this._height = a
+                }
+            }
+        });
+        g.prototype = new Node;
+        h.prototype = new Node;
+        AnimateNode.prototype = new Node;
+        jtopo.Node = Node;
+        jtopo.TextNode = TextNode;
+        jtopo.LinkNode = LinkNode;
+        jtopo.CircleNode = CircleNode;
+        jtopo.AnimateNode = AnimateNode;
+    }(JTopo),
+    function (jtopo) {
+        function getPublicLink(elementA, elementB) {
+            var result = [];
+            if (null == elementA || null == elementB)return result;
+            if (elementA &amp;&amp; elementB &amp;&amp; elementA.outLinks &amp;&amp; elementB.inLinks)
+                for (var i = 0; i &lt; elementA.outLinks.length; i++) {
+                    var outLink = elementA.outLinks[i];
+                    for (var f = 0; f &lt; elementB.inLinks.length; f++) {
+                        var inlink = elementB.inLinks[f];
+                        if (outLink === inlink) {
+                            result.push(inlink);
+                        }
+                    }
+                }
+            return result
+        }
+
+        function getLinksBetween(start, end) {
+            var d = getPublicLink(start, end);
+            var e = getPublicLink(end, start);
+            return d.concat(e);
+        }
+
+        function getLinkNotThis(link) {
+            var b = getLinksBetween(link.nodeA, link.nodeZ);
+            return b = b.filter(function (b) {
+                return link !== b
+            })
+        }
+
+        function getNums(a, b) {
+            return getLinksBetween(a, b).length
+        }
+
+        function Link(b, c, g) {
+            function h(start, end) {
+                var link = jtopo.util.lineF(start.cx, start.cy, end.cx, end.cy);
+                var bound = start.getBound();
+                return jtopo.util.intersectionLineBound(link, bound);
+            }
+
+            this.initialize = function (b, c, d) {
+                if (Link.prototype.initialize.apply(this, arguments), this.elementType = &quot;link&quot;, this.zIndex = jtopo.zIndex_Link, 0 != arguments.length) {
+                    this.text = d;
+                    this.nodeA = b;
+                    this.nodeZ = c;
+                    this.nodeA &amp;&amp; null == this.nodeA.outLinks &amp;&amp; (this.nodeA.outLinks = []);
+                    this.nodeA &amp;&amp; null == this.nodeA.inLinks &amp;&amp; (this.nodeA.inLinks = []);
+                    this.nodeZ &amp;&amp; null == this.nodeZ.inLinks &amp;&amp; (this.nodeZ.inLinks = []);
+                    this.nodeZ &amp;&amp; null == this.nodeZ.outLinks &amp;&amp; (this.nodeZ.outLinks = []);
+                    null != this.nodeA &amp;&amp; this.nodeA.outLinks.push(this);
+                    null != this.nodeZ &amp;&amp; this.nodeZ.inLinks.push(this);
+                    this.caculateIndex();
+                    this.font = &quot;12px Consolas&quot;;
+                    this.fontColor = &quot;255,255,255&quot;;
+                    this.lineWidth = 2;
+                    this.lineJoin = &quot;miter&quot;;
+                    this.transformAble = !1;
+                    this.bundleOffset = 20;
+                    this.bundleGap = 12;
+                    this.textOffsetX = 0;
+                    this.textOffsetY = 0;
+                    this.arrowsRadius = null;
+                    this.arrowsOffset = 0;
+                    this.dashedPattern = null;
+                    this.path = [];
+                    var e = &quot;text,font,fontColor,lineWidth,lineJoin&quot;.split(&quot;,&quot;);
+                    this.serializedProperties = this.serializedProperties.concat(e)
+                }
+            }, this.caculateIndex = function () {
+                var a = getNums(this.nodeA, this.nodeZ);
+                a &gt; 0 &amp;&amp; (this.nodeIndex = a - 1)
+            }, this.initialize(b, c, g), this.removeHandler = function () {
+                var a = this;
+                this.nodeA &amp;&amp; this.nodeA.outLinks &amp;&amp; (this.nodeA.outLinks = this.nodeA.outLinks.filter(function (b) {
+                    return b !== a
+                })), this.nodeZ &amp;&amp; this.nodeZ.inLinks &amp;&amp; (this.nodeZ.inLinks = this.nodeZ.inLinks.filter(function (b) {
+                    return b !== a
+                }));
+                var b = getLinkNotThis(this);
+                b.forEach(function (a, b) {
+                    a.nodeIndex = b
+                })
+            }, this.getStartPosition = function () {
+                var a = {x: this.nodeA.cx, y: this.nodeA.cy};
+                return a
+            }, this.getEndPosition = function () {
+                var a;
+                return null != this.arrowsRadius &amp;&amp; (a = h(this.nodeZ, this.nodeA)), null == a &amp;&amp; (a = {x: this.nodeZ.cx, y: this.nodeZ.cy}), a
+            }, this.getPath = function () {
+                var a = [], b = this.getStartPosition(), c = this.getEndPosition();
+                if (this.nodeA === this.nodeZ)return [b, c];
+                var d = getNums(this.nodeA, this.nodeZ);
+                if (1 == d)return [b, c];
+                var f = Math.atan2(c.y - b.y, c.x - b.x), g = {x: b.x + this.bundleOffset * Math.cos(f), y: b.y + this.bundleOffset * Math.sin(f)}, h = {
+                    x: c.x + this.bundleOffset * Math.cos(f - Math.PI),
+                    y: c.y + this.bundleOffset * Math.sin(f - Math.PI)
+                }, i = f - Math.PI / 2, j = f - Math.PI / 2, k = d * this.bundleGap / 2 - this.bundleGap / 2, l = this.bundleGap * this.nodeIndex, m = {
+                    x: g.x + l * Math.cos(i),
+                    y: g.y + l * Math.sin(i)
+                }, n = {x: h.x + l * Math.cos(j), y: h.y + l * Math.sin(j)};
+                return m = {x: m.x + k * Math.cos(i - Math.PI), y: m.y + k * Math.sin(i - Math.PI)}, n = {x: n.x + k * Math.cos(j - Math.PI), y: n.y + k * Math.sin(j - Math.PI)}, a.push({
+                    x: b.x,
+                    y: b.y
+                }), a.push({x: m.x, y: m.y}), a.push({x: n.x, y: n.y}), a.push({x: c.x, y: c.y}), a
+            }, this.paintPath = function (a, b) {
+                if (this.nodeA === this.nodeZ)return void this.paintLoop(a);
+                a.beginPath(), a.moveTo(b[0].x, b[0].y);
+                for (var c = 1; c &lt; b.length; c++)null == this.dashedPattern ? a.lineTo(b[c].x, b[c].y) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern);
+                if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+                    var d = b[b.length - 2], e = b[b.length - 1];
+                    this.paintArrow(a, d, e)
+                }
+            }, this.paintLoop = function (a) {
+                a.beginPath();
+                {
+                    var b = this.bundleGap * (this.nodeIndex + 1) / 2;
+                    Math.PI + Math.PI / 2
+                }
+                a.arc(this.nodeA.x, this.nodeA.y, b, Math.PI / 2, 2 * Math.PI), a.stroke(), a.closePath()
+            }, this.paintArrow = function (b, c, d) {
+                var e = this.arrowsOffset, f = this.arrowsRadius / 2, g = c, h = d, i = Math.atan2(h.y - g.y, h.x - g.x), j = jtopo.util.getDistance(g, h) - this.arrowsRadius, k = g.x + (j + e) * Math.cos(i), l = g.y + (j + e) * Math.sin(i), m = h.x + e * Math.cos(i), n = h.y + e * Math.sin(i);
+                i -= Math.PI / 2;
+                var o = {x: k + f * Math.cos(i), y: l + f * Math.sin(i)}, p = {x: k + f * Math.cos(i - Math.PI), y: l + f * Math.sin(i - Math.PI)};
+                b.beginPath(), b.fillStyle = &quot;rgba(&quot; + this.strokeColor + &quot;,&quot; + this.alpha + &quot;)&quot;, b.moveTo(o.x, o.y), b.lineTo(m, n), b.lineTo(p.x, p.y), b.stroke(), b.closePath()
+            }, this.paint = function (a) {
+                if (null != this.nodeA &amp;&amp; null != !this.nodeZ) {
+                    var b = this.getPath(this.nodeIndex);
+                    this.path = b, a.strokeStyle = &quot;rgba(&quot; + this.strokeColor + &quot;,&quot; + this.alpha + &quot;)&quot;, a.lineWidth = this.lineWidth, this.paintPath(a, b), b &amp;&amp; b.length &gt; 0 &amp;&amp; this.paintText(a, b)
+                }
+            };
+            var i = -(Math.PI / 2 + Math.PI / 4);
+            this.paintText = function (a, b) {
+                var c = b[0], d = b[b.length - 1];
+                if (4 == b.length &amp;&amp; (c = b[1], d = b[2]), this.text &amp;&amp; this.text.length &gt; 0) {
+                    var e = (d.x + c.x) / 2 + this.textOffsetX, f = (d.y + c.y) / 2 + this.textOffsetY;
+                    a.save(), a.beginPath(), a.font = this.font;
+                    var g = a.measureText(this.text).width, h = a.measureText(&quot;田&quot;).width;
+                    if (a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, this.nodeA === this.nodeZ) {
+                        var j = this.bundleGap * (this.nodeIndex + 1) / 2, e = this.nodeA.x + j * Math.cos(i), f = this.nodeA.y + j * Math.sin(i);
+                        a.fillText(this.text, e, f)
+                    } else a.fillText(this.text, e - g / 2, f - h / 2);
+                    a.stroke(), a.closePath(), a.restore()
+                }
+            }, this.paintSelected = function (a) {
+                a.shadowBlur = 10, a.shadowColor = &quot;rgba(0,0,0,1)&quot;, a.shadowOffsetX = 0, a.shadowOffsetY = 0
+            }, this.isInBound = function (b, c) {
+                if (this.nodeA === this.nodeZ) {
+                    var d = this.bundleGap * (this.nodeIndex + 1) / 2, e = jtopo.util.getDistance(this.nodeA, {x: b, y: c}) - d;
+                    return Math.abs(e) &lt;= 3
+                }
+                for (var f = !1, g = 1; g &lt; this.path.length; g++) {
+                    var h = this.path[g - 1], i = this.path[g];
+                    if (1 == jtopo.util.isPointInLine({x: b, y: c}, h, i)) {
+                        f = !0;
+                        break
+                    }
+                }
+                return f
+            }
+        }
+
+        function FoldLink(a, b, c) {
+            this.initialize = function () {
+                FoldLink.prototype.initialize.apply(this, arguments), this.direction = &quot;horizontal&quot;
+            }, this.initialize(a, b, c), this.getStartPosition = function () {
+                var a = {x: this.nodeA.cx, y: this.nodeA.cy};
+                return &quot;horizontal&quot; == this.direction ? this.nodeZ.cx &gt; a.x ? a.x += this.nodeA.width / 2 : a.x -= this.nodeA.width / 2 : this.nodeZ.cy &gt; a.y ? a.y += this.nodeA.height / 2 : a.y -= this.nodeA.height / 2, a
+            }, this.getEndPosition = function () {
+                var a = {x: this.nodeZ.cx, y: this.nodeZ.cy};
+                return &quot;horizontal&quot; == this.direction ? this.nodeA.cy &lt; a.y ? a.y -= this.nodeZ.height / 2 : a.y += this.nodeZ.height / 2 : a.x = this.nodeA.cx &lt; a.x ? this.nodeZ.x : this.nodeZ.x + this.nodeZ.width, a
+            }, this.getPath = function (a) {
+                var b = [], c = this.getStartPosition(), d = this.getEndPosition();
+                if (this.nodeA === this.nodeZ)return [c, d];
+                var f, g, h = getNums(this.nodeA, this.nodeZ), i = (h - 1) * this.bundleGap, j = this.bundleGap * a - i / 2;
+                return &quot;horizontal&quot; == this.direction ? (f = d.x + j, g = c.y - j, b.push({x: c.x, y: g}), b.push({x: f, y: g}), b.push({x: f, y: d.y})) : (f = c.x + j, g = d.y - j, b.push({
+                    x: f,
+                    y: c.y
+                }), b.push({x: f, y: g}), b.push({x: d.x, y: g})), b
+            }, this.paintText = function (a, b) {
+                if (this.text &amp;&amp; this.text.length &gt; 0) {
+                    var c = b[1], d = c.x + this.textOffsetX, e = c.y + this.textOffsetY;
+                    a.save(), a.beginPath(), a.font = this.font;
+                    var f = a.measureText(this.text).width, g = a.measureText(&quot;田&quot;).width;
+                    a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;, a.fillText(this.text, d - f / 2, e - g / 2), a.stroke(), a.closePath(), a.restore()
+                }
+            }
+        }
+
+        function FlexionalLink(a, b, c) {
+            this.initialize = function () {
+                FlexionalLink.prototype.initialize.apply(this, arguments), this.direction = &quot;vertical&quot;, this.offsetGap = 44
+            }, this.initialize(a, b, c), this.getStartPosition = function () {
+                var a = {x: this.nodeA.cx, y: this.nodeA.cy};
+                return &quot;horizontal&quot; == this.direction ? a.x = this.nodeZ.cx &lt; a.x ? this.nodeA.x : this.nodeA.x + this.nodeA.width : a.y = this.nodeZ.cy &lt; a.y ? this.nodeA.y : this.nodeA.y + this.nodeA.height, a
+            }, this.getEndPosition = function () {
+                var a = {x: this.nodeZ.cx, y: this.nodeZ.cy};
+                return &quot;horizontal&quot; == this.direction ? a.x = this.nodeA.cx &lt; a.x ? this.nodeZ.x : this.nodeZ.x + this.nodeZ.width : a.y = this.nodeA.cy &lt; a.y ? this.nodeZ.y : this.nodeZ.y + this.nodeZ.height, a
+            }, this.getPath = function (a) {
+                var b = this.getStartPosition(), c = this.getEndPosition();
+                if (this.nodeA === this.nodeZ)return [b, c];
+                var d = [], f = getNums(this.nodeA, this.nodeZ), g = (f - 1) * this.bundleGap, h = this.bundleGap * a - g / 2, i = this.offsetGap;
+                return &quot;horizontal&quot; == this.direction ? (this.nodeA.cx &gt; this.nodeZ.cx &amp;&amp; (i = -i), d.push({x: b.x, y: b.y + h}), d.push({x: b.x + i, y: b.y + h}), d.push({
+                    x: c.x - i,
+                    y: c.y + h
+                }), d.push({x: c.x, y: c.y + h})) : (this.nodeA.cy &gt; this.nodeZ.cy &amp;&amp; (i = -i), d.push({x: b.x + h, y: b.y}), d.push({x: b.x + h, y: b.y + i}), d.push({
+                    x: c.x + h,
+                    y: c.y - i
+                }), d.push({x: c.x + h, y: c.y})), d
+            }
+        }
+
+        function CurveLink(a, b, c) {
+            this.initialize = function () {
+                CurveLink.prototype.initialize.apply(this, arguments)
+            }, this.initialize(a, b, c), this.paintPath = function (a, b) {
+                if (this.nodeA === this.nodeZ)return void this.paintLoop(a);
+                a.beginPath(), a.moveTo(b[0].x, b[0].y);
+                for (var c = 1; c &lt; b.length; c++) {
+                    var d = b[c - 1], e = b[c], f = (d.x + e.x) / 2, g = (d.y + e.y) / 2;
+                    g += (e.y - d.y) / 2, a.strokeStyle = &quot;rgba(&quot; + this.strokeColor + &quot;,&quot; + this.alpha + &quot;)&quot;, a.lineWidth = this.lineWidth, a.moveTo(d.x, d.cy), a.quadraticCurveTo(f, g, e.x, e.y), a.stroke()
+                }
+                if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+                    var h = b[b.length - 2], i = b[b.length - 1];
+                    this.paintArrow(a, h, i)
+                }
+            }
+        }
+
+        Link.prototype = new jtopo.InteractiveElement;
+        FoldLink.prototype = new Link;
+        FlexionalLink.prototype = new Link;
+        CurveLink.prototype = new Link;
+        jtopo.Link = Link;
+        jtopo.FoldLink = FoldLink;
+        jtopo.FlexionalLink = FlexionalLink;
+        jtopo.CurveLink = CurveLink;
+    }(JTopo),
+    function (jtopo) {
+        function container(c) {
+            this.initialize = function (c) {
+                container.prototype.initialize.apply(this, null),
+                    this.elementType = &quot;container&quot;,
+                    this.zIndex = jtopo.zIndex_Container,
+                    this.width = 100,
+                    this.height = 100,
+                    this.childs = [],
+                    this.alpha = .5,
+                    this.dragable = !0,
+                    this.childDragble = !0,
+                    this.visible = !0,
+                    this.fillColor = &quot;10,100,80&quot;,
+                    this.borderWidth = 0,
+                    this.borderColor = &quot;255,255,255&quot;,
+                    this.borderRadius = null,
+                    this.font = &quot;12px Consolas&quot;,
+                    this.fontColor = &quot;255,255,255&quot;,
+                    this.text = c,
+                    this.textPosition = &quot;Bottom_Center&quot;,
+                    this.textOffsetX = 0,
+                    this.textOffsetY = 0,
+                    this.layout = new jtopo.layout.AutoBoundLayout
+            }, this.initialize(c), this.add = function (a) {
+                this.childs.push(a), a.dragable = this.childDragble
+            }, this.remove = function (a) {
+                for (var b = 0; b &lt; this.childs.length; b++)if (this.childs[b] === a) {
+                    a.parentContainer = null, this.childs = this.childs.del(b), a.lastParentContainer = this;
+                    break
+                }
+            }, this.removeAll = function () {
+                this.childs = []
+            }, this.setLocation = function (a, b) {
+                var c = a - this.x, d = b - this.y;
+                this.x = a, this.y = b;
+                if (this.qtopo &amp;&amp; this.qtopo.attr &amp;&amp; this.qtopo.attr.position) {
+                    this.qtopo.attr.position[0] = a;
+                    this.qtopo.attr.position[1] = b;
+                }
+                for (var e = 0; e &lt; this.childs.length; e++) {
+                    var f = this.childs[e];
+                    f.setLocation(f.x + c, f.y + d)
+                }
+            }, this.doLayout = function (a) {
+                a &amp;&amp; a(this, this.childs)
+            }, this.paint = function (a) {
+                if (this.visible) {
+                    if (this.layout) {
+                        this.layout(this, this.childs);
+                    }
+                    a.beginPath();
+                    a.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
+                    if (null == this.borderRadius || 0 == this.borderRadius) {
+                        a.rect(this.x, this.y, this.width, this.height);
+                    } else {
+                        a.JTopoRoundRect(this.x, this.y, this.width, this.height, this.borderRadius);
+                    }
+                    a.fill();
+                    a.closePath();
+                    this.paintText(a);
+                    this.paintBorder(a);
+                }
+            }, this.paintBorder = function (a) {
+                if (0 != this.borderWidth) {
+                    a.beginPath(), a.lineWidth = this.borderWidth, a.strokeStyle = &quot;rgba(&quot; + this.borderColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
+                    var b = this.borderWidth / 2;
+                    null == this.borderRadius || 0 == this.borderRadius ? a.rect(this.x - b, this.y - b, this.width + this.borderWidth, this.height + this.borderWidth) : a.JTopoRoundRect(this.x - b, this.y - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius), a.stroke(), a.closePath()
+                }
+            }, this.paintText = function (a) {
+                var b = this.text;
+                if (null != b &amp;&amp; &quot;&quot; != b) {
+                    a.beginPath(), a.font = this.font;
+                    var c = a.measureText(b).width, d = a.measureText(&quot;田&quot;).width;
+                    a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;;
+                    var e = this.getTextPostion(this.textPosition, c, d);
+                    a.fillText(b, e.x, e.y), a.closePath()
+                }
+            }, this.getTextPostion = function (textPosition, maxWidth, fontWidth, height) {
+                var d = null;
+                return null == textPosition || &quot;Bottom_Center&quot; == textPosition ? d = {
+                    x: this.x + this.width / 2 - maxWidth / 2,
+                    y: this.y + this.height + fontWidth
+                } : &quot;Top_Center&quot; == textPosition ? d = {
+                    x: this.x + this.width / 2 - maxWidth / 2,
+                    y: this.y - fontWidth / 2 - fontWidth * (height - 1)
+                } : &quot;Top_Right&quot; == textPosition ? d = {x: this.x + this.width - maxWidth, y: this.y - fontWidth / 2} : &quot;Top_Left&quot; == textPosition ? d = {
+                    x: this.x,
+                    y: this.y - fontWidth / 2
+                } : &quot;Bottom_Right&quot; == textPosition ? d = {
+                    x: this.x + this.width - maxWidth,
+                    y: this.y + this.height + fontWidth
+                } : &quot;Bottom_Left&quot; == textPosition ? d = {x: this.x, y: this.y + this.height + fontWidth} : &quot;Middle_Center&quot; == textPosition ? d = {
+                    x: this.x + this.width / 2 - maxWidth / 2,
+                    y: this.y + this.height / 2 + fontWidth / 2
+                } : &quot;Middle_Right&quot; == textPosition ? d = {x: this.x + this.width - maxWidth, y: this.y + this.height / 2 + fontWidth / 2} : &quot;Middle_Left&quot; == textPosition &amp;&amp; (d = {
+                    x: this.x,
+                    y: this.y + this.height / 2 + fontWidth / 2
+                }), null != this.textOffsetX &amp;&amp; (d.x += this.textOffsetX), null != this.textOffsetY &amp;&amp; (d.y += this.textOffsetY), d
+            }, this.paintMouseover = function () {
+            }, this.paintSelected = function (a) {
+                a.shadowBlur = 10, a.shadowColor = &quot;rgba(0,0,0,1)&quot;, a.shadowOffsetX = 0, a.shadowOffsetY = 0
+            }
+        }
+
+        container.prototype = new jtopo.InteractiveElement;
+        jtopo.Container = container;
+    }(JTopo),
+    function (jtopo) {
+        function getNodesCenter(a) {
+            var b = 0, c = 0;
+            a.forEach(function (a) {
+                b += a.cx, c += a.cy
+            });
+            var d = {x: b / a.length, y: c / a.length};
+            return d
+        }
+
+        function circleLayoutNodes(nodeArray, animateConfig) {
+            null == animateConfig &amp;&amp; (animateConfig = {});
+            {
+                var e = animateConfig.cx,
+                    f = animateConfig.cy,
+                    g = animateConfig.minRadius,
+                    h = animateConfig.nodeDiameter,
+                    i = animateConfig.hScale || 1,
+                    j = animateConfig.vScale || 1;
+                animateConfig.beginAngle || 0, animateConfig.endAngle || 2 * Math.PI
+            }
+            if (null == e || null == f) {
+                var k = getNodesCenter(nodeArray);
+                e = k.x, f = k.y
+            }
+            var l = 0, m = [], n = [];
+            nodeArray.forEach(function (node) {
+                null == animateConfig.nodeDiameter ? (node.diameter &amp;&amp; (h = node.diameter),
+                    h = node.radius ? 2 * node.radius : Math.sqrt(2 * node.width * node.height),
+                    n.push(h)) : n.push(h), l += h
+            }), nodeArray.forEach(function (a, b) {
+                var c = n[b] / l;
+                m.push(Math.PI * c)
+            });
+            var o = (nodeArray.length, m[0] + m[1]), p = n[0] / 2 + n[1] / 2, q = p / 2 / Math.sin(o / 2);
+            null != g &amp;&amp; g &gt; q &amp;&amp; (q = g);
+            var r = q * i, s = q * j, t = animateConfig.animate;
+            if (t) {
+                var time = t.time || 1e3, v = 0;
+                nodeArray.forEach(function (node, c) {
+                    v += 0 == c ? m[c] : m[c - 1] + m[c];
+                    var d = e + Math.cos(v) * r, g = f + Math.sin(v) * s;
+                    jtopo.Animate.stepByStep(node, {x: d - node.width / 2, y: g - node.height / 2}, time).start()
+                })
+            } else {
+                var v = 0;
+                nodeArray.forEach(function (a, b) {
+                    v += 0 == b ? m[b] : m[b - 1] + m[b];
+                    var c = e + Math.cos(v) * r, d = f + Math.sin(v) * s;
+                    a.cx = c, a.cy = d
+                })
+            }
+            return {cx: e, cy: f, radius: r, radiusA: r, radiusB: s}
+        }
+
+        function GridLayout(row, column) {
+            return function (container) {
+                var childs = container.childs;
+                if (!(childs.length &lt;= 0)) {
+                    var cBound = container.getBound();
+                    var childNode = childs[0];
+                    var columSpace = (cBound.width - childNode.width) / column;
+                    var rowSpace = (cBound.height - childNode.height) / row;
+                    for (var childIndex = 0, rowsIndex = 0; row &gt; rowsIndex; rowsIndex++) {
+                        for (var columnIndex = 0; column &gt; columnIndex; columnIndex++) {
+                            var node = childs[childIndex++];
+                            var x = cBound.left + columSpace / 2 + columnIndex * columSpace;
+                            var y = cBound.top + rowSpace / 2 + rowsIndex * rowSpace;
+                            node.setLocation(x, y);
+                            if (childIndex &gt;= childs.length) {
+                                return
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        function FlowLayout(row, column) {
+            if (null == column) {
+                column = 0;
+            }
+            if (null == row) {
+                row = 0;
+            }
+            return function (container) {
+                var childs = container.childs;
+                if (!(childs.length &lt;= 0)) {
+                    var bound = container.getBound();
+                    var left = bound.left;
+                    var top = bound.top;
+                    for (var i = 0; i &lt; childs.length; i++) {
+                        var child = childs[i];
+                        if (left + child.width &gt;= bound.right) {
+                            left = bound.left;
+                            top += row + child.height;
+                        }
+                        child.setLocation(left, top);
+                        left += column + child.width;
+                    }
+                }
+            }
+        }
+
+        function AutoBoundLayout() {
+            return function (container, children) {
+                if (children.length &gt; 0) {
+                    var left = 1e7,
+                        right = -1e7,
+                        top = 1e7,
+                        bottom = -1e7,
+                        width = right - left,
+                        height = bottom - top;
+                    for (var i = 0; i &lt; children.length; i++) {
+                        var child = children[i];
+                        child.x &lt;= left &amp;&amp; (left = child.x);
+                        (child.x + child.width) &gt;= right &amp;&amp; (right = child.x + child.width);
+                        child.y &lt;= top &amp;&amp; (top = child.y);
+                        (child.y + child.height) &gt;= bottom &amp;&amp; (bottom = child.y + child.height);
+                        width = right - left;
+                        height = bottom - top;
+                    }
+                    container.x = left;
+                    container.y = top;
+                    container.width = width;
+                    container.height = height;
+                } else {
+                    container.width = 100;
+                    container.height = 100;
+                }
+                if (container.qtopo) {
+                    container.qtopo.attr.size[0] = container.width;
+                    container.qtopo.attr.size[1] = container.height;
+                }
+            }
+        }
+
+        /**
+         * 找到可以作为根的节点
+         * */
+        function getRootNodes(elements) {
+            return elements.filter(function (element) {
+                return (element instanceof jtopo.Node) &amp;&amp;
+                    (!element.inLinks || element.inLinks.length == 0) &amp;&amp;
+                    (element.outLinks &amp;&amp; element.outLinks.length &gt; 0);
+            });
+        }
+
+        function getGap(arr) {
+            var totalWidth = 0, totalHeight = 0;
+            arr.forEach(function (a) {
+                totalWidth += a.width;
+                totalHeight += a.height;
+            });
+            return {
+                width: totalWidth / arr.length,
+                height: totalHeight / arr.length
+            }
+        }
+
+        function i(a, b, c, d) {
+            b.x += c, b.y += d;
+            for (var e = getRootChilds(a, b), f = 0; f &lt; e.length; f++)i(a, e[f], c, d)
+        }
+
+        function j(a, b) {
+            function c(b, e) {
+                var f = getRootChilds(a, b);
+                null == d[e] &amp;&amp; (d[e] = {}, d[e].nodes = [], d[e].childs = []), d[e].nodes.push(b), d[e].childs.push(f);
+                for (var g = 0; g &lt; f.length; g++)c(f[g], e + 1), f[g].parent = b
+            }
+
+            var d = [];
+            return c(b, 0), d
+        }
+
+        function TreeLayout(direction, gap, top) {
+            return function (scene) {
+                function f(childs, root) {
+                    var h = jtopo.layout.getTreeDeep(childs, root);
+                    var k = j(childs, root);
+                    var l = k[&quot;&quot; + h].nodes;
+                    for (var m = 0; m &lt; l.length; m++) {
+                        var n = l[m], o = (m + 1) * (gap + 10), p = h * top;
+                        &quot;down&quot; == direction || (&quot;up&quot; == direction ? p = -p : &quot;left&quot; == direction ? (o = -h * top, p = (m + 1) * (gap + 10)) : &quot;right&quot; == direction &amp;&amp; (o = h * top, p = (m + 1) * (gap + 10))), n.setLocation(o, p)
+                    }
+                    for (var q = h - 1; q &gt;= 0; q--)for (var r = k[&quot;&quot; + q].nodes, s = k[&quot;&quot; + q].childs, m = 0; m &lt; r.length; m++) {
+                        var t = r[m], u = s[m];
+                        if (&quot;down&quot; == direction ? t.y = q * top : &quot;up&quot; == direction ? t.y = -q * top : &quot;left&quot; == direction ? t.x = -q * top : &quot;right&quot; == direction &amp;&amp; (t.x = q * top), u.length &gt; 0 ? &quot;down&quot; == direction || &quot;up&quot; == direction ? t.x = (u[0].x + u[u.length - 1].x) / 2 : (&quot;left&quot; == direction || &quot;right&quot; == direction) &amp;&amp; (t.y = (u[0].y + u[u.length - 1].y) / 2) : m &gt; 0 &amp;&amp; (&quot;down&quot; == direction || &quot;up&quot; == direction ? t.x = r[m - 1].x + r[m - 1].width + gap : (&quot;left&quot; == direction || &quot;right&quot; == direction) &amp;&amp; (t.y = r[m - 1].y + r[m - 1].height + gap)), m &gt; 0)if (&quot;down&quot; == direction || &quot;up&quot; == direction) {
+                            if (t.x &lt; r[m - 1].x + r[m - 1].width)for (var v = r[m - 1].x + r[m - 1].width + gap, w = Math.abs(v - t.x), x = m; x &lt; r.length; x++)i(scene.childs, r[x], w, 0)
+                        } else if ((&quot;left&quot; == direction || &quot;right&quot; == direction) &amp;&amp; t.y &lt; r[m - 1].y + r[m - 1].height)for (var y = r[m - 1].y + r[m - 1].height + gap, z = Math.abs(y - t.y), x = m; x &lt; r.length; x++)i(scene.childs, r[x], 0, z)
+                    }
+                }
+
+                var realGap = null;
+                if (null == gap) {
+                    realGap = getGap(scene.childs);
+                    gap = realGap.width;
+                    if (&quot;left&quot; == direction || &quot;right&quot; == direction) {
+                        gap = realGap.width + 10;
+                    }
+                }
+                if (null == top) {
+                    if (null == realGap) {
+                        realGap = getGap(scene.childs)
+                    }
+                    top = 2 * realGap.height;
+                }
+                direction = direction || &quot;down&quot;;
+                var roots = jtopo.layout.getRootNodes(scene.childs);
+                if (roots.length &gt; 0) {
+                    f(scene.childs, roots[0]);
+                    var bound = jtopo.util.getElementsBound(scene.childs);
+                    var center = scene.getCenterLocation();
+                    var startX = center.x - (bound.left + bound.right) / 2,
+                        startY = center.y - (bound.top + bound.bottom) / 2;
+                    scene.childs.forEach(function (element) {
+                        if (element instanceof jtopo.Node) {
+                            element.x += startX;
+                            element.y += startY;
+                        }
+                    })
+                }
+            }
+        }
+
+        //必须得是有向无环图才可以布局
+        function CircleLayout(radius) {
+            return function (scene) {
+                function locationSet(allChilds, root, ra) {
+                    var rootsArr = getRootChilds(allChilds, root);
+                    if (0 != rootsArr.length) {
+                        if (null == ra) {
+                            ra = radius;
+                        }
+                        var step = 2 * Math.PI / rootsArr.length;
+                        rootsArr.forEach(function (child, i) {
+                            child.setLocation(
+                                root.x + ra * Math.cos(step * i),
+                                root.y + ra * Math.sin(step * i)
+                            );
+                            locationSet(allChilds, child, ra / 2);
+                        })
+                    }
+                }
+
+                var roots = jtopo.layout.getRootNodes(scene.childs);
+                if (roots.length &gt; 0) {
+                    locationSet(scene.childs, roots[0]);
+                    var bound = jtopo.util.getElementsBound(scene.childs);
+                    var center = scene.getCenterLocation();
+                    var left = center.x - (bound.left + bound.right) / 2;
+                    var top = center.y - (bound.top + bound.bottom) / 2;
+                    scene.childs.forEach(function (b) {
+                        if (b instanceof jtopo.Node) {
+                            b.x += left;
+                            b.y += top;
+                        }
+                    })
+                }
+            }
+        }
+
+        function m(a, b, c, d, e, f) {
+            for (var g = [], h = 0; c &gt; h; h++)for (var i = 0; d &gt; i; i++)g.push({x: a + i * e, y: b + h * f});
+            return g
+        }
+
+        function circlePosition(centerX, centerY, total, raidus, beginAngle, endAngle) {
+            var begin = beginAngle ? beginAngle : 0;
+            var end = endAngle ? endAngle : 2 * Math.PI;
+            var totalAngle = end - begin;
+            var step = totalAngle / total;
+            var position = [];
+            begin += step / 2;
+            for (var i = begin; end &gt;= i; i += step) {
+                position.push({
+                    x: centerX + Math.cos(i) * raidus,
+                    y: centerY + Math.sin(i) * raidus
+                });
+            }
+            return position
+        }
+
+        function treePostion(a, b, c, d, e, f) {
+            var g = f || &quot;bottom&quot;, h = [];
+            if (&quot;bottom&quot; == g)for (var i = a - c / 2 * d + d / 2, j = 0; c &gt;= j; j++)h.push({
+                x: i + j * d,
+                y: b + e
+            }); else if (&quot;top&quot; == g)for (var i = a - c / 2 * d + d / 2, j = 0; c &gt;= j; j++)h.push({
+                x: i + j * d,
+                y: b - e
+            }); else if (&quot;right&quot; == g)for (var i = b - c / 2 * d + d / 2, j = 0; c &gt;= j; j++)h.push({
+                x: a + e,
+                y: i + j * d
+            }); else if (&quot;left&quot; == g)for (var i = b - c / 2 * d + d / 2, j = 0; c &gt;= j; j++)h.push({x: a - e, y: i + j * d});
+            return h
+        }
+
+        function gridPosition(a, b, c, d, e, f) {
+            for (var g = [], h = 0; c &gt; h; h++)for (var i = 0; d &gt; i; i++)g.push({x: a + i * e, y: b + h * f});
+            return g
+        }
+
+        function adjustPosition(root, rootChilds) {
+            if (root.layout) {
+                var layout = root.layout;
+                var locationArr = null;
+                switch (layout.type) {
+                    case &#x27;circle&#x27;:
+                        var radius = layout.radius || Math.max(root.width, root.height);
+                        locationArr = circlePosition(
+                            root.cx,
+                            root.cy,
+                            rootChilds.length,
+                            radius,
+                            root.layout.beginAngle,
+                            root.layout.endAngle
+                        );
+                        break;
+                    case &#x27;tree&#x27;:
+                        locationArr = treePostion(
+                            root.cx,
+                            root.cy,
+                            rootChilds.length,
+                            layout.width || 50,
+                            layout.height || 50,
+                            layout.direction
+                        );
+                        break;
+                    case &#x27;grid&#x27;:
+                        locationArr = gridPosition(
+                            root.x,
+                            root.y,
+                            layout.rows,
+                            layout.cols,
+                            layout.horizontal || 0,
+                            layout.vertical || 0
+                        );
+                        break;
+                }
+                for (var i = 0; i &lt; rootChilds.length; i++) {
+                    rootChilds[i].setCenterLocation(locationArr[i].x, locationArr[i].y);
+                }
+            }
+        }
+
+        function getRootChilds(allChilds, rootNode) {
+            var rootChilds;
+            if (rootNode.outLinks instanceof Array &amp;&amp; rootNode.outLinks.length &gt; 0) {
+                rootChilds = rootNode.outLinks.map(function (link) {
+                    return link.nodeZ;
+                });
+            }
+            return rootChilds || [];
+        }
+
+        function layoutNode(scene, root, recursion) {
+            var rootChilds = getRootChilds(scene.childs, root);
+            if (0 != rootChilds.length) {
+                adjustPosition(root, rootChilds);
+                if (1 == recursion) {
+                    for (var e = 0; e &lt; rootChilds.length; e++) {
+                        layoutNode(scene, rootChilds[e], recursion);
+                    }
+                }
+            }
+            return null
+        }
+
+        function springLayout(b, c) {
+            function d(a, b) {
+                var c = a.x - b.x, d = a.y - b.y;
+                i += c * f, j += d * f, i *= g, j *= g, j += h, b.x += i, b.y += j
+            }
+
+            function e() {
+                if (!(++k &gt; 150)) {
+                    for (var a = 0; a &lt; l.length; a++)l[a] != b &amp;&amp; d(b, l[a], l);
+                    setTimeout(e, 1e3 / 24)
+                }
+            }
+
+            var f = .01, g = .95, h = -5, i = 0, j = 0, k = 0, l = c.getElementsByClass(jtopo.Node);
+            e()
+        }
+
+        function getTreeDeep(childs, root) {
+            function reDeep(childs, root, deep) {
+                var rootChilds = getRootChilds(childs, root);
+                if (deep &gt; d) {
+                    d = deep;
+                }
+                for (var g = 0; g &lt; rootChilds.length; g++) {
+                    reDeep(childs, rootChilds[g], deep + 1);
+                }
+            }
+
+            var d = 0;
+            reDeep(childs, root, 0);
+            return d;
+        }
+
+        jtopo.layout = jtopo.Layout = {
+            layoutNode: layoutNode,
+            getNodeChilds: getRootChilds,
+            adjustPosition: adjustPosition,
+            springLayout: springLayout,
+            getTreeDeep: getTreeDeep,
+            getRootNodes: getRootNodes,
+            GridLayout: GridLayout,
+            FlowLayout: FlowLayout,
+            AutoBoundLayout: AutoBoundLayout,
+            CircleLayout: CircleLayout,
+            TreeLayout: TreeLayout,
+            getNodesCenter: getNodesCenter,
+            circleLayoutNodes: circleLayoutNodes
+        }
+    }(JTopo),
+    function (jtopo) {
+        function PieChartNode() {
+            var b = new jtopo.CircleNode;
+            return b.radius = 150, b.colors = [&quot;#3666B0&quot;, &quot;#2CA8E0&quot;, &quot;#77D1F6&quot;], b.datas = [.3, .3, .4], b.titles = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], b.paint = function (a) {
+                var c = 2 * b.radius, d = 2 * b.radius;
+                b.width = c, b.height = d;
+                for (var e = 0, f = 0; f &lt; this.datas.length; f++) {
+                    var g = this.datas[f] * Math.PI * 2;
+                    a.save(), a.beginPath(), a.fillStyle = b.colors[f], a.moveTo(0, 0), a.arc(0, 0, this.radius, e, e + g, !1), a.fill(), a.closePath(), a.restore(), a.beginPath(), a.font = this.font;
+                    var h = this.titles[f] + &quot;: &quot; + (100 * this.datas[f]).toFixed(2) + &quot;%&quot;, i = a.measureText(h).width, j = (a.measureText(&quot;田&quot;).width, (e + e + g) / 2), k = this.radius * Math.cos(j), l = this.radius * Math.sin(j);
+                    j &gt; Math.PI / 2 &amp;&amp; j &lt;= Math.PI ? k -= i : j &gt; Math.PI &amp;&amp; j &lt; 2 * Math.PI * 3 / 4 ? k -= i : j &gt; 2 * Math.PI * .75, a.fillStyle = &quot;#FFFFFF&quot;, a.fillText(h, k, l), a.moveTo(this.radius * Math.cos(j), this.radius * Math.sin(j)), j &gt; Math.PI / 2 &amp;&amp; j &lt; 2 * Math.PI * 3 / 4 &amp;&amp; (k -= i), j &gt; Math.PI, a.fill(), a.stroke(), a.closePath(), e += g
+                }
+            }, b
+        }
+
+        function BarChartNode() {
+            var b = new jtopo.Node;
+            return b.showSelected = !1, b.width = 250, b.height = 180, b.colors = [&quot;#3666B0&quot;, &quot;#2CA8E0&quot;, &quot;#77D1F6&quot;], b.datas = [.3, .3, .4], b.titles = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], b.paint = function (a) {
+                var c = 3, d = (this.width - c) / this.datas.length;
+                a.save(), a.beginPath(), a.fillStyle = &quot;#FFFFFF&quot;, a.strokeStyle = &quot;#FFFFFF&quot;, a.moveTo(-this.width / 2 - 1, -this.height / 2), a.lineTo(-this.width / 2 - 1, this.height / 2 + 3), a.lineTo(this.width / 2 + c + 1, this.height / 2 + 3), a.stroke(), a.closePath(), a.restore();
+                for (var e = 0; e &lt; this.datas.length; e++) {
+                    a.save(), a.beginPath(), a.fillStyle = b.colors[e];
+                    var f = this.datas[e], g = e * (d + c) - this.width / 2, h = this.height - f - this.height / 2;
+                    a.fillRect(g, h, d, f);
+                    var i = &quot;&quot; + parseInt(this.datas[e]), j = a.measureText(i).width, k = a.measureText(&quot;田&quot;).width;
+                    a.fillStyle = &quot;#FFFFFF&quot;, a.fillText(i, g + (d - j) / 2, h - k), a.fillText(this.titles[e], g + (d - j) / 2, this.height / 2 + k), a.fill(), a.closePath(), a.restore()
+                }
+            }, b
+        }
+
+        jtopo.BarChartNode = BarChartNode;
+        jtopo.PieChartNode = PieChartNode;
+    }(JTopo),
+    function (jtopo) {
+        function b(b, c) {
+            var d, e = null;
+            return {
+                stop: function () {
+                    return d ? (window.clearInterval(d), e &amp;&amp; e.publish(&quot;stop&quot;), this) : this
+                }, start: function () {
+                    var a = this;
+                    return d = setInterval(function () {
+                        b.call(a)
+                    }, c), this
+                }, onStop: function (b) {
+                    return null == e &amp;&amp; (e = new jtopo.util.MessageBus), e.subscribe(&quot;stop&quot;, b), this
+                }
+            }
+        }
+
+        function ef_gravity(a, c) {
+            c = c || {};
+            var d = c.gravity || .1, e = c.dx || 0, f = c.dy || 5, g = c.stop, h = c.interval || 30, i = new b(function () {
+                g &amp;&amp; g() ? (f = .5, this.stop()) : (f += d, a.setLocation(a.x + e, a.y + f))
+            }, h);
+            return i
+        }
+
+        function an_stepByStep(target, attr, time, e, f) {
+            var g = 1e3 / 24, h = {};
+            for (var i in attr) {
+                var j = attr[i], k = j - target[i];
+                h[i] = {
+                    oldValue: target[i], targetValue: j, step: k / time * g, isDone: function (b) {
+                        var c = this.step &gt; 0 &amp;&amp; target[b] &gt;= this.targetValue || this.step &lt; 0 &amp;&amp; target[b] &lt;= this.targetValue;
+                        return c
+                    }
+                }
+            }
+            var l = new b(function () {
+                var b = !0;
+                for (var d in attr)h[d].isDone(d) || (target[d] += h[d].step, b = !1);
+                if (b) {
+                    if (!e)return this.stop();
+                    for (var d in attr)if (f) {
+                        var g = h[d].targetValue;
+                        h[d].targetValue = h[d].oldValue, h[d].oldValue = g, h[d].step = -h[d].step
+                    } else target[d] = h[d].oldValue
+                }
+                return this
+            }, g);
+            return l
+        }
+
+        function ef_spring(a) {
+            null == a &amp;&amp; (a = {});
+            var b = a.spring || .1, c = a.friction || .8, d = a.grivity || 0, e = (a.wind || 0, a.minLength || 0);
+            return {
+                items: [], timer: null, isPause: !1, addNode: function (a, b) {
+                    var c = {node: a, target: b, vx: 0, vy: 0};
+                    return this.items.push(c), this
+                }, play: function (a) {
+                    this.stop(), a = null == a ? 1e3 / 24 : a;
+                    var b = this;
+                    this.timer = setInterval(function () {
+                        b.nextFrame()
+                    }, a)
+                }, stop: function () {
+                    null != this.timer &amp;&amp; window.clearInterval(this.timer)
+                }, nextFrame: function () {
+                    for (var a = 0; a &lt; this.items.length; a++) {
+                        var f = this.items[a], g = f.node, h = f.target, i = f.vx, j = f.vy, k = h.x - g.x, l = h.y - g.y, m = Math.atan2(l, k);
+                        if (0 != e) {
+                            var n = h.x - Math.cos(m) * e, o = h.y - Math.sin(m) * e;
+                            i += (n - g.x) * b, j += (o - g.y) * b
+                        } else i += k * b, j += l * b;
+                        i *= c, j *= c, j += d, g.x += i, g.y += j, f.vx = i, f.vy = j
+                    }
+                }
+            }
+        }
+
+        function an_rotate(a, b) {
+            function c() {
+                return e = setInterval(function () {
+                    return o ? void f.stop() : (a.rotate += g || .2, void(a.rotate &gt; 2 * Math.PI &amp;&amp; (a.rotate = 0)))
+                }, 100), f
+            }
+
+            function d() {
+                return window.clearInterval(e), f.onStop &amp;&amp; f.onStop(a), f
+            }
+
+            var e = (b.context, null), f = {}, g = b.v;
+            return f.run = c, f.stop = d, f.onStop = function (a) {
+                return f.onStop = a, f
+            }, f
+        }
+
+        function an_gravity(a, b) {
+            function c() {
+                return window.clearInterval(g), h.onStop &amp;&amp; h.onStop(a), h
+            }
+
+            function d() {
+                var d = b.dx || 0, i = b.dy || 2;
+                return g = setInterval(function () {
+                    return o ? void h.stop() : (i += f, void(a.y + a.height &lt; e.stage.canvas.height ? a.setLocation(a.x + d, a.y + i) : (i = 0, c())))
+                }, 20), h
+            }
+
+            var e = b.context, f = b.gravity || .1, g = null, h = {};
+            return h.run = d, h.stop = c, h.onStop = function (a) {
+                return h.onStop = a, h
+            }, h
+        }
+
+        function an_dividedTwoPiece(b, c) {
+            function d(c, d, e, f, g) {
+                var h = new jtopo.Node;
+                return h.setImage(b.image), h.setSize(b.width, b.height), h.setLocation(c, d), h.showSelected = !1, h.dragable = !1, h.paint = function (a) {
+                    a.save(), a.arc(0, 0, e, f, g), a.clip(), a.beginPath(), null != this.image ? a.drawImage(this.image, -this.width / 2, -this.height / 2) : (a.fillStyle = &quot;rgba(&quot; + this.style.fillStyle + &quot;,&quot; + this.alpha + &quot;)&quot;, a.rect(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2), a.fill()), a.closePath(), a.restore()
+                }, h
+            }
+
+            function e(c, e) {
+                var f = c, g = c + Math.PI, h = d(b.x, b.y, b.width, f, g), j = d(b.x - 2 + 4 * Math.random(), b.y, b.width, f + Math.PI, f);
+                b.visible = !1, e.add(h), e.add(j), jtopo.Animate.gravity(h, {context: e, dx: .3}).run().onStop(function () {
+                    e.remove(h), e.remove(j), i.stop()
+                }), jtopo.Animate.gravity(j, {context: e, dx: -.2}).run()
+            }
+
+            function f() {
+                return e(c.angle, h), i
+            }
+
+            function g() {
+                return i.onStop &amp;&amp; i.onStop(b), i
+            }
+
+            var h = c.context, i = (b.style, {});
+            return i.onStop = function (a) {
+                return i.onStop = a, i
+            }, i.run = f, i.stop = g, i
+        }
+
+        function an_repeatThrow(a, b) {
+            function c(a) {
+                a.visible = !0, a.rotate = Math.random();
+                var b = g.stage.canvas.width / 2;
+                a.x = b + Math.random() * (b - 100) - Math.random() * (b - 100), a.y = g.stage.canvas.height, a.vx = 5 * Math.random() - 5 * Math.random(), a.vy = -25
+            }
+
+            function d() {
+                return c(a), h = setInterval(function () {
+                    return o ? void i.stop() : (a.vy += f, a.x += a.vx, a.y += a.vy, void((a.x &lt; 0 || a.x &gt; g.stage.canvas.width || a.y &gt; g.stage.canvas.height) &amp;&amp; (i.onStop &amp;&amp; i.onStop(a), c(a))))
+                }, 50), i
+            }
+
+            function e() {
+                window.clearInterval(h)
+            }
+
+            var f = .8, g = b.context, h = null, i = {};
+            return i.onStop = function (a) {
+                return i.onStop = a, i
+            }, i.run = d, i.stop = e, i
+        }
+
+        function an_stopAll() {
+            o = !0
+        }
+
+        function an_startAll() {
+            o = !1
+        }
+
+        function an_cycle(b, c) {
+            function d() {
+                return n = setInterval(function () {
+                    if (o)return void m.stop();
+                    var a = f.y + h + Math.sin(k) * j;
+                    b.setLocation(b.x, a), k += l
+                }, 100), m
+            }
+
+            function e() {
+                window.clearInterval(n)
+            }
+
+            var f = c.p1, g = c.p2, h = (c.context, f.x + (g.x - f.x) / 2), i = f.y + (g.y - f.y) / 2, j = jtopo.util.getDistance(f, g) / 2, k = Math.atan2(i, h), l = c.speed || .2, m = {}, n = null;
+            return m.run = d, m.stop = e, m
+        }
+
+        function an_move(a, b) {
+            function c() {
+                return h = setInterval(function () {
+                    if (o)return void g.stop();
+                    var b = e.x - a.x, c = e.y - a.y, h = b * f, i = c * f;
+                    a.x += h, a.y += i, .01 &gt; h &amp;&amp; .1 &gt; i &amp;&amp; d()
+                }, 100), g
+            }
+
+            function d() {
+                window.clearInterval(h)
+            }
+
+            var e = b.position, f = (b.context, b.easing || .2), g = {}, h = null;
+            return g.onStop = function (a) {
+                return g.onStop = a, g
+            }, g.run = c, g.stop = d, g
+        }
+
+        function an_scale(a, b) {
+            function c() {
+                return j = setInterval(function () {
+                    a.scaleX += f, a.scaleY += f, a.scaleX &gt;= e &amp;&amp; d()
+                }, 100), i
+            }
+
+            function d() {
+                i.onStop &amp;&amp; i.onStop(a), a.scaleX = g, a.scaleY = h, window.clearInterval(j)
+            }
+
+            var e = (b.position, b.context, b.scale || 1), f = .06, g = a.scaleX, h = a.scaleY, i = {}, j = null;
+            return i.onStop = function (a) {
+                return i.onStop = a, i
+            }, i.run = c, i.stop = d, i
+        }
+
+        jtopo.Animate = {}, jtopo.Effect = {};
+        var o = !1;
+        jtopo.Effect.spring = ef_spring;
+        jtopo.Effect.gravity = ef_gravity;
+        jtopo.Animate.stepByStep = an_stepByStep;
+        jtopo.Animate.rotate = an_rotate;
+        jtopo.Animate.scale = an_scale;
+        jtopo.Animate.move = an_move;
+        jtopo.Animate.cycle = an_cycle;
+        jtopo.Animate.repeatThrow = an_repeatThrow;
+        jtopo.Animate.dividedTwoPiece = an_dividedTwoPiece;
+        jtopo.Animate.gravity = an_gravity;
+        jtopo.Animate.startAll = an_startAll;
+        jtopo.Animate.stopAll = an_stopAll;
+    }(JTopo),
+    function (jtopo) {
+        function b(a, b) {
+            var c = [];
+            if (0 == a.length)return c;
+            var d = b.match(/^\s*(\w+)\s*$/);
+            if (null != d) {
+                var e = a.filter(function (a) {
+                    return a.elementType == d[1]
+                });
+                null != e &amp;&amp; e.length &gt; 0 &amp;&amp; (c = c.concat(e))
+            } else {
+                var f = !1;
+                if (d = b.match(/\s*(\w+)\s*\[\s*(\w+)\s*([&gt;=&lt;])\s*[&#x27;&quot;](\S+)[&#x27;&quot;]\s*\]\s*/), (null == d || d.length &lt; 5) &amp;&amp; (d = b.match(/\s*(\w+)\s*\[\s*(\w+)\s*([&gt;=&lt;])\s*(\d+(\.\d+)?)\s*\]\s*/), f = !0), null != d &amp;&amp; d.length &gt;= 5) {
+                    var g = d[1], h = d[2], i = d[3], j = d[4];
+                    e = a.filter(function (a) {
+                        if (a.elementType != g)return !1;
+                        var b = a[h];
+                        return 1 == f &amp;&amp; (b = parseInt(b)), &quot;=&quot; == i ? b == j : &quot;&gt;&quot; == i ? b &gt; j : &quot;&lt;&quot; == i ? j &gt; b : &quot;&lt;=&quot; == i ? j &gt;= b : &quot;&gt;=&quot; == i ? b &gt;= j : &quot;!=&quot; == i ? b != j : !1
+                    }), null != e &amp;&amp; e.length &gt; 0 &amp;&amp; (c = c.concat(e))
+                }
+            }
+            return c
+        }
+
+        function c(a) {
+            if (a.find = function (a) {
+                    return find.call(this, a)
+                }, e.forEach(function (b) {
+                    a[b] = function (a) {
+                        for (var c = 0; c &lt; this.length; c++)this[c][b](a);
+                        return this
+                    }
+                }), a.length &gt; 0) {
+                var b = a[0];
+                for (var c in b) {
+                    var f = b[c];
+                    &quot;function&quot; == typeof f &amp;&amp; !function (b) {
+                        a[c] = function () {
+                            for (var c = [], d = 0; d &lt; a.length; d++)c.push(b.apply(a[d], arguments));
+                            return c
+                        }
+                    }(f)
+                }
+            }
+            return a.attr = function (a, b) {
+                if (null != a &amp;&amp; null != b)for (var c = 0; c &lt; this.length; c++)this[c][a] = b; else {
+                    if (null != a &amp;&amp; &quot;string&quot; == typeof a) {
+                        for (var d = [], c = 0; c &lt; this.length; c++)d.push(this[c][a]);
+                        return d
+                    }
+                    if (null != a)for (var c = 0; c &lt; this.length; c++)for (var e in a)this[c][e] = a[e]
+                }
+                return this
+            }, a
+        }
+
+        function find(d) {
+            debugger;
+            var e = [];
+            var f = [];
+            if (this instanceof jtopo.Stage) {
+                e = this.childs;
+                f = f.concat(e);
+            } else if (this instanceof jtopo.Scene) {
+                e = [this];
+            } else {
+                f = this;
+                e.forEach(function (a) {
+                    f = f.concat(a.childs)
+                });
+            }
+            var g = null;
+            if (&quot;function&quot; == typeof d) {
+                f.filter(d)
+            } else {
+                b(f, d);
+            }
+            return c(g);
+        }
+
+        var e = &quot;click,mousedown,mouseup,mouseover,mouseout,mousedrag,keydown,keyup&quot;.split(&quot;,&quot;);
+        jtopo.Stage.prototype.find = find;
+        jtopo.Scene.prototype.find = find;
+    }(JTopo),
+    function (win) {
+        function logObject(a, b) {
+            this.x = a;
+            this.y = b;
+        }
+
+        function Tortoise(a) {
+            this.p = new logObject(0, 0);
+            this.w = new logObject(1, 0);
+            this.paint = a;
+        }
+
+        function shift(a, b, c) {
+            return function (d) {
+                for (var e = 0; b &gt; e; e++)a(), c &amp;&amp; d.turn(c), d.move(3)
+            }
+        }
+
+        function spin(a, b) {
+            var c = 2 * Math.PI;
+            return function (d) {
+                for (var e = 0; b &gt; e; e++)a(), d.turn(c / b)
+            }
+        }
+
+        function scale(a, b, c) {
+            return function (d) {
+                for (var e = 0; b &gt; e; e++)a(), d.resize(c)
+            }
+        }
+
+        function polygon(a) {
+            var b = 2 * Math.PI;
+            return function (c) {
+                for (var d = 0; a &gt; d; d++)c.forward(1), c.turn(b / a)
+            }
+        }
+
+        function star(a) {
+            var b = 4 * Math.PI;
+            return function (c) {
+                for (var d = 0; a &gt; d; d++)c.forward(1), c.turn(b / a)
+            }
+        }
+
+        function spiral(a, b, c, d) {
+            return function (e) {
+                for (var f = 0; b &gt; f; f++)a(), e.forward(1), e.turn(c), e.resize(d)
+            }
+        }
+
+        var Logo = {};
+        Tortoise.prototype.forward = function (a) {
+            var b = this.p, c = this.w;
+            return b.x = b.x + a * c.x, b.y = b.y + a * c.y, this.paint &amp;&amp; this.paint(b.x, b.y), this
+        };
+        Tortoise.prototype.move = function (a) {
+            var b = this.p, c = this.w;
+            return b.x = b.x + a * c.x, b.y = b.y + a * c.y, this
+        };
+        Tortoise.prototype.moveTo = function (a, b) {
+            return this.p.x = a, this.p.y = b, this
+        };
+        Tortoise.prototype.turn = function (a) {
+            var b = (this.p, this.w);
+            var c = Math.cos(a) * b.x - Math.sin(a) * b.y;
+            var d = Math.sin(a) * b.x + Math.cos(a) * b.y;
+            b.x = c;
+            b.y = d;
+            return this;
+        };
+        Tortoise.prototype.resize = function (a) {
+            var b = this.w;
+            b.x = b.x * a;
+            b.y = b.y * a;
+            return this;
+        };
+        Tortoise.prototype.save = function () {
+            return null == this._stack &amp;&amp; (this._stack = []), this._stack.push([this.p, this.w]), this
+        };
+        Tortoise.prototype.restore = function () {
+            if (null != this._stack &amp;&amp; this._stack.length &gt; 0) {
+                var a = this._stack.pop();
+                this.p = a[0], this.w = a[1]
+            }
+            return this
+        };
+        Logo.Tortoise = Tortoise;
+        Logo.shift = shift;
+        Logo.spin = spin;
+        Logo.polygon = polygon;
+        Logo.spiral = spiral;
+        Logo.star = star;
+        Logo.scale = scale;
+        win.Logo = Logo;
+    }(window);
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
