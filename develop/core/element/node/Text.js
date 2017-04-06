@@ -12,7 +12,7 @@ var DEFAULT = {
         type: '微软雅黑',
         color: "255,255,255"
     },
-    serializeId:"",
+    jsonId:"",
     border: {
         width: 0,
         radius: 0,//最大160 最小0

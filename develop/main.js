@@ -16,13 +16,12 @@ var QTopo = {
 };
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
-require("./core/tools.js");//加载scene的工具api
 /**
  * 初始化Qtopo
  * @param dom
  * @param config
  * @see module:QTopo
- * @returns {{scene: (Scene|exports|module.exports), setOption: setOption, document: *, resize, serialize: serialize}}
+ * @returns {{scene: (Scene|exports|module.exports), setOption: setOption, document: *, resize, serialize: toJson}}
  */
 /**
  * 初始化
@@ -36,7 +35,7 @@ QTopo.init = function (dom, config) {
         setOption: setOption,
         document: dom,
         resize: resize(dom, canvas),
-        serialize:serialize
+        toJson:toJson
     };
     this.instance.push(QtopoInstance);
     return QtopoInstance;
@@ -70,10 +69,10 @@ function resize(dom, canvas) {
         return this;
     }
 }
-function serialize(){
+function toJson(){
     var data=this.scene.children;
     var serialized={
-        init:this.scene.serialize(),
+        init:this.scene.toJson(),
         option:{
             node:{
                 data:[]
@@ -93,7 +92,7 @@ function serialize(){
         if($.isArray(elements)){
             elements.map(function(element){
                 if(serialized.option[name]){
-                    serialized.option[name].data.push(element.serialize());
+                    serialized.option[name].data.push(element.toJson());
                 }
             });
         }
@@ -199,7 +198,7 @@ function makeChildren(scene, container, config, findChild) {
 }
 function filterTag(tag){
     if(!tag){
-        tag='serializeId'
+        tag='jsonId'
     }
     return tag;
 }

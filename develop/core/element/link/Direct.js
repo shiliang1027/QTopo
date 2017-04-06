@@ -15,7 +15,7 @@ var DEFAULT = {
         start: false,
         end: false
     },
-    serializeId:"",
+    jsonId:"",
     gap: 20,
     width: 3,
     dashed: null,

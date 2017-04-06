@@ -16,7 +16,7 @@ var DEFAULT = {
         alpha: 0.5,
         dragable: true,
         zIndex: 10,
-        serializeId:"",
+        jsonId:"",
         border:{
             width:0,
             radius:30,//最大160 最小0

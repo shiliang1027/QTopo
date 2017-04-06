@@ -186,13 +186,13 @@ Container.prototype.isInside = function (element) {
 /**
  * 实例序列化
  */
-Container.prototype.serialize=function(){
-    var serialize=$.extend({},this.attr);
-    serialize.extra=$.extend({},this.extra);
-    serialize.children=[];
+Container.prototype.toJson=function(){
+    var json=$.extend({},this.attr);
+    json.extra=$.extend({},this.extra);
+    json.children=[];
     this.children.map(function(child){
-        serialize.children.push(child.get('serializeId'));
+        json.children.push(child.get('jsonId'));
     });
-    serialize.toggle=this.toggleTo.serialize();
-    return serialize;
+    json.toggle=this.toggleTo.toJson();
+    return json;
 };

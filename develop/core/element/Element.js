@@ -4,15 +4,15 @@ function Element(jtopo) {
         this.jtopo = jtopo;
         jtopo.qtopo = this;
     }
-    if (!this.attr.serializeId) {
-        this.attr.serializeId = QTopo.util.makeId();
+    if (!this.attr.jsonId) {
+        this.attr.jsonId = QTopo.util.makeId();
     }
     //设置额外属性处理对象
     this.extra = {};
 }
 
-Element.prototype.setSerializeId = function (id) {
-    this.attr.serializeId = id;
+Element.prototype.setJsonId = function (id) {
+    this.attr.jsonId = id;
 };
 Element.prototype.show = function () {
     switch (this.getType()) {

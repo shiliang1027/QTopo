@@ -105,10 +105,10 @@ Link.prototype.setDashed = function (dashedPattern) {
 /**
  * 实例序列化
  */
-Link.prototype.serialize=function(){
-    var serialize=$.extend({},this.attr);
-    serialize.extra=$.extend({},this.extra);
-    serialize.start=this.path.start.get('serializeId');
-    serialize.end=this.path.end.get('serializeId');
-    return serialize;
+Link.prototype.toJson=function(){
+    var json=$.extend({},this.attr);
+    json.extra=$.extend({},this.extra);
+    json.start=this.path.start.get('jsonId');
+    json.end=this.path.end.get('jsonId');
+    return json;
 };

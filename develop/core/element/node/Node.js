@@ -64,8 +64,8 @@ Node.prototype.setName=function(name){
 /**
  * 实例序列化
  */
-Node.prototype.serialize=function(){
-    var serialize=$.extend({},this.attr);
-    serialize.extra=$.extend({},this.extra);
-    return serialize;
+Node.prototype.toJson=function(){
+    var json=$.extend({},this.attr);
+    json.extra=$.extend({},this.extra);
+    return json;
 };
