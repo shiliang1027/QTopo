@@ -1,3 +1,6 @@
+/**
+ * @module core
+ */
 //-
 var Node = {
     Image: require("./element/node/Image.js"),
@@ -26,19 +29,45 @@ var defaults = function () {
         backgroundImage: ""
     };
 };
-function Scene(stage, config) {
+/**
+ * 图层对象
+ * @class Scene
+ * @constructor
+ * @param canvas 绘图所在的canvas标签对象
+ * @param config 图层的基本设置,参见attr属性
+ */
+function Scene(canvas, config) {
     var self = this;
+    /**
+     * 核心Jtopo对象
+     * @property jtopo {Object}
+     */
     self.jtopo = new JTopo.Scene();
     self.jtopo.qtopo = self;
+    /**
+     * 图层中记录的元素
+     * @property children {array}
+     */
     self.children = {
         node: [],
         link: [],
         container: [],
         line: []
     };
+    /**
+     * 图层的主要属性
+     * @property attr {objcet}
+     * @param [mode=QTopo.constant.mode.NORMAL],
+     * @param [backgroundImage=''],
+     * @param [backgroundColor=''],
+     */
     self.attr = defaults();
-    self.extra=config.extra||{};
-    stage.add(self.jtopo);
+    /**
+     * 图层的额外属性
+     * @property extra {objcet}
+     */
+    self.extra = config.extra || {};
+    new JTopo.Stage(canvas).add(self.jtopo);
     events.init(self);
     //延时执行
     setTimeout(function () {
@@ -56,31 +85,50 @@ function Scene(stage, config) {
     });
 }
 //-
-Scene.prototype.get=function(key){
+/**
+ *  获取图层的基本属性
+ *  @method get
+ *  @param key {string} 要获取的属性名
+ *  @returns {string|object} 属性值
+ */
+Scene.prototype.get = function (key) {
     return this.attr[key];
 };
-Scene.prototype.val=function(key,value){
-    if(QTopo.util.getClass(key)=='Object') {
-        var self=this;
+/**
+ *  获取图层的额外属性,或添加/修改额外属性
+ *  @method val
+ *  @param key {string} 要操作的属性名
+ *  @param [value] {string|object} 属性值，若无则函数为获取属性，若有则为修改/添加属性
+ *  @returns {string|object|void}
+ */
+Scene.prototype.val = function (key, value) {
+    if (QTopo.util.getClass(key) == 'Object') {
+        var self = this;
         $.each(key, function (name, value) {
             self.extra[name] = value;
         })
-    }else{
-        if(!value){
+    } else {
+        if (!value) {
             var result;
-            if(this.extra[key]){
-                result=this.extra[key];
-            }else if(this.attr[key]){
-                result=this.attr[key];
-            }else{
-                result=this[key];
+            if (this.extra[key]) {
+                result = this.extra[key];
+            } else if (this.attr[key]) {
+                result = this.attr[key];
+            } else {
+                result = this[key];
             }
             return result;
-        }else{
-            this.extra[key]=value;
+        } else {
+            this.extra[key] = value;
         }
     }
 };
+/**
+ *  配置图层中元素全局样式
+ *  @method setDefault
+ *  @param type {string} 要配置的元素类型 例：QTopo.constant.node.IMAGE
+ *  @param config {object} 样式属性，可参考对应的元素attr属性
+ */
 Scene.prototype.setDefault = function (type, config) {
     if (config) {
         var constant = QTopo.constant;
@@ -112,6 +160,12 @@ Scene.prototype.setDefault = function (type, config) {
         }
     }
 };
+/**
+ *  获取图层中元素全局样式
+ *  @method getDefault
+ *  @param type {string} 要配置的元素类型 例：QTopo.constant.node.IMAGE
+ *  @return {object} 样式属性，可参考对应的元素attr属性
+ */
 Scene.prototype.getDefault = function (type) {
     if (type) {
         var result;
@@ -145,15 +199,30 @@ Scene.prototype.getDefault = function (type) {
         return result;
     }
 };
+/**
+ *  设置图层背景图片，与setBackgroundColor冲突
+ *  @method setBackgroundImage
+ *  @param image {string} 图片url
+ */
 Scene.prototype.setBackgroundImage = function (image) {
     this.jtopo.background = image;
     this.attr.background = image;
 };
+/**
+ *  设置图层背景颜色，与setBackgroundImage冲突
+ *  @method setBackgroundColor
+ *  @param color {string} 可以是"#xxxxxx"或"255,255,255"格式
+ */
 Scene.prototype.setBackgroundColor = function (color) {
     this.jtopo.backgroundColor = QTopo.util.transHex(color);
     this.jtopo.alpha = 1;
     this.attr.background = QTopo.util.transHex(color);
 };
+/**
+ *  设置图层模式
+ *  @method setMode
+ *  @param mode {string} 例:QTopo.constant.mode.NORMAL
+ */
 Scene.prototype.setMode = function (mode) {
     if (["normal", "edit", "drag", "select"].indexOf(mode) > -1) {
         this.attr.mode = mode;
@@ -162,6 +231,10 @@ Scene.prototype.setMode = function (mode) {
         QTopo.util.error("set wrong mode :", mode);
     }
 };
+/**
+ *  图层清空，清除图层内所有元素
+ *  @method clear
+ */
 Scene.prototype.clear = function () {
     QTopo.util.info("scene clear");
     this.children = {
@@ -172,45 +245,82 @@ Scene.prototype.clear = function () {
     };
     this.jtopo.clear();
 };
+/**
+ *  获取类型，常用在右键菜单上对触发对象的识别
+ *  @method getType
+ *  @return QTopo.constant.SCENE
+ */
 Scene.prototype.getType = function () {
     return QTopo.constant.SCENE;
 };
+/**
+ *  获取使用类型，常用在右键菜单上对触发对象的识别
+ *  @method getUseType
+ *  @return QTopo.constant.SCENE
+ */
 Scene.prototype.getUseType = function () {
     return QTopo.constant.SCENE;
 };
+/**
+ *  绑定事件，可用off删除对应事件
+ *  @method on
+ *  @param name {string} 事件名
+ *
+ *  click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup
+ *
+ *  @param fn {function} 处理函数
+ */
 Scene.prototype.on = function (name, fn) {
-    this.jtopo.addEventListener(name,fn);
+    this.jtopo.addEventListener(name, fn);
 };
+/**
+ *  删除事件，可删除on绑定的事件
+ *  @method off
+ *  @param name {string} 事件名
+ *
+ *  click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup
+ *
+ *  @param [fn]{function} 处理的函数对象，若无参则删除该事件下所有函数
+ */
 Scene.prototype.off = function (name, fn) {
-    this.jtopo.removeEventListener(name,fn);
+    this.jtopo.removeEventListener(name, fn);
 };
+/**
+ *  根据搜索当前图层，查找基本属性或额外属性满足条件的元素
+ *  @method find
+ *  @param scan {string} 查询条件,格式为"key=value,key=value",多个条件用,分割
+ *  @param [type] {string} 可指定元素类型精确查找
+ *  @return {array} 返回数组，数组成员为满足至少一个条件的元素
+ */
 Scene.prototype.find = function (scan, type) {
     var children = this.children;
     var result = [];
     var condition = typeof scan == "string" ? scan.split(",") : [];
     if (condition.length > 0) {
-        $.each(condition, function (i, term) {
-            term = term.split("=");
-            //制定了类型，缩小查找范围，未指定则全部遍历
-            if (type) {
-                switch (type) {
-                    case "node":
-                        scanArr(children.node, term[0], term[1]);
-                        break;
-                    case "link":
-                        scanArr(children.link, term[0], term[1]);
-                        break;
-                    case "container":
-                        scanArr(children.container, term[0], term[1]);
-                        break;
-                    case "line":
-                        scanArr(children.line, term[0], term[1]);
-                        break;
+        $.each(condition, function (i, temp) {
+            temp = temp.split("=");
+            if (temp.length >= 2) {
+                //制定了类型，缩小查找范围，未指定则全部遍历
+                if (type) {
+                    switch (type) {
+                        case "node":
+                            scanArr(children.node, temp[0], temp[1]);
+                            break;
+                        case "link":
+                            scanArr(children.link, temp[0], temp[1]);
+                            break;
+                        case "container":
+                            scanArr(children.container, temp[0], temp[1]);
+                            break;
+                        case "line":
+                            scanArr(children.line, temp[0], temp[1]);
+                            break;
+                    }
+                } else {
+                    $.each(children, function (j, arr) {
+                        scanArr(arr, temp[0], temp[1]);
+                    });
                 }
-            } else {
-                $.each(children, function (j, arr) {
-                    scanArr(arr, term[0], term[1]);
-                });
             }
         });
     }
@@ -233,6 +343,11 @@ Scene.prototype.find = function (scan, type) {
         return object && object[key] && object[key] == value;
     }
 };
+/**
+ *  获取当前图层在正常视角下(未放大缩小)最左上角的坐标
+ *  @method getOrigin
+ *  @return {object} 包含 x,y属性
+ */
 Scene.prototype.getOrigin = function () {
     return {
         x: 0 - this.jtopo.translateX,
@@ -254,6 +369,18 @@ function removeJTopo(element) {
         QTopo.util.error("In Scene, jtopo remove error : ", e);
     }
 }
+/**
+ *  根据配置在当前图层上绘制节点
+ *  @method createNode
+ *  @param [config] {object}
+ *
+ *  无参则根据全局配置绘制QTopo.constant.node.IMAGE对应的节点,
+ *
+ *  config.type可指定绘制节点类型
+ *
+ *  参考QTopo.contant.node选择可绘制的种类
+ *  @return {Node|boolean} 创建成功返回节点对象，失败返回false
+ */
 Scene.prototype.createNode = function (config) {
     var newNode;
     var constant = QTopo.constant.node;
@@ -275,9 +402,15 @@ Scene.prototype.createNode = function (config) {
     }
 };
 /**
- * 根据配置在两个元素之间创建新的链接
- * @param config
- * @returns {*}
+ *  根据配置在两个元素之间绘制新的链接
+ *  @method createLink
+ *  @param [config] {object}
+ *  无参则根据全局配置绘制QTopo.constant.link.DIRECT对应的链接,
+ *
+ *  config.type可指定绘制链接类型
+ *
+ *  参考QTopo.contant.link选择可绘制的种类
+ *  @return {Link|boolean} 创建成功返回链接对象，失败返回false
  */
 Scene.prototype.createLink = function (config) {
     var newLink;
@@ -307,17 +440,20 @@ Scene.prototype.createLink = function (config) {
 };
 //--
 /**
- * 根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,提供线路展开
- * @param config
- * @param fn 可选参数，若无则自动创建链接,若有则执行fn的动作
+ *  根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,
+ *  可操作于有展开功能的链接上，可自适应选择添加新链接或计数+1
+ *  @method addLink
+ *  @param config {object} 创建新链接时所依赖的配置，可参考createLink函数
+ *  @param [fn] {function} 判断两元素间无链接时的可选操作，若无则调用createLink函数建立链接
+ *  @return {Link|boolean} 创建成功返回链接对象，失败返回false
  */
-Scene.prototype.addLink = function (config,fn) {
+Scene.prototype.addLink = function (config, fn) {
     if (config && config.start && config.end) {
         var links = this.linksBetween(config.start, config.end);//按number属性从大到小排列
         if (links.length == 0) {
-            if($.isFunction(fn)){
+            if ($.isFunction(fn)) {
                 fn();
-            }else{
+            } else {
                 return this.createLink(config);
             }
         } else {
@@ -325,19 +461,19 @@ Scene.prototype.addLink = function (config,fn) {
             var number = 1;
             if ($.isNumeric(config.number)) {
                 number = parseInt(config.number);
-                if(number<1){
-                    number=1;
+                if (number < 1) {
+                    number = 1;
                 }
             }
-            if(links.length==1){
+            if (links.length == 1) {
                 links[0].set({
                     number: links[0].attr.number + number
                 });
                 return links[0];
-            }else if(links.length>1){
-                var parent=links[0].parent;
-                if(parent){
-                    parent.attr.number+=number;
+            } else if (links.length > 1) {
+                var parent = links[0].parent;
+                if (parent) {
+                    parent.attr.number += number;
                     parent.addChild(number);
                 }
                 return parent;
@@ -345,6 +481,14 @@ Scene.prototype.addLink = function (config,fn) {
         }
     }
 };
+/**
+ *
+ *  获取两元素之间所有的链接
+ *  @method linksBetween
+ *  @param start {element} 元素，起始无关
+ *  @param end {element} 元素，起始无关
+ *  @return {array} 元素间的链接集合，按链接的计数右大到小排列
+ */
 Scene.prototype.linksBetween = function (start, end) {
     var result = [];
     var links = start.links;
@@ -368,6 +512,13 @@ Scene.prototype.linksBetween = function (start, end) {
     });
 };
 //--
+/**
+ *
+ *  在图层上绘制不可以移动的线元素
+ *  @method createLine
+ *  @param [config] {object} 配置参数,若无则按全局配置创建
+ *  @return {Line|boolean} 创建成功返回线元素，失败返回false
+ */
 Scene.prototype.createLine = function (config) {
     var newLine;
     var constant = QTopo.constant.line;
@@ -386,6 +537,13 @@ Scene.prototype.createLine = function (config) {
     }
 };
 //--
+/**
+ *
+ *  在图层上绘制分组元素
+ *  @method createContainer
+ *  @param [config] {object} 配置参数,若无则按全局配置创建
+ *  @return {container|boolean} 创建成功返回线元素，失败返回false
+ */
 Scene.prototype.createContainer = function (config) {
     var newContainer;
     var constant = QTopo.constant.container;
@@ -401,7 +559,7 @@ Scene.prototype.createContainer = function (config) {
             nodeConfig = config.toggle
         }
         //可选禁用分组切换
-        if (!(config.toggle&&typeof config.toggle.close == "boolean" && config.toggle.close)) {
+        if (!(config.toggle && typeof config.toggle.close == "boolean" && config.toggle.close)) {
             addToggle(this, newContainer, nodeConfig);
         }
         this.children.container.push(newContainer);
@@ -421,8 +579,14 @@ function addToggle(scene, container, configToggle) {
 }
 //--
 //-
+/**
+ *
+ *  删除图层内元素,元素删除其上的链接也会删除和更新
+ *  @method remove
+ *  @param element {element}
+ */
 Scene.prototype.remove = function (element) {
-    var self=this;
+    var self = this;
     if (element) {
         if ($.isArray(element)) {
             $.each(element, function (i, item) {
@@ -531,35 +695,63 @@ function removeContainer(container) {
     }
 }
 //-
-Scene.prototype.toJson=function(){
-    var json=$.extend({},this.attr);
-    json.extra=$.extend({},this.extra);
+/**
+ *
+ *  图层信息转化为json
+ *  @method toJson
+ *  @return {object}
+ */
+Scene.prototype.toJson = function () {
+    var json = $.extend({}, this.attr);
+    json.extra = $.extend({}, this.extra);
     return json;
 };
-
-Scene.prototype.isChildren=function(element){
-    var result=false;
-    if(element.jtopo){
-        $.each(this.children,function(name,arr){
-            if(arr.indexOf(element)>-1){
-                result=true;
+/**
+ *
+ *  判断元素是否在当前图层内
+ *  @method isChildren
+ *  @param element {element}
+ *  @return {boolean}
+ */
+Scene.prototype.isChildren = function (element) {
+    var result = false;
+    if (element.jtopo) {
+        $.each(this.children, function (name, arr) {
+            if (arr.indexOf(element) > -1) {
+                result = true;
                 return false;
             }
         });
     }
     return result;
 };
+/**
+ *
+ * 图层缩放,元素一屏显示
+ *  @method goCenter
+ */
 Scene.prototype.goCenter = function () {
     if (this.jtopo.childs && this.jtopo.childs.length > 0) {
         this.jtopo.stage.centerAndZoom();
     }
 };
+/**
+ *
+ * 图层缩放
+ *  @method resize
+ *  @param size {number} 根据比例放大或缩小 参数可 0-1缩小 1-n放大
+ */
 Scene.prototype.resize = function (size) {
     if ($.isNumeric(size)) {
         this.jtopo.scaleX = size;
         this.jtopo.scaleY = size;
     }
 };
+/**
+ *
+ * 启用/禁用鼠标缩放
+ *  @method toggleZoom
+ */
 Scene.prototype.toggleZoom = function () {
     if (!this.jtopo.stage.wheelZoom) {
         this.jtopo.stage.wheelZoom = 0.85; // 设置鼠标缩放比例
@@ -568,13 +760,17 @@ Scene.prototype.toggleZoom = function () {
     }
 };
 /**
- * 切换鹰眼显示
+ *
+ * 启用/禁用鹰眼
+ *  @method toggleEagleEye
  */
 Scene.prototype.toggleEagleEye = function () {
     this.jtopo.stage.eagleEye.visible = !this.jtopo.stage.eagleEye.visible;
 };
 /**
- * 获取当前画布的png格式图片在新的窗口打开
+ *
+ * 获取当前图层的png格式图片在新的窗口打开
+ *  @method getPicture
  */
 Scene.prototype.getPicture = function () {
     //stage.saveImageInfo();
@@ -590,8 +786,9 @@ Scene.prototype.getPicture = function () {
 };
 /**
  * 切换元素的层次
+ * @method toggleZIndex
  * @param element 待控制元素
- * @param flag 可选。true为降低false为提升，未有值则默认提升，若以提升到最高则降至最低
+ * @param [flag] true为降低false为提升，无参则默认提升，若已提升到最高则降至最低
  */
 Scene.prototype.toggleZIndex = function (element, flag) {
     if (element) {
@@ -600,12 +797,12 @@ Scene.prototype.toggleZIndex = function (element, flag) {
         if (jtopo && scene) {
             var map = scene.zIndexMap[jtopo.zIndex];
             var index = map.indexOf(jtopo);
-            var todo=true;
-            if(typeof flag=='boolean'){
-                todo=flag;
-            }else{
-                if(index==map.length-1){
-                    todo=false;
+            var todo = true;
+            if (typeof flag == 'boolean') {
+                todo = flag;
+            } else {
+                if (index == map.length - 1) {
+                    todo = false;
                 }
             }
             if (todo) {
@@ -626,8 +823,9 @@ var selectedCatch = {
     qtopo: []
 };
 /**
- *获取被选中的元素
- * @returns {Array|*}
+ * 获取被选中的元素
+ * @method getSelected
+ * @return {array} 返回图层中被选中的元素
  */
 Scene.prototype.getSelected = function () {
     var jtopo = this.jtopo.selectedElements;
@@ -648,8 +846,9 @@ Scene.prototype.getSelected = function () {
 };
 /**
  * 高亮目标隐藏其他
- * @param target 可选参数,数组或对象,高亮其相关对象,无参则全部高亮
- * @param flag 可选参数，若为true则只高亮传入的对象,不选则只对传入对象相关的对象高亮
+ * @method toggleLight
+ * @param [target] 数组或对象,高亮其相关对象,无参则全部高亮
+ * @param [flag] 若为true则只高亮传入的对象,不选则只对传入对象相关的对象高亮
  */
 Scene.prototype.toggleLight = function (target, flag) {
     try {
@@ -712,6 +911,11 @@ Scene.prototype.toggleLight = function (target, flag) {
         }
     }
 };
+/**
+ * 正常尺寸展示，并将视角移动到以参数节点为中心的位置
+ * @method moveToNode
+ * @param node 节点对象
+ */
 Scene.prototype.moveToNode = function (node) {
     // 查询到的节点居中显示
     if (this.children.node.indexOf(node) > -1) {
@@ -734,10 +938,20 @@ Scene.prototype.moveToNode = function (node) {
         }
     }
 };
-//---------自动布局
 /**
  * 自动布局
- * @param config 参数
+ * @method autoLayout
+ * @param config 自动布局配置参数
+ * @example
+ *      参数配置:
+ *          config:{
+ *              type:
+ *                  1.'round'   无需其他配置
+ *                  2.'default' 需配置行数，列间距，行间距
+ *              rows:行数
+ *              rowSpace:行间距
+ *              columnSpace:列间距
+ *          }
  */
 Scene.prototype.autoLayout = function (config) {
     if (config && config.type) {

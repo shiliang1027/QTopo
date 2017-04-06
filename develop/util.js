@@ -1,4 +1,10 @@
-var ruler;
+/**
+ * @module QTopo
+ */
+/**
+ * @class QTopo.util
+ * @static
+ */
 function cached(fn) {
     var cache = Object.create(null);
     return (function cachedFn(str) {
@@ -6,12 +12,20 @@ function cached(fn) {
         return hit || (cache[str] = fn(str))
     })
 }
+
 var util = {
+        /**
+         *  给函数添加缓存机制
+         *  @method cached
+         *  @param fn {function} 需处理的函数
+         *  @returns {function} 处理过的函数
+         */
         cached:cached,
         /**
          * 字符串转化json
-         * @param json
-         * @returns {*}
+         * @method toJson
+         * @param json {string|object}
+         * @returns json对象 {json}
          */
         toJson: function (json) {
             if (typeof json == 'string') {
@@ -21,12 +35,20 @@ var util = {
         },
         /**
          * 首字母大写
-         * @param string
-         * @returns {XML|*|void}
+         * @method upFirst
+         * @param string 字符串
+         * @returns {string} 首字母大写的字符串
          */
         upFirst: cached(function (str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }),
+        /**
+         * 对象深度合并，只继承原对象有的属性
+         * @method extend
+         * @param base 原对象
+         * @param config 合并对象
+         * @returns {object} 处理完的原对象
+         */
         extend: function (base, config) {
             try {
                 if (typeof base == "object" && typeof config == "object") {
@@ -58,8 +80,9 @@ var util = {
         },
         /**
          * 获取浏览器连接上的参数
+         * @method getParameter
          * @param param 参数名
-         * @returns {*}
+         * @returns {string}
          */
         getParameter: function (param) {
             var query = window.location.search;//获取URL地址中？后的所有字符
@@ -73,7 +96,12 @@ var util = {
                 return query.substring(iStart);//获取单个参数的参数值
             return query.substring(iStart, iEnd);//获取第二个参数的值
         },
-        //仅画布全屏展示
+        /**
+         * 仅画布全屏展示
+         * @method runPrefixMethod
+         * @param element {document} 例:canvas
+         * @param method {string} "RequestFullScreen"全屏的模式
+         */
         runPrefixMethod: function (element, method) {
             var usablePrefixMethod;
             ["webkit", "moz", "ms", "o", ""].forEach(function (prefix) {
@@ -93,7 +121,11 @@ var util = {
                 }
             );
         },
-        //浏览器全屏展示
+        /**
+         * 浏览器全屏展示
+         * @method launchFullScreen
+         * @param element {document} 例:document.documentElement
+         */
         launchFullScreen: function (element) {
             if (element.requestFullscreen) {
                 element.requestFullscreen();
@@ -105,30 +137,43 @@ var util = {
                 element.msRequestFullscreen();
             }
         },
-        //关闭浏览器全屏
-        exitFullScreen: function (doc) {
-            if (doc.exitFullscreen) {
-                doc.exitFullscreen();
-            } else if (doc.mozCancelFullScreen) {
-                doc.mozCancelFullScreen();
-            } else if (doc.webkitExitFullscreen) {
-                doc.webkitExitFullscreen();
+        /**
+         * 关闭浏览器全屏
+         * @method exitFullScreen
+         * @param document {document} 例:window.document
+         */
+        exitFullScreen: function (document) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
             }
         },
-        //16进制转换
-        transHex: function (color) {
+        /**
+         * 颜色字符串转换成rgb 16进制
+         * @method transHex
+         * @param color {string} 例:"#asdd00"
+         * @return {string} 16进制 例:"255,255,255"
+         */
+        transHex: cached(function (color) {
             if (color && color.length == 7 && color.charAt(0) == '#') {
-                var a = parseInt(color.substr(1, 2), 16);
-                var b = parseInt(color.substr(3, 2), 16);
-                var c = parseInt(color.substr(5, 2), 16);
-                return a + ',' + b + ',' + c;
+                return [
+                    parseInt(color.substr(1, 2), 16),
+                    parseInt(color.substr(3, 2), 16),
+                    parseInt(color.substr(5, 2), 16)
+                ].join(',');
             } else {
                 return color;
             }
-        },
-        /** 数组添加元素,如果数组中不存在则存入，否则不做操作
-         *  @param arr 操作的数组
-         *  @param value 操作的元素
+        }),
+        /**
+         * 数组添加元素,如果数组中不存在则存入，否则不做操作
+         * @method arrayPush
+         * @param arr 操作的数组
+         * @param value 操作的元素
+         * @return {boolean} 操作是否成功
          */
         arrayPush: function (arr, value) {
             if (arr.indexOf(value) < 0) {
@@ -137,9 +182,12 @@ var util = {
             }
             return false;
         },
-        /** 数组删除元素,如果数组中不存在则删除，否则不做操作
-         *  @param arr 操作的数组
-         *  @param value 操作的元素
+        /**
+         * 数组删除元素,如果数组中不存在则删除，否则不做操作
+         * @method arrayDelete
+         * @param arr 操作的数组
+         * @param value 操作的元素
+         * @return {boolean} 操作是否成功
          */
         arrayDelete: function (arr, value) {
             var i = arr.indexOf(value);
@@ -148,8 +196,10 @@ var util = {
                 return true;
             }
             return false;
-        }, /**
+        },
+        /**
          * 构造类继承关系
+         * @method inherits
          * @param {Function} clazz 源类
          * @param {Function} baseClazz 基类
          */
@@ -167,7 +217,12 @@ var util = {
             }
             clazz.constructor = clazz;
         },
-        //深度克隆对象
+        /**
+         * 深度克隆对象
+         * @method deepClone
+         * @param {object} obj 待克隆对象
+         * @return {object} 克隆后的新对象
+         */
         deepClone: function (obj) {
             var result, oClass = util.getClass(obj);
             //确定result的类型
@@ -182,7 +237,7 @@ var util = {
                 var copy = obj[key];
                 if (util.getClass(copy) == "Object") {
                     result[key] = arguments.callee(copy);//递归调用
-                } else if (util.getClass(copy) == "Array") {
+                } else if ($.isArray(copy)) {
                     result[key] = arguments.callee(copy);
                 } else {
                     result[key] = obj[key];
@@ -190,30 +245,42 @@ var util = {
             }
             return result;
         },
+        /**
+         * 获取对象的类
+         * @method getClass
+         * @param {object} o 待处理对象
+         * @return {string} 类名，如"Object","Array"
+         */
         getClass: function (o) {
             if (o === null) return "Null";
             if (o === undefined) return "Undefined";
             return Object.prototype.toString.call(o).slice(8, -1);
         },
+        /**
+         * 加入时间戳的信息日志
+         * @method info
+         */
         info: function () {
             if (QTopo.log.info) {
                 console.info.apply(console, $.merge([util.dateFormat(new Date(), "hh:mm:ss")], arguments));
             }
         },
+        /**
+         * 加入时间戳的错误日志
+         * @method error
+         */
         error: function () {
             if (QTopo.log.error) {
                 console.error.apply(console, $.merge([util.dateFormat(new Date(), "hh:mm:ss")], arguments));
             }
         },
-        filterValue: function (filter, data, element) {
-            if ($.isArray(filter)) {
-                $.each(data, function (k, v) {
-                    if (filter.indexOf(k) < 0) {
-                        element.val(k, v);
-                    }
-                });
-            }
-        },
+        /**
+         * 格式化Date对象
+         * @method dateFormat
+         * @param {object} date Date对象
+         * @param {string} ftString 格式化字符串,如"hh:mm:ss"
+         * @return {string}
+         */
         dateFormat: function (date, ftString) {
             if (date instanceof Date) {
                 var fomat = {
@@ -243,21 +310,51 @@ var util = {
             }
             return ftString;
         },
+        /**
+         * 构造唯一Id字符串
+         * @method makeId
+         * @return {string}
+         */
         makeId: function () {
             return S4() + "-" + S4() + "-" + S4();
         },
+        /**
+         * 判断对象是否是元素
+         * @method isElement
+         * @return {boolean}
+         */
         isElement: function (target) {
-            return target && target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
+            return target &&target.getType &&target.getType() != QTopo.constant.SCENE && target.getUseType() != QTopo.constant.CASUAL;
         },
+        /**
+         * 判断QTopo对象是否是图层
+         * @method isScene
+         * @return {boolean}
+         */
         isScene: function (target) {
             return !target || target.getType() == QTopo.constant.SCENE;
         },
+        /**
+         * 判断QTopo对象是否是节点
+         * @method isNode
+         * @return {boolean}
+         */
         isNode: function (target) {
             return target && target.getType() == QTopo.constant.NODE && target.getUseType() != QTopo.constant.CASUAL;
         },
+        /**
+         * 判断QTopo对象是否是分组
+         * @method isContainer
+         * @return {boolean}
+         */
         isContainer: function (target) {
             return target && target.getType() == QTopo.constant.CONTAINER && target.getUseType() != QTopo.constant.CASUAL;
         },
+        /**
+         * 判断QTopo对象是否是链接
+         * @method isLink
+         * @return {boolean}
+         */
         isLink: function (target) {
             return target && target.getType() == QTopo.constant.LINK && target.getUseType() != QTopo.constant.CASUAL;
         }
