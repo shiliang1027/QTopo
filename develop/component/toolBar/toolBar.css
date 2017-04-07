@@ -21,6 +21,7 @@
     display: none;
     position: absolute;
     left:45px;
+    top: 30px;
     margin-top: 5px;
 }
 .modal-btns{
