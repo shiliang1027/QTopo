@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\component\component.js - QTopo</title>
+    <title>develop\component\rightMenu\rightMenu.js - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -56,7 +56,7 @@
                    
                        <li>
                             
-                           <a href="../classes/QTopo.setComponent.html">QTopo.setComponent</a>
+                           <a href="../classes/rightMenu.html">rightMenu</a>
                            <ul>
                                 
                            </ul>
@@ -253,7 +253,7 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>develop\component\component.js <small>File</small></h1>
+    <h1>develop\component\rightMenu\rightMenu.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -262,80 +262,161 @@
  * @module component
  */
 /**
- * 组件模块详细设置
+ * QTopo.init的配置参数中可初始化设置
  *
- * 包含工具栏,右键菜单,窗口
+ * 选择过滤掉哪些预设右键菜单功能
  *
- * 组件js引用后，在QTopo.init初始化时同时初始化组件
- * @class QTopo.setComponent
+ * filterMenu: [&quot;创建节点&quot;, &quot;添加链路&quot;, &quot;删除&quot;, &quot;编辑&quot;, &quot;元素切换&quot;,&quot;分组操作&quot;]
+ *
+ * @class rightMenu
  * @static
  */
-//自写的jquery插件
-require(&quot;./jquery-tools&quot;);
-var rightMenu = require(&quot;./rightMenu/rightMenu.js&quot;);
-var toolBar = require(&quot;./toolBar/toolBar.js&quot;);
-var windows = require(&quot;./windows/windows.js&quot;);
-var util = require(&quot;./windows/util.js&quot;);
-//组装
-$(document).ready(function (e) {
-    if (QTopo) {
-        var preInit = QTopo.init;
-        QTopo.init = function (dom, config) {
-            var instance = preInit.call(QTopo, dom, config);
-            if (instance) {
-                init(instance, config);
-            }
-            return instance;
-        };
-        QTopo.windowUtil = util;
+require(&quot;./rightMenu.css&quot;);
+var Menu = require(&quot;./Menu.js&quot;);
+var getMenus = require(&quot;./repertory.js&quot;);//右键菜单函数仓库
+module.exports = {
+    init: initRigheMenu
+};
+/*
+ * 从函数仓库中取数据构造菜单栏
+ * @param instance topo实例对象
+ * @param windows 可能操作到的窗口
+ * @param filter 过滤右键菜单
+ */
+function initRigheMenu(instance, windows, filter) {
+    var dom = instance.document;
+    var scene = instance.scene;
+    var wrap = $(dom).find(&quot;.qtopo-rightMenu&quot;);
+    if (wrap.length == 0) {
+        wrap = $(&quot;&lt;div class=&#x27;qtopo-rightMenu&#x27;&gt;&lt;/div&gt;&quot;);
+        $(dom).append(wrap);
     }
-});
-function init(instance, config) {
-    var wins = windows.init(instance,config.filterWindow);
-    var rightMenuCallBack = rightMenu.init(instance, wins, config.filterMenu);
-    var toolBarCallBack = toolBar.init(instance, wins,config.hideDefaultSearch);
-
-    instance.setComponent = function (config) {
-        if (config) {
-            configToolBar(toolBarCallBack,config.toolBar);
-            configRightMenu(rightMenuCallBack,config.rightMenu);
-            configWindows(wins,config.windows);
+    var rightMenu = new Menu(wrap);
+    rightMenu.init(scene);
+    if (!windows) {
+        QTopo.util.error(&quot;windows is not init ,menu options about windows may not work&quot;);
+    }
+    var add = makeAdd(instance, scene, rightMenu, windows.windows, windows.tools);
+    if(!(filter&amp;&amp;filter==&#x27;all&#x27;)){
+        add(getMenus, filter);
+    }
+    return {
+        /**
+         * 添加自定义右键菜单
+         * 通过instance.setComponent函数添加
+         * @method add
+         * @param fn {function}
+         * @example
+         *          IPOSS.setComponent({
+         *              rightMenu:{
+         *                          参数列表分别为 图层元素,右键菜单对象,可调用的窗口对象,可调用的工具窗口
+         *                      add:function (scene, menu, windows, tools) {
+         *                                  return [
+         *                                           {
+                                                        name: &quot;刷新&quot;,//菜单名称
+                                                        order: 3,   //菜单顺序权值
+                                                        click: function () {
+                                                            //点击该菜单时的处理
+                                                            menu.target为当前触发菜单的元素
+                                                            menu.x
+                                                            menu.y 为当前触发菜单时鼠标在图层上的坐标
+                                                        },
+                                                        filter: function (target) {
+                                                            //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素
+                                                            //该属性可不设置，不设置则默认为一直显示
+                                                            return QTopo.util.isScene(target);
+                                                        }
+                                                     },
+                                                     {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则
+                                                        //当子菜单的成员菜单都不显示时，子菜单也不显示
+                                                        //可无限嵌套.
+                                                            name: &quot;添加&quot;,
+                                                            order: 10,
+                                                            item: [
+                                                                {
+                                                                    name: &quot;网段&quot;,
+                                                                    click: function () {
+                                                                        ...
+                                                                    },
+                                                                    filter:function(){
+                                                                        //若无返回值。。则是没通过过滤
+                                                                    }
+                                                                },
+                                                                {
+                                                                    name: &quot;设备&quot;,
+                                                                    click: function () {
+                                                                        ...
+                                                                    }
+                                                                }
+                                                            ],
+                                                            filter: function (target) {
+                                                                return true;
+                                                            }
+                                                    },
+         *                                      ]
+         *                              }
+         *              }
+         *          });
+         */
+        addMenu: add,
+        /**
+         * 菜单栏顺序变更
+         * 通过instance.setComponent函数添加
+         * @method order
+         * @param fn {function}
+         * @example
+         *          IPOSS.setComponent({
+                            rightMenu: {
+                                order: function (a, b) {
+                                        return a - b;//参考数组排序,穿进来的是add函数中添加的order值
+                                }
+                            }
+                     })
+         */
+        reOrder: makeOrder(rightMenu)
+    };
+}
+function makeAdd(instance, scene, rightMenu, windows, tools) {
+    return function (fn, filter) {
+        if ($.isFunction(fn)) {
+            var menus = fn(scene, rightMenu, windows, tools);
+            if ($.isArray(filter)) {
+                menus = menus.filter(function (v) {
+                    return filter.indexOf(v.name) &lt; 0;
+                });
+            }
+            makeRightMenu(rightMenu, menus);
         }
         return instance;
-    };
-    instance.open = function (type, config) {
-        if(wins.tools[type]){
-            return wins.tools[type].open(config);
-        }
     }
 }
-function configToolBar(toolBar,config){
-    if(config){
-        if (config.search) {
-            toolBar.addSearch(config.search);
-        }
-        if(config.save){
-            toolBar.save(config.save);
-        }
+function makeRightMenu(father, menus) {
+    if (father &amp;&amp; $.isArray(menus)) {
+        menus.map(function (menu) {
+            if ($.isArray(menu.item)) {
+                if (father &amp;&amp; menu) {
+                    makeRightMenu(father.addSubMenu(menu), menu.item);
+                }
+            } else {
+                if (father &amp;&amp; menu) {
+                    father.addItem(menu);
+                }
+            }
+        });
     }
 }
-function configRightMenu(rightMenu,config){
-    if(config){
-        if (config.add) {
-            rightMenu.addMenu(config.add);
-        }
-        if(config.order){
-            rightMenu.reOrder(config.order);
-        }
-    }
+function filterMenu(arr, menu) {
+    return !(arr &amp;&amp; arr.indexOf(menu.name) &gt; -1);
 }
-function configWindows(windows,config){
-    if(config){
-        if(config.tips){
-            windows.tools.tips.open(config.tips);
-        }
-        if(config.images){
-            windows.tools.imageSelect.setImage(config.images);
+function makeOrder(rightMenu) {
+    return function (sort) {
+        if ($.isFunction(sort)) {
+            rightMenu.item.sort(function (a, b) {
+                return sort(a.order, b.order);
+            });
+            rightMenu.item.forEach(function (item) {
+                rightMenu.body.append(item.body);
+            });
         }
     }
 }

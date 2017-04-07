@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>QTopo.setComponent - QTopo</title>
+    <title>rightMenu - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -56,7 +56,7 @@
                    
                        <li>
                             
-                           <a href="../classes/QTopo.setComponent.html">QTopo.setComponent</a>
+                           <a href="../classes/rightMenu.html">rightMenu</a>
                            <ul>
                                 
                            </ul>
@@ -253,12 +253,12 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>QTopo.setComponent <small>Class</small></h1>
+    <h1>rightMenu <small>Class</small></h1>
 </div>
  <div class="well well-small sign-left3">
-      <div class="stdoc-code"><p>组件模块详细设置</p>
-<p>包含工具栏,右键菜单,窗口</p>
-<p>组件js引用后，在QTopo.init初始化时同时初始化组件</p>
+      <div class="stdoc-code"><p>QTopo.init的配置参数中可初始化设置</p>
+<p>选择过滤掉哪些预设右键菜单功能</p>
+<p>filterMenu: ["创建节点", "添加链路", "删除", "编辑", "元素切换","分组操作"]</p>
 </div>
  </div>
 
@@ -267,6 +267,24 @@
     
         <div class="index-section methods col-sm-4">
             <h3>Methods</h3>
+            
+            <ul class="index-list methods">
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_add" data-tablink="add">add</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_order" data-tablink="order">order</a>
+
+                        
+                        
+                    </li>
+                
+            </ul>
             
         </div>
     
@@ -286,6 +304,8 @@
     <ul id="itemTab" class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#class">Detail</a></li>
         
+            <li><a data-toggle="tab" href="#method">Methods</a></li>
+        
         
         
     </ul>
@@ -299,7 +319,7 @@
 
             
                 <div class="foundat">
-                    Defined in: <a href="../files/develop_component_component.js.html#l4"><code>develop\component\component.js:4</code></a>
+                    Defined in: <a href="../files/develop_component_rightMenu_rightMenu.js.html#l4"><code>develop\component\rightMenu\rightMenu.js:4</code></a>
                 </div>
             
 
@@ -316,6 +336,283 @@
             
         </div>
 
+        
+            <div id="method" class="tab-pane">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_add" class="method item">
+    <h3 class="name">add</h3>
+    <code>
+    add
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        fn
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_rightMenu.js.html#l44"><code>develop\component\rightMenu\rightMenu.js:44</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>添加自定义右键菜单
+通过instance.setComponent函数添加</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">fn</code>
+                       <td> <span class="type">Function</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                         
+                    </div>
+
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code>     IPOSS.setComponent({
+         rightMenu:{
+                     参数列表分别为 图层元素,右键菜单对象,可调用的窗口对象,可调用的工具窗口
+                 add:function (scene, menu, windows, tools) {
+                             return [
+                                      {
+                                                   name: "刷新",//菜单名称
+                                                   order: 3,   //菜单顺序权值
+                                                   click: function () {
+                                                       //点击该菜单时的处理
+                                                       menu.target为当前触发菜单的元素
+                                                       menu.x
+                                                       menu.y 为当前触发菜单时鼠标在图层上的坐标
+                                                   },
+                                                   filter: function (target) {
+                                                       //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素
+                                                       //该属性可不设置，不设置则默认为一直显示
+                                                       return QTopo.util.isScene(target);
+                                                   }
+                                                },
+                                                {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则
+                                                   //当子菜单的成员菜单都不显示时，子菜单也不显示
+                                                   //可无限嵌套.
+                                                       name: "添加",
+                                                       order: 10,
+                                                       item: [
+                                                           {
+                                                               name: "网段",
+                                                               click: function () {
+                                                                   ...
+                                                               },
+                                                               filter:function(){
+                                                                   //若无返回值。。则是没通过过滤
+                                                               }
+                                                           },
+                                                           {
+                                                               name: "设备",
+                                                               click: function () {
+                                                                   ...
+                                                               }
+                                                           }
+                                                       ],
+                                                       filter: function (target) {
+                                                           return true;
+                                                       }
+                                               },
+                                 ]
+                         }
+         }
+     });</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_order" class="method item">
+    <h3 class="name">order</h3>
+    <code>
+    order
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        fn
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_rightMenu.js.html#l102"><code>develop\component\rightMenu\rightMenu.js:102</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>菜单栏顺序变更
+通过instance.setComponent函数添加</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">fn</code>
+                       <td> <span class="type">Function</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                         
+                    </div>
+
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code>     IPOSS.setComponent({
+                       rightMenu: {
+                           order: function (a, b) {
+                                   return a - b;//参考数组排序,穿进来的是add函数中添加的order值
+                           }
+                       }
+                })</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+            </div>
         
 
         

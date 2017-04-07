@@ -1,15 +1,3 @@
-/**
- * @module component
- */
-/**
- * 组件模块详细设置
- *
- * 包含工具栏,右键菜单,窗口
- *
- * 组件js引用后，在QTopo.init初始化时同时初始化组件
- * @class QTopo.setComponent
- * @static
- */
 //自写的jquery插件
 require("./jquery-tools");
 var rightMenu = require("./rightMenu/rightMenu.js");

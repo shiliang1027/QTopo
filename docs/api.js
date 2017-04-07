@@ -10,7 +10,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "ImageNode",
         "QTopo",
         "QTopo.instance",
-        "QTopo.setComponent",
         "QTopo.util",
         "Scene",
         "TextNode",
@@ -18,7 +17,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "[E] Element",
         "[LE] Line",
         "[L] Link",
-        "[N] Node"
+        "[N] Node",
+        "rightMenu"
     ],
     "modules": [
         "QTopo",
@@ -31,7 +31,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "component",
             "classes": [
                 {
-                    "name": "QTopo.setComponent"
+                    "name": "rightMenu"
                 }
             ]
         },

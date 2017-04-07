@@ -13,21 +13,21 @@
         ]
     },
     "files": {
-        "develop\\component\\windows\\util.js": {
-            "name": "develop\\component\\windows\\util.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "develop\\component\\component.js": {
-            "name": "develop\\component\\component.js",
+        "develop\\component\\rightMenu\\rightMenu.js": {
+            "name": "develop\\component\\rightMenu\\rightMenu.js",
             "modules": {
                 "component": 1
             },
             "classes": {
-                "QTopo.setComponent": 1
+                "rightMenu": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\util.js": {
+            "name": "develop\\component\\windows\\util.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -207,12 +207,12 @@
             "name": "component",
             "submodules": {},
             "classes": {
-                "QTopo.setComponent": 1
+                "rightMenu": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "develop\\component\\component.js",
+            "file": "develop\\component\\rightMenu\\rightMenu.js",
             "line": 4
         },
         "core": {
@@ -256,9 +256,9 @@
         }
     },
     "classes": {
-        "QTopo.setComponent": {
-            "name": "QTopo.setComponent",
-            "shortname": "QTopo.setComponent",
+        "rightMenu": {
+            "name": "rightMenu",
+            "shortname": "rightMenu",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -266,9 +266,9 @@
             "extension_for": [],
             "module": "component",
             "namespace": "",
-            "file": "develop\\component\\component.js",
+            "file": "develop\\component\\rightMenu\\rightMenu.js",
             "line": 4,
-            "description": "组件模块详细设置\n\n包含工具栏,右键菜单,窗口\n\n组件js引用后，在QTopo.init初始化时同时初始化组件",
+            "description": "QTopo.init的配置参数中可初始化设置\n\n选择过滤掉哪些预设右键菜单功能\n\nfilterMenu: [\"创建节点\", \"添加链路\", \"删除\", \"编辑\", \"元素切换\",\"分组操作\"]",
             "static": 1
         },
         "[C] Container": {
@@ -637,6 +637,44 @@
     },
     "classitems": [
         {
+            "file": "develop\\component\\rightMenu\\rightMenu.js",
+            "line": 44,
+            "description": "添加自定义右键菜单\n通过instance.setComponent函数添加",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n         IPOSS.setComponent({\n             rightMenu:{\n                         参数列表分别为 图层元素,右键菜单对象,可调用的窗口对象,可调用的工具窗口\n                     add:function (scene, menu, windows, tools) {\n                                 return [\n                                          {\n                                                       name: \"刷新\",//菜单名称\n                                                       order: 3,   //菜单顺序权值\n                                                       click: function () {\n                                                           //点击该菜单时的处理\n                                                           menu.target为当前触发菜单的元素\n                                                           menu.x\n                                                           menu.y 为当前触发菜单时鼠标在图层上的坐标\n                                                       },\n                                                       filter: function (target) {\n                                                           //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素\n                                                           //该属性可不设置，不设置则默认为一直显示\n                                                           return QTopo.util.isScene(target);\n                                                       }\n                                                    },\n                                                    {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则\n                                                       //当子菜单的成员菜单都不显示时，子菜单也不显示\n                                                       //可无限嵌套.\n                                                           name: \"添加\",\n                                                           order: 10,\n                                                           item: [\n                                                               {\n                                                                   name: \"网段\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   },\n                                                                   filter:function(){\n                                                                       //若无返回值。。则是没通过过滤\n                                                                   }\n                                                               },\n                                                               {\n                                                                   name: \"设备\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   }\n                                                               }\n                                                           ],\n                                                           filter: function (target) {\n                                                               return true;\n                                                           }\n                                                   },\n                                     ]\n                             }\n             }\n         });"
+            ],
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\rightMenu.js",
+            "line": 102,
+            "description": "菜单栏顺序变更\n通过instance.setComponent函数添加",
+            "itemtype": "method",
+            "name": "order",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n         IPOSS.setComponent({\n                           rightMenu: {\n                               order: function (a, b) {\n                                       return a - b;//参考数组排序,穿进来的是add函数中添加的order值\n                               }\n                           }\n                    })"
+            ],
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
             "file": "develop\\component\\windows\\util.js",
             "line": 3,
             "description": "根据窗口以及topo包裹外壳的高度确认窗口的默认位置",
@@ -650,13 +688,15 @@
                     "description": "设定高度的窗口"
                 }
             ],
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
             "line": 14,
             "win": "初始化的窗口",
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -672,7 +712,8 @@
                     "description": "处理json对象的函数"
                 }
             ],
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -688,7 +729,8 @@
                     "description": "对象中的键对应表单中的name，自动将值赋上"
                 }
             ],
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -696,7 +738,8 @@
             "description": "初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
             "dom": "topo存在的包裹dom,用以注册包裹空间内窗口移动",
             "win": "需要初始化的窗口",
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -708,7 +751,8 @@
                     "description": "需要添加滚动条的窗口"
                 }
             ],
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -728,7 +772,8 @@
                     "description": "固定计算的窗口高宽"
                 }
             ],
-            "class": "QTopo.setComponent"
+            "class": "[C] Container",
+            "module": "component"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
