@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\core\element\container\Group.js - QTopo</title>
+  
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-smart">
+ <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               <a class="navbar-brand mainlogo" href="https://github.com/hai3460377/QTopo">
+             
+            <img alt="QTopo" src="..\logo.png" title="QTopo">
+            
+                QTopo
+          </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                 <ul class="nav navbar-nav">
+                    
+                    <li><a href="./download/qtopo.zip">下载</a>
+                    </li>
+                    
+                </ul>
+               <div class="navbar-form navbar-right filterAPi" autocomplete="off">
+                <input type="text" id='txtSearchAPI' class="form-control search-query" placeholder="Search for API" />
+                 <ul id="filterList" class="filterItems dropdown-menu" role="menu"></ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="sidebar">
+    <h3>Modules/Classes</h3>
+        <div id="api-tabview-filter">
+            <input id='txtSearch' type="search" class="form-control" placeholder="Type to filter Modules/Classes">
+        </div>
+        <dl id="sidebar_list">
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/component.html">component</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/QTopo.setComponent.html">QTopo.setComponent</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/core.html">core</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/[C] Container.html">[C] Container</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/Group.html">Group</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/DirectLine.html">DirectLine</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[LE] Line.html">[LE] Line</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/CurveLink.html">CurveLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/DirectLink.html">DirectLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/FlexionalLink.html">FlexionalLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/FoldLink.html">FoldLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[L] Link.html">[L] Link</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/ImageNode.html">ImageNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[N] Node.html">[N] Node</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/TextNode.html">TextNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[E] Element.html">[E] Element</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/Scene.html">Scene</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/QTopo.html">QTopo</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/QTopo.html">QTopo</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/QTopo.instance.html">QTopo.instance</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/QTopo.util.html">QTopo.util</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+        </dl>
+</div>
+   
+    <div class="stdoc-content">
+        <!--     <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+ -->
+        <div class="apidocs">
+            <div id="docs-main">
+                <div class="content">
+                    <div class="page-header">
+    <h1>develop\core\element\container\Group.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums" id='src_code'>
+/**
+ * @module core
+ */
+/**
+ * 图形节点
+ * @class  Group
+ * @constructor
+ * @extends [C] Container
+ * @param [config] 配置参数，无参则按全局配置创建
+ */
+var Container=require(&quot;./Container.js&quot;);
+module.exports =  {
+    constructor:Group,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+var DEFAULT = {
+        name: &#x27;group&#x27;,
+        font:{
+            size:16,
+            type:&quot;微软雅黑&quot;,
+            color:&#x27;255,255,255&#x27;
+        },
+        color: &#x27;10,10,100&#x27;,
+        alpha: 0.5,
+        dragable: true,
+        zIndex: 10,
+        jsonId:&quot;&quot;,
+        border:{
+            width:0,
+            radius:30,//最大160 最小0
+            color:&quot;255,0,0&quot;
+        },
+        size:[500,500],
+        position:[0,0],
+        namePosition: &#x27;bottom&#x27;,//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
+        layout: {
+            type:&quot;default&quot;
+        },
+        children:{
+            showLink: false,
+            showName: true,
+            dragble: true
+        },
+        useType:QTopo.constant.container.GROUP
+};
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
+//----
+//----
+function Group(config) {
+    this.attr =  QTopo.util.extend(getDefault(), config || {});
+    Container.call(this, new JTopo.Container());
+    //函数
+    this.set = setJTopo;
+    //初始化
+    this.set(this.attr);
+}
+QTopo.util.inherits(Group,Container);
+//-
+var fixedLayout=function(group, children){
+    if(this.qtopo){
+        if(group.width==0||group.height==0){
+            group.width=this.qtopo.attr.size[0];
+            group.height=this.qtopo.attr.size[1];
+        }
+        if(group.width&gt;0&amp;&amp;group.height&gt;0){
+            var groupBound=group.getBound();
+            children.map(function(child){
+                resetLocation(groupBound,child);
+            });
+        }else{
+            //若未设置高宽则运行一次自动布局设置高宽
+            JTopo.Layout.AutoBoundLayout()(group, children);
+        }
+    }else{
+        QTopo.util.error(&quot;the container not wrap with qtopo&quot;,this);
+    }
+};
+function resetLocation(groupBound,child){
+    var childBound=child.getBound();
+    var location=child.getLocation();
+    if(childBound.bottom&gt;groupBound.bottom){
+        location.y=groupBound.bottom-childBound.height;
+    }
+    if(childBound.right&gt;groupBound.right){
+        location.x=groupBound.right-childBound.width;
+    }
+    if(childBound.left&lt;groupBound.left){
+        location.x=groupBound.left;
+    }
+    if(childBound.top&lt;groupBound.top){
+        location.y=groupBound.top;
+    }
+    child.setLocation(location.x,location.y);
+}
+/**
+ *  元素对属性的统一设置函数，推荐使用
+ *
+ *  参数可设置一项或多项,未设置部分参考全局配置
+ *  @method set
+ *  @param config
+ *  @example
+ *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
+ *          如:name 对应 setName(&quot;..&quot;)
+ *          参数格式如下
+ *          config={
+ *              xx:...,
+ *              xx:...
+ *          }
+ */
+function setJTopo(config) {
+    if (config) {
+        var self=this;
+        self._setAttr(config);
+    }
+}
+//-
+/**
+ *
+ *  @method setLayout
+ *  @param layout {object} 图片相对路径
+ *      @param layout.type {string} flow(固定宽高,组员流式布局), grid(固定宽高,组员行列布局), fixed(固定宽高,组员可拖动), default(宽高自适应)
+ *      @param [layout.row] {number} 当type=flow时,用以设置水平间隔 ,当type=grid时,用以设置行数
+ *      @param [layout.column] {number} 当type=flow时,用以设置垂直间隔 ,当type=grid时,用以设置列数
+ */
+Group.prototype.setLayout=function(layout){
+    var selected;
+    if (layout) {
+        switch (layout.type) {
+            case &#x27;flow&#x27;:
+                // 流式布局（水平,垂直间隔)
+                selected = JTopo.layout.FlowLayout(parseInt(layout.row), parseInt(layout.column));
+                this.attr.layout=layout;
+                break;
+            case &#x27;grid&#x27;:
+                // 网格布局(行,列)
+                var rows=parseInt(layout.row);
+                var columns=parseInt(layout.column);
+                if(rows*columns&lt;this.children.length){
+                    QTopo.util.error(&quot;GridLayout&#x27;s row*column need bigger than group&#x27;s children length&quot;);
+                    columns=rows= Math.ceil(Math.sqrt(todo.target.children.length));
+                }
+                selected = JTopo.layout.GridLayout(rows,columns);
+                this.attr.layout=layout;
+                break;
+            case &#x27;fixed&#x27;:
+                //固定长宽布局
+                selected = fixedLayout;
+                this.attr.layout=layout;
+                break;
+            default:
+                selected = JTopo.Layout.AutoBoundLayout();
+                this.attr.layout={};
+                this.attr.layout.type=&quot;default&quot;;
+        }
+    } else {
+        selected = JTopo.Layout.AutoBoundLayout();
+        this.attr.layout={};
+        this.attr.layout.type=&quot;default&quot;;
+    }
+    this.jtopo.layout = selected;
+};
+/**
+ *  获取全局设置
+ *  @method getDefault
+ *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
+ *  @example
+ *          默认全局参数:
+ *              var DEFAULT = {
+                                name: &#x27;group&#x27;,
+                                font:{
+                                    size:16,
+                                    type:&quot;微软雅黑&quot;,
+                                    color:&#x27;255,255,255&#x27;
+                                },
+                                color: &#x27;10,10,100&#x27;,
+                                alpha: 0.5,
+                                dragable: true,
+                                zIndex: 10,
+                                jsonId:&quot;&quot;,
+                                border:{
+                                    width:0,
+                                    radius:30,//最大160 最小0
+                                    color:&quot;255,0,0&quot;
+                                },
+                                size:[500,500],
+                                position:[0,0],
+                                namePosition: &#x27;bottom&#x27;,//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
+                                layout: {
+                                    type:&quot;default&quot;
+                                },
+                                children:{//待定设置，未完全实现
+                                    showLink: false,
+                                    showName: true,
+                                    dragble: true
+                                },
+                                useType:QTopo.constant.container.GROUP
+                        };
+ */
+Group.prototype.getDefault=getDefault;
+//-
+    </pre>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<a id="gotoTop" class='well well-small' href='#'>
+    Top
+</a>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/doc.js"></script>
+</body>
+</html>

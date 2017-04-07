@@ -2,7 +2,7 @@
  * @module core
  */
 /**
- * 线段基类,用以继承
+ * 线段基类,用以继承 [E]开头继承于Element,[LE]开头为自身api
  * @class [LE] Line
  * @constructor
  * @extends [E] Element

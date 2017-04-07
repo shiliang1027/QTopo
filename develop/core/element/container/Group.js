@@ -1,3 +1,13 @@
+/**
+ * @module core
+ */
+/**
+ * 图形节点
+ * @class  Group
+ * @constructor
+ * @extends [C] Container
+ * @param [config] 配置参数，无参则按全局配置创建
+ */
 var Container=require("./Container.js");
 module.exports =  {
     constructor:Group,
@@ -90,6 +100,21 @@ function resetLocation(groupBound,child){
     }
     child.setLocation(location.x,location.y);
 }
+/**
+ *  元素对属性的统一设置函数，推荐使用
+ *
+ *  参数可设置一项或多项,未设置部分参考全局配置
+ *  @method set
+ *  @param config
+ *  @example
+ *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
+ *          如:name 对应 setName("..")
+ *          参数格式如下
+ *          config={
+ *              xx:...,
+ *              xx:...
+ *          }
+ */
 function setJTopo(config) {
     if (config) {
         var self=this;
@@ -97,6 +122,14 @@ function setJTopo(config) {
     }
 }
 //-
+/**
+ *
+ *  @method setLayout
+ *  @param layout {object} 图片相对路径
+ *      @param layout.type {string} flow(固定宽高,组员流式布局), grid(固定宽高,组员行列布局), fixed(固定宽高,组员可拖动), default(宽高自适应)
+ *      @param [layout.row] {number} 当type=flow时,用以设置水平间隔 ,当type=grid时,用以设置行数
+ *      @param [layout.column] {number} 当type=flow时,用以设置垂直间隔 ,当type=grid时,用以设置列数
+ */
 Group.prototype.setLayout=function(layout){
     var selected;
     if (layout) {
@@ -134,5 +167,42 @@ Group.prototype.setLayout=function(layout){
     }
     this.jtopo.layout = selected;
 };
+/**
+ *  获取全局设置
+ *  @method getDefault
+ *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
+ *  @example
+ *          默认全局参数:
+ *              var DEFAULT = {
+                                name: 'group',
+                                font:{
+                                    size:16,
+                                    type:"微软雅黑",
+                                    color:'255,255,255'
+                                },
+                                color: '10,10,100',
+                                alpha: 0.5,
+                                dragable: true,
+                                zIndex: 10,
+                                jsonId:"",
+                                border:{
+                                    width:0,
+                                    radius:30,//最大160 最小0
+                                    color:"255,0,0"
+                                },
+                                size:[500,500],
+                                position:[0,0],
+                                namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,
+                                layout: {
+                                    type:"default"
+                                },
+                                children:{//待定设置，未完全实现
+                                    showLink: false,
+                                    showName: true,
+                                    dragble: true
+                                },
+                                useType:QTopo.constant.container.GROUP
+                        };
+ */
 Group.prototype.getDefault=getDefault;
 //-

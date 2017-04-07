@@ -18,10 +18,6 @@ function Element(jtopo) {
         jtopo.qtopo = this;
     }
     if (!this.attr.jsonId) {
-        /**
-         * 唯一标识
-         * @property [E] jsonId {string}
-         */
         this.attr.jsonId = QTopo.util.makeId();
     }
     /**

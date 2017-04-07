@@ -2,7 +2,7 @@
  * @module core
  */
 /**
- * 链路基类,用以继承
+ * 链路基类,用以继承 [E]开头继承于Element,[L]开头为自身api
  * @class [L] Link
  * @constructor
  * @extends [E] Element

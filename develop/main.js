@@ -36,10 +36,10 @@ var QTopo = {
 window.QTopo = QTopo;
 var Scene = require('./core/Scene.js');
 /**
- * 初始化Qtopo
+ * 初始化Qtopo实例,创建并将其保存在QTopo.instance数组内,实例api参考QTopo.instance
  *  @method init
  *  @param dom {document} 指定初始化所在的dom,若是数组则自动取第一个
- *  @param [config={}] {object} 配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)
+ *  @param [config] {object} 配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)
  *  @returns instance QTopo实例
  *  @example
  *      IPOSS = QTopo.init(
@@ -56,7 +56,7 @@ QTopo.init = function (dom, config) {
     dom = dom instanceof Array ? dom[0] : dom;
     var canvas = initCanvas(dom, $(dom).width(), $(dom).height());
     /**
-     * QTopo初始化的topo实例
+     * QTopo初始化的topo实例,QTopo.init后的返回对象，或是QTopo.instance数组内保存的对象
      * @class QTopo.instance
      * @static
      */
@@ -81,12 +81,122 @@ QTopo.init = function (dom, config) {
 module.exports = QTopo;
 //---------------------
 /**
- * 实例的内容绘制
+ * 图层绘制主函数
+ *
+ * 可以随时使用setOption生成一个或多个元素,或配置告警，也可以一次性全局配置
+ *
+ * 相关的全局样式请参考各元素自身的attr属性,或通过 元素的getDefault() / scene.getDefault(type)来获取对应元素的全局样式
+ *
+ * 前端绘图过程可以用工具栏和右键菜单绘制完成后,配合实例的toJson函数取得图层数据,(实例通过QTopo.init初始化且保存在QTopo.instance数组内)
+ *
+ * 直接将返回对象的option属性传入setOption可复制绘图
+ *
+ * 每个元素配置的data数组内成员的属性可以是样式也可以是额外属性,自适应取值配置，过滤的额外属性自动分配到元素的extra属性中保存,可以通过node.val('id')的形式获取
+ *
+ * 和样式重名的额外属性可以放在extra中，extra中的属性将默认全部覆盖到元素的extra属性内
+ *
  *  @method setOption
- *  @param option {object} 配置属性,详细参考Option配置
+ *  @param option {object} 配置属性,参数可以是instance.toJson().option对象
+ *      @param [option.node] {object} 创建node元素
+ *          @param [option.node.style] {object} 设定全局的节点样式，未配置样式的节点会采用默认样式
+ *          @param option.node.data {array} 细则看示例
+ *      @param [option.container] {object} 创建container元素
+ *          @param [option.container.style] {object} 设定全局的分组样式，未配置样式的分组会采用默认样式
+ *          @param option.container.findChildren {string} 通知分组通过什么属性去查找成员
+ *          @param option.container.data {array} 细则看示例
+ *      @param [option.link] {object} 创建link元素
+ *          @param [option.link.style] {object} 设定全局的分组样式，未配置样式的分组会采用默认样式
+ *          @param option.link.path {array} 通知链接通过什么属性去查找起始点和终点,数组参数可以为1个或2个，当设置为2个时，通过不同属性查找起始点和终点
+ *          @param option.link.data {array} 细则看示例
+ *      @param [option.line] {object} 创建line元素
+ *      @param [option.alarm] {object} 配置告警
+ *          @param option.alarm.node {string} 通知告警模块如何查找需要设定告警的节点,现只支持节点上的告警
+ *          @param [option.alarm.animate] {object} 配置告警动画,包含2个属性 ：
+ *                     1. time:{number}设定间隔时间,单位为毫秒 ,
+ *                     2. callBack:{function}回调函数,参数为当前处理告警的节点
+ *          @param option.alarm.data {array} 告警设置,包含3个属性 ：
+ *                     1. color {string}:告警展示的颜色,255,255,255/#ffffff ,
+ *                     2. node {string}:对应告警属性下的node为键,此处为值来查找对应的节点 ,
+ *                     3. [text] {string}:告警显示的文字信息，可不设或为空 ,
  *  @param [clear=false] {boolean} 是否清空图层，默认不清除
  *  @returns instance
  *  QTopo实例自身,用以链式操作
+ *  @example
+ *       topo.setOption({
+                node: {
+                    style:{//全局样式
+                        size:[60,60],
+                        image: "img/node.png"
+                    },
+                    data: [{
+                            position:[-200,-200],
+                            size:[100,100],
+                            id:1111,
+                            name:"测试1\nhhhh" //\n为名称换行
+                           },
+                           {
+                            position:[0,0],
+                            size:[100,100],
+                            id:2222,
+                            name:"测试2\nhhhh" //
+                           }]
+                },
+                container: {
+                    style:{
+                        color:"#165782",
+                        alpha:0.3,
+                        border:{
+                            radius:10
+                        },
+                        namePosition:"top"
+                    },
+                    findChildren: "id",//这个决定了 每个分组根据data中的数据查找该加入的子,该属性应在node中的value中有配置
+                    data: [{
+                            size:[400,400],
+                            position:[0,0],
+                            layout:{
+                                type:"fixed"//布局为固定
+                            },
+                            children: childrenData,
+                            toggle:{ //分组切换的节点样式
+                                image: "img/node.png"
+                            }
+                          //  findChildren: "id", 当然也可以针对某个分组单独设置其查找子元素的标记
+                            children:["1111","2222"]//findChildren定义为id ，此处就该是对应元素的id属性
+                        }]
+                },
+                link: {
+                    style:{
+                        color:"#00FFFF"
+                    },
+                    path: ["id"],   //决定了线的起始节点由什么属性决定,数组长度为1则起始节点按统一属性查找，可分别设不同，0为起始节点属性.1为终点,该属性应在node中的value中有配置
+                    data: [{
+                                start:1111,//path指明起始点和终点都是找id属性，那此处就是起点的id
+                                end:2222,   //终点的id
+                                width:10,   //样式配置，详细参考对应元素的属性
+                                radius:25,
+                                arrow:{
+                                    end:true,
+                                    start:true,
+                                    size:10
+                                },
+                                extra:{
+                                    type:1  //额外属性，因与下述链路类型的名称一致，移直extra内赋值到生成的链路extra上,可通过link.val('type')取到
+                                },
+                                type:QTopo.constant.link.FLEXIONAL //建立的链路类型
+                            }]
+                },
+                alarm: {
+                    node: "alarmId",    //指明节点上对应的查找属性,该属性应在node中的value中有配置,暂只支持节点告警
+                    data: [],
+                    animate:{   //可设置动画，每个点亮之间延迟多少毫秒，回调函数中能获取到点亮的节点信息
+                        time:1000,
+                        callBack:function(node){
+                            console.info(node)
+                        }
+                    }
+                }
+            })
  */
 function setOption(option, clear) {
     option = option || {};
@@ -128,13 +238,12 @@ function resize(dom, canvas) {
  * 当前图层数据转化为json结构
  *  @method toJson
  *  @returns {object}
- *
- *  init:图层参数
- *  option:可直接用以setOption函数构造出图层
- *
  *  @example
         var IPOSS=QTopo.instance[0];
-        var json=IPOSS.toJson();
+        var json=IPOSS.toJson();    //json={
+                                    //         init:图层参数,scene对象的参数配置,
+                                    //         option:图层内所有对象的属性提取，可直接用于setOption还原,其中jsonId用做每个元素的唯一标识
+                                    //      }
         IPOSS.setOption(json.option,true);
  */
 function toJson() {
@@ -185,41 +294,6 @@ function initCanvas(dom, width, height) {
     return canvas;
 }
 
-/**
- * option配置
- *
- * 可以随时使用setOption生成对应元素或告警操作，也可以一次生成全局
- * @class option配置
- * @static
- */
-/**
- * @property node {object}
- * @param style {object} 设定全局的节点样式，未配置样式的节点会采用默认样式
- * @param data {array}包含有节点对象配置的数组，每个组员是一个节点的配置参数，样式或者挂接的业务属性.
- *
- * 自动过滤非样式属性，将其放在生成元素的extra属性中，可以通过node.val('id')的形式获取。
- *
- * 和样式重名的业务属性可以放在extar对象中，自动挂到生成的节点的extra中.
- *
- * extar中的属性覆盖原有业务属性
- * @example
-        setOption(
-            node: {
-                style: {
-                    size: [60, 60],
-                    image: "img/node.png"
-                },
-                data: [{
-                    position:[0,0],
-                    size:[60,60],
-                    id:11,
-                    extra:{
-                        id:"11"
-                    }
-                },{..}]
-            }
-        )
- */
 function createNode(scene, config) {
     if (config) {
         setDefaults(scene, QTopo.constant.node, config.style);
@@ -247,50 +321,6 @@ function notCasual(arr) {
     }
 }
 
-/**
- * @property container {object}
- * @param style {object} 设定全局的分组样式，未配置样式的分组会采用默认样式
- * @param findChildren {string} 通知分组通过什么属性去查找成员
- * @param data {array}
- *
- * 包含有分组对象配置的数组，每个组员是一个分组的配置参数，样式或者挂接的业务属性,成员标记,分组切换的配置
- *
- * 自动过滤非样式属性，将其放在生成元素的extra属性中，可以通过container.val('id')的形式获取。
- *
- * 和样式重名的业务属性可以放在extar对象中，自动挂到生成的分组的extra中.
- *
- * extar中的属性覆盖原有业务属性
- *
- *  children是数组,通过该属性和分组的findChildren属性在全局中查找对应节点加入分组
- *
- *  也可以针对个别分组单独设置findChildren标记
- *
- *  toggle为可选项，用以设置分组缩放为的节点采用的样式或属性
- *
- * @example
-        setOption(
-            container: {
-                style: {
-                    color: "#165782",
-                    alpha: 0.3,
-                    border: {
-                        radius: 10
-                    },
-                    namePosition: "top"
-                },
-                findChildren: "id",
-                data: [{
-                    id:"111"
-                    name:"分组1",
-                    findChildren: "id",
-                    children:["1/e38c0cf2-751b-4bca-8fc1-a0ccb600b10b","1/1513d8dc-4fec-4bd9-8a54-95933468588a"]，
-                    toggle:{
-                        image: "img/node.png"
-                    ｝
-                },{..}]
-            }
-        )
- */
 function createContainer(scene, config) {
     if (config) {
         setDefaults(scene, QTopo.constant.container, config.style);
@@ -351,35 +381,6 @@ function filterTag(tag) {
     return tag;
 }
 
-/**
- * @property link {object}
- * @param style {object} 设定全局的分组样式，未配置样式的分组会采用默认样式
- * @param path {array} 通知链接通过什么属性去查找起始点和终点,数组参数可以为1个或2个，当设置为2个时，通过不同属性查找起始点和终点
- * @param data {array}
- *
- * 包含有链接对象配置的数组，每个组员是一个链接的配置参数，样式或者挂接的业务属性
- *
- * 自动过滤非样式属性，将其放在生成元素的extra属性中,如下例的pid，可以通过link.val('pid')的形式获取。
- *
- * 和样式重名的业务属性可以放在extar对象中，自动挂到生成的链接的extra中.
- *
- * extar中的属性覆盖原有业务属性
- *
- * @example
-        setOption(
-            link: {
-                style: {
-                    color: "#00FFFF"
-                },
-                path: ["id"],
-                data: [{
-                    end:"1/e38c0cf2-751b-4bca-8fc1-a0ccb600b10b",
-                    start:"1/1513d8dc-4fec-4bd9-8a54-95933468588a",
-                    pid:"1/vote"
-                },{..}]
-            }
-        )
- */
 function createLink(scene, config) {
     if (config) {
         var path = config.path;
@@ -463,43 +464,6 @@ function createLine(scene, config) {
     }
 }
 
-/**
- * @property alarm {object}
- * @param node {string} 通知告警模块如何查找需要设定告警的节点
- * @param animate {object} 可选，配置告警动画
- *
- * 参数包括:
- *
- * time 设定间隔时间
- *
- * callBack 回调函数 传入参数为当前处理告警的节点
- *
- * @param data {array} 包含对告警的设置
- *
- * color:告警展示的颜色
- *
- * node:以该值查找告警设置的节点
- *
- * text:告警显示的文字信息，可不设或为空
- *
- * @example
-        setOption(
-            alarm: {
-                node: "alarmId",
-                animate: {
-                    time: 1000,
-                    callBack: function (node) {
-                        //todo
-                    }
-                },
-                data: [{
-                    color:"255,204,0",
-                    node:"1.intelligentho.344136306",
-                    text:"告警数6"
-                },{..}],
-            }
-        )
- */
 function drawAlarm(scene, config) {
     if (config) {
         if ($.isArray(config.data) && config.node) {

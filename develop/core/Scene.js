@@ -236,7 +236,7 @@ Scene.prototype.setBackgroundImage = function (image) {
 /**
  *  设置图层背景颜色，与setBackgroundImage冲突
  *  @method setBackgroundColor
- *  @param color {string} 可以是"#xxxxxx"或"255,255,255"格式
+ *  @param color {string} #xxxxxx/255,255,255
  */
 Scene.prototype.setBackgroundColor = function (color) {
     this.jtopo.backgroundColor = QTopo.util.transHex(color);

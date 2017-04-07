@@ -1,3 +1,13 @@
+/**
+ * @module core
+ */
+/**
+ * 二次折线链路
+ * @class  FlexionalLink
+ * @constructor
+ * @extends [L] Link
+ * @param [config] 配置参数，无参则按全局配置创建
+ */
 var Link = require("./Link.js");
 module.exports = {
     constructor: FlexionalLink,
@@ -89,6 +99,21 @@ function FlexionalLink(config) {
     reset(this);
 }
 QTopo.util.inherits(FlexionalLink, Link);
+/**
+ *  元素对属性的统一设置函数，推荐使用
+ *
+ *  参数可设置一项或多项,未设置部分参考全局配置
+ *  @method set
+ *  @param config
+ *  @example
+ *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
+ *          如:name 对应 setName("..")
+ *          参数格式如下
+ *          config={
+ *              xx:...,
+ *              xx:...
+ *          }
+ */
 function setJTopo(config) {
     if (config) {
         var self = this;
@@ -99,13 +124,24 @@ function reset(link) {
     //双向箭头
     link.jtopo.paintPath = jtopoReset.paintPath;
 }
-// 折线拐角处线段的长度
+/**
+ *  两端折线线段的长度
+ *
+ *  @method setOffsetGap
+ *  @param offsetGap {number}
+ */
 FlexionalLink.prototype.setOffsetGap = function (offsetGap) {
     if ($.isNumeric(offsetGap)) {
         this.jtopo.offsetGap = parseInt(offsetGap);
     }
     this.attr.offsetGap = this.jtopo.offsetGap;
 };
+/**
+ *  设置折线方向
+ *
+ *  @method setDirection
+ *  @param direction {string} horizontal 水平 "vertical"垂直
+ */
 FlexionalLink.prototype.setDirection = function (direction) {
     //折线方向 horizontal 水平 "vertical"垂直
     if (direction) {
@@ -113,6 +149,12 @@ FlexionalLink.prototype.setDirection = function (direction) {
     }
     this.attr.direction = this.jtopo.direction;
 };
+/**
+ *  设置折角弧度
+ *
+ *  @method setRadius
+ *  @param radius {number}
+ */
 FlexionalLink.prototype.setRadius = function (radius) {
     if ($.isNumeric(radius)) {
         radius = parseInt(radius);
@@ -124,6 +166,37 @@ FlexionalLink.prototype.setRadius = function (radius) {
         this.attr.radius = radius;
     }
 };
+/**
+ * 获取元素全局样式
+ * @method getDefault
+ * @return {object}
+ * @example
+ *         var DEFAULT = {
+                            number: 1,
+                            alpha: 1,
+                            color: '22,124,255',
+                            arrow: {
+                                size: 10,
+                                offset: 0,
+                                start: false,
+                                end: false
+                            },
+                            jsonId:"",
+                            radius: 0,
+                            gap: 20,
+                            width: 2,
+                            dashed: null,
+                            zIndex: 100,
+                            font: {
+                                size: 16,
+                                type: "微软雅黑",
+                                color: '255,255,255'
+                            },
+                            useType: QTopo.constant.link.FLEXIONAL,
+                            direction: "horizontal",
+                            offsetGap: 60//两端折线线段的长度
+                        };
+ */
 FlexionalLink.prototype.getDefault = getDefault;
 /*一种绘制固定在节点右侧的二次线*/
 //resetFold.jtopo.getPath =poinst;

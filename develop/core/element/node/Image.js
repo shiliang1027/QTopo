@@ -15,49 +15,6 @@ module.exports = {
     getDefault:getDefault
 };
 //-
-/**
- * 默认的全局配置
- *
- * 和创建传入的参数合并后合成元素的attr属性(调用QTopo.util.extend函数进行合并)
- *
- * 仅全局中有的属性会覆盖合并,所有属性都有对应的setXXX函数
- *
- * 推荐使用元素自身的set({xx:..,xx:..})统一配置
- * @property attr {object}
- * @example
- *          默认全局参数:
- *              var DEFAULT= {
-                        image: "",
-                        size: [60, 60],
-                        name: "node",
-                        alpha: 1,
-                        position: [0, 0],
-                        font: {
-                            size: 16,
-                            type: '微软雅黑',
-                            color: "255,255,255"
-                        },
-                        jsonId:"",
-                        border:{
-                            width:0,
-                            radius:0,//最大160 最小0
-                            color:"255,0,0"
-                        },
-                        zIndex: 200,//层级(10-999)
-                        color: JTopo.util.randomColor(),
-                        namePosition: 'bottom',
-                        useType: QTopo.constant.node.IMAGE,
-                        alarm: {
-                            show: false,
-                            text: "",
-                            color: "255,255,255",
-                            font: {
-                                size: 16,
-                                type: "微软雅黑"
-                            }
-                        }
-                    };
- */
 var DEFAULT= {
     image: "",
     size: [60, 60],
@@ -183,6 +140,39 @@ ImageNode.prototype.setImage=function(image) {
  *  获取全局设置
  *  @method getDefault
  *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
+ *  @example
+ *          默认全局参数:
+ *              var DEFAULT= {
+                        image: "",
+                        size: [60, 60],
+                        name: "node",
+                        alpha: 1,
+                        position: [0, 0],
+                        font: {
+                            size: 16,
+                            type: '微软雅黑',
+                            color: "255,255,255"
+                        },
+                        jsonId:"",
+                        border:{
+                            width:0,
+                            radius:0,//最大160 最小0
+                            color:"255,0,0"
+                        },
+                        zIndex: 200,//层级(10-999)
+                        color: JTopo.util.randomColor(),
+                        namePosition: 'bottom',
+                        useType: QTopo.constant.node.IMAGE,
+                        alarm: {
+                            show: false,
+                            text: "",
+                            color: "255,255,255",
+                            font: {
+                                size: 16,
+                                type: "微软雅黑"
+                            }
+                        }
+                    };
  */
 ImageNode.prototype.getDefault=getDefault;
 //--

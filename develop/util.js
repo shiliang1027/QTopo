@@ -2,6 +2,7 @@
  * @module QTopo
  */
 /**
+ * QTopo通用工具包
  * @class QTopo.util
  * @static
  */

@@ -6,7 +6,14 @@
  */
 var events = {
     init: function (scene) {
-        //注册分组切换
+        /**
+         * 在图层上双击时
+         *
+         * 目标是分组,则分组可进行缩放和还原
+         *
+         * 目标为链路,QTopo.constant.link.DIRECT类型的链路计数大于1时可展开和合并
+         * @event dbclick
+         */
         scene.on("dbclick", dbClick(scene));
     }
 };
@@ -16,10 +23,6 @@ function dbClick(scene) {
         toggleLink(e, qtopo, scene);
     }
 }
-/**
- * 分组切换,点击分组可进行缩放和还原
- * @event toggleGroup
- */
 function toggleGroup(e, qtopo, scene) {
     //分组隐藏，显示缩放节点，节点位置根据分组长宽计算
     if (qtopo) {
@@ -33,10 +36,6 @@ function toggleGroup(e, qtopo, scene) {
         }
     }
 }
-/**
- * 链路切换,QTopo.constant.link.DIRECT类型的链路计数大于1时可展开和合并
- * @event toggleLink
- */
 function toggleLink(e, qtopo, scene) {
     if (qtopo && qtopo.getType() == QTopo.constant.LINK && qtopo.attr.expendAble) {
         if (!$.isFunction(qtopo.toggle)) {

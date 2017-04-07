@@ -2,7 +2,7 @@
  * @module core
  */
 /**
- * 节点基类,用以继承
+ * 节点基类,用以继承 [E]开头继承于Element,[N]开头为自身api
  * @class [N] Node
  * @constructor
  * @extends [E] Element

@@ -2,7 +2,7 @@
  * @module core
  */
 /**
- * 容器基类,用以继承
+ * 容器基类,用以继承 [E]开头继承于Element,[C]开头为自身api
  * @class [C] Container
  * @constructor
  * @extends [E] Element
@@ -146,7 +146,7 @@ Container.prototype.setColor = function (color) {
     this.attr.color = this.jtopo.fillColor;
 };
 /**
- * 设置容器内子元素一般行为
+ * 设置容器内子元素一般行为,未完全实现
  * @method [C] setChildren
  * @param children {object}
  *          children={
