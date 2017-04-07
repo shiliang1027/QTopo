@@ -1,11 +1,16 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "Element",
+        "ImageNode",
         "QTopo",
         "QTopo.instance",
         "QTopo.util",
         "Scene",
+        "[C] Container",
+        "[E] Element",
+        "[LE] Line",
+        "[L] Link",
+        "[N] Node",
         "option配置"
     ],
     "modules": [

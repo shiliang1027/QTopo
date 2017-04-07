@@ -1,6 +1,17 @@
+/**
+ * @module core
+ */
+/**
+ * 链路基类,用以继承
+ * @class [L] Link
+ * @constructor
+ * @extends [E] Element
+ * @param jtopo 元素核心的jtopo对象
+ */
 var Element = require("../Element.js");
 module.exports = Link;
 var jtopoReset = {
+    //原选取后效果较暗，在暗色主题下不明显，重写为亮色
     paintSelected: function (a) {
         a.shadowBlur = 10;
         a.shadowColor = "rgba(255,255,255,1)";
@@ -14,7 +25,12 @@ function Link(jtopo) {
         return;
     }
     Element.call(this, jtopo);
-    //记录两端的节点
+    /**
+     * 记录链路的首尾元素
+     * @property [L] path {object}
+     * @param start {object} 起始元素
+     * @param end {object} 终点元素
+     */
     this.path = {
         start: this.jtopo.nodeA.qtopo,
         end: this.jtopo.nodeZ.qtopo
@@ -38,15 +54,34 @@ function reset(jtopo) {
     //被選中后的样式
     jtopo.paintSelected = jtopoReset.paintSelected;
 }
+/**
+ *  获取元素基本类型,详细参考QTopo.constant中的类型定义
+ *  @method [L] getType
+ *  @return QTopo.constant.LINK
+ */
 Link.prototype.getType = function () {
     return QTopo.constant.LINK;
 };
+/**
+ *  设置颜色
+ *  @method [L] setColor
+ *  @param color {string} "255,255,255"/"#ffffff"
+ */
 Link.prototype.setColor = function (color) {
     if (color) {
         this.jtopo.strokeColor = QTopo.util.transHex(color.toLowerCase());
     }
     this.attr.color = this.jtopo.strokeColor;
 };
+/**
+ *  计数设置
+ *
+ *  计数大于1时在链路上显示(+number)
+ *
+ *  QTopo.constant.link.DIRECT类型的链路可以基于此数展开
+ *  @method [L] setNumber
+ *  @param number {number}
+ */
 Link.prototype.setNumber = function (number) {
     if ($.isNumeric(number)) {
         number = parseInt(number);
@@ -59,6 +94,11 @@ Link.prototype.setNumber = function (number) {
         this.attr.number = number;
     }
 };
+/**
+ *  设置链路宽度,小于0则默认为1
+ *  @method [L] setWidth
+ *  @param width {number}
+ */
 Link.prototype.setWidth = function (width) {
     if ($.isNumeric(width)) {
         var newWidth = parseInt(width);
@@ -66,6 +106,18 @@ Link.prototype.setWidth = function (width) {
     }
     this.attr.width = this.jtopo.lineWidth;
 };
+/**
+ *  设置链路两端的箭头属性
+ *  @method [L] setArrow
+ *  @param arrow {object}
+ *
+ *          arrow={
+ *              size:箭头大小{number},
+ *              offset:箭头在链路上的偏移量{number},
+ *              start:是否显示起点箭头{boolean},
+ *              end:是否显示终点箭头{boolean},
+ *          }
+ */
 Link.prototype.setArrow = function (arrow) {
     if (arrow) {
         if(typeof arrow.size!='undefined'){
@@ -88,12 +140,27 @@ Link.prototype.setArrow = function (arrow) {
     this.attr.arrow.size = this.jtopo.arrowsRadius;
     this.attr.arrow.offset = this.jtopo.arrowsOffset;
 };
+/**
+ *  设置相同起点和终点的链路之间的间隔大小
+ *
+ *  常用于设置QTopo.constant.link.DIRECT类型的链路展开时,其子链路之间的间距大小
+ *  @method [L] setGap
+ *  @param gap {number}
+ */
 Link.prototype.setGap = function (gap) {
     if (gap) {
         this.jtopo.bundleGap = $.isNumeric(gap) ? parseInt(gap) : 0; // 线条之间的间隔
     }
     this.attr.gap = this.jtopo.bundleGap;
 };
+/**
+ *  设置链路的虚线线段长度
+ *
+ *  设置不为number类型或小于0时，则认为不要虚线
+ *
+ *  @method [L] setDashed
+ *  @param dashedPattern {number|null}
+ */
 Link.prototype.setDashed = function (dashedPattern) {
     if ($.isNumeric(dashedPattern) && dashedPattern > 0) {
         this.jtopo.dashedPattern = parseInt(dashedPattern);
@@ -103,7 +170,9 @@ Link.prototype.setDashed = function (dashedPattern) {
     this.attr.dashed = this.jtopo.dashedPattern;
 };
 /**
- * 实例序列化
+ *  单个对象的属性提取
+ *  @method [L] toJson
+ *  @return {object}
  */
 Link.prototype.toJson=function(){
     var json=$.extend({},this.attr);

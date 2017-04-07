@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\core\element\node\Image.js - Documenting JavaScript with YUIDoc</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Documenting JavaScript with YUIDoc" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/[C] Container.html">[C] Container</a></li>
+                                <li><a href="../classes/[E] Element.html">[E] Element</a></li>
+                                <li><a href="../classes/[L] Link.html">[L] Link</a></li>
+                                <li><a href="../classes/[LE] Line.html">[LE] Line</a></li>
+                                <li><a href="../classes/[N] Node.html">[N] Node</a></li>
+                                <li><a href="../classes/ImageNode.html">ImageNode</a></li>
+                                <li><a href="../classes/option配置.html">option配置</a></li>
+                                <li><a href="../classes/QTopo.html">QTopo</a></li>
+                                <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
+                                <li><a href="../classes/QTopo.util.html">QTopo.util</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/QTopo.html">QTopo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: develop\core\element\node\Image.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module core
+ */
+/**
+ * 图形节点
+ * @class  ImageNode
+ * @constructor
+ * @extends [N] Node
+ * @param [config] 配置参数，无参则按全局配置创建
+ */
+var Node=require(&quot;./Node.js&quot;);
+module.exports = {
+    constructor:ImageNode,
+    setDefault:setDefault,
+    getDefault:getDefault
+};
+//-
+/**
+ * 默认的全局配置
+ *
+ * 和创建传入的参数合并后合成元素的attr属性
+ *
+ * 仅全局中有的属性会覆盖合并,所有属性都有对应的setXXX函数
+ *
+ * 推荐使用元素自身的set({xx:..,xx:..})统一配置
+ * @property attr {object}
+ * @example
+ *          默认全局参数:
+ *              var DEFAULT= {
+                        image: &quot;&quot;,
+                        size: [60, 60],
+                        name: &quot;node&quot;,
+                        alpha: 1,
+                        position: [0, 0],
+                        font: {
+                            size: 16,
+                            type: &#x27;微软雅黑&#x27;,
+                            color: &quot;255,255,255&quot;
+                        },
+                        jsonId:&quot;&quot;,
+                        border:{
+                            width:0,
+                            radius:0,//最大160 最小0
+                            color:&quot;255,0,0&quot;
+                        },
+                        zIndex: 200,//层级(10-999)
+                        color: JTopo.util.randomColor(),
+                        namePosition: &#x27;bottom&#x27;,
+                        useType: QTopo.constant.node.IMAGE,
+                        alarm: {
+                            show: false,
+                            text: &quot;&quot;,
+                            color: &quot;255,255,255&quot;,
+                            font: {
+                                size: 16,
+                                type: &quot;微软雅黑&quot;
+                            }
+                        }
+                    };
+ */
+var DEFAULT= {
+    image: &quot;&quot;,
+    size: [60, 60],
+    name: &quot;node&quot;,
+    alpha: 1,
+    position: [0, 0],
+    font: {
+        size: 16,
+        type: &#x27;微软雅黑&#x27;,
+        color: &quot;255,255,255&quot;
+    },
+    jsonId:&quot;&quot;,
+    border:{
+        width:0,
+        radius:0,//最大160 最小0
+        color:&quot;255,0,0&quot;
+    },
+    zIndex: 200,//层级(10-999)
+    color: JTopo.util.randomColor(),
+    namePosition: &#x27;bottom&#x27;,
+    useType: QTopo.constant.node.IMAGE,
+    alarm: {
+        show: false,
+        text: &quot;&quot;,
+        color: &quot;255,255,255&quot;,
+        font: {
+            size: 16,
+            type: &quot;微软雅黑&quot;
+        }
+    }
+};
+function setDefault(config){
+    QTopo.util.extend(DEFAULT, config || {});
+}
+function getDefault(){
+    return QTopo.util.deepClone(DEFAULT);
+}
+//-
+//------
+    var jtopoReset={
+        //重写绘制函数，优化告警效果
+        paint:function (cx) {
+            alarmFlash.call(this,cx);
+            if (this.image) {
+                var b = cx.globalAlpha;
+                cx.globalAlpha = this.alpha;
+                if(null != this.alarmImage&amp;&amp; null != this.alarm ){
+                    cx.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height)
+                }else{
+                    cx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
+                }
+                cx.globalAlpha = b;
+            } else{
+                cx.beginPath();
+                cx.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
+                if(null == this.borderRadius || 0 == this.borderRadius){
+                    cx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+                }else{
+                    cx.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
+                }
+                cx.fill();
+                cx.closePath();
+            }
+            this.paintText(cx);
+            this.paintBorder(cx);
+            this.paintCtrl(cx);
+            this.paintAlarmText(cx);
+        }
+    };
+//------
+function ImageNode(config) {
+    this.attr = QTopo.util.extend(getDefault(), config || {});
+    Node.call(this,new JTopo.Node());
+    //函数
+    this.set = setJTopo;
+    //初始化
+    this.set(this.attr);
+    reset(this);
+}
+QTopo.util.inherits(ImageNode,Node);
+//-
+/**
+ *  元素对属性的统一设置函数，推荐使用
+ *
+ *  参数可设置一项或多项,未设置部分参考全局配置
+ *  @method set
+ *  @param config
+ *  @example
+ *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
+ *          如:name 对应 setName(&quot;..&quot;)
+ *          参数格式如下
+ *          config={
+ *              xx:...,
+ *              xx:...
+ *          }
+ */
+function setJTopo(config) {
+    if (config) {
+        //处理一般属性的设置
+        this._setAttr(config);
+        //处理特殊属性的设置
+    }
+}
+function reset(node){
+    node.jtopo.paint=jtopoReset.paint;
+}
+
+//-
+/**
+ *  设置节点图片,与setColor冲突，设了图片则颜色无效
+ *
+ *  未设置图片则显示方形节点，内部填充颜色
+ *  @method setImage
+ *  @param image {string} 图片相对路径
+ */
+ImageNode.prototype.setImage=function(image) {
+    if(image){
+        this.jtopo.setImage(image);
+        this.attr.image=image;
+    }
+};
+/**
+ *  获取全局设置
+ *  @method setImage
+ *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
+ */
+ImageNode.prototype.getDefault=getDefault;
+//--
+/**
+ *  设置告警
+ *
+ *  参数可设置一项或多项,未设置部分参考全局配置
+ *  @method setAlarm
+ *  @param config {object}
+ *  @example
+ *          config={
+ *              show: 是否显示告警{boolean},
+                text: 节点右上角告警板中内容,可为空{string},
+                color: 告警颜色{string} &quot;255,255,255&quot;/&quot;#ffffff&quot;,
+                font: {
+                    size: 告警字体大小{number},
+                    type: 告警字体类型{string} 如&quot;微软雅黑&quot;
+                }
+ *          }
+ */
+ImageNode.prototype.setAlarm=function(config) {
+    alarmAttr(this,this.attr.alarm,config);
+};
+function alarmAttr(qtopo,alarm,config){
+    var jtopo=qtopo.jtopo;
+    if(typeof config.show==&quot;undefined&quot;){
+        config.show=alarm.show;
+    }
+    if ((typeof config.show==&quot;boolean&quot;&amp;&amp;config.show)||(config.show==&quot;true&quot;)) {
+        qtopo.setAlpha(1);
+        jtopo.shadow = true;
+        jtopo.alarm = config.text || &quot;&quot;;
+        alarm.text=jtopo.alarm;
+        if(config.color){
+            jtopo.alarmColor = QTopo.util.transHex(config.color.toLowerCase());
+            alarm.color=jtopo.alarmColor;
+        }
+        var size=alarm.font.size;
+        var font=alarm.font.type;
+        if(config.font&amp;&amp;$.isNumeric(config.font.size)){
+            size=config.font.size;
+        }
+        if(config.font&amp;&amp;config.font.type){
+            font=config.font.type;
+        }
+        jtopo.alarmFont =  size+ &#x27;px &#x27; + font;
+        alarm.font.size=size;
+        alarm.font.type=font;
+        toggleAlarmFlash(jtopo,true);
+    } else {
+        jtopo.alarm = null;
+        toggleAlarmFlash(jtopo,false);
+    }
+    alarm.show=config.show;
+}
+function toggleAlarmFlash(node,show){
+    //切换闪烁
+    if(show){
+        node.shadowOffsetX = 0;
+        node.shadowOffsetY = 0;
+        node.shadowColor = &quot;rgba(&quot; + node.alarmColor + &quot;,1)&quot;;
+        node.shadowBlur = 10;
+        node.allowAlarmFlash=true;
+    }else{
+        node.shadowOffsetX = 3;
+        node.shadowOffsetY = 6;
+        node.shadowColor=&quot;rgba(0,0,0,0.1)&quot;;
+        node.shadowBlur = 10;
+        node.allowAlarmFlash=false;
+    }
+}
+//插入源码部分,启用告警后每次绘画执行修改阴影
+function alarmFlash(cx) {
+    if(this.shadow&amp;&amp;this.allowAlarmFlash){
+        if(typeof this.shadowDirection==&quot;undefined&quot;){
+            this.shadowDirection=true;
+        }
+        move(this);
+        cx.shadowBlur = this.shadowBlur;
+        function move(node){
+            if (node.shadowDirection) {
+                node.shadowBlur += 5;
+                if(node.shadowBlur&gt;100){
+                    node.shadowDirection=false;
+                }
+            }
+            else {
+                node.shadowBlur -= 5;
+                if(node.shadowBlur&lt;=10){
+                    node.shadowDirection=true;
+                }
+            }
+        }
+    }
+}
+//--
+//-
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

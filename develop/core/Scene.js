@@ -45,8 +45,12 @@ function Scene(canvas, config) {
     self.jtopo = new JTopo.Scene();
     self.jtopo.qtopo = self;
     /**
-     * 图层中记录的元素
-     * @property children {array}
+     * 图层中有效记录的元素
+     * @property children {object}
+     * @param node {array}
+     * @param link {array}
+     * @param container {array}
+     * @param line {array}
      */
     self.children = {
         node: [],
@@ -90,16 +94,37 @@ function Scene(canvas, config) {
  *  @method get
  *  @param key {string} 要获取的属性名
  *  @returns {string|object} 属性值
+ *  @example
+ *          scene.get('mode')       //"normal"
  */
 Scene.prototype.get = function (key) {
     return this.attr[key];
 };
 /**
- *  获取图层的额外属性,或添加/修改额外属性
+ *  获取图层的属性,或添加/修改额外属性
  *  @method val
- *  @param key {string} 要操作的属性名
+ *  @param key {string}
+ *
+ *  要操作的属性名,与get不同，该函数会在整个对象中查找与key匹配的属性
+ *  无论是额外属性还是基本属性又或是Scene.xx属性，只要匹配成功即返回.
+ *  优先级为 额外属性>基本属性>Scene.xx属性
+ *
+ *  用该函数赋予额外属性时，可以直接传入一个对象作为参数
+ *  该函数会遍历该参数对象将其内容全部覆盖到额外属性上
+ *
  *  @param [value] {string|object} 属性值，若无则函数为获取属性，若有则为修改/添加属性
  *  @returns {string|object|void}
+ *  @example
+ *
+ *       赋值操作   1. scene.val('pid','12345')
+ *                  2. scene.val({
+ *                          pid:"12345",
+ *                          path:[]
+ *                      })
+ *       取属性操作 scene.val('pid')       //"12345"
+ *                  scene.val('position') //undefined
+ *                  scene.val('path')       //[]
+ *                  scene.val('mode')       //"normal"
  */
 Scene.prototype.val = function (key, value) {
     if (QTopo.util.getClass(key) == 'Object') {

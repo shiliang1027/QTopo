@@ -259,6 +259,7 @@ var util = {
         /**
          * 加入时间戳的信息日志
          * @method info
+         * @param {arguments} arguments
          */
         info: function () {
             if (QTopo.log.info) {
@@ -268,6 +269,7 @@ var util = {
         /**
          * 加入时间戳的错误日志
          * @method error
+         * @param {arguments} arguments
          */
         error: function () {
             if (QTopo.log.error) {
@@ -277,7 +279,7 @@ var util = {
         /**
          * 格式化Date对象
          * @method dateFormat
-         * @param {object} date Date对象
+         * @param {Date} date Date对象
          * @param {string} ftString 格式化字符串,如"hh:mm:ss"
          * @return {string}
          */
@@ -321,6 +323,7 @@ var util = {
         /**
          * 判断对象是否是元素
          * @method isElement
+         * @param element {element}
          * @return {boolean}
          */
         isElement: function (target) {
@@ -329,6 +332,7 @@ var util = {
         /**
          * 判断QTopo对象是否是图层
          * @method isScene
+         * @param element {element}
          * @return {boolean}
          */
         isScene: function (target) {
@@ -337,6 +341,7 @@ var util = {
         /**
          * 判断QTopo对象是否是节点
          * @method isNode
+         * @param element {element}
          * @return {boolean}
          */
         isNode: function (target) {
@@ -345,6 +350,7 @@ var util = {
         /**
          * 判断QTopo对象是否是分组
          * @method isContainer
+         * @param element {element}
          * @return {boolean}
          */
         isContainer: function (target) {
@@ -353,6 +359,7 @@ var util = {
         /**
          * 判断QTopo对象是否是链接
          * @method isLink
+         * @param element {element}
          * @return {boolean}
          */
         isLink: function (target) {

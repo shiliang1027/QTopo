@@ -5,6 +5,36 @@ module.exports = {
     getDefault: getDefault
 };
 //-
+/**
+ * 默认的全局配置
+ *
+ * 和创建传入的参数合并后合成元素的attr属性,(调用QTopo.util.extend函数进行合并)
+ *
+ * 仅全局中有的属性会覆盖合并,所有属性都有对应的setXXX函数
+ *
+ * 推荐使用元素自身的set({xx:..,xx:..})统一配置
+ * @property attr {object}
+ * @example
+ *          默认全局参数:
+ *              var DEFAULT = {
+                    position: [0, 0],
+                    font: {
+                        size: 16,
+                        type: '微软雅黑',
+                        color: "255,255,255"
+                    },
+                    jsonId:"",
+                    border: {
+                        width: 0,
+                        radius: 0,//最大160 最小0
+                        color: "255,0,0"
+                    },
+                    zIndex: 200,//层级(10-999)
+                    alpha: 1,
+                    text: 'no text here',
+                    useType: QTopo.constant.node.TEXT
+                };
+ */
 var DEFAULT = {
     position: [0, 0],
     font: {
@@ -73,6 +103,23 @@ function TextNode(config) {
 }
 QTopo.util.inherits(TextNode, Node);
 //-
+/**
+ *  元素对属性的统一设置函数，推荐使用
+ *
+ *  参数可设置一项或多项,未设置部分参考全局配置
+ *
+ *  若传入参数的text未配置，则显示为  "not set text"
+ *  @method set
+ *  @param config
+ *  @example
+ *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
+ *          如:name 对应 setName("..")
+ *          参数格式如下
+ *          config={
+ *              xx:...,
+ *              xx:...
+ *          }
+ */
 function setJTopo(config) {
     if (config) {
         //处理一般属性的设置
@@ -87,5 +134,10 @@ function reset(node) {
     node.jtopo.paint = jtopoReset.paint;
 }
 //-
+/**
+ *  获取全局设置
+ *  @method getDefault
+ *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
+ */
 TextNode.prototype.getDefault = getDefault;
 //-

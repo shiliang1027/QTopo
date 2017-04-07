@@ -3,8 +3,8 @@
  */
 module.exports = Element;
 /**
- * 基本元素对象
- * @class Element
+ * 元素基类,用以继承
+ * @class [E] Element
  * @constructor
  * @param jtopo 元素核心的jtopo对象
  */
@@ -12,7 +12,7 @@ function Element(jtopo) {
     if (jtopo) {
         /**
          * 核心Jtopo对象
-         * @property jtopo {Object}
+         * @property [E] jtopo {Object}
          */
         this.jtopo = jtopo;
         jtopo.qtopo = this;
@@ -20,23 +20,23 @@ function Element(jtopo) {
     if (!this.attr.jsonId) {
         /**
          * 唯一标识
-         * @property jsonId {string}
+         * @property [E] jsonId {string}
          */
         this.attr.jsonId = QTopo.util.makeId();
     }
     /**
-     * 额外属性
-     * @property extra {string}
+     * 预定义的额外属性,参考实际元素
+     * @property [E] extra {object}
      */
     this.extra = {};
     /**
-     * 基本属性
-     * @property attr {string}
+     * 预定义的基本属性，参考实际元素
+     * @property [E] attr {object}
      */
 }
 /**
  *  设置jsonId
- *  @method setJsonId
+ *  @method [E] setJsonId
  *  @param id {string} id
  */
 Element.prototype.setJsonId = function (id) {
@@ -44,7 +44,7 @@ Element.prototype.setJsonId = function (id) {
 };
 /**
  *  显示元素
- *  @method show
+ *  @method [E] show
  */
 Element.prototype.show = function () {
     switch (this.getType()) {
@@ -60,7 +60,7 @@ Element.prototype.show = function () {
 };
 /**
  *  隐藏元素
- *  @method hide
+ *  @method [E] hide
  */
 Element.prototype.hide = function () {
     switch (this.getType()) {
@@ -76,7 +76,7 @@ Element.prototype.hide = function () {
 };
 /**
  *  设置使用类型
- *  @method setUseType
+ *  @method [E] setUseType
  *  @param type {string}
  */
 Element.prototype.setUseType = function (type) {
@@ -84,7 +84,7 @@ Element.prototype.setUseType = function (type) {
 };
 /**
  *  获取使用类型
- *  @method getUseType
+ *  @method [E] getUseType
  *  @return {string}
  */
 Element.prototype.getUseType = function () {
@@ -92,7 +92,7 @@ Element.prototype.getUseType = function () {
 };
 /**
  *  设置元素文本
- *  @method setText
+ *  @method [E] setText
  *  @param text {string}
  */
 Element.prototype.setText = function (text) {
@@ -103,7 +103,7 @@ Element.prototype.setText = function (text) {
 };
 /**
  *  设置元素边框
- *  @method setBorder
+ *  @method [E] setBorder
  *  @param border {object}
  *  color:颜色,width:宽度,radius:角弧度
  */
@@ -124,7 +124,7 @@ Element.prototype.setBorder = function (border) {
 };
 /**
  *  绑定事件,可用off删除对应事件
- *  @method on
+ *  @method [E] on
  *  @param name {string} 事件名
  *
  *  click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup
@@ -142,7 +142,7 @@ Element.prototype.on = function (name, fn) {
 };
 /**
  *  解除事件，可删除on绑定的事件
- *  @method off
+ *  @method [E] off
  *  @param name {string} 事件名
  *
  *  click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup
@@ -154,7 +154,7 @@ Element.prototype.off = function (name, fn) {
 };
 /**
  *  设置元素层级
- *  @method setZIndex
+ *  @method [E] setZIndex
  *  @param zIndex {number} 值高的元素覆盖在值低的元素上,默认节点>链接>分组
  */
 Element.prototype.setZIndex = function (zIndex) {
@@ -165,7 +165,7 @@ Element.prototype.setZIndex = function (zIndex) {
 };
 /**
  *  设置元素字体
- *  @method setFont
+ *  @method [E] setFont
  *  @param font {object}
  *
  *  type:字体,
@@ -193,7 +193,7 @@ Element.prototype.setFont = function (font) {
 };
 /**
  *  设置元素透明度
- *  @method setAlpha
+ *  @method [E] setAlpha
  *  @param alpha {number} 值域0-1
  */
 Element.prototype.setAlpha = function (alpha) {
@@ -206,7 +206,7 @@ Element.prototype.setAlpha = function (alpha) {
 };
 /**
  *  设置元素位置
- *  @method setPosition
+ *  @method [E] setPosition
  *  @param position {array} [x,y]在图层上的坐标
  */
 Element.prototype.setPosition = function (position) {
@@ -218,7 +218,7 @@ Element.prototype.setPosition = function (position) {
 };
 /**
  *  设置元素大小
- *  @method setSize
+ *  @method [E] setSize
  *  @param size {array} [width,height]
  */
 Element.prototype.setSize = function (size) {
@@ -231,7 +231,7 @@ Element.prototype.setSize = function (size) {
 };
 /**
  *  元素是否锁定位置
- *  @method setDragable
+ *  @method [E] setDragable
  *  @param dragable {boolean}
  */
 Element.prototype.setDragable = function (dragable) {
@@ -242,7 +242,7 @@ Element.prototype.setDragable = function (dragable) {
 };
 /**
  *  设置元素文字位置
- *  @method setNamePosition
+ *  @method [E] setNamePosition
  *  @param [namePosition] {string} 无参则设为bottom
  *
  *  hide,bottom,top,left,right,center
@@ -296,8 +296,10 @@ Element.prototype.setNamePosition = function (namePosition) {
     }
 };
 /**
- *  私有函数,设置元素属性,只要有对应函数则传入参数设置
- *  @method _setAttr
+ *  私有函数,设置元素属性,只要有对应函数则传入参数设置,不应直接调用
+ *
+ *  实际元素中应重写set函数，在set函数中对特殊参数做处理后再调用该函数
+ *  @method [E] _setAttr
  *  @param config {object}
  */
 Element.prototype._setAttr = function (config) {
@@ -315,17 +317,42 @@ Element.prototype._setAttr = function (config) {
 };
 /**
  * 获取元素基本属性
- *  @method get
+ *  @method [E] get
  *  @param name {string} 属性名
+ *  @example
+ *          Element.setPosition([100,100])
+ *          Element.get('position')       //[100,100]
  */
 Element.prototype.get = function (name) {
     return this.attr[name];
 };
 /**
- * 获取/设置元素额外属性
- *  @method val
+ * 获取元素的属性,修改/赋值元素额外属性
+ *  @method [E] val
  *  @param key {string} 属性名
- *  @param [value] {string|object} 值,无参则为取值
+ *
+ *  要操作的属性名,与get不同，该函数会在整个对象中查找与key匹配的属性
+ *
+ *  无论是额外属性还是基本属性又或是Element.xx属性，只要匹配成功即返回.
+ *
+ *  优先级为 额外属性>基本属性>Element.xx属性
+ *
+ *  用该函数赋予额外属性时，可以直接传入一个对象作为参数
+ *
+ *  该函数会遍历该参数对象将其内容全部覆盖到额外属性上
+ *
+ *  @param [value] {string|object|void} 值,无参则为取值
+ *  @example
+ *
+ *       赋值操作   1. Element.val('pid','12345')
+ *                  2. Element.val({
+ *                          pid:"12345",
+ *                          path:[]
+ *                      })
+ *       取属性操作 Element.val('pid')       //"12345"
+ *                  Element.val('position') //[x,y]
+ *                  Element.val('path')       //[]
+ *                  Element.val('name')       //""
  */
 Element.prototype.val = function (key, value) {
     if (QTopo.util.getClass(key) == 'Object') {
@@ -393,7 +420,7 @@ function toggleContainer(flag) {
 }
 /**
  * 获取元素中心坐标
- *  @method getCenterPosition
+ *  @method [E] getCenterPosition
  *  @return {object} {x,y}
  */
 Element.prototype.getCenterPosition = function () {

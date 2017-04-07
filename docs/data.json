@@ -14,8 +14,21 @@
         },
         "develop\\core\\element\\container\\Container.js": {
             "name": "develop\\core\\element\\container\\Container.js",
+            "modules": {
+                "core": 1
+            },
+            "classes": {
+                "[C] Container": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\line\\Line.js": {
+            "name": "develop\\core\\element\\line\\Line.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "[LE] Line": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -29,24 +42,35 @@
         "develop\\core\\element\\link\\Link.js": {
             "name": "develop\\core\\element\\link\\Link.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "[L] Link": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\element\\node\\Image.js": {
+            "name": "develop\\core\\element\\node\\Image.js",
+            "modules": {},
+            "classes": {
+                "ImageNode": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "develop\\core\\element\\node\\Node.js": {
             "name": "develop\\core\\element\\node\\Node.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "[N] Node": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "develop\\core\\element\\Element.js": {
             "name": "develop\\core\\element\\Element.js",
-            "modules": {
-                "core": 1
-            },
+            "modules": {},
             "classes": {
-                "Element": 1
+                "[E] Element": 1
             },
             "fors": {},
             "namespaces": {}
@@ -110,7 +134,12 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "Element": 1,
+                "[C] Container": 1,
+                "[LE] Line": 1,
+                "[L] Link": 1,
+                "ImageNode": 1,
+                "[N] Node": 1,
+                "[E] Element": 1,
                 "Scene": 1
             },
             "fors": {},
@@ -137,9 +166,120 @@
         }
     },
     "classes": {
-        "Element": {
-            "name": "Element",
-            "shortname": "Element",
+        "[C] Container": {
+            "name": "[C] Container",
+            "shortname": "[C] Container",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 4,
+            "description": "容器基类,用以继承",
+            "is_constructor": 1,
+            "extends": "[E] Element",
+            "params": [
+                {
+                    "name": "jtopo",
+                    "description": "元素核心的jtopo对象"
+                }
+            ]
+        },
+        "[LE] Line": {
+            "name": "[LE] Line",
+            "shortname": "[LE] Line",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 4,
+            "description": "线段基类,用以继承",
+            "is_constructor": 1,
+            "extends": "[E] Element",
+            "params": [
+                {
+                    "name": "jtopo",
+                    "description": "元素核心的jtopo对象"
+                }
+            ]
+        },
+        "[L] Link": {
+            "name": "[L] Link",
+            "shortname": "[L] Link",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 4,
+            "description": "链路基类,用以继承",
+            "is_constructor": 1,
+            "extends": "[E] Element",
+            "params": [
+                {
+                    "name": "jtopo",
+                    "description": "元素核心的jtopo对象"
+                }
+            ]
+        },
+        "ImageNode": {
+            "name": "ImageNode",
+            "shortname": "ImageNode",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\node\\Image.js",
+            "line": 4,
+            "description": "图形节点",
+            "is_constructor": 1,
+            "extends": "[N] Node",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数，无参则按全局配置创建",
+                    "optional": true
+                }
+            ]
+        },
+        "[N] Node": {
+            "name": "[N] Node",
+            "shortname": "[N] Node",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\node\\Node.js",
+            "line": 4,
+            "description": "节点基类,用以继承",
+            "is_constructor": 1,
+            "extends": "[E] Element",
+            "params": [
+                {
+                    "name": "jtopo",
+                    "description": "元素核心的jtopo对象"
+                }
+            ]
+        },
+        "[E] Element": {
+            "name": "[E] Element",
+            "shortname": "[E] Element",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -149,7 +289,7 @@
             "namespace": "",
             "file": "develop\\core\\element\\Element.js",
             "line": 5,
-            "description": "基本元素对象",
+            "description": "元素基类,用以继承",
             "is_constructor": 1,
             "params": [
                 {
@@ -259,13 +399,13 @@
                     "description": "设定高度的窗口"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\component\\windows\\util.js",
             "line": 14,
             "win": "初始化的窗口",
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -281,7 +421,7 @@
                     "description": "处理json对象的函数"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -297,7 +437,7 @@
                     "description": "对象中的键对应表单中的name，自动将值赋上"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -305,7 +445,7 @@
             "description": "初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
             "dom": "topo存在的包裹dom,用以注册包裹空间内窗口移动",
             "win": "需要初始化的窗口",
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -317,7 +457,7 @@
                     "description": "需要添加滚动条的窗口"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\component\\windows\\util.js",
@@ -337,77 +477,356 @@
                     "description": "固定计算的窗口高宽"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 55,
-            "description": "将元素加入分组内",
-            "params": [
-                {
-                    "name": "element",
-                    "description": ""
-                }
-            ],
-            "class": "Element"
+            "line": 48,
+            "description": "记录容器内的元素",
+            "itemtype": "property",
+            "name": "[C] children",
+            "type": "Array",
+            "class": "[C] Container",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 86,
-            "description": "将子元素从分组中删除",
+            "line": 53,
+            "description": "记录容器上的链路",
+            "itemtype": "property",
+            "name": "[C] links",
+            "type": "Array",
+            "class": "[C] Container",
+            "module": "core",
+            "subprops": [
+                {
+                    "name": "in",
+                    "description": "以容器为终点的链路"
+                },
+                {
+                    "name": "out",
+                    "description": "以容器为起点的链路"
+                }
+            ]
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 69,
+            "description": "设置容器名称",
+            "itemtype": "method",
+            "name": "[C] setName",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "[C] Container",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 82,
+            "description": "将元素加入容器内",
+            "itemtype": "method",
+            "name": "[C] add",
             "params": [
                 {
                     "name": "element",
-                    "description": ""
+                    "description": "一般为节点类型对象或数组，容器加入容器容易产生Bug",
+                    "type": "Element|array"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 114,
+            "description": "将子元素从容器中删除",
+            "itemtype": "method",
+            "name": "[C] remove",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "class": "[C] Container",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 128,
+            "description": "获取容器基本类型",
+            "itemtype": "method",
+            "name": "[C] getType",
+            "return": {
+                "description": "QTopo.constant.CONTAINER"
+            },
+            "class": "[C] Container",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
             "line": 136,
-            "description": "分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作",
+            "description": "设置容器背景色",
+            "itemtype": "method",
+            "name": "[C] setColor",
             "params": [
                 {
-                    "name": "flag",
-                    "description": "为true则缩放为false则展开，无值则根据现状切换,"
+                    "name": "color",
+                    "description": "\"255,255,255\"/\"#ffffff\"",
+                    "type": "String"
                 }
             ],
-            "class": "Element"
+            "class": "[C] Container",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 158,
+            "line": 148,
+            "description": "设置容器内子元素一般行为",
+            "itemtype": "method",
+            "name": "[C] setChildren",
+            "params": [
+                {
+                    "name": "children",
+                    "description": "\n         children={\n                 dragble:是否可移动{boolean}\n         }",
+                    "type": "Object"
+                }
+            ],
+            "class": "[C] Container",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 168,
+            "description": "容器缩放切换,在scene创建时可选是否提供切换\n\n可在创建时增加参数 toggle:{close:true}来创建一个不可切换的容器\n\n若无切换对象，则该方法无动作",
+            "itemtype": "method",
+            "name": "[C] toggle",
+            "params": [
+                {
+                    "name": "flag",
+                    "description": "为true则强制缩放，为false则强制展开，无值则自适应切换,",
+                    "optional": true
+                }
+            ],
+            "class": "[C] Container",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\container\\Container.js",
+            "line": 195,
             "description": "判断元素是否已是子元素",
+            "itemtype": "method",
+            "name": "[C] isChild",
             "params": [
                 {
                     "name": "element",
                     "description": "判断的子元素"
                 }
             ],
-            "class": "Element"
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "[C] Container",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 173,
+            "line": 212,
             "description": "判断元素是否在分组覆盖的范围内,临时元素不考虑",
+            "itemtype": "method",
+            "name": "[C] isInside",
             "params": [
                 {
                     "name": "element",
-                    "description": ""
+                    "description": "判断的元素"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Boolean"
             },
-            "class": "Element"
+            "class": "[C] Container",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 186,
-            "description": "实例序列化",
-            "class": "Element"
+            "line": 226,
+            "description": "分组属性提取",
+            "itemtype": "method",
+            "name": "[C] toJson",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "[C] Container",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 19,
+            "description": "记录线段的首尾元素,首尾元素一般隐藏，且为jtopo对象，仅作为绘制的坐标点",
+            "itemtype": "property",
+            "name": "[LE] path",
+            "type": "Object",
+            "class": "[LE] Line",
+            "module": "core",
+            "subprops": [
+                {
+                    "name": "start",
+                    "description": "起始元素",
+                    "type": "Object"
+                },
+                {
+                    "name": "end",
+                    "description": "终点元素",
+                    "type": "Object"
+                }
+            ]
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 31,
+            "description": "设置线段位置,原理是设置线段首尾处隐藏jtopo节点的位置",
+            "itemtype": "method",
+            "name": "[LE] setPosition",
+            "params": [
+                {
+                    "name": "position",
+                    "description": "\n\n        position={\n            start:[x,y],\n            end:[x,y]\n        }",
+                    "type": "Object"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 55,
+            "description": "获取基本类型",
+            "itemtype": "method",
+            "name": "[LE] getType",
+            "return": {
+                "description": "QTopo.constant.Line",
+                "type": "String"
+            },
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 63,
+            "description": "设置线段颜色",
+            "itemtype": "method",
+            "name": "[LE] setColor",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "\"255,255,255\"/\"#ffffff\"",
+                    "type": "String"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 74,
+            "description": "设置线段计数",
+            "itemtype": "method",
+            "name": "[LE] setNum",
+            "params": [
+                {
+                    "name": "num",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 89,
+            "description": "设置线段宽度",
+            "itemtype": "method",
+            "name": "[LE] setWidth",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 100,
+            "description": "设置线段两端箭头参数",
+            "itemtype": "method",
+            "name": "[LE] setArrow",
+            "params": [
+                {
+                    "name": "arrow",
+                    "description": "\n\n        arrow={\n            size:箭头大小{number},\n            offset:箭头在链路上的偏移量{number},\n            start:是否显示起点箭头{boolean},\n            end:是否显示终点箭头{boolean},\n        }",
+                    "type": "Object"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 123,
+            "description": "设置相同起点和终点的链路之间的间隔大小",
+            "itemtype": "method",
+            "name": "[LE] setGap",
+            "params": [
+                {
+                    "name": "gap",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 135,
+            "description": "设置链路的虚线线段长度\n\n设置不为number类型或小于0时，则认为不要虚线",
+            "itemtype": "method",
+            "name": "[LE] setDashed",
+            "params": [
+                {
+                    "name": "dashedPattern",
+                    "description": "",
+                    "type": "Number|null"
+                }
+            ],
+            "class": "[LE] Line",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\line\\Line.js",
+            "line": 151,
+            "description": "单个对象的属性提取",
+            "itemtype": "method",
+            "name": "[LE] toJson",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "[LE] Line",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\link\\Direct.js",
@@ -419,28 +838,318 @@
                     "description": "为true则展开为false则缩放，无值则根据现状切换,"
                 }
             ],
-            "class": "Element"
+            "class": "[L] Link",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 105,
-            "description": "实例序列化",
-            "class": "Element"
+            "line": 28,
+            "description": "记录链路的首尾元素",
+            "itemtype": "property",
+            "name": "[L] path",
+            "type": "Object",
+            "class": "[L] Link",
+            "module": "core",
+            "subprops": [
+                {
+                    "name": "start",
+                    "description": "起始元素",
+                    "type": "Object"
+                },
+                {
+                    "name": "end",
+                    "description": "终点元素",
+                    "type": "Object"
+                }
+            ]
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 57,
+            "description": "获取元素基本类型,详细参考QTopo.constant中的类型定义",
+            "itemtype": "method",
+            "name": "[L] getType",
+            "return": {
+                "description": "QTopo.constant.LINK"
+            },
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 65,
+            "description": "设置颜色",
+            "itemtype": "method",
+            "name": "[L] setColor",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "\"255,255,255\"/\"#ffffff\"",
+                    "type": "String"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 76,
+            "description": "计数设置\n\n计数大于1时在链路上显示(+number)\n\nQTopo.constant.link.DIRECT类型的链路可以基于此数展开",
+            "itemtype": "method",
+            "name": "[L] setNumber",
+            "params": [
+                {
+                    "name": "number",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 97,
+            "description": "设置链路宽度,小于0则默认为1",
+            "itemtype": "method",
+            "name": "[L] setWidth",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 109,
+            "description": "设置链路两端的箭头属性",
+            "itemtype": "method",
+            "name": "[L] setArrow",
+            "params": [
+                {
+                    "name": "arrow",
+                    "description": "\n\n        arrow={\n            size:箭头大小{number},\n            offset:箭头在链路上的偏移量{number},\n            start:是否显示起点箭头{boolean},\n            end:是否显示终点箭头{boolean},\n        }",
+                    "type": "Object"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 143,
+            "description": "设置相同起点和终点的链路之间的间隔大小\n\n常用于设置QTopo.constant.link.DIRECT类型的链路展开时,其子链路之间的间距大小",
+            "itemtype": "method",
+            "name": "[L] setGap",
+            "params": [
+                {
+                    "name": "gap",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 156,
+            "description": "设置链路的虚线线段长度\n\n设置不为number类型或小于0时，则认为不要虚线",
+            "itemtype": "method",
+            "name": "[L] setDashed",
+            "params": [
+                {
+                    "name": "dashedPattern",
+                    "description": "",
+                    "type": "Number|null"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 172,
+            "description": "单个对象的属性提取",
+            "itemtype": "method",
+            "name": "[L] toJson",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Image.js",
+            "line": 18,
+            "description": "默认的全局配置\n\n和创建传入的参数合并后合成元素的attr属性\n\n仅全局中有的属性会覆盖合并,所有属性都有对应的setXXX函数\n\n推荐使用元素自身的set({xx:..,xx:..})统一配置",
+            "itemtype": "property",
+            "name": "attr",
+            "type": "Object",
+            "example": [
+                "\n         默认全局参数:\n             var DEFAULT= {\n                       image: \"\",\n                       size: [60, 60],\n                       name: \"node\",\n                       alpha: 1,\n                       position: [0, 0],\n                       font: {\n                           size: 16,\n                           type: '微软雅黑',\n                           color: \"255,255,255\"\n                       },\n                       jsonId:\"\",\n                       border:{\n                           width:0,\n                           radius:0,//最大160 最小0\n                           color:\"255,0,0\"\n                       },\n                       zIndex: 200,//层级(10-999)\n                       color: JTopo.util.randomColor(),\n                       namePosition: 'bottom',\n                       useType: QTopo.constant.node.IMAGE,\n                       alarm: {\n                           show: false,\n                           text: \"\",\n                           color: \"255,255,255\",\n                           font: {\n                               size: 16,\n                               type: \"微软雅黑\"\n                           }\n                       }\n                   };"
+            ],
+            "class": "ImageNode",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Image.js",
+            "line": 142,
+            "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "config",
+                    "description": ""
+                }
+            ],
+            "example": [
+                "\n        实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置\n        如:name 对应 setName(\"..\")\n        参数格式如下\n        config={\n            xx:...,\n            xx:...\n        }"
+            ],
+            "class": "ImageNode",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Image.js",
+            "line": 169,
+            "description": "设置节点图片,与setColor冲突，设了图片则颜色无效\n\n未设置图片则显示方形节点，内部填充颜色",
+            "itemtype": "method",
+            "name": "setImage",
+            "params": [
+                {
+                    "name": "image",
+                    "description": "图片相对路径",
+                    "type": "String"
+                }
+            ],
+            "class": "ImageNode",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Image.js",
+            "line": 182,
+            "description": "获取全局设置",
+            "itemtype": "method",
+            "name": "setImage",
+            "return": {
+                "description": "config  全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault",
+                "type": "Object"
+            },
+            "class": "ImageNode",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Image.js",
+            "line": 189,
+            "description": "设置告警\n\n参数可设置一项或多项,未设置部分参考全局配置",
+            "itemtype": "method",
+            "name": "setAlarm",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "example": [
+                "\n        config={\n            show: 是否显示告警{boolean},\n              text: 节点右上角告警板中内容,可为空{string},\n              color: 告警颜色{string} \"255,255,255\"/\"#ffffff\",\n              font: {\n                  size: 告警字体大小{number},\n                  type: 告警字体类型{string} 如\"微软雅黑\"\n              }\n        }"
+            ],
+            "class": "ImageNode",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Node.js",
+            "line": 20,
+            "description": "链接记录",
+            "itemtype": "property",
+            "name": "[N] links",
+            "type": "Object",
+            "class": "[N] Node",
+            "module": "core",
+            "subprops": [
+                {
+                    "name": "in",
+                    "description": "自身为终点的链路对象",
+                    "type": "Array"
+                },
+                {
+                    "name": "out",
+                    "description": "自身为起点的链路对象",
+                    "type": "Array"
+                }
+            ]
         },
         {
             "file": "develop\\core\\element\\node\\Node.js",
             "line": 64,
-            "description": "实例序列化",
-            "class": "Element"
+            "description": "获取元素基本类型,详细参考QTopo.constant中的类型定义",
+            "itemtype": "method",
+            "name": "[N] getType",
+            "return": {
+                "description": "QTopo.constant.NODE"
+            },
+            "class": "[N] Node",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Node.js",
+            "line": 72,
+            "description": "设置颜色,一般为设置自身填充颜色，节点有图片设置或为文字节点时无效",
+            "itemtype": "method",
+            "name": "[N] setColor",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "\"255,255,255\"/\"#ffffff\"",
+                    "type": "String"
+                }
+            ],
+            "class": "[N] Node",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Node.js",
+            "line": 84,
+            "description": "设置显示名称,删减首尾空格符\n\n文字节点应调用setText处理文字显示\n\n其他节点应用该函数处理名称，否则会出现隐藏后再显示而名称不符的Bug",
+            "itemtype": "method",
+            "name": "[N] setName",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "[N] Node",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Node.js",
+            "line": 101,
+            "description": "单个对象的属性提取",
+            "itemtype": "method",
+            "name": "[N] toJson",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "[N] Node",
+            "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
             "line": 13,
             "description": "核心Jtopo对象",
             "itemtype": "property",
-            "name": "jtopo",
+            "name": "[E] jtopo",
             "type": "Object",
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -448,29 +1157,29 @@
             "line": 21,
             "description": "唯一标识",
             "itemtype": "property",
-            "name": "jsonId",
+            "name": "[E] jsonId",
             "type": "String",
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
             "line": 27,
-            "description": "额外属性",
+            "description": "预定义的额外属性,参考实际元素",
             "itemtype": "property",
-            "name": "extra",
-            "type": "String",
-            "class": "Element",
+            "name": "[E] extra",
+            "type": "Object",
+            "class": "[E] Element",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
             "line": 32,
-            "description": "基本属性",
+            "description": "预定义的基本属性，参考实际元素",
             "itemtype": "property",
-            "name": "attr",
-            "type": "String",
-            "class": "Element",
+            "name": "[E] attr",
+            "type": "Object",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -478,7 +1187,7 @@
             "line": 37,
             "description": "设置jsonId",
             "itemtype": "method",
-            "name": "setJsonId",
+            "name": "[E] setJsonId",
             "params": [
                 {
                     "name": "id",
@@ -486,7 +1195,7 @@
                     "type": "String"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -494,8 +1203,8 @@
             "line": 45,
             "description": "显示元素",
             "itemtype": "method",
-            "name": "show",
-            "class": "Element",
+            "name": "[E] show",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -503,8 +1212,8 @@
             "line": 61,
             "description": "隐藏元素",
             "itemtype": "method",
-            "name": "hide",
-            "class": "Element",
+            "name": "[E] hide",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -512,7 +1221,7 @@
             "line": 77,
             "description": "设置使用类型",
             "itemtype": "method",
-            "name": "setUseType",
+            "name": "[E] setUseType",
             "params": [
                 {
                     "name": "type",
@@ -520,7 +1229,7 @@
                     "type": "String"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -528,12 +1237,12 @@
             "line": 85,
             "description": "获取使用类型",
             "itemtype": "method",
-            "name": "getUseType",
+            "name": "[E] getUseType",
             "return": {
                 "description": "",
                 "type": "String"
             },
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -541,7 +1250,7 @@
             "line": 93,
             "description": "设置元素文本",
             "itemtype": "method",
-            "name": "setText",
+            "name": "[E] setText",
             "params": [
                 {
                     "name": "text",
@@ -549,7 +1258,7 @@
                     "type": "String"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -557,7 +1266,7 @@
             "line": 104,
             "description": "设置元素边框",
             "itemtype": "method",
-            "name": "setBorder",
+            "name": "[E] setBorder",
             "params": [
                 {
                     "name": "border",
@@ -565,7 +1274,7 @@
                     "type": "Object"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -573,7 +1282,7 @@
             "line": 125,
             "description": "绑定事件,可用off删除对应事件",
             "itemtype": "method",
-            "name": "on",
+            "name": "[E] on",
             "params": [
                 {
                     "name": "name",
@@ -586,7 +1295,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -594,7 +1303,7 @@
             "line": 143,
             "description": "解除事件，可删除on绑定的事件",
             "itemtype": "method",
-            "name": "off",
+            "name": "[E] off",
             "params": [
                 {
                     "name": "name",
@@ -608,7 +1317,7 @@
                     "optional": true
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -616,7 +1325,7 @@
             "line": 155,
             "description": "设置元素层级",
             "itemtype": "method",
-            "name": "setZIndex",
+            "name": "[E] setZIndex",
             "params": [
                 {
                     "name": "zIndex",
@@ -624,7 +1333,7 @@
                     "type": "Number"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -632,7 +1341,7 @@
             "line": 166,
             "description": "设置元素字体",
             "itemtype": "method",
-            "name": "setFont",
+            "name": "[E] setFont",
             "params": [
                 {
                     "name": "font",
@@ -640,7 +1349,7 @@
                     "type": "Object"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -648,7 +1357,7 @@
             "line": 194,
             "description": "设置元素透明度",
             "itemtype": "method",
-            "name": "setAlpha",
+            "name": "[E] setAlpha",
             "params": [
                 {
                     "name": "alpha",
@@ -656,7 +1365,7 @@
                     "type": "Number"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -664,7 +1373,7 @@
             "line": 207,
             "description": "设置元素位置",
             "itemtype": "method",
-            "name": "setPosition",
+            "name": "[E] setPosition",
             "params": [
                 {
                     "name": "position",
@@ -672,7 +1381,7 @@
                     "type": "Array"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -680,7 +1389,7 @@
             "line": 219,
             "description": "设置元素大小",
             "itemtype": "method",
-            "name": "setSize",
+            "name": "[E] setSize",
             "params": [
                 {
                     "name": "size",
@@ -688,7 +1397,7 @@
                     "type": "Array"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -696,7 +1405,7 @@
             "line": 232,
             "description": "元素是否锁定位置",
             "itemtype": "method",
-            "name": "setDragable",
+            "name": "[E] setDragable",
             "params": [
                 {
                     "name": "dragable",
@@ -704,7 +1413,7 @@
                     "type": "Boolean"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -712,7 +1421,7 @@
             "line": 243,
             "description": "设置元素文字位置",
             "itemtype": "method",
-            "name": "setNamePosition",
+            "name": "[E] setNamePosition",
             "params": [
                 {
                     "name": "namePosition",
@@ -721,15 +1430,15 @@
                     "optional": true
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
             "line": 298,
-            "description": "私有函数,设置元素属性,只要有对应函数则传入参数设置",
+            "description": "私有函数,设置元素属性,只要有对应函数则传入参数设置,不应直接调用\n\n实际元素中应重写set函数，在set函数中对特殊参数做处理后再调用该函数",
             "itemtype": "method",
-            "name": "_setAttr",
+            "name": "[E] _setAttr",
             "params": [
                 {
                     "name": "config",
@@ -737,15 +1446,15 @@
                     "type": "Object"
                 }
             ],
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 316,
+            "line": 318,
             "description": "获取元素基本属性",
             "itemtype": "method",
-            "name": "get",
+            "name": "[E] get",
             "params": [
                 {
                     "name": "name",
@@ -753,42 +1462,48 @@
                     "type": "String"
                 }
             ],
-            "class": "Element",
+            "example": [
+                "\n         Element.setPosition([100,100])\n         Element.get('position')       //[100,100]"
+            ],
+            "class": "[E] Element",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 324,
-            "description": "获取/设置元素额外属性",
+            "line": 329,
+            "description": "获取元素的属性,修改/赋值元素额外属性",
             "itemtype": "method",
-            "name": "val",
+            "name": "[E] val",
             "params": [
                 {
                     "name": "key",
-                    "description": "属性名",
+                    "description": "属性名\n\n 要操作的属性名,与get不同，该函数会在整个对象中查找与key匹配的属性\n\n 无论是额外属性还是基本属性又或是Element.xx属性，只要匹配成功即返回.\n\n 优先级为 额外属性>基本属性>Element.xx属性\n\n 用该函数赋予额外属性时，可以直接传入一个对象作为参数\n\n 该函数会遍历该参数对象将其内容全部覆盖到额外属性上",
                     "type": "String"
                 },
                 {
                     "name": "value",
                     "description": "值,无参则为取值",
-                    "type": "String|object",
+                    "type": "String|object|void",
                     "optional": true
                 }
             ],
-            "class": "Element",
+            "example": [
+                "\n\n      赋值操作   1. Element.val('pid','12345')\n                 2. Element.val({\n                         pid:\"12345\",\n                         path:[]\n                     })\n      取属性操作 Element.val('pid')       //\"12345\"\n                 Element.val('position') //[x,y]\n                 Element.val('path')       //[]\n                 Element.val('name')       //\"\""
+            ],
+            "class": "[E] Element",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 394,
+            "line": 421,
             "description": "获取元素中心坐标",
             "itemtype": "method",
-            "name": "getCenterPosition",
+            "name": "[E] getCenterPosition",
             "return": {
                 "description": "{x,y}",
                 "type": "Object"
             },
-            "class": "Element",
+            "class": "[E] Element",
             "module": "core"
         },
         {
@@ -811,16 +1526,38 @@
         {
             "file": "develop\\core\\Scene.js",
             "line": 47,
-            "description": "图层中记录的元素",
+            "description": "图层中有效记录的元素",
             "itemtype": "property",
             "name": "children",
-            "type": "Array",
+            "type": "Object",
             "class": "Scene",
-            "module": "core"
+            "module": "core",
+            "subprops": [
+                {
+                    "name": "node",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "link",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "container",
+                    "description": "",
+                    "type": "Array"
+                },
+                {
+                    "name": "line",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 57,
+            "line": 61,
             "description": "图层的主要属性",
             "itemtype": "property",
             "name": "attr",
@@ -850,7 +1587,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 65,
+            "line": 69,
             "description": "图层的额外属性",
             "itemtype": "property",
             "name": "extra",
@@ -860,7 +1597,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 88,
+            "line": 92,
             "description": "获取图层的基本属性",
             "itemtype": "method",
             "name": "get",
@@ -875,19 +1612,22 @@
                 "description": "属性值",
                 "type": "String|object"
             },
+            "example": [
+                "\n        scene.get('mode')       //\"normal\""
+            ],
             "class": "Scene",
             "module": "core"
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 97,
-            "description": "获取图层的额外属性,或添加/修改额外属性",
+            "line": 103,
+            "description": "获取图层的属性,或添加/修改额外属性",
             "itemtype": "method",
             "name": "val",
             "params": [
                 {
                     "name": "key",
-                    "description": "要操作的属性名",
+                    "description": "\n\n要操作的属性名,与get不同，该函数会在整个对象中查找与key匹配的属性\n无论是额外属性还是基本属性又或是Scene.xx属性，只要匹配成功即返回.\n优先级为 额外属性>基本属性>Scene.xx属性\n\n用该函数赋予额外属性时，可以直接传入一个对象作为参数\n该函数会遍历该参数对象将其内容全部覆盖到额外属性上",
                     "type": "String"
                 },
                 {
@@ -901,12 +1641,15 @@
                 "description": "",
                 "type": "String|object|void"
             },
+            "example": [
+                "\n\n     赋值操作   1. scene.val('pid','12345')\n                2. scene.val({\n                        pid:\"12345\",\n                        path:[]\n                    })\n     取属性操作 scene.val('pid')       //\"12345\"\n                scene.val('position') //undefined\n                scene.val('path')       //[]\n                scene.val('mode')       //\"normal\""
+            ],
             "class": "Scene",
             "module": "core"
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 126,
+            "line": 151,
             "description": "配置图层中元素全局样式",
             "itemtype": "method",
             "name": "setDefault",
@@ -927,7 +1670,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 163,
+            "line": 188,
             "description": "获取图层中元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -947,7 +1690,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 202,
+            "line": 227,
             "description": "设置图层背景图片，与setBackgroundColor冲突",
             "itemtype": "method",
             "name": "setBackgroundImage",
@@ -963,7 +1706,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 211,
+            "line": 236,
             "description": "设置图层背景颜色，与setBackgroundImage冲突",
             "itemtype": "method",
             "name": "setBackgroundColor",
@@ -979,7 +1722,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 221,
+            "line": 246,
             "description": "设置图层模式",
             "itemtype": "method",
             "name": "setMode",
@@ -995,7 +1738,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 234,
+            "line": 259,
             "description": "图层清空，清除图层内所有元素",
             "itemtype": "method",
             "name": "clear",
@@ -1004,7 +1747,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 248,
+            "line": 273,
             "description": "获取类型，常用在右键菜单上对触发对象的识别",
             "itemtype": "method",
             "name": "getType",
@@ -1016,7 +1759,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 256,
+            "line": 281,
             "description": "获取使用类型，常用在右键菜单上对触发对象的识别",
             "itemtype": "method",
             "name": "getUseType",
@@ -1028,7 +1771,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 264,
+            "line": 289,
             "description": "绑定事件，可用off删除对应事件",
             "itemtype": "method",
             "name": "on",
@@ -1049,7 +1792,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 276,
+            "line": 301,
             "description": "删除事件，可删除on绑定的事件",
             "itemtype": "method",
             "name": "off",
@@ -1071,7 +1814,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 288,
+            "line": 313,
             "description": "根据搜索当前图层，查找基本属性或额外属性满足条件的元素",
             "itemtype": "method",
             "name": "find",
@@ -1097,7 +1840,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 346,
+            "line": 371,
             "description": "获取当前图层在正常视角下(未放大缩小)最左上角的坐标",
             "itemtype": "method",
             "name": "getOrigin",
@@ -1110,7 +1853,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 372,
+            "line": 397,
             "description": "根据配置在当前图层上绘制节点",
             "itemtype": "method",
             "name": "createNode",
@@ -1131,7 +1874,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 404,
+            "line": 429,
             "description": "根据配置在两个元素之间绘制新的链接",
             "itemtype": "method",
             "name": "createLink",
@@ -1152,7 +1895,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 442,
+            "line": 467,
             "description": "根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,\n可操作于有展开功能的链接上，可自适应选择添加新链接或计数+1",
             "itemtype": "method",
             "name": "addLink",
@@ -1178,7 +1921,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 484,
+            "line": 509,
             "description": "获取两元素之间所有的链接",
             "itemtype": "method",
             "name": "linksBetween",
@@ -1203,7 +1946,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 515,
+            "line": 540,
             "description": "在图层上绘制不可以移动的线元素",
             "itemtype": "method",
             "name": "createLine",
@@ -1224,7 +1967,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 540,
+            "line": 565,
             "description": "在图层上绘制分组元素",
             "itemtype": "method",
             "name": "createContainer",
@@ -1245,7 +1988,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 582,
+            "line": 607,
             "description": "删除图层内元素,元素删除其上的链接也会删除和更新",
             "itemtype": "method",
             "name": "remove",
@@ -1261,7 +2004,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 698,
+            "line": 723,
             "description": "图层信息转化为json",
             "itemtype": "method",
             "name": "toJson",
@@ -1274,7 +2017,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 709,
+            "line": 734,
             "description": "判断元素是否在当前图层内",
             "itemtype": "method",
             "name": "isChildren",
@@ -1294,7 +2037,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 728,
+            "line": 753,
             "description": "图层缩放,元素一屏显示",
             "itemtype": "method",
             "name": "goCenter",
@@ -1303,7 +2046,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 738,
+            "line": 763,
             "description": "图层缩放",
             "itemtype": "method",
             "name": "resize",
@@ -1319,7 +2062,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 750,
+            "line": 775,
             "description": "启用/禁用鼠标缩放",
             "itemtype": "method",
             "name": "toggleZoom",
@@ -1328,7 +2071,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 762,
+            "line": 787,
             "description": "启用/禁用鹰眼",
             "itemtype": "method",
             "name": "toggleEagleEye",
@@ -1337,7 +2080,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 770,
+            "line": 795,
             "description": "获取当前图层的png格式图片在新的窗口打开",
             "itemtype": "method",
             "name": "getPicture",
@@ -1346,7 +2089,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 787,
+            "line": 812,
             "description": "切换元素的层次",
             "itemtype": "method",
             "name": "toggleZIndex",
@@ -1366,7 +2109,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 825,
+            "line": 850,
             "description": "获取被选中的元素",
             "itemtype": "method",
             "name": "getSelected",
@@ -1379,7 +2122,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 847,
+            "line": 872,
             "description": "高亮目标隐藏其他",
             "itemtype": "method",
             "name": "toggleLight",
@@ -1400,7 +2143,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 914,
+            "line": 939,
             "description": "正常尺寸展示，并将视角移动到以参数节点为中心的位置",
             "itemtype": "method",
             "name": "moveToNode",
@@ -1415,7 +2158,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 941,
+            "line": 966,
             "description": "自动布局",
             "itemtype": "method",
             "name": "autoLayout",
@@ -2098,21 +2841,35 @@
             "description": "加入时间戳的信息日志",
             "itemtype": "method",
             "name": "info",
+            "params": [
+                {
+                    "name": "arguments",
+                    "description": "",
+                    "type": "Arguments"
+                }
+            ],
             "class": "QTopo.util",
             "module": "QTopo"
         },
         {
             "file": "develop\\util.js",
-            "line": 268,
+            "line": 269,
             "description": "加入时间戳的错误日志",
             "itemtype": "method",
             "name": "error",
+            "params": [
+                {
+                    "name": "arguments",
+                    "description": "",
+                    "type": "Arguments"
+                }
+            ],
             "class": "QTopo.util",
             "module": "QTopo"
         },
         {
             "file": "develop\\util.js",
-            "line": 277,
+            "line": 279,
             "description": "格式化Date对象",
             "itemtype": "method",
             "name": "dateFormat",
@@ -2120,7 +2877,7 @@
                 {
                     "name": "date",
                     "description": "Date对象",
-                    "type": "Object"
+                    "type": "Date"
                 },
                 {
                     "name": "ftString",
@@ -2137,7 +2894,7 @@
         },
         {
             "file": "develop\\util.js",
-            "line": 313,
+            "line": 315,
             "description": "构造唯一Id字符串",
             "itemtype": "method",
             "name": "makeId",
@@ -2150,10 +2907,17 @@
         },
         {
             "file": "develop\\util.js",
-            "line": 321,
+            "line": 323,
             "description": "判断对象是否是元素",
             "itemtype": "method",
             "name": "isElement",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Boolean"
@@ -2163,10 +2927,17 @@
         },
         {
             "file": "develop\\util.js",
-            "line": 329,
+            "line": 332,
             "description": "判断QTopo对象是否是图层",
             "itemtype": "method",
             "name": "isScene",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Boolean"
@@ -2176,10 +2947,17 @@
         },
         {
             "file": "develop\\util.js",
-            "line": 337,
+            "line": 341,
             "description": "判断QTopo对象是否是节点",
             "itemtype": "method",
             "name": "isNode",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Boolean"
@@ -2189,10 +2967,17 @@
         },
         {
             "file": "develop\\util.js",
-            "line": 345,
+            "line": 350,
             "description": "判断QTopo对象是否是分组",
             "itemtype": "method",
             "name": "isContainer",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Boolean"
@@ -2202,10 +2987,17 @@
         },
         {
             "file": "develop\\util.js",
-            "line": 353,
+            "line": 359,
             "description": "判断QTopo对象是否是链接",
             "itemtype": "method",
             "name": "isLink",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Boolean"
@@ -2229,15 +3021,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\core\\element\\container\\Container.js:173"
+            "line": " develop\\core\\Scene.js:92"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\core\\Scene.js:88"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\core\\Scene.js:97"
+            "line": " develop\\core\\Scene.js:103"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -2304,40 +3092,8 @@
             "line": " develop\\component\\windows\\util.js:139"
         },
         {
-            "message": "Missing item type\n将元素加入分组内",
-            "line": " develop\\core\\element\\container\\Container.js:55"
-        },
-        {
-            "message": "Missing item type\n将子元素从分组中删除",
-            "line": " develop\\core\\element\\container\\Container.js:86"
-        },
-        {
-            "message": "Missing item type\n分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作",
-            "line": " develop\\core\\element\\container\\Container.js:136"
-        },
-        {
-            "message": "Missing item type\n判断元素是否已是子元素",
-            "line": " develop\\core\\element\\container\\Container.js:158"
-        },
-        {
-            "message": "Missing item type\n判断元素是否在分组覆盖的范围内,临时元素不考虑",
-            "line": " develop\\core\\element\\container\\Container.js:173"
-        },
-        {
-            "message": "Missing item type\n实例序列化",
-            "line": " develop\\core\\element\\container\\Container.js:186"
-        },
-        {
             "message": "Missing item type\n直线切换",
             "line": " develop\\core\\element\\link\\Direct.js:109"
-        },
-        {
-            "message": "Missing item type\n实例序列化",
-            "line": " develop\\core\\element\\link\\Link.js:105"
-        },
-        {
-            "message": "Missing item type\n实例序列化",
-            "line": " develop\\core\\element\\node\\Node.js:64"
         },
         {
             "message": "Missing item type\n找到可以作为根的节点",

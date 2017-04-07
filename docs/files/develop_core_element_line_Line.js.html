@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\core\events.js - Documenting JavaScript with YUIDoc</title>
+    <title>develop\core\element\line\Line.js - Documenting JavaScript with YUIDoc</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -88,7 +88,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: develop\core\events.js</h1>
+<h1 class="file-heading">File: develop\core\element\line\Line.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -96,51 +96,162 @@
  * @module core
  */
 /**
- * @class Scene
+ * 线段基类,用以继承
+ * @class [LE] Line
+ * @constructor
+ * @extends [E] Element
+ * @param jtopo 元素核心的jtopo对象
  */
-var events = {
-    init: function (scene) {
-        //注册分组切换
-        scene.on(&quot;dbclick&quot;, dbClick(scene));
+var Element=require(&quot;../Element.js&quot;);
+module.exports =Line;
+function Line(jtopo) {
+    if(jtopo){
+        Element.call(this,jtopo);
+    }else{
+        QTopo.util.error(&quot;create Line without jtopo&quot;,this);
+    }
+    /**
+     * 记录线段的首尾元素,首尾元素一般隐藏，且为jtopo对象，仅作为绘制的坐标点
+     * @property [LE] path {object}
+     * @param start {object} 起始元素
+     * @param end {object} 终点元素
+     */
+    this.attr.path={
+        start:this.jtopo.nodeA,
+        end:this.jtopo.nodeZ
+    };
+}
+QTopo.util.inherits(Line,Element);
+/**
+ *  设置线段位置,原理是设置线段首尾处隐藏jtopo节点的位置
+ *  @method [LE] setPosition
+ *  @param position {object}
+ *
+ *          position={
+ *              start:[x,y],
+ *              end:[x,y]
+ *          }
+ */
+Line.prototype.setPosition=function(position){
+    var start=this.attr.path.start;
+    var end=this.attr.path.end;
+    if($.isArray(position.start)&amp;&amp;$.isNumeric(position.start[0])&amp;&amp;$.isNumeric(position.start[1])){
+        start.setLocation(parseInt(position.start[0]), parseInt(position.start[1]));
+    }
+    if($.isArray(position.end)&amp;&amp;$.isNumeric(position.end[0])&amp;&amp;$.isNumeric(position.end[1])){
+        end.setLocation(parseInt(position.end[0]), parseInt(position.end[1]));
+    }
+    this.attr.position={
+        start:[start.x,start.y],
+        end:[end.x,end.y]
+    };
+};
+/**
+ *  获取基本类型
+ *  @method [LE] getType
+ *  @return QTopo.constant.Line {string}
+ */
+Line.prototype.getType=function(){
+    return QTopo.constant.Line;
+};
+/**
+ *  设置线段颜色
+ *  @method [LE] setColor
+ *  @param color{string} &quot;255,255,255&quot;/&quot;#ffffff&quot;
+ */
+Line.prototype.setColor = function (color) {
+    if (color) {
+        this.jtopo.strokeColor = QTopo.util.transHex(color.toLowerCase());
+    }
+    this.attr.color=this.jtopo.strokeColor;
+};
+/**
+ *  设置线段计数
+ *  @method [LE] setNum
+ *  @param {number} num
+ */
+Line.prototype.setNum = function (num) {
+    if ($.isNumeric(num)) {
+        if(num &gt; 1){
+            this.jtopo.text = &#x27;(+&#x27; + num + &#x27;)&#x27;;
+        }else {
+            this.jtopo.text = &#x27;&#x27;;
+        }
+        this.attr.num=num;
     }
 };
-function dbClick(scene) {
-    return function (e, qtopo) {
-        toggleGroup(e, qtopo, scene);
-        toggleLink(e, qtopo, scene);
-    }
-}
 /**
- * 分组切换,点击分组可进行缩放和还原
- * @event toggleGroup
+ *  设置线段宽度
+ *  @method [LE] setWidth
+ *  @param {number} width
  */
-function toggleGroup(e, qtopo, scene) {
-    //分组隐藏，显示缩放节点，节点位置根据分组长宽计算
-    if (qtopo) {
-        if (qtopo.getType() == QTopo.constant.CONTAINER) {
-            qtopo.toggle();
-        } else if (qtopo.getType() == QTopo.constant.NODE &amp;&amp; qtopo.getUseType() == QTopo.constant.CASUAL) {
-            //分组显示，隐藏缩放节点，分组新位置根据节点位置和分组长宽计算
-            if (qtopo.toggleTo) {
-                qtopo.toggleTo.toggle();
-            }
-        }
+Line.prototype.setWidth=function(width){
+    if($.isNumeric(width)){
+        this.jtopo.lineWidth = width; // 线宽
     }
-}
+    this.attr.width=this.jtopo.lineWidth;
+};
 /**
- * 链路切换,QTopo.constant.link.DIRECT类型的链路计数大于1时可展开和合并
- * @event toggleLink
+ *  设置线段两端箭头参数
+ *  @method [LE] setArrow
+ *  @param arrow {object}
+ *
+ *          arrow={
+ *              size:箭头大小{number},
+ *              offset:箭头在链路上的偏移量{number},
+ *              start:是否显示起点箭头{boolean},
+ *              end:是否显示终点箭头{boolean},
+ *          }
  */
-function toggleLink(e, qtopo, scene) {
-    if (qtopo &amp;&amp; qtopo.getType() == QTopo.constant.LINK &amp;&amp; qtopo.attr.expendAble) {
-        if (!$.isFunction(qtopo.toggle)) {
-            qtopo.openToggle(scene);
-        }
-        qtopo.toggle();
+Line.prototype.setArrow = function(arrow){
+    if(arrow){
+        this.jtopo.arrowsRadius = $.isNumeric(arrow.size)?arrow.size:0;
+        this.jtopo.arrowsOffset = $.isNumeric(arrow.offset)?arrow.offset:0;
     }
-}
-module.exports = events;
-
+    if(!this.attr.arrow){
+        this.attr.arrow={};
+    }
+    this.attr.arrow.size=this.jtopo.arrowsRadius;
+    this.attr.arrow.offset=this.jtopo.arrowsOffset;
+};
+/**
+ *  设置相同起点和终点的链路之间的间隔大小
+ *
+ *  @method [LE] setGap
+ *  @param gap {number}
+ */
+Line.prototype.setGap=function(gap){
+    if(gap){
+        this.jtopo.bundleGap = $.isNumeric(gap)?gap:0; // 线条之间的间隔
+    }
+    this.attr.gap=this.jtopo.bundleGap;
+};
+/**
+ *  设置链路的虚线线段长度
+ *
+ *  设置不为number类型或小于0时，则认为不要虚线
+ *
+ *  @method [LE] setDashed
+ *  @param dashedPattern {number|null}
+ */
+Line.prototype.setDashed=function(dashedPattern){
+    if($.isNumeric(dashedPattern)&amp;&amp;dashedPattern&gt;0){
+        this.jtopo.dashedPattern=parseInt(dashedPattern);
+    }else{
+        this.jtopo.dashedPattern=null;
+    }
+    this.attr.dashed=this.jtopo.dashedPattern;
+};
+/**
+ *  单个对象的属性提取
+ *  @method [LE] toJson
+ *  @return {object}
+ */
+Line.prototype.toJson=function(){
+    var json=$.extend({},this.attr);
+    json.extra=$.extend({},this.extra);
+    return json;
+};
     </pre>
 </div>
                     </div>

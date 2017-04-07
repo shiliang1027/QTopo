@@ -1,6 +1,18 @@
+/**
+ * @module core
+ */
+/**
+ * 容器基类,用以继承
+ * @class [C] Container
+ * @constructor
+ * @extends [E] Element
+ * @param jtopo 元素核心的jtopo对象
+ */
+
 var Element = require("../Element.js");
 module.exports = Container;
 var jtopoReset = {
+    //重写名称绘制，用以换行显示
     paintText: function (a) {
         var text = this.text;
         if (null != text && "" != text) {
@@ -33,7 +45,17 @@ function Container(jtopo) {
     } else {
         QTopo.util.error("create Container without jtopo", this);
     }
+    /**
+     * 记录容器内的元素
+     * @property [C] children {array}
+     */
     this.children = [];
+    /**
+     * 记录容器上的链路
+     * @property [C] links {array}
+     * @param in 以容器为终点的链路
+     * @param out 以容器为起点的链路
+     */
     this.links = {
         in: [],
         out: []
@@ -44,6 +66,11 @@ QTopo.util.inherits(Container, Element);
 function reset(element) {
     element.jtopo.paintText = jtopoReset.paintText;
 }
+/**
+ *  设置容器名称
+ *  @method [C] setName
+ *  @param name {string}
+ */
 Container.prototype.setName = function (name) {
     if (name) {
         if (this.attr.namePosition != "hide") {
@@ -53,8 +80,9 @@ Container.prototype.setName = function (name) {
     }
 };
 /**
- * 将元素加入分组内
- * @param element
+ *  将元素加入容器内
+ *  @method [C] add
+ *  @param element {element|array} 一般为节点类型对象或数组，容器加入容器容易产生Bug
  */
 Container.prototype.add = function (element) {
     var self=this;
@@ -84,8 +112,9 @@ Container.prototype.add = function (element) {
     }
 };
 /**
- * 将子元素从分组中删除
- * @param element
+ * 将子元素从容器中删除
+ * @method [C] remove
+ * @param element {element}
  */
 Container.prototype.remove = function (element) {
     if ($.isArray(this.children) && this.isChild(element)) {
@@ -96,24 +125,19 @@ Container.prototype.remove = function (element) {
         element.setDragable(true);
     }
 };
-Container.prototype.getChildren = function () {
-    var children = [];
-    var self = this;
-    if (self.jtopo && self.jtopo.childs) {
-        $.each(self.jtopo.childs, function (i, v) {
-            if (v.qtopo) {
-                children.push(v.qtopo);
-            } else {
-                QTopo.util.error(this, "the child not wraped by qtopo", v);
-            }
-        });
-    }
-    this.children = children;
-    return children;
-};
+/**
+ * 获取容器基本类型
+ * @method [C] getType
+ * @return QTopo.constant.CONTAINER
+ */
 Container.prototype.getType = function () {
     return QTopo.constant.CONTAINER;
 };
+/**
+ * 设置容器背景色
+ * @method [C] setColor
+ * @param color {string} "255,255,255"/"#ffffff"
+ */
 Container.prototype.setColor = function (color) {
     if (color) {
         color = QTopo.util.transHex(color.toLowerCase());
@@ -121,6 +145,14 @@ Container.prototype.setColor = function (color) {
     }
     this.attr.color = this.jtopo.fillColor;
 };
+/**
+ * 设置容器内子元素一般行为
+ * @method [C] setChildren
+ * @param children {object}
+ *          children={
+ *                  dragble:是否可移动{boolean}
+ *          }
+ */
 Container.prototype.setChildren = function (children) {
     var jtopo = this.jtopo;
     if (children) {
@@ -134,8 +166,13 @@ Container.prototype.setChildren = function (children) {
     this.attr.children.dragble = jtopo.childDragble;
 };
 /**
- * 分组切换,在scene创建分组时可选是否提供切换，若无切换节点，该方法无动作
- * @param flag 为true则缩放为false则展开，无值则根据现状切换,
+ * 容器缩放切换,在scene创建时可选是否提供切换
+ *
+ * 可在创建时增加参数 toggle:{close:true}来创建一个不可切换的容器
+ *
+ * 若无切换对象，则该方法无动作
+ * @method [C] toggle
+ * @param [flag] 为true则强制缩放，为false则强制展开，无值则自适应切换,
  */
 Container.prototype.toggle = function (flag) {
     if (this.toggleTo) {
@@ -157,7 +194,9 @@ Container.prototype.toggle = function (flag) {
 };
 /**
  * 判断元素是否已是子元素
+ * @method [C] isChild
  * @param element 判断的子元素
+ * @return {boolean}
  */
 Container.prototype.isChild = function (element) {
     if ($.isArray(this.children)) {
@@ -172,8 +211,9 @@ Container.prototype.isChild = function (element) {
 };
 /**
  * 判断元素是否在分组覆盖的范围内,临时元素不考虑
- * @param element
- * @returns {boolean}
+ * @method [C] isInside
+ * @param element 判断的元素
+ * @return {boolean}
  */
 Container.prototype.isInside = function (element) {
     if (element && element.getType() != QTopo.constant.CASUAL) {
@@ -184,7 +224,9 @@ Container.prototype.isInside = function (element) {
     }
 };
 /**
- * 实例序列化
+ * 分组属性提取
+ * @method [C] toJson
+ * @return {object}
  */
 Container.prototype.toJson=function(){
     var json=$.extend({},this.attr);

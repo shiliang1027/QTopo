@@ -38,7 +38,12 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/Element.html">Element</a></li>
+                                <li><a href="../classes/[C] Container.html">[C] Container</a></li>
+                                <li><a href="../classes/[E] Element.html">[E] Element</a></li>
+                                <li><a href="../classes/[L] Link.html">[L] Link</a></li>
+                                <li><a href="../classes/[LE] Line.html">[LE] Line</a></li>
+                                <li><a href="../classes/[N] Node.html">[N] Node</a></li>
+                                <li><a href="../classes/ImageNode.html">ImageNode</a></li>
                                 <li><a href="../classes/option配置.html">option配置</a></li>
                                 <li><a href="../classes/QTopo.html">QTopo</a></li>
                                 <li><a href="../classes/QTopo.instance.html">QTopo.instance</a></li>
@@ -348,6 +353,7 @@ var util = {
         /**
          * 加入时间戳的信息日志
          * @method info
+         * @param {arguments} arguments
          */
         info: function () {
             if (QTopo.log.info) {
@@ -357,6 +363,7 @@ var util = {
         /**
          * 加入时间戳的错误日志
          * @method error
+         * @param {arguments} arguments
          */
         error: function () {
             if (QTopo.log.error) {
@@ -366,7 +373,7 @@ var util = {
         /**
          * 格式化Date对象
          * @method dateFormat
-         * @param {object} date Date对象
+         * @param {Date} date Date对象
          * @param {string} ftString 格式化字符串,如&quot;hh:mm:ss&quot;
          * @return {string}
          */
@@ -410,6 +417,7 @@ var util = {
         /**
          * 判断对象是否是元素
          * @method isElement
+         * @param element {element}
          * @return {boolean}
          */
         isElement: function (target) {
@@ -418,6 +426,7 @@ var util = {
         /**
          * 判断QTopo对象是否是图层
          * @method isScene
+         * @param element {element}
          * @return {boolean}
          */
         isScene: function (target) {
@@ -426,6 +435,7 @@ var util = {
         /**
          * 判断QTopo对象是否是节点
          * @method isNode
+         * @param element {element}
          * @return {boolean}
          */
         isNode: function (target) {
@@ -434,6 +444,7 @@ var util = {
         /**
          * 判断QTopo对象是否是分组
          * @method isContainer
+         * @param element {element}
          * @return {boolean}
          */
         isContainer: function (target) {
@@ -442,6 +453,7 @@ var util = {
         /**
          * 判断QTopo对象是否是链接
          * @method isLink
+         * @param element {element}
          * @return {boolean}
          */
         isLink: function (target) {
