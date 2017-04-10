@@ -29,6 +29,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                  <ul class="nav navbar-nav">
                     
+                    <li><a href="./index.html">教程</a>
+                    </li>
+                    
                     <li><a href="./download/qtopo.zip">下载</a>
                     </li>
                     
@@ -57,6 +60,22 @@
                        <li>
                             
                            <a href="../classes/rightMenu.html">rightMenu</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/toolBar.html">toolBar</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/windows.html">windows</a>
                            <ul>
                                 
                            </ul>
@@ -269,7 +288,21 @@
             <ul class="index-list methods">
                 
                     <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_open" data-tablink="open">open</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
                         <a href="#" data-tabid="#method" data-anchor="#method_resize" data-tablink="resize">resize</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_setComponent" data-tablink="setComponent">setComponent</a>
 
                         
                         
@@ -344,7 +377,7 @@
 
             
                 <div class="foundat">
-                    Defined in: <a href="../files/develop_main.js.html#l58"><code>develop\main.js:58</code></a>
+                    Defined in: <a href="../files/develop_main.js.html#l56"><code>develop\main.js:56</code></a>
                 </div>
             
 
@@ -364,6 +397,122 @@
         
             <div id="method" class="tab-pane">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_open" class="method item">
+    <h3 class="name">open</h3>
+    <code>
+    open
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        type
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_component.js.html#l64"><code>develop\component\component.js:64</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>开启/管理窗口,加载组件包后且组件初始化完毕后可用</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">type</code>
+                       <td> <span class="type">String</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>窗口名</p>
+
+                    </div>
+
+                    
+                </tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>窗口配置，窗口不同配置不同，参考component中的windows api</p>
+
+                    </div>
+
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_resize" class="method item">
@@ -404,7 +553,7 @@
             
         
         
-        <a href="../files/develop_main.js.html#l221"><code>develop\main.js:221</code></a>
+        <a href="../files/develop_main.js.html#l219"><code>develop\main.js:219</code></a>
         
         </p>
 
@@ -452,6 +601,153 @@
              <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
             <button class="btn btn-info btn-editDemo" type="button">edit code</button>
         </div>
+    
+</div>
+
+                
+                    <div id="method_setComponent" class="method item">
+    <h3 class="name">setComponent</h3>
+    <code>
+    setComponent
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_component.js.html#l78"><code>develop\component\component.js:78</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>随时配置组件属性,加载组件包后且组件初始化完毕后可用</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>详细配置参考组件说明</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">toolBar</code>
+                                   <td> <span class="type">Object</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>工具条配置</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">rightMenu</code>
+                                   <td> <span class="type">Object</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>右键菜单配置</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">windows</code>
+                                   <td> <span class="type">Object</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口配置</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
     
 </div>
 
@@ -510,7 +806,7 @@
             
         
         
-        <a href="../files/develop_main.js.html#l83"><code>develop\main.js:83</code></a>
+        <a href="../files/develop_main.js.html#l81"><code>develop\main.js:81</code></a>
         
         </p>
 
@@ -1012,7 +1308,7 @@
             
         
         
-        <a href="../files/develop_main.js.html#l237"><code>develop\main.js:237</code></a>
+        <a href="../files/develop_main.js.html#l235"><code>develop\main.js:235</code></a>
         
         </p>
 
@@ -1098,7 +1394,7 @@
             
         
         
-        <a href="../files/develop_main.js.html#l70"><code>develop\main.js:70</code></a>
+        <a href="../files/develop_main.js.html#l68"><code>develop\main.js:68</code></a>
         
         </p>
 
@@ -1143,7 +1439,7 @@
             
         
         
-        <a href="../files/develop_main.js.html#l64"><code>develop\main.js:64</code></a>
+        <a href="../files/develop_main.js.html#l62"><code>develop\main.js:62</code></a>
         
         </p>
 

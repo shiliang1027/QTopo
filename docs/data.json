@@ -7,25 +7,110 @@
         "logo": "./logo.png",
         "navs": [
             {
+                "name": "教程",
+                "url": "./index.html"
+            },
+            {
                 "name": "下载",
                 "url": "./download/qtopo.zip"
             }
         ]
     },
     "files": {
-        "develop\\component\\rightMenu\\rightMenu.js": {
-            "name": "develop\\component\\rightMenu\\rightMenu.js",
+        "develop\\component\\rightMenu\\repertory.js": {
+            "name": "develop\\component\\rightMenu\\repertory.js",
             "modules": {
                 "component": 1
             },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\rightMenu\\rightMenu.js": {
+            "name": "develop\\component\\rightMenu\\rightMenu.js",
+            "modules": {},
             "classes": {
                 "rightMenu": 1
             },
             "fors": {},
             "namespaces": {}
         },
+        "develop\\component\\toolBar\\toolBar.js": {
+            "name": "develop\\component\\toolBar\\toolBar.js",
+            "modules": {},
+            "classes": {
+                "toolBar": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\confirm.js": {
+            "name": "develop\\component\\windows\\tools\\confirm.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\imageSelect.js": {
+            "name": "develop\\component\\windows\\tools\\imageSelect.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\loading.js": {
+            "name": "develop\\component\\windows\\tools\\loading.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\progress.js": {
+            "name": "develop\\component\\windows\\tools\\progress.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\styleSelect.js": {
+            "name": "develop\\component\\windows\\tools\\styleSelect.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\tips.js": {
+            "name": "develop\\component\\windows\\tools\\tips.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\tools\\view.js": {
+            "name": "develop\\component\\windows\\tools\\view.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "develop\\component\\windows\\util.js": {
             "name": "develop\\component\\windows\\util.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\windows\\windows.js": {
+            "name": "develop\\component\\windows\\windows.js",
+            "modules": {},
+            "classes": {
+                "windows": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\component\\component.js": {
+            "name": "develop\\component\\component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -207,12 +292,28 @@
             "name": "component",
             "submodules": {},
             "classes": {
-                "rightMenu": 1
+                "rightMenu": 1,
+                "toolBar": 1,
+                "windows": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "develop\\component\\rightMenu\\rightMenu.js",
+            "file": "develop\\component\\windows\\windows.js",
+            "line": 4
+        },
+        "QTopo": {
+            "name": "QTopo",
+            "submodules": {},
+            "classes": {
+                "QTopo": 1,
+                "QTopo.instance": 1,
+                "QTopo.util": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "develop\\util.js",
             "line": 4
         },
         "core": {
@@ -239,20 +340,6 @@
             "tag": "module",
             "file": "develop\\core\\events.js",
             "line": 4
-        },
-        "QTopo": {
-            "name": "QTopo",
-            "submodules": {},
-            "classes": {
-                "QTopo": 1,
-                "QTopo.instance": 1,
-                "QTopo.util": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "develop\\util.js",
-            "line": 4
         }
     },
     "classes": {
@@ -268,8 +355,68 @@
             "namespace": "",
             "file": "develop\\component\\rightMenu\\rightMenu.js",
             "line": 4,
-            "description": "QTopo.init的配置参数中可初始化设置\n\n选择过滤掉哪些预设右键菜单功能\n\nfilterMenu: [\"创建节点\", \"添加链路\", \"删除\", \"编辑\", \"元素切换\",\"分组操作\"]",
+            "description": "右键菜单模块",
             "static": 1
+        },
+        "toolBar": {
+            "name": "toolBar",
+            "shortname": "toolBar",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "component",
+            "namespace": "",
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 4,
+            "description": "工具条模块",
+            "static": 1
+        },
+        "windows": {
+            "name": "windows",
+            "shortname": "windows",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "component",
+            "namespace": "",
+            "file": "develop\\component\\windows\\windows.js",
+            "line": 4,
+            "description": "窗口管理,所有窗口统一用instance.open(type,config)接口打开,type和窗口名对应指示打开哪种窗口，根据config做配置,",
+            "static": 1
+        },
+        "QTopo": {
+            "name": "QTopo",
+            "shortname": "QTopo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\main.js",
+            "line": 8,
+            "static": 1,
+            "description": "主入口,window.QTopo"
+        },
+        "QTopo.instance": {
+            "name": "QTopo.instance",
+            "shortname": "QTopo.instance",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\main.js",
+            "line": 56,
+            "static": 1,
+            "description": "QTopo初始化的topo实例,QTopo.init后的返回对象，或是QTopo.instance数组内保存的对象"
         },
         "[C] Container": {
             "name": "[C] Container",
@@ -589,36 +736,6 @@
                 }
             ]
         },
-        "QTopo": {
-            "name": "QTopo",
-            "shortname": "QTopo",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "QTopo",
-            "namespace": "",
-            "file": "develop\\main.js",
-            "line": 8,
-            "static": 1,
-            "description": "主入口,window.QTopo"
-        },
-        "QTopo.instance": {
-            "name": "QTopo.instance",
-            "shortname": "QTopo.instance",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "QTopo",
-            "namespace": "",
-            "file": "develop\\main.js",
-            "line": 58,
-            "description": "QTopo初始化的topo实例,QTopo.init后的返回对象，或是QTopo.instance数组内保存的对象",
-            "static": 1
-        },
         "QTopo.util": {
             "name": "QTopo.util",
             "shortname": "QTopo.util",
@@ -637,8 +754,218 @@
     },
     "classitems": [
         {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 102,
+            "description": "将目标打印到控制台",
+            "itemtype": "property",
+            "name": "Debug",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 126,
+            "description": "根据元素类型自适应打开编辑窗口",
+            "itemtype": "property",
+            "name": "编辑",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 157,
+            "description": "删除元素",
+            "itemtype": "property",
+            "name": "删除",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 186,
+            "description": "将所有元素高亮",
+            "itemtype": "property",
+            "name": "取消高亮",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 201,
+            "description": "元素的一般操作子菜单",
+            "itemtype": "property",
+            "name": "元素切换",
+            "class": "rightMenu",
+            "module": "component",
+            "subprops": [
+                {
+                    "name": "层次切换",
+                    "description": ""
+                },
+                {
+                    "name": "相关高亮",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 211,
+            "description": "元素的显示层级切换,首次切换成最高级，已到最高级的降至最低级",
+            "itemtype": "property",
+            "name": "层次切换",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 224,
+            "description": "将与元素相关联的元素以及链路高亮，其他元素和链路透明度降低",
+            "itemtype": "property",
+            "name": "相关高亮",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 240,
+            "description": "打开节点对应的创建窗口",
+            "itemtype": "property",
+            "name": "创建节点",
+            "class": "rightMenu",
+            "module": "component",
+            "subprops": [
+                {
+                    "name": "图片节点",
+                    "description": ""
+                },
+                {
+                    "name": "文字节点",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 250,
+            "description": "打开创建图形节点窗口",
+            "itemtype": "property",
+            "name": "图片节点",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 260,
+            "description": "打开创建文本节点窗口",
+            "itemtype": "property",
+            "name": "文字节点",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 275,
+            "description": "打开设置链路窗口,只有同时存在起点和终点设置时才开启窗口",
+            "itemtype": "property",
+            "name": "添加链路",
+            "class": "rightMenu",
+            "module": "component",
+            "subprops": [
+                {
+                    "name": "设为起点",
+                    "description": ""
+                },
+                {
+                    "name": "设为终点",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 285,
+            "description": "设置起点，窗口关闭后清空",
+            "itemtype": "property",
+            "name": "设为起点",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 296,
+            "description": "设置终点，窗口关闭后清空",
+            "itemtype": "property",
+            "name": "设为终点",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 312,
+            "description": "分组相关操作子菜单,",
+            "itemtype": "property",
+            "name": "分组操作",
+            "class": "rightMenu",
+            "module": "component",
+            "subprops": [
+                {
+                    "name": "锁定",
+                    "description": ""
+                },
+                {
+                    "name": "加入分组",
+                    "description": ""
+                },
+                {
+                    "name": "移出分组",
+                    "description": ""
+                },
+                {
+                    "name": "创建分组",
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 324,
+            "description": "选定一个分组用以后续操作,用以加入分组操作",
+            "itemtype": "property",
+            "name": "锁定",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 337,
+            "description": "为锁定的分组加入目标元素,",
+            "itemtype": "property",
+            "name": "加入分组",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 350,
+            "description": "将目标元素移出所在分组,",
+            "itemtype": "property",
+            "name": "移出分组",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\rightMenu\\repertory.js",
+            "line": 363,
+            "description": "当选中了2个或2个以上的节点时，出现该选项，打开创建分组窗口",
+            "itemtype": "property",
+            "name": "创建分组",
+            "class": "rightMenu",
+            "module": "component"
+        },
+        {
             "file": "develop\\component\\rightMenu\\rightMenu.js",
-            "line": 44,
+            "line": 39,
             "description": "添加自定义右键菜单\n通过instance.setComponent函数添加",
             "itemtype": "method",
             "name": "add",
@@ -650,14 +977,14 @@
                 }
             ],
             "example": [
-                "\n         IPOSS.setComponent({\n             rightMenu:{\n                         参数列表分别为 图层元素,右键菜单对象,可调用的窗口对象,可调用的工具窗口\n                     add:function (scene, menu, windows, tools) {\n                                 return [\n                                          {\n                                                       name: \"刷新\",//菜单名称\n                                                       order: 3,   //菜单顺序权值\n                                                       click: function () {\n                                                           //点击该菜单时的处理\n                                                           menu.target为当前触发菜单的元素\n                                                           menu.x\n                                                           menu.y 为当前触发菜单时鼠标在图层上的坐标\n                                                       },\n                                                       filter: function (target) {\n                                                           //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素\n                                                           //该属性可不设置，不设置则默认为一直显示\n                                                           return QTopo.util.isScene(target);\n                                                       }\n                                                    },\n                                                    {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则\n                                                       //当子菜单的成员菜单都不显示时，子菜单也不显示\n                                                       //可无限嵌套.\n                                                           name: \"添加\",\n                                                           order: 10,\n                                                           item: [\n                                                               {\n                                                                   name: \"网段\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   },\n                                                                   filter:function(){\n                                                                       //若无返回值。。则是没通过过滤\n                                                                   }\n                                                               },\n                                                               {\n                                                                   name: \"设备\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   }\n                                                               }\n                                                           ],\n                                                           filter: function (target) {\n                                                               return true;\n                                                           }\n                                                   },\n                                     ]\n                             }\n             }\n         });"
+                "\n         IPOSS.setComponent({\n             rightMenu:{\n                         执行过程中会传入当前实例对象，图层对象，右键菜单对象,其中右键菜单对象记录有触发的目标以及位置信息\n                     add:function (instance,scene, menu) {\n                                 return [\n                                          {\n                                                       name: \"刷新\",//菜单名称\n                                                       order: 3,   //可选,在配置了order函数时作为参数传入,用作菜单位置排序\n                                                       click: function () {\n                                                           //点击该菜单时的处理\n                                                           menu.target为当前触发菜单的元素\n                                                           menu.x\n                                                           menu.y 为当前触发菜单时鼠标在图层上的坐标\n                                                       },\n                                                       filter: function (target) {\n                                                           //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素\n                                                           //该属性可不设置，不设置则默认为一直显示\n                                                           return QTopo.util.isScene(target);\n                                                       }\n                                                    },\n                                                    {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则\n                                                       //当子菜单的成员菜单都不显示时，子菜单也不显示\n                                                       //可无限嵌套.\n                                                           name: \"添加\",\n                                                           order: 10,\n                                                           item: [\n                                                               {\n                                                                   name: \"网段\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   },\n                                                                   filter:function(){\n                                                                       //若无返回值。。则是没通过过滤\n                                                                   }\n                                                               },\n                                                               {\n                                                                   name: \"设备\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   }\n                                                               }\n                                                           ],\n                                                           filter: function (target) {\n                                                               return true;\n                                                           }\n                                                   },\n                                     ]\n                             }\n             }\n         });"
             ],
             "class": "rightMenu",
             "module": "component"
         },
         {
             "file": "develop\\component\\rightMenu\\rightMenu.js",
-            "line": 102,
+            "line": 97,
             "description": "菜单栏顺序变更\n通过instance.setComponent函数添加",
             "itemtype": "method",
             "name": "order",
@@ -675,6 +1002,392 @@
             "module": "component"
         },
         {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 40,
+            "description": "调用scene.goCenter()缩放和居中展示",
+            "itemtype": "property",
+            "name": "居中展示",
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 47,
+            "description": "调用scene.resize(1)还原比例",
+            "itemtype": "property",
+            "name": "正常显示",
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 54,
+            "description": "调用scene.toggleZoom()开启鼠标缩放,操作鼠标滚轮放大和缩小图层",
+            "itemtype": "property",
+            "name": "鼠标缩放",
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 61,
+            "description": "调用scene.toggleEagleEye()切换鹰眼",
+            "itemtype": "property",
+            "name": "鹰眼",
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 68,
+            "description": "调用scene.getPicture()新窗口打开图层截图",
+            "itemtype": "property",
+            "name": "导出png",
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 75,
+            "description": "开启自动布局设置窗口,需要载入windows模块",
+            "itemtype": "property",
+            "name": "自动布局",
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 109,
+            "description": "添加搜索模块",
+            "itemtype": "method",
+            "name": "addSearch",
+            "params": [
+                {
+                    "name": "searchMode",
+                    "description": "搜索模块配置，可为配置集合",
+                    "type": "Object|array",
+                    "props": [
+                        {
+                            "name": "name",
+                            "description": "显示在选择框中的名称"
+                        },
+                        {
+                            "name": "type",
+                            "description": "唯一标识"
+                        },
+                        {
+                            "name": "selected",
+                            "description": "是否初始被选中",
+                            "optional": true
+                        },
+                        {
+                            "name": "search",
+                            "description": "回车或点击搜索按钮时的事件处理,传入的参数为Input的输入值，返回参数content属性为结果面板中展示的内容",
+                            "optional": true
+                        },
+                        {
+                            "name": "hideResult",
+                            "description": "是否启用结果面板",
+                            "optional": true
+                        },
+                        {
+                            "name": "clickResult",
+                            "description": "结果面板被选中后的事件处理,传入的参数为search的结果",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n     IPOSS.setComponent({\n                   toolBar: {\n                       addSearch:[\n                           {   //自定义的搜索配置，该搜索不调用预定义的任何事件\n                               //自定义了额外面板展示,工具条上条目仅用来触发额外的搜索面板\n                               type:\"deviceType\",\n                               name:\"设备型号\",\n                               hideResult:true\n                           },\n                           {//默认的搜索模块配置,可以初始化时 hideDefaultSearch: true禁止加载\n                              type: \"value\",\n                              name: \"default\",\n                              hideResult: false,\n                              search: function (val) {//val值为Input内容\n                                  return scene.find(val, \"node\")\n                                      .map(function (i) {\n                                          return {\n                                              content: i.attr.name,//该属性用以展示文字\n                                              target: i //自定义\n                                          }\n                                      });\n                              },\n                              clickResult: function (result) {\n                                  if (result.target) {//此处target为search结果中设置，content属性被用以展示文字\n                                      scene.moveToNode(result.target);\n                                  }\n                              }\n                          }\n                       ]"
+            ],
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\toolBar\\toolBar.js",
+            "line": 151,
+            "description": "配置点击保存按钮时事件处理",
+            "itemtype": "method",
+            "name": "save",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n      IPOSS.setComponent({\n                   toolBar: {\n                        save: function () {\n                               ...\n                        }\n                   }\n            })"
+            ],
+            "class": "toolBar",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\confirm.js",
+            "line": 10,
+            "description": "确认弹出框",
+            "itemtype": "method",
+            "name": "confirm",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "title",
+                            "description": "窗口的标题",
+                            "type": "Html",
+                            "optional": true
+                        },
+                        {
+                            "name": "content",
+                            "description": "窗口的提示内容",
+                            "type": "Html",
+                            "optional": true
+                        },
+                        {
+                            "name": "ok",
+                            "description": "确认后的处理函数",
+                            "type": "Function",
+                            "optional": true
+                        },
+                        {
+                            "name": "cancel",
+                            "description": "取消后的处理函数",
+                            "type": "Function",
+                            "optional": true
+                        },
+                        {
+                            "name": "width",
+                            "description": "窗口宽度",
+                            "type": "Number",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n     instance.open('confirm',{\n         title:\"确认操作\",\n         content:\"确认操作?\",\n         width:200,\n         ok:function(){\n             console.info('ok');\n         },\n         cancel:function(){\n             console.info('cancel');\n         }\n     });"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\imageSelect.js",
+            "line": 11,
+            "description": "开启图片选择框,无参\n\n需初始化组件模块后配置图片数组,配置参考样例",
+            "itemtype": "method",
+            "name": "imageSelect",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数,无参数则只开启不设置",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "images",
+                            "description": "窗口内应用的图片集合,不设置则沿用上次设置",
+                            "type": "Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "isSet",
+                            "description": "确认是打开窗口还是设置窗口,为ture则不打开窗口只设置，false或不设则默认开启",
+                            "type": "Boolean",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "jquery的延迟执行函数",
+                "type": "Deferred"
+            },
+            "example": [
+                "\n     两种设置窗口内容的方式:\n     1.instance.setComponent({\n                   windows: {\n                       images: [\"img/mo/eNodeB.png\", \"img/mo/eNodeB_1.png\", \"img/mo/eNodeB_2.png\", \"img/mo/eNodeB_3.png\", \"img/mo/eNodeB_4.png\"]\n                   }\n            });\n       2.instance.open('imageSelect',{\n               images: [\"img/mo/eNodeB.png\", \"img/mo/eNodeB_1.png\", \"img/mo/eNodeB_2.png\", \"img/mo/eNodeB_3.png\", \"img/mo/eNodeB_4.png\"],\n               isSet:true\n           });\n     instance.open(\"imageSelect\")\n                .then(function(src){\n                   console.info(src);选中的图片\n               });"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\loading.js",
+            "line": 10,
+            "description": "进度条工具,常用于全局配置ajax执行时显示,ajax结束隐藏",
+            "itemtype": "method",
+            "name": "loading",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数,未配置时隐藏",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "默认为0,暂时有2种,0和1",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "position",
+                            "description": "出现在图上的位置,center,left,right,默认为right",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "logo",
+                            "description": "type=0时，图中央的logo图标",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n       $(document)\n               .ajaxStart(function () {\n                       instance.open(\"loading\", {\n                     type:0,\n                       logo: \"img/logo.png\",\n                       postion:\"right\"\n                   });\n               })\n               .ajaxError(function (e) {\n                       console.error(e);\n               })\n               .ajaxStop(function () {\n                       instance.open(\"loading\");\n               })"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\progress.js",
+            "line": 10,
+            "description": "进度条工具",
+            "itemtype": "method",
+            "name": "progress",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数,未配置时不显示进度条",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "state",
+                            "description": "当前进度,值域0-100(为100时，error未设或为false则延迟1秒后消失,error=true则延迟3秒后消失),未配置时不显示进度条",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "info",
+                            "description": "进度条小标题内容",
+                            "type": "Html",
+                            "optional": true
+                        },
+                        {
+                            "name": "error",
+                            "description": "是否是错误提示,为true时更改进度条样式",
+                            "type": "Boolean",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n     instance.open(\"progress\", {state: 100, info: \"<h5>出现错误!</h5>\", error: true});"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\styleSelect.js",
+            "line": 10,
+            "description": "公用的样式选择窗口",
+            "itemtype": "method",
+            "name": "styleSelect",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "无值则全部展示 ,\n\n键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :\n\n         支持属性有:\n         width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap , curveOffset ,\n         arrowSize , arrowOffset , fontColor , color , borderColor",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "jquery的延迟执行函数,回调函数传入的参数为,根据开启窗口的设置获取相应的值组成的对象",
+                "type": "Deferred"
+            },
+            "example": [
+                "\n     instance.open(\"styleSelect\",{\n                   namePosition:\"top\",\n                   width:50,\n                   height:50,\n                   borderColor:\"255,255,255\"\n       })\n           .then(function(op){\n               console.info(op);//若开启时指定namePosition,width,height,borderColor四项，则回调值也是这四项的\n           });"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\tips.js",
+            "line": 9,
+            "description": "鼠标移动提示框",
+            "itemtype": "method",
+            "name": "tips",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "show",
+                            "description": "未配置则认为要关闭该功能,展示面板内的内容,传入的参数为当前鼠标指向的元素",
+                            "type": "Function",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "指定何时显示,未配置则一直显示,传入的参数为当前鼠标指向的元素",
+                            "type": "Function",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n     两种配置方式,重复设置会替换上次设置\n     1.instance.setComponent({\n               windows: {\n                   tips: {\n                       show: function (target) {\n                           return \"<div>名: \" + target.val(\"name\") + \"</div>\" + \"<div> id: \" + target.val(\"id\") + \"</div>\"\n                       },\n                       filter: function (target) {\n                           return target.getType() == QTopo.constant.NODE;\n                       }\n                   }\n               }\n           });\n       2.instance.open('tips',{\n                   show: function (target) {\n                       return \"<div>名: \" + target.val(\"name\") + \"</div>\" + \"<div> id: \" + target.val(\"id\") + \"</div>\"\n                   },\n                   filter: function (target) {\n                       return target.getType() == QTopo.constant.NODE;\n                   }\n               });\n"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
+            "file": "develop\\component\\windows\\tools\\view.js",
+            "line": 10,
+            "description": "信息弹出框",
+            "itemtype": "method",
+            "name": "view",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "title",
+                            "description": "窗口的标题",
+                            "type": "Html",
+                            "optional": true
+                        },
+                        {
+                            "name": "content",
+                            "description": "窗口的提示内容",
+                            "type": "Html",
+                            "optional": true
+                        },
+                        {
+                            "name": "width",
+                            "description": "窗口宽度",
+                            "type": "Number",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n      instance.open('view',{\n          title:\"提示\",\n          content:\"<h1>展示内容</h1>\",\n          width:200\n      });"
+            ],
+            "class": "windows",
+            "module": "component"
+        },
+        {
             "file": "develop\\component\\windows\\util.js",
             "line": 3,
             "description": "根据窗口以及topo包裹外壳的高度确认窗口的默认位置",
@@ -688,14 +1401,14 @@
                     "description": "设定高度的窗口"
                 }
             ],
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
         },
         {
             "file": "develop\\component\\windows\\util.js",
             "line": 14,
             "win": "初始化的窗口",
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
         },
         {
@@ -712,7 +1425,7 @@
                     "description": "处理json对象的函数"
                 }
             ],
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
         },
         {
@@ -729,7 +1442,7 @@
                     "description": "对象中的键对应表单中的name，自动将值赋上"
                 }
             ],
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
         },
         {
@@ -738,7 +1451,7 @@
             "description": "初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
             "dom": "topo存在的包裹dom,用以注册包裹空间内窗口移动",
             "win": "需要初始化的窗口",
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
         },
         {
@@ -751,7 +1464,7 @@
                     "description": "需要添加滚动条的窗口"
                 }
             ],
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
         },
         {
@@ -772,8 +1485,146 @@
                     "description": "固定计算的窗口高宽"
                 }
             ],
-            "class": "[C] Container",
+            "class": "windows",
             "module": "component"
+        },
+        {
+            "file": "develop\\component\\component.js",
+            "line": 16,
+            "description": "初始化组件模块,加载组件包后可用",
+            "itemtype": "method",
+            "name": "initComponent",
+            "params": [
+                {
+                    "name": "instance",
+                    "description": "QTopo生成的实例对象",
+                    "type": "Instance"
+                },
+                {
+                    "name": "config",
+                    "description": "配置参数",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "hideMenu",
+                            "description": "不载入右键菜单",
+                            "type": "Boolean",
+                            "optional": true
+                        },
+                        {
+                            "name": "hideToolbar",
+                            "description": "不载入工具条",
+                            "type": "Boolean",
+                            "optional": true
+                        },
+                        {
+                            "name": "hideWindows",
+                            "description": "则不载入窗口模块",
+                            "type": "Boolean",
+                            "optional": true
+                        },
+                        {
+                            "name": "rightMenu",
+                            "description": "右键菜单初始化参数",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "filter",
+                                    "description": "过滤掉的菜单的集合",
+                                    "type": "Array"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "windows",
+                            "description": "窗口管理初始化参数",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "filter",
+                                    "description": "过滤掉的窗口的集合",
+                                    "type": "Array"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "toolbar",
+                            "description": "工具条初始化参数",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "hideDefaultSearch",
+                                    "description": "不加载默认搜索功能",
+                                    "type": "Boolean"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "实例对象，支持链式调用",
+                "type": "Instance"
+            },
+            "example": [
+                "\n     IPOSS = QTopo.init(dom, {\n                       backgroundColor: \"#06243e\"\n               });\n     QTopo.initComponent(IPOSS,\n                       {\n                           rightMenu: {\n                               filter: [\"创建节点\", \"添加链路\", \"删除\", \"编辑\", \"元素切换\", \"分组操作\"]\n                           },\n                           toolBar: {\n                               hideDefaultSearch: true\n                           },\n                           windows:{\n                               filter:[\"link\",\"imageNode\"]\n                           }\n                       }\n               )"
+            ],
+            "class": "QTopo",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\component\\component.js",
+            "line": 64,
+            "description": "开启/管理窗口,加载组件包后且组件初始化完毕后可用",
+            "itemtype": "method",
+            "name": "open",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "窗口名",
+                    "type": "String"
+                },
+                {
+                    "name": "config",
+                    "description": "窗口配置，窗口不同配置不同，参考component中的windows api",
+                    "type": "Object"
+                }
+            ],
+            "class": "QTopo.instance",
+            "module": "QTopo"
+        },
+        {
+            "file": "develop\\component\\component.js",
+            "line": 78,
+            "description": "随时配置组件属性,加载组件包后且组件初始化完毕后可用",
+            "itemtype": "method",
+            "name": "setComponent",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "详细配置参考组件说明",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "toolBar",
+                            "description": "工具条配置",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "rightMenu",
+                            "description": "右键菜单配置",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "windows",
+                            "description": "窗口配置",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "QTopo.instance",
+            "module": "QTopo"
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
@@ -3040,23 +3891,23 @@
                 },
                 {
                     "name": "config",
-                    "description": "配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)",
+                    "description": "配置参数,配置内容为图层scene配置(参考scene配置)",
                     "type": "Object",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "instance QTopo实例"
+                "description": "[instance] QTopo实例对象，QTopo.instance"
             },
             "example": [
-                "\n     IPOSS = QTopo.init(\n          document.getElementsByClassName(\"topo_base\")[0],\n         {\n             backgroundColor: \"#06243e\",\n             hideDefaultSearch: true,\n             filterMenu: [\"创建节点\", \"添加链路\", \"删除\", \"编辑\", \"元素切换\",\"分组操作\"],\n             filterWindow: [\"imageNode\", \"link\"]\n         }\n     );"
+                "\n     IPOSS = QTopo.init(\n          document.getElementsByClassName(\"topo_base\")[0],\n         {\n             backgroundColor: \"#06243e\",//基本属性配置背景色\n             path:[] //自定义属性,插入到图层对象scene的额外属性中\n         }\n     );"
             ],
             "class": "QTopo",
             "module": "QTopo"
         },
         {
             "file": "develop\\main.js",
-            "line": 64,
+            "line": 62,
             "description": "topo实例化的图层对象",
             "itemtype": "property",
             "name": "scene",
@@ -3066,7 +3917,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 70,
+            "line": 68,
             "description": "topo实例所在dom",
             "itemtype": "property",
             "name": "document",
@@ -3076,7 +3927,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 83,
+            "line": 81,
             "description": "图层绘制主函数\n\n可以随时使用setOption生成一个或多个元素,或配置告警，也可以一次性全局配置\n\n相关的全局样式请参考各元素自身的attr属性,或通过 元素的getDefault() / scene.getDefault(type)来获取对应元素的全局样式\n\n前端绘图过程可以用工具栏和右键菜单绘制完成后,配合实例的toJson函数取得图层数据,(实例通过QTopo.init初始化且保存在QTopo.instance数组内)\n\n直接将返回对象的option属性传入setOption可复制绘图\n\n每个元素配置的data数组内成员的属性可以是样式也可以是额外属性,自适应取值配置，过滤的额外属性自动分配到元素的extra属性中保存,可以通过node.val('id')的形式获取\n\n和样式重名的额外属性可以放在extra中，extra中的属性将默认全部覆盖到元素的extra属性内",
             "itemtype": "method",
             "name": "setOption",
@@ -3204,7 +4055,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 221,
+            "line": 219,
             "description": "实例自适应大小",
             "itemtype": "method",
             "name": "resize",
@@ -3219,7 +4070,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 237,
+            "line": 235,
             "description": "当前图层数据转化为json结构",
             "itemtype": "method",
             "name": "toJson",
@@ -3712,15 +4563,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:83"
+            "line": " develop\\main.js:81"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:221"
+            "line": " develop\\main.js:219"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:237"
+            "line": " develop\\main.js:235"
         },
         {
             "message": "replacing incorrect tag: returns with return",

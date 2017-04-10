@@ -2,12 +2,7 @@
  * @module component
  */
 /**
- * QTopo.init的配置参数中可初始化设置
- *
- * 选择过滤掉哪些预设右键菜单功能
- *
- * filterMenu: ["创建节点", "添加链路", "删除", "编辑", "元素切换","分组操作"]
- *
+ * 右键菜单模块
  * @class rightMenu
  * @static
  */
@@ -18,12 +13,12 @@ module.exports = {
     init: initRigheMenu
 };
 /*
- * 从函数仓库中取数据构造菜单栏
+ * 初始化右键菜单
  * @param instance topo实例对象
- * @param windows 可能操作到的窗口
  * @param filter 过滤右键菜单
  */
-function initRigheMenu(instance, windows, filter) {
+function initRigheMenu(instance, config) {
+    config=config||{};
     var dom = instance.document;
     var scene = instance.scene;
     var wrap = $(dom).find(".qtopo-rightMenu");
@@ -33,12 +28,12 @@ function initRigheMenu(instance, windows, filter) {
     }
     var rightMenu = new Menu(wrap);
     rightMenu.init(scene);
-    if (!windows) {
-        QTopo.util.error("windows is not init ,menu options about windows may not work");
+    if (!$.isFunction(instance.open)) {
+        QTopo.util.error("windows component is not init ,menu options about windows may not work");
     }
-    var add = makeAdd(instance, scene, rightMenu, windows.windows, windows.tools);
-    if(!(filter&&filter=='all')){
-        add(getMenus, filter);
+    var add = makeAdd(instance, scene, rightMenu);
+    if(!(config&&config.filter&&config.filter=='all')){
+        add(getMenus, config.filter);
     }
     return {
         /**
@@ -47,14 +42,14 @@ function initRigheMenu(instance, windows, filter) {
          * @method add
          * @param fn {function}
          * @example
-         *          IPOSS.setComponent({
+         *          instance.setComponent({
          *              rightMenu:{
-         *                          参数列表分别为 图层元素,右键菜单对象,可调用的窗口对象,可调用的工具窗口
-         *                      add:function (scene, menu, windows, tools) {
+         *                          执行过程中会传入当前实例对象，图层对象，右键菜单对象,其中右键菜单对象记录有触发的目标以及位置信息
+         *                      add:function (instance,scene, menu) {
          *                                  return [
          *                                           {
                                                         name: "刷新",//菜单名称
-                                                        order: 3,   //菜单顺序权值
+                                                        order: 3,   //可选,在配置了order函数时作为参数传入,用作菜单位置排序
                                                         click: function () {
                                                             //点击该菜单时的处理
                                                             menu.target为当前触发菜单的元素
@@ -105,7 +100,7 @@ function initRigheMenu(instance, windows, filter) {
          * @method order
          * @param fn {function}
          * @example
-         *          IPOSS.setComponent({
+         *          instance.setComponent({
                             rightMenu: {
                                 order: function (a, b) {
                                         return a - b;//参考数组排序,穿进来的是add函数中添加的order值
@@ -116,10 +111,10 @@ function initRigheMenu(instance, windows, filter) {
         reOrder: makeOrder(rightMenu)
     };
 }
-function makeAdd(instance, scene, rightMenu, windows, tools) {
+function makeAdd(instance, scene, rightMenu) {
     return function (fn, filter) {
         if ($.isFunction(fn)) {
-            var menus = fn(scene, rightMenu, windows, tools);
+            var menus = fn(instance,scene, rightMenu);
             if ($.isArray(filter)) {
                 menus = menus.filter(function (v) {
                     return filter.indexOf(v.name) < 0;

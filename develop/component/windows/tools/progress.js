@@ -3,6 +3,20 @@ var util=require("../util.js");
 module.exports={
     init:init
 };
+/**
+ * @module component
+ * @class windows
+ */
+/**
+ * 进度条工具
+ * @method progress
+ * @param [config] {object} 配置参数,未配置时不显示进度条
+ *  @param config.state {number} 当前进度,值域0-100(为100时，error未设或为false则延迟1秒后消失,error=true则延迟3秒后消失),未配置时不显示进度条
+ *  @param [config.info] {html} 进度条小标题内容
+ *  @param [config.error] {boolean} 是否是错误提示,为true时更改进度条样式
+ * @example
+ *      instance.open("progress", {state: 100, info: "<h5>出现错误!</h5>", error: true});
+ */
 function init(dom){
     temp=$(temp);
     var bar=temp.find('.progress-bar');

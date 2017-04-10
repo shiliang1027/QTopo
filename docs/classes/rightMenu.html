@@ -29,6 +29,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                  <ul class="nav navbar-nav">
                     
+                    <li><a href="./index.html">教程</a>
+                    </li>
+                    
                     <li><a href="./download/qtopo.zip">下载</a>
                     </li>
                     
@@ -57,6 +60,22 @@
                        <li>
                             
                            <a href="../classes/rightMenu.html">rightMenu</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/toolBar.html">toolBar</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/windows.html">windows</a>
                            <ul>
                                 
                            </ul>
@@ -256,9 +275,7 @@
     <h1>rightMenu <small>Class</small></h1>
 </div>
  <div class="well well-small sign-left3">
-      <div class="stdoc-code"><p>QTopo.init的配置参数中可初始化设置</p>
-<p>选择过滤掉哪些预设右键菜单功能</p>
-<p>filterMenu: ["创建节点", "添加链路", "删除", "编辑", "元素切换","分组操作"]</p>
+      <div class="stdoc-code"><p>右键菜单模块</p>
 </div>
  </div>
 
@@ -291,6 +308,136 @@
         <div class="index-section properties col-sm-4">
             <h3>Properties</h3>
             
+            <ul class="index-list properties">
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_Debug" data-tablink="Debug">Debug</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_元素切换" data-tablink="元素切换">元素切换</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_分组操作" data-tablink="分组操作">分组操作</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_创建分组" data-tablink="创建分组">创建分组</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_创建节点" data-tablink="创建节点">创建节点</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_删除" data-tablink="删除">删除</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_加入分组" data-tablink="加入分组">加入分组</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_取消高亮" data-tablink="取消高亮">取消高亮</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_图片节点" data-tablink="图片节点">图片节点</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_层次切换" data-tablink="层次切换">层次切换</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_文字节点" data-tablink="文字节点">文字节点</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_添加链路" data-tablink="添加链路">添加链路</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_相关高亮" data-tablink="相关高亮">相关高亮</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_移出分组" data-tablink="移出分组">移出分组</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_编辑" data-tablink="编辑">编辑</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_设为终点" data-tablink="设为终点">设为终点</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_设为起点" data-tablink="设为起点">设为起点</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item property">
+                        <a href="#" data-tabid="#property" data-anchor="#property_锁定" data-tablink="锁定">锁定</a>
+
+                        
+                        
+                    </li>
+                
+            </ul>
+            
         </div>
     
         <div class="index-section events col-sm-4">
@@ -306,6 +453,8 @@
         
             <li><a data-toggle="tab" href="#method">Methods</a></li>
         
+        
+            <li><a data-toggle="tab" href="#property">Properties</a></li>
         
         
     </ul>
@@ -385,7 +534,7 @@
             
         
         
-        <a href="../files/develop_component_rightMenu_rightMenu.js.html#l44"><code>develop\component\rightMenu\rightMenu.js:44</code></a>
+        <a href="../files/develop_component_rightMenu_rightMenu.js.html#l39"><code>develop\component\rightMenu\rightMenu.js:39</code></a>
         
         </p>
 
@@ -440,12 +589,12 @@
             <div class="example-content ">
                 <div class="stdoc-code"><pre class="code prettyprint"><code>     IPOSS.setComponent({
          rightMenu:{
-                     参数列表分别为 图层元素,右键菜单对象,可调用的窗口对象,可调用的工具窗口
-                 add:function (scene, menu, windows, tools) {
+                     执行过程中会传入当前实例对象，图层对象，右键菜单对象,其中右键菜单对象记录有触发的目标以及位置信息
+                 add:function (instance,scene, menu) {
                              return [
                                       {
                                                    name: "刷新",//菜单名称
-                                                   order: 3,   //菜单顺序权值
+                                                   order: 3,   //可选,在配置了order函数时作为参数传入,用作菜单位置排序
                                                    click: function () {
                                                        //点击该菜单时的处理
                                                        menu.target为当前触发菜单的元素
@@ -542,7 +691,7 @@
             
         
         
-        <a href="../files/develop_component_rightMenu_rightMenu.js.html#l102"><code>develop\component\rightMenu\rightMenu.js:102</code></a>
+        <a href="../files/develop_component_rightMenu_rightMenu.js.html#l97"><code>develop\component\rightMenu\rightMenu.js:97</code></a>
         
         </p>
 
@@ -615,6 +764,976 @@
             </div>
         
 
+        
+            <div id="property" class="tab-pane">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_Debug" class="property item">
+    <h3 class="name"><code>Debug</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l102"><code>develop\component\rightMenu\repertory.js:102</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>将目标打印到控制台</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_元素切换" class="property item">
+    <h3 class="name"><code>元素切换</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l201"><code>develop\component\rightMenu\repertory.js:201</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>元素的一般操作子菜单</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+        <h4>Sub-properties:</h4>
+
+        <ul class="params-list">
+            
+            <li class="param">
+                
+                    <code class="param-name">层次切换</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+            <li class="param">
+                
+                    <code class="param-name">相关高亮</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+        </ul>
+    
+</div>
+
+                
+                    <div id="property_分组操作" class="property item">
+    <h3 class="name"><code>分组操作</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l312"><code>develop\component\rightMenu\repertory.js:312</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>分组相关操作子菜单,</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+        <h4>Sub-properties:</h4>
+
+        <ul class="params-list">
+            
+            <li class="param">
+                
+                    <code class="param-name">锁定</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+            <li class="param">
+                
+                    <code class="param-name">加入分组</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+            <li class="param">
+                
+                    <code class="param-name">移出分组</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+            <li class="param">
+                
+                    <code class="param-name">创建分组</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+        </ul>
+    
+</div>
+
+                
+                    <div id="property_创建分组" class="property item">
+    <h3 class="name"><code>创建分组</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l363"><code>develop\component\rightMenu\repertory.js:363</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>当选中了2个或2个以上的节点时，出现该选项，打开创建分组窗口</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_创建节点" class="property item">
+    <h3 class="name"><code>创建节点</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l240"><code>develop\component\rightMenu\repertory.js:240</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>打开节点对应的创建窗口</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+        <h4>Sub-properties:</h4>
+
+        <ul class="params-list">
+            
+            <li class="param">
+                
+                    <code class="param-name">图片节点</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+            <li class="param">
+                
+                    <code class="param-name">文字节点</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+        </ul>
+    
+</div>
+
+                
+                    <div id="property_删除" class="property item">
+    <h3 class="name"><code>删除</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l157"><code>develop\component\rightMenu\repertory.js:157</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>删除元素</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_加入分组" class="property item">
+    <h3 class="name"><code>加入分组</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l337"><code>develop\component\rightMenu\repertory.js:337</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>为锁定的分组加入目标元素,</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_取消高亮" class="property item">
+    <h3 class="name"><code>取消高亮</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l186"><code>develop\component\rightMenu\repertory.js:186</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>将所有元素高亮</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_图片节点" class="property item">
+    <h3 class="name"><code>图片节点</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l250"><code>develop\component\rightMenu\repertory.js:250</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>打开创建图形节点窗口</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_层次切换" class="property item">
+    <h3 class="name"><code>层次切换</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l211"><code>develop\component\rightMenu\repertory.js:211</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>元素的显示层级切换,首次切换成最高级，已到最高级的降至最低级</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_文字节点" class="property item">
+    <h3 class="name"><code>文字节点</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l260"><code>develop\component\rightMenu\repertory.js:260</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>打开创建文本节点窗口</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_添加链路" class="property item">
+    <h3 class="name"><code>添加链路</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l275"><code>develop\component\rightMenu\repertory.js:275</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>打开设置链路窗口,只有同时存在起点和终点设置时才开启窗口</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+        <h4>Sub-properties:</h4>
+
+        <ul class="params-list">
+            
+            <li class="param">
+                
+                    <code class="param-name">设为起点</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+            <li class="param">
+                
+                    <code class="param-name">设为终点</code>
+                    <span class="type">Object</span>
+                
+
+                <div class="param-description">
+                     
+                </div>
+
+                
+            </li>
+            
+        </ul>
+    
+</div>
+
+                
+                    <div id="property_相关高亮" class="property item">
+    <h3 class="name"><code>相关高亮</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l224"><code>develop\component\rightMenu\repertory.js:224</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>将与元素相关联的元素以及链路高亮，其他元素和链路透明度降低</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_移出分组" class="property item">
+    <h3 class="name"><code>移出分组</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l350"><code>develop\component\rightMenu\repertory.js:350</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>将目标元素移出所在分组,</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_编辑" class="property item">
+    <h3 class="name"><code>编辑</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l126"><code>develop\component\rightMenu\repertory.js:126</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>根据元素类型自适应打开编辑窗口</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_设为终点" class="property item">
+    <h3 class="name"><code>设为终点</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l296"><code>develop\component\rightMenu\repertory.js:296</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>设置终点，窗口关闭后清空</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_设为起点" class="property item">
+    <h3 class="name"><code>设为起点</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l285"><code>develop\component\rightMenu\repertory.js:285</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>设置起点，窗口关闭后清空</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_锁定" class="property item">
+    <h3 class="name"><code>锁定</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_rightMenu_repertory.js.html#l324"><code>develop\component\rightMenu\repertory.js:324</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <div class="stdoc-code"><p>选定一个分组用以后续操作,用以加入分组操作</p>
+</div>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

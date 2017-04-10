@@ -1,3 +1,11 @@
+/**
+ * @module component
+ */
+/**
+ * 窗口管理,所有窗口统一用instance.open(type,config)接口打开,type和窗口名对应指示打开哪种窗口，根据config做配置,
+ * @class windows
+ * @static
+ */
 require("./tools/style.css");
 require("./windows.css");
 require("./tools.css");
@@ -20,24 +28,31 @@ var wins = {
     container: require("./container/win.js")
 };
 module.exports = {
-    init: init,
-    set: set
+    init: init
 };
 /*
  * 初始化窗口组件
  * @param instance topo实例化对象
  * @param filter 禁止载入一些窗口
  */
-function init(instance,filter) {
+function init(instance,config) {
+    config=config||{};
     var wrap = getWrap(instance.document, "qtopo-windows");
     //公用窗口
     var tools = initToolsWindow(wrap, instance.document, instance.scene);
     //私有窗口
-    var wins = initPrivateWin(wrap, tools, instance.document, instance.scene,filter);
+    var wins = initPrivateWin(wrap, tools, instance.document, instance.scene,config.filter);
     return {
-        windows: wins,
-        tools: tools
-    };
+        open:function (type, config) {
+            var opened=tools[type]||wins[type];
+            if(opened&&$.isFunction(opened.open)){
+                return opened.open(config);
+            }
+        },
+        setImages:function(images){
+            tools.imageSelect.setImage(images);
+        }
+    }
 }
 
 function initToolsWindow(wrap, dom, scene) {
@@ -71,7 +86,4 @@ function getWrap(dom, clazz) {
         dom.append(wrap);
     }
     return wrap;
-}
-function set(config) {
-
 }

@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>windows - QTopo</title>
+  
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-smart">
+ <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               <a class="navbar-brand mainlogo" href="https://github.com/hai3460377/QTopo">
+             
+            <img alt="QTopo" src="..\logo.png" title="QTopo">
+            
+                QTopo
+          </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                 <ul class="nav navbar-nav">
+                    
+                    <li><a href="./index.html">教程</a>
+                    </li>
+                    
+                    <li><a href="./download/qtopo.zip">下载</a>
+                    </li>
+                    
+                </ul>
+               <div class="navbar-form navbar-right filterAPi" autocomplete="off">
+                <input type="text" id='txtSearchAPI' class="form-control search-query" placeholder="Search for API" />
+                 <ul id="filterList" class="filterItems dropdown-menu" role="menu"></ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="sidebar">
+    <h3>Modules/Classes</h3>
+        <div id="api-tabview-filter">
+            <input id='txtSearch' type="search" class="form-control" placeholder="Type to filter Modules/Classes">
+        </div>
+        <dl id="sidebar_list">
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/component.html">component</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/rightMenu.html">rightMenu</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/toolBar.html">toolBar</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/windows.html">windows</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/core.html">core</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/[C] Container.html">[C] Container</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/Group.html">Group</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/DirectLine.html">DirectLine</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[LE] Line.html">[LE] Line</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/CurveLink.html">CurveLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/DirectLink.html">DirectLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/FlexionalLink.html">FlexionalLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/FoldLink.html">FoldLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[L] Link.html">[L] Link</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/ImageNode.html">ImageNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[N] Node.html">[N] Node</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/TextNode.html">TextNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[E] Element.html">[E] Element</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/Scene.html">Scene</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/QTopo.html">QTopo</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/QTopo.html">QTopo</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/QTopo.instance.html">QTopo.instance</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/QTopo.util.html">QTopo.util</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+        </dl>
+</div>
+   
+    <div class="stdoc-content">
+        <!--     <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+ -->
+        <div class="apidocs">
+            <div id="docs-main">
+                <div class="content">
+                    <div class="page-header">
+    <h1>windows <small>Class</small></h1>
+</div>
+ <div class="well well-small sign-left3">
+      <div class="stdoc-code"><p>窗口管理,所有窗口统一用instance.open(type,config)接口打开,type和窗口名对应指示打开哪种窗口，根据config做配置,</p>
+</div>
+ </div>
+
+<div class="well well-small sign-left2 container-fluid" id="classesItems">
+    <div class="row">
+    
+        <div class="index-section methods col-sm-4">
+            <h3>Methods</h3>
+            
+            <ul class="index-list methods">
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_confirm" data-tablink="confirm">confirm</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_imageSelect" data-tablink="imageSelect">imageSelect</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_loading" data-tablink="loading">loading</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_progress" data-tablink="progress">progress</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_styleSelect" data-tablink="styleSelect">styleSelect</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_tips" data-tablink="tips">tips</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_view" data-tablink="view">view</a>
+
+                        
+                        
+                    </li>
+                
+            </ul>
+            
+        </div>
+    
+        <div class="index-section properties col-sm-4">
+            <h3>Properties</h3>
+            
+        </div>
+    
+        <div class="index-section events col-sm-4">
+            <h3>Events</h3>
+            
+        </div>
+    </div>
+</div>
+
+<div>
+    <ul id="itemTab" class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#class">Detail</a></li>
+        
+            <li><a data-toggle="tab" href="#method">Methods</a></li>
+        
+        
+        
+    </ul>
+
+    <div class="tab-content">
+        <div id="class" class="tab-pane active">
+            <div class="well well-small classDetail sign-left1">
+            
+
+            
+
+            
+                <div class="foundat">
+                    Defined in: <a href="../files/develop_component_windows_windows.js.html#l4"><code>develop\component\windows\windows.js:4</code></a>
+                </div>
+            
+
+            
+                
+                    Module: <a href="../modules/component.html">component</a>
+                
+            
+
+            
+        </div>
+
+        
+            
+        </div>
+
+        
+            <div id="method" class="tab-pane">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_confirm" class="method item">
+    <h3 class="name">confirm</h3>
+    <code>
+    confirm
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_confirm.js.html#l10"><code>develop\component\windows\tools\confirm.js:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>确认弹出框</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[title]</code></td>
+                                <td><span class="type">Html</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口的标题</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[content]</code></td>
+                                <td><span class="type">Html</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口的提示内容</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[ok]</code></td>
+                                <td><span class="type">Function</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>确认后的处理函数</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[cancel]</code></td>
+                                <td><span class="type">Function</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>取消后的处理函数</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[width]</code></td>
+                                <td><span class="type">Number</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口宽度</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code> instance.open(&#39;confirm&#39;,{
+     title:"确认操作",
+     content:"确认操作?",
+     width:200,
+     ok:function(){
+         console.info(&#39;ok&#39;);
+     },
+     cancel:function(){
+         console.info(&#39;cancel&#39;);
+     }
+ });</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_imageSelect" class="method item">
+    <h3 class="name">imageSelect</h3>
+    <code>
+    imageSelect
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        [config]
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+        <span class="returns-inline">
+            <span class="type">Deferred</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_imageSelect.js.html#l11"><code>develop\component\windows\tools\imageSelect.js:11</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>开启图片选择框,无参</p>
+<p>需初始化组件模块后配置图片数组,配置参考样例</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                    <td>
+                        <code class="param-name optional">[config]</code></td>
+                    <td><span class="type">Object</span></td>
+                    <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数,无参数则只开启不设置</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[images]</code></td>
+                                <td><span class="type">Array</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口内应用的图片集合,不设置则沿用上次设置</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[isSet]</code></td>
+                                <td><span class="type">Boolean</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>确认是打开窗口还是设置窗口,为ture则不打开窗口只设置，false或不设则默认开启</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        [<span class="type">Deferred</span>]
+                    
+                    <p>jquery的延迟执行函数</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code> 两种设置窗口内容的方式:
+ 1.instance.setComponent({
+               windows: {
+                   images: ["img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png"]
+               }
+        });
+   2.instance.open(&#39;imageSelect&#39;,{
+           images: ["img/mo/eNodeB.png", "img/mo/eNodeB_1.png", "img/mo/eNodeB_2.png", "img/mo/eNodeB_3.png", "img/mo/eNodeB_4.png"],
+           isSet:true
+       });
+ instance.open("imageSelect")
+            .then(function(src){
+               console.info(src);选中的图片
+           });</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_loading" class="method item">
+    <h3 class="name">loading</h3>
+    <code>
+    loading
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        [config]
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_loading.js.html#l10"><code>develop\component\windows\tools\loading.js:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>进度条工具,常用于全局配置ajax执行时显示,ajax结束隐藏</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                    <td>
+                        <code class="param-name optional">[config]</code></td>
+                    <td><span class="type">Object</span></td>
+                    <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数,未配置时隐藏</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[type]</code></td>
+                                <td><span class="type">Number</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>默认为0,暂时有2种,0和1</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[position]</code></td>
+                                <td><span class="type">String</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>出现在图上的位置,center,left,right,默认为right</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[logo]</code></td>
+                                <td><span class="type">String</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>type=0时，图中央的logo图标</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code>   $(document)
+           .ajaxStart(function () {
+                   instance.open("loading", {
+                 type:0,
+                   logo: "img/logo.png",
+                   postion:"right"
+               });
+           })
+           .ajaxError(function (e) {
+                   console.error(e);
+           })
+           .ajaxStop(function () {
+                   instance.open("loading");
+           })</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_progress" class="method item">
+    <h3 class="name">progress</h3>
+    <code>
+    progress
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        [config]
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_progress.js.html#l10"><code>develop\component\windows\tools\progress.js:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>进度条工具</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                    <td>
+                        <code class="param-name optional">[config]</code></td>
+                    <td><span class="type">Object</span></td>
+                    <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数,未配置时不显示进度条</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">state</code>
+                                   <td> <span class="type">Number</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>当前进度,值域0-100(为100时，error未设或为false则延迟1秒后消失,error=true则延迟3秒后消失),未配置时不显示进度条</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[info]</code></td>
+                                <td><span class="type">Html</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>进度条小标题内容</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[error]</code></td>
+                                <td><span class="type">Boolean</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>是否是错误提示,为true时更改进度条样式</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code> instance.open("progress", {state: 100, info: "&lt;h5&gt;出现错误!&lt;/h5&gt;", error: true});</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_styleSelect" class="method item">
+    <h3 class="name">styleSelect</h3>
+    <code>
+    styleSelect
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        [config]
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+        <span class="returns-inline">
+            <span class="type">Deferred</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_styleSelect.js.html#l10"><code>develop\component\windows\tools\styleSelect.js:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>公用的样式选择窗口</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                    <td>
+                        <code class="param-name optional">[config]</code></td>
+                    <td><span class="type">Object</span></td>
+                    <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>无值则全部展示 ,</p>
+<p>键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :</p>
+<pre><code>     支持属性有:
+     width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap , curveOffset ,
+     arrowSize , arrowOffset , fontColor , color , borderColor</code></pre>
+
+                    </div>
+
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        [<span class="type">Deferred</span>]
+                    
+                    <p>jquery的延迟执行函数,回调函数传入的参数为,根据开启窗口的设置获取相应的值组成的对象</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code> instance.open("styleSelect",{
+               namePosition:"top",
+               width:50,
+               height:50,
+               borderColor:"255,255,255"
+   })
+       .then(function(op){
+           console.info(op);//若开启时指定namePosition,width,height,borderColor四项，则回调值也是这四项的
+       });</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_tips" class="method item">
+    <h3 class="name">tips</h3>
+    <code>
+    tips
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_tips.js.html#l9"><code>develop\component\windows\tools\tips.js:9</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>鼠标移动提示框</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[show]</code></td>
+                                <td><span class="type">Function</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>未配置则认为要关闭该功能,展示面板内的内容,传入的参数为当前鼠标指向的元素</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[filter]</code></td>
+                                <td><span class="type">Function</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>指定何时显示,未配置则一直显示,传入的参数为当前鼠标指向的元素</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code> 两种配置方式,重复设置会替换上次设置
+ 1.instance.setComponent({
+           windows: {
+               tips: {
+                   show: function (target) {
+                       return "&lt;div&gt;名: " + target.val("name") + "&lt;/div&gt;" + "&lt;div&gt; id: " + target.val("id") + "&lt;/div&gt;"
+                   },
+                   filter: function (target) {
+                       return target.getType() == QTopo.constant.NODE;
+                   }
+               }
+           }
+       });
+   2.instance.open(&#39;tips&#39;,{
+               show: function (target) {
+                   return "&lt;div&gt;名: " + target.val("name") + "&lt;/div&gt;" + "&lt;div&gt; id: " + target.val("id") + "&lt;/div&gt;"
+               },
+               filter: function (target) {
+                   return target.getType() == QTopo.constant.NODE;
+               }
+           });</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_view" class="method item">
+    <h3 class="name">view</h3>
+    <code>
+    view
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_windows_tools_view.js.html#l10"><code>develop\component\windows\tools\view.js:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>信息弹出框</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[title]</code></td>
+                                <td><span class="type">Html</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口的标题</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[content]</code></td>
+                                <td><span class="type">Html</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口的提示内容</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[width]</code></td>
+                                <td><span class="type">Number</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口宽度</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code>  instance.open(&#39;view&#39;,{
+      title:"提示",
+      content:"&lt;h1&gt;展示内容&lt;/h1&gt;",
+      width:200
+  });</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<a id="gotoTop" class='well well-small' href='#'>
+    Top
+</a>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/doc.js"></script>
+</body>
+</html>

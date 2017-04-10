@@ -3,6 +3,33 @@ var util=require("../util.js");
 module.exports = {
     init: init
 };
+/**
+ * @module component
+ * @class windows
+ */
+/**
+ * 进度条工具,常用于全局配置ajax执行时显示,ajax结束隐藏
+ * @method loading
+ * @param [config] {object} 配置参数,未配置时隐藏
+ *  @param [config.type] {number} 默认为0,暂时有2种,0和1
+ *  @param [config.position] {string} 出现在图上的位置,center,left,right,默认为right
+ *  @param [config.logo] {string}type=0时，图中央的logo图标
+ * @example
+        $(document)
+                .ajaxStart(function () {
+                        instance.open("loading", {
+ *                      type:0,
+                        logo: "img/logo.png",
+                        postion:"right"
+                    });
+                })
+                .ajaxError(function (e) {
+                        console.error(e);
+                })
+                .ajaxStop(function () {
+                        instance.open("loading");
+                })
+ */
 function init(dom,scene) {
     temp = $(temp).hide();
     var logo = temp.find(".loading-logo");

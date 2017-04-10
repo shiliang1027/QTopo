@@ -3,11 +3,32 @@ var util = require("../util.js");
 module.exports = {
     init: init
 };
-/*
+/**
+ * @module component
+ * @class windows
+ */
+/**
  * 公用的样式选择窗口
- * @param dom
- * @param scene
- * @returns {*}窗口的Jquery对象 包含open函数，函数返回一个延迟函数，在确认按钮点击后释放
+ * @method styleSelect
+ * @param [config] {object} 无值则全部展示 ,
+ *
+ * 键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :
+ *
+ *          支持属性有:
+ *          width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap , curveOffset ,
+ *          arrowSize , arrowOffset , fontColor , color , borderColor
+ *
+ * @return  {deferred} jquery的延迟执行函数,回调函数传入的参数为,根据开启窗口的设置获取相应的值组成的对象
+ * @example
+ *      instance.open("styleSelect",{
+                    namePosition:"top",
+                    width:50,
+                    height:50,
+                    borderColor:"255,255,255"
+        })
+            .then(function(op){
+                console.info(op);//若开启时指定namePosition,width,height,borderColor四项，则回调值也是这四项的
+            });
  */
 function init(dom, scene) {
     temp = $(temp);

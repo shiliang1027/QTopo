@@ -3,6 +3,32 @@ var util = require("../util.js");
 module.exports = {
     init: init
 };
+/**
+ * @module component
+ * @class windows
+ */
+/**
+ * 确认弹出框
+ * @method confirm
+ * @param config{object} 配置参数
+ *  @param [config.title] {html} 窗口的标题
+ *  @param [config.content] {html} 窗口的提示内容
+ *  @param [config.ok] {function} 确认后的处理函数
+ *  @param [config.cancel] {function} 取消后的处理函数
+ *  @param [config.width] {number} 窗口宽度
+ * @example
+ *      instance.open('confirm',{
+ *          title:"确认操作",
+ *          content:"确认操作?",
+ *          width:200,
+ *          ok:function(){
+ *              console.info('ok');
+ *          },
+ *          cancel:function(){
+ *              console.info('cancel');
+ *          }
+ *      });
+ */
 function init(dom) {
     temp = $(temp);
     var body = temp.find('.modal-body');

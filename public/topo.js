@@ -28,6 +28,7 @@ $(document).ready(function () {
     var topo = QTopo.init(document.getElementById("topo_base"),{
         backgroundColor:"#06243e"
     });
+    QTopo.initComponent(topo);
     //QTopo.log.info=false;//关闭日志
     var scene=topo.scene;
     topo.setComponent({

@@ -28,9 +28,15 @@ module.exports = {
         //logo地址
         logo : './logo.png',
         //导航信息
-        navs: [{
+        navs: [
+            {
+            name: "教程",
+            url: "./index.html"
+        },
+            {
             name: "下载",
             url: "./download/qtopo.zip"
-        }]
+        }
+        ]
     }
 };

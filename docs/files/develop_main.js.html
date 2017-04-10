@@ -29,6 +29,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                  <ul class="nav navbar-nav">
                     
+                    <li><a href="./index.html">教程</a>
+                    </li>
+                    
                     <li><a href="./download/qtopo.zip">下载</a>
                     </li>
                     
@@ -57,6 +60,22 @@
                        <li>
                             
                            <a href="../classes/rightMenu.html">rightMenu</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/toolBar.html">toolBar</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/windows.html">windows</a>
                            <ul>
                                 
                            </ul>
@@ -299,16 +318,14 @@ var Scene = require(&#x27;./core/Scene.js&#x27;);
  * 初始化Qtopo实例,创建并将其保存在QTopo.instance数组内,实例api参考QTopo.instance
  *  @method init
  *  @param dom {document} 指定初始化所在的dom,若是数组则自动取第一个
- *  @param [config] {object} 配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)
- *  @returns instance QTopo实例
+ *  @param [config] {object} 配置参数,配置内容为图层scene配置(参考scene配置)
+ *  @returns [instance] QTopo实例对象，QTopo.instance
  *  @example
  *      IPOSS = QTopo.init(
  *           document.getElementsByClassName(&quot;topo_base&quot;)[0],
  *          {
- *              backgroundColor: &quot;#06243e&quot;,
- *              hideDefaultSearch: true,
- *              filterMenu: [&quot;创建节点&quot;, &quot;添加链路&quot;, &quot;删除&quot;, &quot;编辑&quot;, &quot;元素切换&quot;,&quot;分组操作&quot;],
- *              filterWindow: [&quot;imageNode&quot;, &quot;link&quot;]
+ *              backgroundColor: &quot;#06243e&quot;,//基本属性配置背景色
+ *              path:[] //自定义属性,插入到图层对象scene的额外属性中
  *          }
  *      );
  */

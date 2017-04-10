@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\core\element\node\Image.js - QTopo</title>
+    <title>develop\component\toolBar\toolBar.js - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -272,283 +272,295 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>develop\core\element\node\Image.js <small>File</small></h1>
+    <h1>develop\component\toolBar\toolBar.js <small>File</small></h1>
 </div>
 
 <div class="file">
     <pre class="prettyprint linenums" id='src_code'>
 /**
- * @module core
+ * @module component
  */
 /**
- * 图形节点
- * @class  ImageNode
- * @constructor
- * @extends [N] Node
- * @param [config] 配置参数，无参则按全局配置创建
+ * 工具条模块
+ * @class toolBar
+ * @static
  */
-var Node=require(&quot;./Node.js&quot;);
+require(&quot;./toolBar.css&quot;);
+var toolBar = require(&quot;./toolBar.html&quot;);
+var selectResult = require(&quot;./selectResult.html&quot;);
 module.exports = {
-    constructor:ImageNode,
-    setDefault:setDefault,
-    getDefault:getDefault
+    init: init
 };
-//-
-var DEFAULT= {
-    image: &quot;&quot;,
-    size: [60, 60],
-    name: &quot;node&quot;,
-    alpha: 1,
-    position: [0, 0],
-    font: {
-        size: 16,
-        type: &#x27;微软雅黑&#x27;,
-        color: &quot;255,255,255&quot;
-    },
-    jsonId:&quot;&quot;,
-    border:{
-        width:0,
-        radius:0,//最大160 最小0
-        color:&quot;255,0,0&quot;
-    },
-    zIndex: 200,//层级(10-999)
-    color: JTopo.util.randomColor(),
-    namePosition: &#x27;bottom&#x27;,
-    useType: QTopo.constant.node.IMAGE,
-    alarm: {
-        show: false,
-        text: &quot;&quot;,
-        color: &quot;255,255,255&quot;,
-        font: {
-            size: 16,
-            type: &quot;微软雅黑&quot;
-        }
+function init(instance,config) {
+    config=config||{};
+    var dom = instance.document;
+    var scene = instance.scene;
+    var wrap = $(dom).find(&quot;.qtopo-toolBar&quot;);
+    if (wrap.length == 0) {
+        wrap = $(&quot;&lt;div class=&#x27;qtopo-toolBar&#x27;&gt;&lt;/div&gt;&quot;);
+        $(dom).append(wrap);
     }
-};
-function setDefault(config){
-    QTopo.util.extend(DEFAULT, config || {});
-}
-function getDefault(){
-    return QTopo.util.deepClone(DEFAULT);
-}
-//-
-//------
-    var jtopoReset={
-        //重写绘制函数，优化告警效果
-        paint:function (cx) {
-            alarmFlash.call(this,cx);
-            if (this.image) {
-                var b = cx.globalAlpha;
-                cx.globalAlpha = this.alpha;
-                if(null != this.alarmImage&amp;&amp; null != this.alarm ){
-                    cx.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height)
-                }else{
-                    cx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
+    toolBar = $(toolBar);
+    editBar = toolBar.find(&quot;.edit-children&quot;);
+    selectResult = $(selectResult).hide();
+    wrap.append(toolBar);
+    wrap.append(selectResult);
+    wrap.find(&quot;[data-toggle*=&#x27;tooltip&#x27;]&quot;).tooltip();//开启提示框
+    //切换模式和子菜单栏显示位置
+    wrap.find(&quot;[name=topo_mode]&quot;).click(function (e) {
+        var mode = $(this).find(&quot;input&quot;).val();
+        scene.setMode(mode);
+        if (mode == &quot;normal&quot;) {
+            editBar.show();
+        } else {
+            editBar.hide();
+        }
+    });
+    /**
+     * 调用scene.goCenter()缩放和居中展示
+     * @property 居中展示
+     */
+    toolBar.find(&quot;button[name=center]&quot;).click(function () {
+        scene.goCenter();
+    });
+    /**
+     * 调用scene.resize(1)还原比例
+     * @property 正常显示
+     */
+    toolBar.find(&quot;button[name=common]&quot;).click(function () {
+        scene.resize(1);
+    });
+    /**
+     * 调用scene.toggleZoom()开启鼠标缩放,操作鼠标滚轮放大和缩小图层
+     * @property 鼠标缩放
+     */
+    toolBar.find(&quot;button[name=zoom_checkbox]&quot;).click(function () {
+        scene.toggleZoom();
+    });
+    /**
+     * 调用scene.toggleEagleEye()切换鹰眼
+     * @property 鹰眼
+     */
+    toolBar.find(&quot;button[name=eagle_eye]&quot;).click(function () {
+        scene.toggleEagleEye();
+    });
+    /**
+     * 调用scene.getPicture()新窗口打开图层截图
+     * @property 导出png
+     */
+    toolBar.find(&quot;button[name=export_image]&quot;).click(function () {
+        scene.getPicture();
+    });
+    /**
+     * 开启自动布局设置窗口,需要载入windows模块
+     * @property 自动布局
+     */
+    editBar.find(&quot;button[name=auto_layout]&quot;).click(function () {
+        if($.isFunction(instance.open)){
+            instance.open(&quot;autoLayout&quot;);
+        }else{
+            QTopo.util.error(&quot;The autoLayout window need init windows conponent!&quot;);
+        }
+    });
+    var addSearch = initSearchMode(instance, scene, toolBar, selectResult);
+    if (!config.hideDefaultSearch) {
+        addSearch({
+            type: &quot;value&quot;,
+            name: &quot;default&quot;,
+            hideResult: false,
+            search: function (val) {
+                return scene.find(val, &quot;node&quot;)
+                    .map(function (i) {
+                        return {
+                            content: i.attr.name,
+                            target: i
+                        }
+                    });
+            },
+            clickResult: function (result) {
+                if (result.target) {
+                    scene.moveToNode(result.target);
                 }
-                cx.globalAlpha = b;
-            } else{
-                cx.beginPath();
-                cx.fillStyle = &quot;rgba(&quot; + this.fillColor + &quot;,&quot; + this.alpha + &quot;)&quot;;
-                if(null == this.borderRadius || 0 == this.borderRadius){
-                    cx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-                }else{
-                    cx.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
-                }
-                cx.fill();
-                cx.closePath();
             }
-            this.paintText(cx);
-            this.paintBorder(cx);
-            this.paintCtrl(cx);
-            this.paintAlarmText(cx);
+        });
+    }
+    return {
+        /**
+         * 添加搜索模块
+         * @method addSearch
+         * @param searchMode {object|array} 搜索模块配置，可为配置集合
+         *  @param searchMode.name 显示在选择框中的名称
+         *  @param searchMode.type  唯一标识
+         *  @param [searchMode.selected] 是否初始被选中
+         *  @param [searchMode.search] 回车或点击搜索按钮时的事件处理,传入的参数为Input的输入值，返回参数content属性为结果面板中展示的内容
+         *  @param [searchMode.hideResult] 是否启用结果面板
+         *  @param [searchMode.clickResult] 结果面板被选中后的事件处理,传入的参数为search的结果
+         *  @example
+         *      IPOSS.setComponent({
+                    toolBar: {
+                        addSearch:[
+                            {   //自定义的搜索配置，该搜索不调用预定义的任何事件
+                                //自定义了额外面板展示,工具条上条目仅用来触发额外的搜索面板
+                                type:&quot;deviceType&quot;,
+                                name:&quot;设备型号&quot;,
+                                hideResult:true
+                            },
+                            {//默认的搜索模块配置,可以初始化时 hideDefaultSearch: true禁止加载
+                               type: &quot;value&quot;,
+                               name: &quot;default&quot;,
+                               hideResult: false,
+                               search: function (val) {//val值为Input内容
+                                   return scene.find(val, &quot;node&quot;)
+                                       .map(function (i) {
+                                           return {
+                                               content: i.attr.name,//该属性用以展示文字
+                                               target: i //自定义
+                                           }
+                                       });
+                               },
+                               clickResult: function (result) {
+                                   if (result.target) {//此处target为search结果中设置，content属性被用以展示文字
+                                       scene.moveToNode(result.target);
+                                   }
+                               }
+                           }
+                        ]
+         */
+        addSearch: addSearch,
+        /**
+         * 配置点击保存按钮时事件处理
+         * @method save
+         * @param fn {function}
+         * @example
+         *       IPOSS.setComponent({
+                    toolBar: {
+                         save: function () {
+                                ...
+                         }
+                    }
+             })
+         */
+        save: function(fn) {
+            if ($.isFunction(fn)) {
+                toolBar.find(&quot;button[name=save]&quot;).click(fn);
+            }
         }
     };
-//------
-function ImageNode(config) {
-    this.attr = QTopo.util.extend(getDefault(), config || {});
-    Node.call(this,new JTopo.Node());
-    //函数
-    this.set = setJTopo;
-    //初始化
-    this.set(this.attr);
-    reset(this);
 }
-QTopo.util.inherits(ImageNode,Node);
-//-
-/**
- *  元素对属性的统一设置函数，推荐使用
- *
- *  参数可设置一项或多项,未设置部分参考全局配置
- *  @method set
- *  @param config
- *  @example
- *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
- *          如:name 对应 setName(&quot;..&quot;)
- *          参数格式如下
- *          config={
- *              xx:...,
- *              xx:...
- *          }
+/*
+ * 添加搜索模块
+ * @param instance
+ * @param scene
+ * @param toolBar
+ * @param resultWin 搜索结果展示区
+ * @returns {Function}返回添加搜索方式的接口
  */
-function setJTopo(config) {
-    if (config) {
-        //处理一般属性的设置
-        this._setAttr(config);
-        //处理特殊属性的设置
+function initSearchMode(instance, scene, toolBar, resultWin) {
+    var resultSelect = resultWin.find(&quot;.result-select&quot;);
+    var resultShow = resultWin.find(&quot;.result-show&quot;);
+    var selectWin = toolBar.find(&quot;select[name=search_mode]&quot;);
+    var searchBtn = toolBar.find(&quot;button[name=search]&quot;);
+    var input = toolBar.find(&quot;input[name=search_value]&quot;);
+    var clear = toolBar.find(&quot;.clear-input&quot;);
+    var inputGroup = toolBar.find(&quot;.t-search-input&quot;);
+    selectWin.data(&quot;searchMode&quot;, {});
+    clear.hide();
+    clear.click(function () {
+        input.val(&quot;&quot;);
+        clear.hide();
+        resultWin.hide();
+    });
+    selectWin.change(function () {
+        showGroup();
+        clear.click();
+    });
+    input.keydown(function (e) {
+        if (e.keyCode == 13) {
+            doSearch();
+        }
+        clear.show();
+    });
+    searchBtn.click(function () {
+        doSearch();
+    });
+    resultSelect.click(function () {
+        resultShow.toggle();
+    });
+    resultShow.click(function (e) {
+        if (e.target) {
+            $(e.target).data(&quot;doResult&quot;)();
+        }
+    });
+    resultShow.on(&#x27;mouseleave&#x27;, function (e) {
+        e.stopPropagation();
+        resultShow.hide();
+    });
+    function doSearch() {
+        resultWin.hide();
+        var searchConfig = selectWin.data(&quot;searchMode&quot;)[selectWin.val()];
+        if ($.isFunction(searchConfig.search)) {
+            var results = searchConfig.search(input.val());
+            if (!searchConfig.hideResult) {
+                addResult(results, searchConfig.clickResult);
+            }
+        }
     }
-}
-function reset(node){
-    node.jtopo.paint=jtopoReset.paint;
-}
 
-//-
-/**
- *  设置节点图片,与setColor冲突，设了图片则颜色无效
- *
- *  未设置图片则显示方形节点，内部填充颜色
- *  @method setImage
- *  @param image {string} 图片相对路径
- */
-ImageNode.prototype.setImage=function(image) {
-    if(image){
-        this.jtopo.setImage(image);
-        this.attr.image=image;
-    }
-};
-/**
- *  获取全局设置
- *  @method getDefault
- *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
- *  @example
- *          默认全局参数:
- *              var DEFAULT= {
-                        image: &quot;&quot;,
-                        size: [60, 60],
-                        name: &quot;node&quot;,
-                        alpha: 1,
-                        position: [0, 0],
-                        font: {
-                            size: 16,
-                            type: &#x27;微软雅黑&#x27;,
-                            color: &quot;255,255,255&quot;
-                        },
-                        jsonId:&quot;&quot;,
-                        border:{
-                            width:0,
-                            radius:0,//最大160 最小0
-                            color:&quot;255,0,0&quot;
-                        },
-                        zIndex: 200,//层级(10-999)
-                        color: JTopo.util.randomColor(),
-                        namePosition: &#x27;bottom&#x27;,
-                        useType: QTopo.constant.node.IMAGE,
-                        alarm: {
-                            show: false,
-                            text: &quot;&quot;,
-                            color: &quot;255,255,255&quot;,
-                            font: {
-                                size: 16,
-                                type: &quot;微软雅黑&quot;
-                            }
+    function addResult(results, click) {
+        if ($.isArray(results) &amp;&amp; results.length &gt; 0) {
+            resultShow.empty();
+            $.each(results, function (i, result) {
+                var li = $(&quot;&lt;li title=&#x27;&quot; + result.content + &quot;&#x27;&gt;&quot; + result.content + &quot;&lt;/li&gt;&quot;)
+                    .data(&#x27;doResult&#x27;, function () {
+                        if ($.isFunction(click)) {
+                            click(result);
                         }
-                    };
- */
-ImageNode.prototype.getDefault=getDefault;
-//--
-/**
- *  设置告警
- *
- *  参数可设置一项或多项,未设置部分参考全局配置
- *  @method setAlarm
- *  @param config {object}
- *  @example
- *          config={
- *              show: 是否显示告警{boolean},
-                text: 节点右上角告警板中内容,可为空{string},
-                color: 告警颜色{string} &quot;255,255,255&quot;/&quot;#ffffff&quot;,
-                font: {
-                    size: 告警字体大小{number},
-                    type: 告警字体类型{string} 如&quot;微软雅黑&quot;
-                }
- *          }
- */
-ImageNode.prototype.setAlarm=function(config) {
-    alarmAttr(this,this.attr.alarm,config);
-};
-function alarmAttr(qtopo,alarm,config){
-    var jtopo=qtopo.jtopo;
-    if(typeof config.show==&quot;undefined&quot;){
-        config.show=alarm.show;
+                    });
+                resultShow.append(li);
+            });
+            resultWin.show();
+        } else {
+            instance.open(&quot;view&quot;, {
+                content: &quot;无查询结果!&quot;,
+                width: 200
+            });
+        }
     }
-    if ((typeof config.show==&quot;boolean&quot;&amp;&amp;config.show)||(config.show==&quot;true&quot;)) {
-        qtopo.setAlpha(1);
-        jtopo.shadow = true;
-        jtopo.alarm = config.text || &quot;&quot;;
-        alarm.text=jtopo.alarm;
-        if(config.color){
-            jtopo.alarmColor = QTopo.util.transHex(config.color.toLowerCase());
-            alarm.color=jtopo.alarmColor;
+    var showTime;
+    function showGroup() {
+        clear.attr(&quot;style&quot;,&quot;opacity: 1&quot;);
+        selectWin.attr(&quot;style&quot;,&quot;display: block&quot;);
+        input.attr(&quot;style&quot;,&quot;display: block&quot;);
+        inputGroup.attr(&quot;style&quot;,&quot;width: 180px&quot;);
+        if(showTime){
+            clearTimeout(showTime);
         }
-        var size=alarm.font.size;
-        var font=alarm.font.type;
-        if(config.font&amp;&amp;$.isNumeric(config.font.size)){
-            size=config.font.size;
-        }
-        if(config.font&amp;&amp;config.font.type){
-            font=config.font.type;
-        }
-        jtopo.alarmFont =  size+ &#x27;px &#x27; + font;
-        alarm.font.size=size;
-        alarm.font.type=font;
-        toggleAlarmFlash(jtopo,true);
-    } else {
-        jtopo.alarm = null;
-        toggleAlarmFlash(jtopo,false);
+        showTime=setTimeout(function () {
+            clear.attr(&quot;style&quot;,&quot;&quot;);
+            selectWin.attr(&quot;style&quot;,&quot;&quot;);
+            input.attr(&quot;style&quot;,&quot;&quot;);
+            inputGroup.attr(&quot;style&quot;,&quot;&quot;);
+        },3000);
     }
-    alarm.show=config.show;
-}
-function toggleAlarmFlash(node,show){
-    //切换闪烁
-    if(show){
-        node.shadowOffsetX = 0;
-        node.shadowOffsetY = 0;
-        node.shadowColor = &quot;rgba(&quot; + node.alarmColor + &quot;,1)&quot;;
-        node.shadowBlur = 10;
-        node.allowAlarmFlash=true;
-    }else{
-        node.shadowOffsetX = 3;
-        node.shadowOffsetY = 6;
-        node.shadowColor=&quot;rgba(0,0,0,0.1)&quot;;
-        node.shadowBlur = 10;
-        node.allowAlarmFlash=false;
-    }
-}
-//插入源码部分,启用告警后每次绘画执行修改阴影
-function alarmFlash(cx) {
-    if(this.shadow&amp;&amp;this.allowAlarmFlash){
-        if(typeof this.shadowDirection==&quot;undefined&quot;){
-            this.shadowDirection=true;
+
+    return function (search) {
+        if ($.isArray(search)) {
+            search.map(function (i) {
+                addSearch(i);
+            });
+        } else {
+            addSearch(search);
         }
-        move(this);
-        cx.shadowBlur = this.shadowBlur;
-        function move(node){
-            if (node.shadowDirection) {
-                node.shadowBlur += 5;
-                if(node.shadowBlur&gt;100){
-                    node.shadowDirection=false;
-                }
-            }
-            else {
-                node.shadowBlur -= 5;
-                if(node.shadowBlur&lt;=10){
-                    node.shadowDirection=true;
-                }
+
+        return instance;
+        function addSearch(config) {
+            if (config) {
+                selectWin.data(&quot;searchMode&quot;)[config.type] = config;
+                selectWin.prepend(&quot;&lt;option value=&#x27;&quot; + config.type + &quot;&#x27; &quot; + (config.selected ? &#x27;selected&#x27; : &#x27;&#x27;) + &quot;&gt;&quot; + config.name || config.type + &quot;&lt;/option&gt;&quot;);
             }
         }
     }
 }
-//--
-//-
     </pre>
 </div>
 

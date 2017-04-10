@@ -39,16 +39,14 @@ var Scene = require('./core/Scene.js');
  * 初始化Qtopo实例,创建并将其保存在QTopo.instance数组内,实例api参考QTopo.instance
  *  @method init
  *  @param dom {document} 指定初始化所在的dom,若是数组则自动取第一个
- *  @param [config] {object} 配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)
- *  @returns instance QTopo实例
+ *  @param [config] {object} 配置参数,配置内容为图层scene配置(参考scene配置)
+ *  @returns [instance] QTopo实例对象，QTopo.instance
  *  @example
  *      IPOSS = QTopo.init(
  *           document.getElementsByClassName("topo_base")[0],
  *          {
- *              backgroundColor: "#06243e",
- *              hideDefaultSearch: true,
- *              filterMenu: ["创建节点", "添加链路", "删除", "编辑", "元素切换","分组操作"],
- *              filterWindow: ["imageNode", "link"]
+ *              backgroundColor: "#06243e",//基本属性配置背景色
+ *              path:[] //自定义属性,插入到图层对象scene的额外属性中
  *          }
  *      );
  */

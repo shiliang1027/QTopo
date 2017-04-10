@@ -18,7 +18,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "[LE] Line",
         "[L] Link",
         "[N] Node",
-        "rightMenu"
+        "rightMenu",
+        "toolBar",
+        "windows"
     ],
     "modules": [
         "QTopo",
@@ -32,6 +34,12 @@ YUI.add("yuidoc-meta", function(Y) {
             "classes": [
                 {
                     "name": "rightMenu"
+                },
+                {
+                    "name": "toolBar"
+                },
+                {
+                    "name": "windows"
                 }
             ]
         },

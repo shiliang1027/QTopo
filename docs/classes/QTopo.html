@@ -29,6 +29,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                  <ul class="nav navbar-nav">
                     
+                    <li><a href="./index.html">教程</a>
+                    </li>
+                    
                     <li><a href="./download/qtopo.zip">下载</a>
                     </li>
                     
@@ -57,6 +60,22 @@
                        <li>
                             
                            <a href="../classes/rightMenu.html">rightMenu</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/toolBar.html">toolBar</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/windows.html">windows</a>
                            <ul>
                                 
                            </ul>
@@ -275,6 +294,13 @@
                         
                     </li>
                 
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_initComponent" data-tablink="initComponent">initComponent</a>
+
+                        
+                        
+                    </li>
+                
             </ul>
             
         </div>
@@ -470,7 +496,7 @@
                     
                     </td>
                     <td><div class="param-description">
-                        <p>配置参数,配置内容为图层scene配置(参考scene配置)和组件模块初始化配置(参考component配置)</p>
+                        <p>配置参数,配置内容为图层scene配置(参考scene配置)</p>
 
                     </div>
 
@@ -488,7 +514,7 @@
             <div class="returns-description">
                 
                     
-                    <p>instance QTopo实例</p>
+                    <p>[instance] QTopo实例对象，QTopo.instance</p>
 
                 
             </div>
@@ -506,12 +532,342 @@
                 <div class="stdoc-code"><pre class="code prettyprint"><code> IPOSS = QTopo.init(
       document.getElementsByClassName("topo_base")[0],
      {
-         backgroundColor: "#06243e",
-         hideDefaultSearch: true,
-         filterMenu: ["创建节点", "添加链路", "删除", "编辑", "元素切换","分组操作"],
-         filterWindow: ["imageNode", "link"]
+         backgroundColor: "#06243e",//基本属性配置背景色
+         path:[] //自定义属性,插入到图层对象scene的额外属性中
      }
  );</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_initComponent" class="method item">
+    <h3 class="name">initComponent</h3>
+    <code>
+    initComponent
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        instance
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+        <span class="returns-inline">
+            <span class="type">Instance</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_component_component.js.html#l16"><code>develop\component\component.js:16</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>初始化组件模块,加载组件包后可用</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">instance</code>
+                       <td> <span class="type">Instance</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>QTopo生成的实例对象</p>
+
+                    </div>
+
+                    
+                </tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                        <p>配置参数</p>
+
+                    </div>
+
+                    
+                        <table class="table table-bordered">
+                         <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                           
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[hideMenu]</code></td>
+                                <td><span class="type">Boolean</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>不载入右键菜单</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[hideToolbar]</code></td>
+                                <td><span class="type">Boolean</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>不载入工具条</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                <td>
+                                    <code class="param-name optional">[hideWindows]</code></td>
+                                <td><span class="type">Boolean</span></td>
+                                <td><span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>则不载入窗口模块</p>
+
+                                </div>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">rightMenu</code>
+                                   <td> <span class="type">Object</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>右键菜单初始化参数</p>
+
+                                </div>
+                                
+                                    <table class="table table-bordered">
+                                     <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                                       
+                                        <tr class="param">
+                                        
+                                                   <td> <code class="param-name">filter</code>
+                                                   <td> <span class="type">Array</span>
+                                                   <td>
+                                                
+
+                                                
+                                                </td>
+                                                <td><div class="param-description">
+                                                    过滤掉的菜单的集合
+                                                </div>
+                                             </td>
+                                        </tr>
+                                        
+                                    </table>
+                                    </td>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">windows</code>
+                                   <td> <span class="type">Object</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>窗口管理初始化参数</p>
+
+                                </div>
+                                
+                                    <table class="table table-bordered">
+                                     <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                                       
+                                        <tr class="param">
+                                        
+                                                   <td> <code class="param-name">filter</code>
+                                                   <td> <span class="type">Array</span>
+                                                   <td>
+                                                
+
+                                                
+                                                </td>
+                                                <td><div class="param-description">
+                                                    过滤掉的窗口的集合
+                                                </div>
+                                             </td>
+                                        </tr>
+                                        
+                                    </table>
+                                    </td>
+                                
+                            </tr>
+                            
+                            <tr class="param">
+                            
+                                   <td> <code class="param-name">toolbar</code>
+                                   <td> <span class="type">Object</span>
+                                   <td>
+                                
+
+                                
+                                </td>
+                                <td><div class="param-description">
+                                    <p>工具条初始化参数</p>
+
+                                </div>
+                                
+                                    <table class="table table-bordered">
+                                     <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+                                       
+                                        <tr class="param">
+                                        
+                                                   <td> <code class="param-name">hideDefaultSearch</code>
+                                                   <td> <span class="type">Boolean</span>
+                                                   <td>
+                                                
+
+                                                
+                                                </td>
+                                                <td><div class="param-description">
+                                                    不加载默认搜索功能
+                                                </div>
+                                             </td>
+                                        </tr>
+                                        
+                                    </table>
+                                    </td>
+                                
+                            </tr>
+                            
+                        </table>
+                        </td>
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        [<span class="type">Instance</span>]
+                    
+                    <p>实例对象，支持链式调用</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code> IPOSS = QTopo.init(dom, {
+                   backgroundColor: "#06243e"
+           });
+ QTopo.initComponent(IPOSS,
+                   {
+                       rightMenu: {
+                           filter: ["创建节点", "添加链路", "删除", "编辑", "元素切换", "分组操作"]
+                       },
+                       toolBar: {
+                           hideDefaultSearch: true
+                       },
+                       windows:{
+                           filter:["link","imageNode"]
+                       }
+                   }
+           )</code></pre>
 </div>
             </div>
 

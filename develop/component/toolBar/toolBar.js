@@ -1,10 +1,19 @@
+/**
+ * @module component
+ */
+/**
+ * 工具条模块
+ * @class toolBar
+ * @static
+ */
 require("./toolBar.css");
 var toolBar = require("./toolBar.html");
 var selectResult = require("./selectResult.html");
 module.exports = {
     init: init
 };
-function init(instance, windows, hideDefaultSearch) {
+function init(instance,config) {
+    config=config||{};
     var dom = instance.document;
     var scene = instance.scene;
     var wrap = $(dom).find(".qtopo-toolBar");
@@ -28,32 +37,54 @@ function init(instance, windows, hideDefaultSearch) {
             editBar.hide();
         }
     });
-    //居中展示
+    /**
+     * 调用scene.goCenter()缩放和居中展示
+     * @property 居中展示
+     */
     toolBar.find("button[name=center]").click(function () {
         scene.goCenter();
     });
-    //还原正常比例
+    /**
+     * 调用scene.resize(1)还原比例
+     * @property 正常显示
+     */
     toolBar.find("button[name=common]").click(function () {
         scene.resize(1);
     });
-    //鼠标缩放
+    /**
+     * 调用scene.toggleZoom()开启鼠标缩放,操作鼠标滚轮放大和缩小图层
+     * @property 鼠标缩放
+     */
     toolBar.find("button[name=zoom_checkbox]").click(function () {
         scene.toggleZoom();
     });
-    //鹰眼
+    /**
+     * 调用scene.toggleEagleEye()切换鹰眼
+     * @property 鹰眼
+     */
     toolBar.find("button[name=eagle_eye]").click(function () {
         scene.toggleEagleEye();
     });
-    //导出png
+    /**
+     * 调用scene.getPicture()新窗口打开图层截图
+     * @property 导出png
+     */
     toolBar.find("button[name=export_image]").click(function () {
         scene.getPicture();
     });
-    //自动布局
+    /**
+     * 开启自动布局设置窗口,需要载入windows模块
+     * @property 自动布局
+     */
     editBar.find("button[name=auto_layout]").click(function () {
-        windows.windows.autoLayout.open();
+        if($.isFunction(instance.open)){
+            instance.open("autoLayout");
+        }else{
+            QTopo.util.error("The autoLayout window need init windows conponent!");
+        }
     });
-    var addSearch = addSearchMode(instance, scene, toolBar, selectResult);
-    if (!hideDefaultSearch) {
+    var addSearch = initSearchMode(instance, scene, toolBar, selectResult);
+    if (!config.hideDefaultSearch) {
         addSearch({
             type: "value",
             name: "default",
@@ -74,15 +105,67 @@ function init(instance, windows, hideDefaultSearch) {
             }
         });
     }
-    function doSave(fn) {
-        if ($.isFunction(fn)) {
-            toolBar.find("button[name=save]").click(fn);
-        }
-    }
-
     return {
+        /**
+         * 添加搜索模块
+         * @method addSearch
+         * @param searchMode {object|array} 搜索模块配置，可为配置集合
+         *  @param searchMode.name 显示在选择框中的名称
+         *  @param searchMode.type  唯一标识
+         *  @param [searchMode.selected] 是否初始被选中
+         *  @param [searchMode.search] 回车或点击搜索按钮时的事件处理,传入的参数为Input的输入值，返回参数content属性为结果面板中展示的内容
+         *  @param [searchMode.hideResult] 是否启用结果面板
+         *  @param [searchMode.clickResult] 结果面板被选中后的事件处理,传入的参数为search的结果
+         *  @example
+         *      instance.setComponent({
+                    toolBar: {
+                        addSearch:[
+                            {   //自定义的搜索配置，该搜索不调用预定义的任何事件
+                                //自定义了额外面板展示,工具条上条目仅用来触发额外的搜索面板
+                                type:"deviceType",
+                                name:"设备型号",
+                                hideResult:true
+                            },
+                            {//默认的搜索模块配置,可以初始化时 hideDefaultSearch: true禁止加载
+                               type: "value",
+                               name: "default",
+                               hideResult: false,
+                               search: function (val) {//val值为Input内容
+                                   return scene.find(val, "node")
+                                       .map(function (i) {
+                                           return {
+                                               content: i.attr.name,//该属性用以展示文字
+                                               target: i //自定义
+                                           }
+                                       });
+                               },
+                               clickResult: function (result) {
+                                   if (result.target) {//此处target为search结果中设置，content属性被用以展示文字
+                                       scene.moveToNode(result.target);
+                                   }
+                               }
+                           }
+                        ]
+         */
         addSearch: addSearch,
-        save: doSave
+        /**
+         * 配置点击保存按钮时事件处理
+         * @method save
+         * @param fn {function}
+         * @example
+         *       instance.setComponent({
+                    toolBar: {
+                         save: function () {
+                                ...
+                         }
+                    }
+             })
+         */
+        save: function(fn) {
+            if ($.isFunction(fn)) {
+                toolBar.find("button[name=save]").click(fn);
+            }
+        }
     };
 }
 /*
@@ -93,7 +176,7 @@ function init(instance, windows, hideDefaultSearch) {
  * @param resultWin 搜索结果展示区
  * @returns {Function}返回添加搜索方式的接口
  */
-function addSearchMode(instance, scene, toolBar, resultWin) {
+function initSearchMode(instance, scene, toolBar, resultWin) {
     var resultSelect = resultWin.find(".result-select");
     var resultShow = resultWin.find(".result-show");
     var selectWin = toolBar.find("select[name=search_mode]");

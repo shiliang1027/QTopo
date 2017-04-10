@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>develop\component\rightMenu\repertory.js - QTopo</title>
+  
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-smart">
+ <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               <a class="navbar-brand mainlogo" href="https://github.com/hai3460377/QTopo">
+             
+            <img alt="QTopo" src="..\logo.png" title="QTopo">
+            
+                QTopo
+          </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                 <ul class="nav navbar-nav">
+                    
+                    <li><a href="./index.html">教程</a>
+                    </li>
+                    
+                    <li><a href="./download/qtopo.zip">下载</a>
+                    </li>
+                    
+                </ul>
+               <div class="navbar-form navbar-right filterAPi" autocomplete="off">
+                <input type="text" id='txtSearchAPI' class="form-control search-query" placeholder="Search for API" />
+                 <ul id="filterList" class="filterItems dropdown-menu" role="menu"></ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="sidebar">
+    <h3>Modules/Classes</h3>
+        <div id="api-tabview-filter">
+            <input id='txtSearch' type="search" class="form-control" placeholder="Type to filter Modules/Classes">
+        </div>
+        <dl id="sidebar_list">
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/component.html">component</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/rightMenu.html">rightMenu</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/toolBar.html">toolBar</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/windows.html">windows</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/core.html">core</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/[C] Container.html">[C] Container</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/Group.html">Group</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/DirectLine.html">DirectLine</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[LE] Line.html">[LE] Line</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/CurveLink.html">CurveLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/DirectLink.html">DirectLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/FlexionalLink.html">FlexionalLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/FoldLink.html">FoldLink</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[L] Link.html">[L] Link</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/ImageNode.html">ImageNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[N] Node.html">[N] Node</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/TextNode.html">TextNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/[E] Element.html">[E] Element</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/Scene.html">Scene</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+                <dt>
+                    <span class="glyphicon glyphicon-minus"></span>
+                    <a href="../modules/QTopo.html">QTopo</a>
+                </dt>
+                <dd>
+                    <ul>
+                   
+                       <li>
+                            
+                           <a href="../classes/QTopo.html">QTopo</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/QTopo.instance.html">QTopo.instance</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
+                           <a href="../classes/QTopo.util.html">QTopo.util</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                    </ul>
+                </dd>
+             
+        </dl>
+</div>
+   
+    <div class="stdoc-content">
+        <!--     <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+ -->
+        <div class="apidocs">
+            <div id="docs-main">
+                <div class="content">
+                    <div class="page-header">
+    <h1>develop\component\rightMenu\repertory.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums" id='src_code'>
+/**
+ * @module component
+ */
+/**
+ * 右键菜单模块
+ * @class rightMenu
+ * @static
+ */
+function getMenus(instance,scene, menu) {
+    var Qutil=QTopo.util;
+    //高亮控制
+    var lighting = false;
+    var lockedGroup;
+
+    function hasWindows(type){
+        return $.isFunction(instance.open);
+    }
+    function editImageNode() {
+        if (hasWindows()) {
+            instance.open(&#x27;imageNode&#x27;,{
+                type: &quot;edit&quot;,
+                target: menu.target
+            });
+        }
+    }
+
+    function createImageNode() {
+        if (hasWindows()) {
+            instance.open(&quot;imageNode&quot;,{
+                type: &quot;create&quot;,
+                position: [menu.x, menu.y]
+            });
+        }
+    }
+
+    function editTextNode() {
+        if (hasWindows()) {
+            instance.open(&#x27;textNode&#x27;,{
+                type: &quot;edit&quot;,
+                target: menu.target
+            });
+        }
+    }
+
+    function createTextNode() {
+        if (hasWindows()) {
+            instance.open(&#x27;textNode&#x27;,{
+                type: &quot;create&quot;,
+                position: [menu.x, menu.y]
+            });
+        }
+    }
+
+    function editLink() {
+        if (hasWindows()) {
+            instance.open(&#x27;link&#x27;,{
+                type: &quot;edit&quot;,
+                target: menu.target
+            });
+        }
+    }
+
+    //画链接控制
+    var link = {
+        start: &quot;&quot;,
+        end: &quot;&quot;
+    };
+
+    function addLink() {
+        if (link &amp;&amp; link.start &amp;&amp; link.end&amp;&amp;hasWindows()) {
+            scene.addLink(link, function () {
+                instance.open(&#x27;link&#x27;,{
+                    type: &quot;create&quot;,
+                    path: link
+                });
+            });
+            link = {};
+        }
+    }
+
+    //分组
+    function createGroup() {
+        if (hasWindows()) {
+            instance.open(&#x27;container&#x27;,{
+                type: &quot;create&quot;,
+                targets: scene.getSelected()
+            });
+        }
+    }
+
+    function editGroup() {
+        if (hasWindows()) {
+            instance.open(&#x27;container&#x27;,{
+                type: &quot;edit&quot;,
+                target: menu.target
+            });
+        }
+    }
+
+    return [
+        {
+            /**
+             * 将目标打印到控制台
+             * @property Debug
+             */
+            name: &quot;Debug&quot;,
+            order:0,
+            click: function (e) {
+                if (menu.target) {
+                    var index;
+                    switch (menu.target.getType()) {
+                        case QTopo.constant.NODE:
+                            index = scene.children.node.indexOf(menu.target);
+                            break;
+                        case QTopo.constant.CONTAINER:
+                            index = scene.children.container.indexOf(menu.target);
+                            break;
+                        case QTopo.constant.LINK:
+                            index = scene.children.link.indexOf(menu.target);
+                    }
+                    console.info(index, menu.target);
+                }
+            }
+        },
+        {
+            /**
+             * 根据元素类型自适应打开编辑窗口
+             * @property 编辑
+             */
+            name: &quot;编辑&quot;,
+            order:10,
+            click: function () {
+                switch (menu.target.getType()) {
+                    case QTopo.constant.NODE:
+                        switch (menu.target.getUseType()) {
+                            case QTopo.constant.node.IMAGE:
+                                editImageNode();
+                                break;
+                            case QTopo.constant.node.TEXT:
+                                editTextNode();
+                                break;
+                        }
+                        break;
+                    case QTopo.constant.LINK:
+                        editLink();
+                        break;
+                    case QTopo.constant.CONTAINER:
+                        editGroup();
+                        break;
+                }
+            },
+            filter: function (target) {
+                return Qutil.isElement(target);
+            }
+        },
+        {
+            /**
+             * 删除元素
+             * @property 删除
+             */
+            name: &#x27;删除&#x27;,
+            order:10,
+            click: function () {
+                if(hasWindows()){
+                    instance.open(&#x27;confirm&#x27;,{
+                        title: &quot;删除确认&quot;,
+                        content: &quot;确认删除？&quot;,
+                        width: 200,
+                        ok: function () {
+                            scene.remove(menu.target);
+                        },
+                        cancel: function () {
+                            console.info(&quot;cancel&quot;);
+                        }
+                    });
+                }else{
+                    scene.remove(menu.target);
+                }
+            },
+            filter: function (target) {
+                //可以删除分组缩放的节点，但不可以删除链路切换的临时线
+                return target.getType() != QTopo.constant.SCENE &amp;&amp; (target.getUseType() != QTopo.constant.CASUAL || target.getType() == QTopo.constant.NODE);
+            }
+        },
+        {
+            /**
+             * 将所有元素高亮
+             * @property 取消高亮
+             */
+            name: &quot;取消高亮&quot;,
+            order:10,
+            click: function () {
+                scene.toggleLight();
+                lighting = false;
+            },
+            filter: function (target) {
+                return lighting;
+            }
+        },
+        {
+            /**
+             * 元素的一般操作子菜单
+             * @property 元素切换
+             *  @param 层次切换
+             *  @param 相关高亮
+             */
+            name: &quot;元素切换&quot;,
+            order:10,
+            item: [
+                {
+                    /**
+                     * 元素的显示层级切换,首次切换成最高级，已到最高级的降至最低级
+                     * @property 层次切换
+                     */
+                    name: &quot;层次切换&quot;,
+                    click: function () {
+                        scene.toggleZIndex(menu.target);
+                    },
+                    filter: function (target) {
+                        return Qutil.isElement(target);
+                    }
+                },
+                {
+                    /**
+                     * 将与元素相关联的元素以及链路高亮，其他元素和链路透明度降低
+                     * @property 相关高亮
+                     */
+                    name: &quot;相关高亮&quot;,
+                    click: function () {
+                        scene.toggleLight(menu.target);
+                        lighting = true;
+                    },
+                    filter: function (target) {
+                        return !lighting &amp;&amp; Qutil.isNode(target);
+                    }
+                }
+            ]
+        },
+        {
+            /**
+             * 打开节点对应的创建窗口
+             * @property 创建节点
+             *  @param 图片节点
+             *  @param 文字节点
+             */
+            name: &quot;创建节点&quot;,
+            order:10,
+            item: [
+                {
+                    /**
+                     * 打开创建图形节点窗口
+                     * @property 图片节点
+                     */
+                    name: &quot;图片节点&quot;,
+                    click: function () {
+                        createImageNode();
+                    }
+                },
+                {
+                    /**
+                     * 打开创建文本节点窗口
+                     * @property 文字节点
+                     */
+                    name: &quot;文字节点&quot;,
+                    click: function () {
+                        createTextNode();
+                    }
+                }
+            ],
+            filter: function (target) {
+                return Qutil.isScene(target);
+            }
+        },
+        {
+            /**
+             * 打开设置链路窗口,只有同时存在起点和终点设置时才开启窗口
+             * @property 添加链路
+             *  @param 设为起点
+             *  @param 设为终点
+             */
+            name: &quot;添加链路&quot;,
+            order:10,
+            item: [
+                {
+                    /**
+                     * 设置起点，窗口关闭后清空
+                     * @property 设为起点
+                     */
+                    name: &quot;设为起点&quot;,
+                    click: function () {
+                        link.start = menu.target;
+                        addLink();
+                    }
+                },
+                {
+                    /**
+                     * 设置终点，窗口关闭后清空
+                     * @property 设为终点
+                     */
+                    name: &quot;设为终点&quot;,
+                    click: function () {
+                        link.end = menu.target;
+                        addLink();
+                    }
+                }
+            ],
+            filter: function (target) {
+                return Qutil.isNode(target)||Qutil.isContainer(target);
+            }
+        },
+        {
+            /**
+             * 分组相关操作子菜单,
+             * @property 分组操作
+             *  @param 锁定
+             *  @param 加入分组
+             *  @param 移出分组
+             *  @param 创建分组
+             */
+            name: &quot;分组操作&quot;,
+            order:10,
+            item: [
+                {
+                    /**
+                     * 选定一个分组用以后续操作,用以加入分组操作
+                     * @property 锁定
+                     */
+                    name: &quot;锁定&quot;,
+                    click: function () {
+                        lockedGroup = menu.target;
+                    },
+                    filter: function (target) {
+                        return Qutil.isContainer(target);
+                    }
+                },
+                {
+                    /**
+                     * 为锁定的分组加入目标元素,
+                     * @property 加入分组
+                     */
+                    name: &quot;加入分组&quot;,
+                    click: function () {
+                        lockedGroup.add(menu.target);
+                    },
+                    filter: function (target) {
+                        return lockedGroup &amp;&amp; Qutil.isNode(target)&amp;&amp; !target.parent;
+                    }
+                },
+                {
+                    /**
+                     * 将目标元素移出所在分组,
+                     * @property 移出分组
+                     */
+                    name: &quot;移出分组&quot;,
+                    click: function () {
+                        menu.target.parent.remove(menu.target);
+                    },
+                    filter: function (target) {
+                        return Qutil.isElement(target) &amp;&amp; target.parent;
+                    }
+                },
+                {
+                    /**
+                     * 当选中了2个或2个以上的节点时，出现该选项，打开创建分组窗口
+                     * @property 创建分组
+                     */
+                    name: &quot;创建分组&quot;,
+                    click: function () {
+                        createGroup();
+                    },
+                    filter: function () {
+                        //只有当两个以上没有被分组的节点被选中时才能创建分组
+                        var flag = false;
+                        var selected = scene.getSelected();
+                        if (selected.length &gt; 1) {
+                            var num = 0;
+                            $.each(selected, function (i, el) {
+                                if (el.getType() == QTopo.constant.NODE &amp;&amp; !el.parent) {
+                                    num++;
+                                }
+                                if (num &gt;= 2) {
+                                    flag = true;
+                                    return false;
+                                }
+                            });
+                        }
+                        return flag;
+                    }
+                }
+            ]
+        }
+    ];
+}
+module.exports = getMenus;
+    </pre>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<a id="gotoTop" class='well well-small' href='#'>
+    Top
+</a>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/doc.js"></script>
+</body>
+</html>

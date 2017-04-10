@@ -3,6 +3,24 @@ var util = require("../util.js");
 module.exports = {
     init: init
 };
+/**
+ * @module component
+ * @class windows
+ */
+/**
+ * 信息弹出框
+ * @method view
+ * @param config{object} 配置参数
+ *  @param [config.title] {html} 窗口的标题
+ *  @param [config.content] {html} 窗口的提示内容
+ *  @param [config.width] {number} 窗口宽度
+ * @example
+       instance.open('view',{
+           title:"提示",
+           content:"<h1>展示内容</h1>",
+           width:200
+       });
+ */
 function init(dom,scene) {
     temp = $(temp);
     var body = temp.find('.modal-body');
