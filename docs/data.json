@@ -19,9 +19,7 @@
     "files": {
         "develop\\component\\rightMenu\\repertory.js": {
             "name": "develop\\component\\rightMenu\\repertory.js",
-            "modules": {
-                "component": 1
-            },
+            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -96,13 +94,17 @@
         "develop\\component\\windows\\util.js": {
             "name": "develop\\component\\windows\\util.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "QTopo.windowUtil": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "develop\\component\\windows\\windows.js": {
             "name": "develop\\component\\windows\\windows.js",
-            "modules": {},
+            "modules": {
+                "component": 1
+            },
             "classes": {
                 "windows": 1
             },
@@ -306,6 +308,7 @@
             "name": "QTopo",
             "submodules": {},
             "classes": {
+                "QTopo.windowUtil": 1,
                 "QTopo": 1,
                 "QTopo.instance": 1,
                 "QTopo.util": 1
@@ -386,6 +389,21 @@
             "file": "develop\\component\\windows\\windows.js",
             "line": 4,
             "description": "窗口管理,所有窗口统一用instance.open(type,config)接口打开,type和窗口名对应指示打开哪种窗口，根据config做配置,",
+            "static": 1
+        },
+        "QTopo.windowUtil": {
+            "name": "QTopo.windowUtil",
+            "shortname": "QTopo.windowUtil",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "QTopo",
+            "namespace": "",
+            "file": "develop\\component\\windows\\util.js",
+            "line": 4,
+            "description": "组件包中的窗口管理模块的窗口工具包",
             "static": 1
         },
         "QTopo": {
@@ -977,7 +995,7 @@
                 }
             ],
             "example": [
-                "\n         IPOSS.setComponent({\n             rightMenu:{\n                         执行过程中会传入当前实例对象，图层对象，右键菜单对象,其中右键菜单对象记录有触发的目标以及位置信息\n                     add:function (instance,scene, menu) {\n                                 return [\n                                          {\n                                                       name: \"刷新\",//菜单名称\n                                                       order: 3,   //可选,在配置了order函数时作为参数传入,用作菜单位置排序\n                                                       click: function () {\n                                                           //点击该菜单时的处理\n                                                           menu.target为当前触发菜单的元素\n                                                           menu.x\n                                                           menu.y 为当前触发菜单时鼠标在图层上的坐标\n                                                       },\n                                                       filter: function (target) {\n                                                           //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素\n                                                           //该属性可不设置，不设置则默认为一直显示\n                                                           return QTopo.util.isScene(target);\n                                                       }\n                                                    },\n                                                    {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则\n                                                       //当子菜单的成员菜单都不显示时，子菜单也不显示\n                                                       //可无限嵌套.\n                                                           name: \"添加\",\n                                                           order: 10,\n                                                           item: [\n                                                               {\n                                                                   name: \"网段\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   },\n                                                                   filter:function(){\n                                                                       //若无返回值。。则是没通过过滤\n                                                                   }\n                                                               },\n                                                               {\n                                                                   name: \"设备\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   }\n                                                               }\n                                                           ],\n                                                           filter: function (target) {\n                                                               return true;\n                                                           }\n                                                   },\n                                     ]\n                             }\n             }\n         });"
+                "\n         instance.setComponent({\n             rightMenu:{\n                         执行过程中会传入当前实例对象，图层对象，右键菜单对象,其中右键菜单对象记录有触发的目标以及位置信息\n                     add:function (instance,scene, menu) {\n                                 return [\n                                          {\n                                                       name: \"刷新\",//菜单名称\n                                                       order: 3,   //可选,在配置了order函数时作为参数传入,用作菜单位置排序\n                                                       click: function () {\n                                                           //点击该菜单时的处理\n                                                           menu.target为当前触发菜单的元素\n                                                           menu.x\n                                                           menu.y 为当前触发菜单时鼠标在图层上的坐标\n                                                       },\n                                                       filter: function (target) {\n                                                           //返回值为boolean类型，根据返回值决定何时显示该菜单,传入的target为当前触发菜单的元素\n                                                           //该属性可不设置，不设置则默认为一直显示\n                                                           return QTopo.util.isScene(target);\n                                                       }\n                                                    },\n                                                    {  //嵌套菜单,菜单中有item属性时，则将菜单设为子菜单栏,子菜单同样可以设置点击事件和显示规则\n                                                       //当子菜单的成员菜单都不显示时，子菜单也不显示\n                                                       //可无限嵌套.\n                                                           name: \"添加\",\n                                                           order: 10,\n                                                           item: [\n                                                               {\n                                                                   name: \"网段\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   },\n                                                                   filter:function(){\n                                                                       //若无返回值。。则是没通过过滤\n                                                                   }\n                                                               },\n                                                               {\n                                                                   name: \"设备\",\n                                                                   click: function () {\n                                                                       ...\n                                                                   }\n                                                               }\n                                                           ],\n                                                           filter: function (target) {\n                                                               return true;\n                                                           }\n                                                   },\n                                     ]\n                             }\n             }\n         });"
             ],
             "class": "rightMenu",
             "module": "component"
@@ -996,7 +1014,7 @@
                 }
             ],
             "example": [
-                "\n         IPOSS.setComponent({\n                           rightMenu: {\n                               order: function (a, b) {\n                                       return a - b;//参考数组排序,穿进来的是add函数中添加的order值\n                               }\n                           }\n                    })"
+                "\n         instance.setComponent({\n                           rightMenu: {\n                               order: function (a, b) {\n                                       return a - b;//参考数组排序,穿进来的是add函数中添加的order值\n                               }\n                           }\n                    })"
             ],
             "class": "rightMenu",
             "module": "component"
@@ -1099,7 +1117,7 @@
                 }
             ],
             "example": [
-                "\n     IPOSS.setComponent({\n                   toolBar: {\n                       addSearch:[\n                           {   //自定义的搜索配置，该搜索不调用预定义的任何事件\n                               //自定义了额外面板展示,工具条上条目仅用来触发额外的搜索面板\n                               type:\"deviceType\",\n                               name:\"设备型号\",\n                               hideResult:true\n                           },\n                           {//默认的搜索模块配置,可以初始化时 hideDefaultSearch: true禁止加载\n                              type: \"value\",\n                              name: \"default\",\n                              hideResult: false,\n                              search: function (val) {//val值为Input内容\n                                  return scene.find(val, \"node\")\n                                      .map(function (i) {\n                                          return {\n                                              content: i.attr.name,//该属性用以展示文字\n                                              target: i //自定义\n                                          }\n                                      });\n                              },\n                              clickResult: function (result) {\n                                  if (result.target) {//此处target为search结果中设置，content属性被用以展示文字\n                                      scene.moveToNode(result.target);\n                                  }\n                              }\n                          }\n                       ]"
+                "\n     instance.setComponent({\n                   toolBar: {\n                       addSearch:[\n                           {   //自定义的搜索配置，该搜索不调用预定义的任何事件\n                               //自定义了额外面板展示,工具条上条目仅用来触发额外的搜索面板\n                               type:\"deviceType\",\n                               name:\"设备型号\",\n                               hideResult:true\n                           },\n                           {//默认的搜索模块配置,可以初始化时 hideDefaultSearch: true禁止加载\n                              type: \"value\",\n                              name: \"default\",\n                              hideResult: false,\n                              search: function (val) {//val值为Input内容\n                                  return scene.find(val, \"node\")\n                                      .map(function (i) {\n                                          return {\n                                              content: i.attr.name,//该属性用以展示文字\n                                              target: i //自定义\n                                          }\n                                      });\n                              },\n                              clickResult: function (result) {\n                                  if (result.target) {//此处target为search结果中设置，content属性被用以展示文字\n                                      scene.moveToNode(result.target);\n                                  }\n                              }\n                          }\n                       ]"
             ],
             "class": "toolBar",
             "module": "component"
@@ -1118,7 +1136,7 @@
                 }
             ],
             "example": [
-                "\n      IPOSS.setComponent({\n                   toolBar: {\n                        save: function () {\n                               ...\n                        }\n                   }\n            })"
+                "\n      instance.setComponent({\n                   toolBar: {\n                        save: function () {\n                               ...\n                        }\n                   }\n            })"
             ],
             "class": "toolBar",
             "module": "component"
@@ -1389,88 +1407,125 @@
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 3,
-            "description": "根据窗口以及topo包裹外壳的高度确认窗口的默认位置",
+            "line": 11,
+            "description": "根据窗口以及topo包裹外壳的高度确认窗口位置\n\n统一的窗口显示位置",
+            "itemtype": "method",
+            "name": "defaultPosition",
             "params": [
                 {
                     "name": "dom",
-                    "description": "topo外层包裹"
+                    "description": "topo外层包裹",
+                    "type": "Dom"
                 },
                 {
                     "name": "win",
-                    "description": "设定高度的窗口"
+                    "description": "设定高度的窗口",
+                    "type": "Dom"
                 }
             ],
-            "class": "windows",
-            "module": "component"
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 14,
-            "win": "初始化的窗口",
-            "class": "windows",
-            "module": "component"
+            "line": 25,
+            "description": "基于Bootstrap下拉列表的颜色选择框绑定\n\n颜色选择面板应 name=color_palette\n选中值存放在最近的input.color-selected 内",
+            "itemtype": "method",
+            "name": "initColorSelect",
+            "params": [
+                {
+                    "name": "win",
+                    "description": "初始化的窗口的jquery对象",
+                    "type": "Dom"
+                }
+            ],
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 27,
-            "description": "阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key\n需要jquery-tools中的插件支持\n需要jquery-tools中的插件支持",
+            "line": 43,
+            "description": "阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key",
+            "itemtype": "method",
+            "name": "initFormSubmit",
             "params": [
                 {
                     "name": "dom",
-                    "description": "form表单的jquery对象"
+                    "description": "form表单的jquery对象",
+                    "type": "Dom"
                 },
                 {
                     "name": "fn",
-                    "description": "处理json对象的函数"
+                    "description": "处理json对象的函数",
+                    "type": "Function"
                 }
             ],
-            "class": "windows",
-            "module": "component"
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 46,
-            "description": "json组装form表单\n需要jquery-tools中的插件支持",
+            "line": 61,
+            "description": "json组装form表单",
+            "itemtype": "method",
+            "name": "setFormInput",
             "params": [
                 {
                     "name": "dom",
-                    "description": "form表单的jquery对象"
+                    "description": "form表单的jquery对象",
+                    "type": "Dom"
                 },
                 {
                     "name": "json",
-                    "description": "对象中的键对应表单中的name，自动将值赋上"
+                    "description": "对象中的键对应表单中的name，自动将值赋上",
+                    "type": "Object"
                 }
             ],
-            "class": "windows",
-            "module": "component"
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 55,
-            "description": "初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
-            "dom": "topo存在的包裹dom,用以注册包裹空间内窗口移动",
-            "win": "需要初始化的窗口",
-            "class": "windows",
-            "module": "component"
+            "line": 70,
+            "description": "初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动",
+            "itemtype": "method",
+            "name": "initBase",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": "topo存在的包裹dom,用以注册包裹空间内窗口移动",
+                    "type": "Dom"
+                },
+                {
+                    "name": "win",
+                    "description": "需要初始化的窗口的jquery对象",
+                    "type": "Dom"
+                }
+            ],
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 122,
+            "line": 138,
             "description": "封装统一的jquery-niceScroll插件的设定值",
+            "itemtype": "method",
+            "name": "addScroll",
             "params": [
                 {
                     "name": "win",
                     "description": "需要添加滚动条的窗口"
                 }
             ],
-            "class": "windows",
-            "module": "component"
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\windows\\util.js",
-            "line": 139,
+            "line": 156,
             "description": "让子窗口在父窗口的正中",
+            "itemtype": "method",
+            "name": "makeCenter",
             "params": [
                 {
                     "name": "dom",
@@ -1482,11 +1537,23 @@
                 },
                 {
                     "name": "fixed",
-                    "description": "固定计算的窗口高宽"
+                    "description": "高宽写定",
+                    "props": [
+                        {
+                            "name": "height",
+                            "description": "高",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "width",
+                            "description": "宽",
+                            "type": "Number"
+                        }
+                    ]
                 }
             ],
-            "class": "windows",
-            "module": "component"
+            "class": "QTopo.windowUtil",
+            "module": "QTopo"
         },
         {
             "file": "develop\\component\\component.js",
@@ -4538,18 +4605,6 @@
     ],
     "warnings": [
         {
-            "message": "unknown tag: win",
-            "line": " develop\\component\\windows\\util.js:14"
-        },
-        {
-            "message": "unknown tag: dom",
-            "line": " develop\\component\\windows\\util.js:55"
-        },
-        {
-            "message": "unknown tag: win",
-            "line": " develop\\component\\windows\\util.js:55"
-        },
-        {
             "message": "replacing incorrect tag: returns with return",
             "line": " develop\\core\\Scene.js:92"
         },
@@ -4592,34 +4647,6 @@
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " develop\\util.js:82"
-        },
-        {
-            "message": "Missing item type\n根据窗口以及topo包裹外壳的高度确认窗口的默认位置",
-            "line": " develop\\component\\windows\\util.js:3"
-        },
-        {
-            "message": "Missing item type",
-            "line": " develop\\component\\windows\\util.js:14"
-        },
-        {
-            "message": "Missing item type\n阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key\n需要jquery-tools中的插件支持\n需要jquery-tools中的插件支持",
-            "line": " develop\\component\\windows\\util.js:27"
-        },
-        {
-            "message": "Missing item type\njson组装form表单\n需要jquery-tools中的插件支持",
-            "line": " develop\\component\\windows\\util.js:46"
-        },
-        {
-            "message": "Missing item type\n初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化",
-            "line": " develop\\component\\windows\\util.js:55"
-        },
-        {
-            "message": "Missing item type\n封装统一的jquery-niceScroll插件的设定值",
-            "line": " develop\\component\\windows\\util.js:122"
-        },
-        {
-            "message": "Missing item type\n让子窗口在父窗口的正中",
-            "line": " develop\\component\\windows\\util.js:139"
         },
         {
             "message": "Missing item type\n找到可以作为根的节点",

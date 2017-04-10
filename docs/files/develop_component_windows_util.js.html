@@ -215,6 +215,14 @@
                    
                        <li>
                             
+                           <a href="../classes/QTopo.windowUtil.html">QTopo.windowUtil</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
                            <a href="../classes/QTopo.html">QTopo</a>
                            <ul>
                                 
@@ -277,12 +285,23 @@
 
 <div class="file">
     <pre class="prettyprint linenums" id='src_code'>
+/**
+ * @module QTopo
+ */
+/**
+ * 组件包中的窗口管理模块的窗口工具包
+ * @class QTopo.windowUtil
+ * @static
+ */
 var mutex = [];
 var util = {
     /**
-     * 根据窗口以及topo包裹外壳的高度确认窗口的默认位置
-     * @param dom topo外层包裹
-     * @param win 设定高度的窗口
+     * 根据窗口以及topo包裹外壳的高度确认窗口位置
+     *
+     * 统一的窗口显示位置
+     * @method defaultPosition
+     * @param dom {dom} topo外层包裹
+     * @param win {dom} 设定高度的窗口
      */
     defaultPosition: function (dom, win) {
         win.css({
@@ -290,8 +309,13 @@ var util = {
             left: 0
         });
     },
-    /**基于Bootstrap下拉列表的颜色选择框绑定
-     * @win 初始化的窗口
+    /**
+     * 基于Bootstrap下拉列表的颜色选择框绑定
+     *
+     * 颜色选择面板应 name=color_palette
+     * 选中值存放在最近的input.color-selected 内
+     * @method initColorSelect
+     * @param win {dom} 初始化的窗口的jquery对象
      */
     initColorSelect: function (win) {
         //被控制的下拉列表中的div,用以插入颜色按钮
@@ -305,10 +329,9 @@ var util = {
     },
     /**
      * 阻止form发送，同时转化为Json操作,对应转化的标签应该有name属性用以指明json的key
-     * 需要jquery-tools中的插件支持
-     * 需要jquery-tools中的插件支持
-     * @param dom form表单的jquery对象
-     * @param fn 处理json对象的函数
+     * @method initFormSubmit
+     * @param dom{dom} form表单的jquery对象
+     * @param fn{function} 处理json对象的函数
      */
     initFormSubmit: function (dom, fn) {
         dom.submit(function (e) {
@@ -324,17 +347,18 @@ var util = {
     },
     /**
      * json组装form表单
-     * 需要jquery-tools中的插件支持
-     * @param dom form表单的jquery对象
-     * @param json 对象中的键对应表单中的name，自动将值赋上
+     * @method setFormInput
+     * @param dom {dom} form表单的jquery对象
+     * @param json {object} 对象中的键对应表单中的name，自动将值赋上
      */
     setFormInput: function (dom, json) {
         dom.setForm(json);
     },
     /**
-     * 初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动,滚动条初始化
-     * @dom topo存在的包裹dom,用以注册包裹空间内窗口移动
-     * @win 需要初始化的窗口
+     * 初始化一个窗口,定义开关接口，注册窗口互斥，窗口移动
+     * @method initBase
+     * @param dom{dom} topo存在的包裹dom,用以注册包裹空间内窗口移动
+     * @param win{dom} 需要初始化的窗口的jquery对象
      */
     initBase: function (dom, win) {
         win.hide();
@@ -400,6 +424,7 @@ var util = {
     },
     /**
      * 封装统一的jquery-niceScroll插件的设定值
+     * @method addScroll
      * @param win 需要添加滚动条的窗口
      */
     addScroll: function (win) {
@@ -417,9 +442,12 @@ var util = {
 
     /**
      * 让子窗口在父窗口的正中
+     * @method makeCenter
      * @param dom 父窗口
      * @param win 子窗口
-     * @param fixed 固定计算的窗口高宽
+     * @param fixed 高宽写定
+     *      @param fixed.height {number} 高
+     *      @param fixed.width {number} 宽
      */
     makeCenter:function(dom,win,fixed){
         var height=win.height()||300;

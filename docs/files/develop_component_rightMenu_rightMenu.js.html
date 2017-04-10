@@ -215,6 +215,14 @@
                    
                        <li>
                             
+                           <a href="../classes/QTopo.windowUtil.html">QTopo.windowUtil</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
                            <a href="../classes/QTopo.html">QTopo</a>
                            <ul>
                                 
@@ -321,7 +329,7 @@ function initRigheMenu(instance, config) {
          * @method add
          * @param fn {function}
          * @example
-         *          IPOSS.setComponent({
+         *          instance.setComponent({
          *              rightMenu:{
          *                          执行过程中会传入当前实例对象，图层对象，右键菜单对象,其中右键菜单对象记录有触发的目标以及位置信息
          *                      add:function (instance,scene, menu) {
@@ -379,7 +387,7 @@ function initRigheMenu(instance, config) {
          * @method order
          * @param fn {function}
          * @example
-         *          IPOSS.setComponent({
+         *          instance.setComponent({
                             rightMenu: {
                                 order: function (a, b) {
                                         return a - b;//参考数组排序,穿进来的是add函数中添加的order值

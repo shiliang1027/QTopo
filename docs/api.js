@@ -11,6 +11,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "QTopo",
         "QTopo.instance",
         "QTopo.util",
+        "QTopo.windowUtil",
         "Scene",
         "TextNode",
         "[C] Container",
@@ -95,6 +96,9 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "QTopo",
             "name": "QTopo",
             "classes": [
+                {
+                    "name": "QTopo.windowUtil"
+                },
                 {
                     "name": "QTopo"
                 },
