@@ -1066,7 +1066,7 @@
         },
         {
             "file": "develop\\component\\toolBar\\toolBar.js",
-            "line": 75,
+            "line": 82,
             "description": "开启自动布局设置窗口,需要载入windows模块",
             "itemtype": "property",
             "name": "自动布局",
@@ -1075,7 +1075,7 @@
         },
         {
             "file": "develop\\component\\toolBar\\toolBar.js",
-            "line": 109,
+            "line": 116,
             "description": "添加搜索模块",
             "itemtype": "method",
             "name": "addSearch",
@@ -1124,8 +1124,8 @@
         },
         {
             "file": "develop\\component\\toolBar\\toolBar.js",
-            "line": 151,
-            "description": "配置点击保存按钮时事件处理",
+            "line": 158,
+            "description": "配置点击保存按钮时事件处理,重复设置会替换上次设置\n\n默认动作为序列化当前图层信息并打开新页面展示",
             "itemtype": "method",
             "name": "save",
             "params": [
@@ -1136,7 +1136,7 @@
                 }
             ],
             "example": [
-                "\n      instance.setComponent({\n                   toolBar: {\n                        save: function () {\n                               ...\n                        }\n                   }\n            })"
+                "\n      instance.setComponent({\n                   toolBar: {\n                        save: function (e) {//e事件对象\n                               ...\n                        }\n                   }\n            })"
             ],
             "class": "toolBar",
             "module": "component"

@@ -458,7 +458,7 @@
             
         
         
-        <a href="../files/develop_component_toolBar_toolBar.js.html#l109"><code>develop\component\toolBar\toolBar.js:109</code></a>
+        <a href="../files/develop_component_toolBar_toolBar.js.html#l116"><code>develop\component\toolBar\toolBar.js:116</code></a>
         
         </p>
 
@@ -700,7 +700,7 @@
             
         
         
-        <a href="../files/develop_component_toolBar_toolBar.js.html#l151"><code>develop\component\toolBar\toolBar.js:151</code></a>
+        <a href="../files/develop_component_toolBar_toolBar.js.html#l158"><code>develop\component\toolBar\toolBar.js:158</code></a>
         
         </p>
 
@@ -711,7 +711,8 @@
     </div>
 
     <div class="description well well-small sign-left3">
-        <div class="stdoc-code"><p>配置点击保存按钮时事件处理</p>
+        <div class="stdoc-code"><p>配置点击保存按钮时事件处理,重复设置会替换上次设置</p>
+<p>默认动作为序列化当前图层信息并打开新页面展示</p>
 </div>
     </div>
 
@@ -754,7 +755,7 @@
             <div class="example-content ">
                 <div class="stdoc-code"><pre class="code prettyprint"><code>  instance.setComponent({
                toolBar: {
-                    save: function () {
+                    save: function (e) {//e事件对象
                            ...
                     }
                }
@@ -935,7 +936,7 @@
             
         
         
-        <a href="../files/develop_component_toolBar_toolBar.js.html#l75"><code>develop\component\toolBar\toolBar.js:75</code></a>
+        <a href="../files/develop_component_toolBar_toolBar.js.html#l82"><code>develop\component\toolBar\toolBar.js:82</code></a>
         
         </p>
 

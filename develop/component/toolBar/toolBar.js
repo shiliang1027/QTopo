@@ -72,6 +72,13 @@ function init(instance,config) {
     toolBar.find("button[name=export_image]").click(function () {
         scene.getPicture();
     });
+    var doSave=function(e){
+        var w = window.open('about:blank', 'SaveData');
+        w.document.write(JSON.stringify(instance.toJson()));
+    };
+    toolBar.find("button[name=save]").click(function(e){
+            doSave(e);
+    });
     /**
      * 开启自动布局设置窗口,需要载入windows模块
      * @property 自动布局
@@ -149,13 +156,15 @@ function init(instance,config) {
          */
         addSearch: addSearch,
         /**
-         * 配置点击保存按钮时事件处理
+         * 配置点击保存按钮时事件处理,重复设置会替换上次设置
+         *
+         * 默认动作为序列化当前图层信息并打开新页面展示
          * @method save
          * @param fn {function}
          * @example
          *       instance.setComponent({
                     toolBar: {
-                         save: function () {
+                         save: function (e) {//e事件对象
                                 ...
                          }
                     }
@@ -163,11 +172,12 @@ function init(instance,config) {
          */
         save: function(fn) {
             if ($.isFunction(fn)) {
-                toolBar.find("button[name=save]").click(fn);
+                doSave=fn;
             }
         }
     };
 }
+
 /*
  * 添加搜索模块
  * @param instance
