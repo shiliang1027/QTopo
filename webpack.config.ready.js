@@ -16,9 +16,6 @@ module.exports = {
         //filename:  "[name]-[hash].bundle.js"//打包后输出文件的文件名
         filename:  "qtopo.[name].min.js"
     },
-    resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']//配置默认扩展名
-    },
     module: {//在配置文件里添加JSON loader
         loaders: [
             {
