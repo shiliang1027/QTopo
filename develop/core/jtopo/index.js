@@ -1,0 +1,12 @@
+var JTopo=require('./base.js');
+require('./tools/util.js')(JTopo);
+require('./tools/layout.js')(JTopo);
+require('./tools/animate.js')(JTopo);
+require('./elements/stage.js')(JTopo);
+require('./elements/scene.js')(JTopo);
+require('./elements/baseElement.js')(JTopo);
+require('./elements/node.js')(JTopo);
+require('./elements/link.js')(JTopo);
+require('./elements/container.js')(JTopo);
+require('./elements/specialNode.js')(JTopo);
+window.JTopo = JTopo;

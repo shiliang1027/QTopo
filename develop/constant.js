@@ -17,6 +17,7 @@
  * @param CASUAL {string} 临时元素，用以元素变换收缩等操作的过渡元素,一般不对其做操作
  * @param node.IMAGE {string}
  * @param node.TEXT {string}
+ * @param node.SHAPE {string}
  * @param container.GROUP {string}
  * @param link.CURVE {string}
  * @param link.DIRECT {string}
@@ -41,7 +42,8 @@ module.exports = {
     CASUAL:"临时工",//
     node:{
         IMAGE:"10010",
-        TEXT:"10001"
+        TEXT:"10001",
+        SHAPE:"10011"
     },
     container:{
         GROUP:"101"

@@ -4,7 +4,8 @@
 //-
 var Node = {
     Image: require("./element/node/Image.js"),
-    Text: require("./element/node/Text.js")
+    Text: require("./element/node/Text.js"),
+    Shape: require("./element/node/Shape.js")
 };
 var Link = {
     Curve: require("./element/link/Curve.js"),
@@ -413,6 +414,9 @@ Scene.prototype.createNode = function (config) {
     switch (config.type) {
         case constant.TEXT:
             newNode = new Node.Text.constructor(config);
+            break;
+        case constant.SHAPE:
+            newNode = new Node.Shape.constructor(config);
             break;
         default:
             newNode = new Node.Image.constructor(config);

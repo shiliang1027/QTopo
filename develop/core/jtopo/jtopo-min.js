@@ -1,3 +1,4 @@
+
 !function (window) {
     function Element() {
         this.initialize = function () {
@@ -106,7 +107,8 @@
     };
     JTopo.Element = Element;
     window.JTopo = JTopo;
-}(window), function (JTopo) {
+}(window);
+    !function (JTopo) {
     function MessageBus(a) {
         this.name = a;
         this.messageMap = {};
@@ -459,8 +461,8 @@
         intersection: intersection,
         intersectionLineBound: intersectionLineBound
     }
-}(JTopo),
-    function (jtopo) {
+}(JTopo);//util
+    !function (jtopo) {
         function initEagleEye(stage) {
             return {
                 hgap: 16,
@@ -891,8 +893,8 @@
                 })
             }
         }, jtopo.Stage = stage
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//stage
+    !function (jtopo) {
         function scene(c) {
             function d(a, b, c, d) {
                 return function (e) {
@@ -1292,8 +1294,8 @@
                 }
             }
         }), jtopo.Scene = scene
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//scene
+    !function (jtopo) {
         function DisplayElement() {
             this.initialize = function () {
                 DisplayElement.prototype.initialize.apply(this, arguments);
@@ -1669,8 +1671,8 @@
         jtopo.DisplayElement = DisplayElement;
         jtopo.InteractiveElement = interactiveElement;
         jtopo.EditableElement = EditableElement;
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//baseElement
+    !function (jtopo) {
         function baseNode(c) {
             this.initialize = function (c) {
                 baseNode.prototype.initialize.apply(this, arguments), this.elementType = "node", this.zIndex = jtopo.zIndex_Node, this.text = c, this.font = "12px Consolas", this.fontColor = "255,255,255", this.borderWidth = 0, this.borderColor = "255,255,255", this.borderRadius = null, this.dragable = !0, this.textPosition = "Bottom_Center", this.textOffsetX = 0, this.textOffsetY = 0, this.transformAble = !0, this.inLinks = null, this.outLinks = null;
@@ -1975,8 +1977,8 @@
         jtopo.LinkNode = LinkNode;
         jtopo.CircleNode = CircleNode;
         jtopo.AnimateNode = AnimateNode;
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//Node
+    !function (jtopo) {
         function getPublicLink(elementA, elementB) {
             var result = [];
             if (null == elementA || null == elementB)return result;
@@ -2213,8 +2215,8 @@
         jtopo.FoldLink = FoldLink;
         jtopo.FlexionalLink = FlexionalLink;
         jtopo.CurveLink = CurveLink;
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//Link
+    !function (jtopo) {
         function container(c) {
             this.initialize = function (c) {
                 container.prototype.initialize.apply(this, null),
@@ -2321,8 +2323,8 @@
 
         container.prototype = new jtopo.InteractiveElement;
         jtopo.Container = container;
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//container
+    !function (jtopo) {
         function getNodesCenter(a) {
             var b = 0, c = 0;
             a.forEach(function (a) {
@@ -2364,7 +2366,12 @@
                 nodeArray.forEach(function (node, c) {
                     v += 0 == c ? m[c] : m[c - 1] + m[c];
                     var d = e + Math.cos(v) * r, g = f + Math.sin(v) * s;
-                    jtopo.Animate.stepByStep(node, {x: d - node.width / 2, y: g - node.height / 2}, time).start()
+                    jtopo.Animate.stepByStep(node,
+                        {
+                            x: d - node.width / 2,
+                            y: g - node.height / 2
+                        }, time
+                    ).start();
                 })
             } else {
                 var v = 0;
@@ -2693,21 +2700,39 @@
             return null
         }
 
-        function springLayout(b, c) {
-            function d(a, b) {
-                var c = a.x - b.x, d = a.y - b.y;
-                i += c * f, j += d * f, i *= g, j *= g, j += h, b.x += i, b.y += j
+        function springLayout(root, scene) {
+            var keyA = 0.01;//移动幅度
+            var keyB = 0.95;
+            var temp = -5;
+            var stepX = 0;
+            var stepY = 0;
+            var times = 0;
+            var nodes = scene.getElementsByClass(jtopo.Node);
+            annimate();
+
+            function change(root, node) {
+                var disX = root.x - node.x;
+                var disY = root.y - node.y;
+                stepX += disX * keyA;
+                stepY += disY * keyA;
+                stepX *= keyB;
+                stepY *= keyB;
+                stepY += temp;
+                node.x += stepX;
+                node.y += stepY;
             }
 
-            function e() {
-                if (!(++k > 150)) {
-                    for (var a = 0; a < l.length; a++)l[a] != b && d(b, l[a], l);
-                    setTimeout(e, 1e3 / 24)
+            function annimate() {
+                ++times;
+                if (times < 150) {
+                    for (var i = 0; i < nodes.length; i++) {
+                        if (nodes[i] != root) {
+                            change(root, nodes[i]);
+                        }
+                    }
+                    setTimeout(annimate, 1e3 / 24)
                 }
             }
-
-            var f = .01, g = .95, h = -5, i = 0, j = 0, k = 0, l = c.getElementsByClass(jtopo.Node);
-            e()
         }
 
         function getTreeDeep(childs, root) {
@@ -2741,8 +2766,8 @@
             getNodesCenter: getNodesCenter,
             circleLayoutNodes: circleLayoutNodes
         }
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//layout
+    !function (jtopo) {
         function PieChartNode() {
             var b = new jtopo.CircleNode;
             return b.radius = 150, b.colors = ["#3666B0", "#2CA8E0", "#77D1F6"], b.datas = [.3, .3, .4], b.titles = ["A", "B", "C"], b.paint = function (a) {
@@ -2774,81 +2799,157 @@
 
         jtopo.BarChartNode = BarChartNode;
         jtopo.PieChartNode = PieChartNode;
-    }(JTopo),
-    function (jtopo) {
-        function b(b, c) {
-            var d, e = null;
+    }(JTopo);//specialNode
+    !function (jtopo) {
+        function AnimateObject(fn, time) {
+            var intervalId;
+            var messageBus = null;
             return {
                 stop: function () {
-                    return d ? (window.clearInterval(d), e && e.publish("stop"), this) : this
-                }, start: function () {
-                    var a = this;
-                    return d = setInterval(function () {
-                        b.call(a)
-                    }, c), this
-                }, onStop: function (b) {
-                    return null == e && (e = new jtopo.util.MessageBus), e.subscribe("stop", b), this
+                    var self;
+                    if (intervalId) {
+                        window.clearInterval(intervalId);
+                        if (messageBus) {
+                            messageBus.publish("stop");
+                        }
+                    }
+                    return this;
+                },
+                start: function () {
+                    var self = this;
+                    intervalId = setInterval(function () {
+                        fn.call(self)
+                    }, time);
+                    return this
+                },
+                onStop: function (fn) {
+                    if (null == messageBus) {
+                        messageBus = new jtopo.util.MessageBus();
+                    }
+                    messageBus.subscribe("stop", fn);
+                    return this;
                 }
             }
         }
 
-        function ef_gravity(a, c) {
-            c = c || {};
-            var d = c.gravity || .1, e = c.dx || 0, f = c.dy || 5, g = c.stop, h = c.interval || 30, i = new b(function () {
-                g && g() ? (f = .5, this.stop()) : (f += d, a.setLocation(a.x + e, a.y + f))
+        function ef_gravity(element, config) {
+            config = config || {};
+            var gravity = config.gravity || 0.1;
+            var DX = config.dx || 0;
+            var DY = config.dy || 5;
+            var stop = config.stop;
+            var h = config.interval || 30;
+            return new AnimateObject(function () {
+                if (stop && stop()) {
+                    DY = 0.5;
+                    this.stop();
+                } else {
+                    DY += gravity;
+                    element.setLocation(element.x + DX, element.y + DY);
+                }
             }, h);
-            return i
         }
 
-        function an_stepByStep(target, attr, time, e, f) {
-            var g = 1e3 / 24, h = {};
-            for (var i in attr) {
-                var j = attr[i], k = j - target[i];
-                h[i] = {
-                    oldValue: target[i], targetValue: j, step: k / time * g, isDone: function (b) {
-                        var c = this.step > 0 && target[b] >= this.targetValue || this.step < 0 && target[b] <= this.targetValue;
-                        return c
+        function an_stepByStep(target, configs, time, e, f) {
+            var intervalTime = 1e3 / 24;
+            var temp = {};
+            for (var config in configs) {
+                var targetValue = configs[config];
+                var needValue = targetValue - target[config];
+                temp[config] = {
+                    oldValue: target[config],
+                    targetValue: targetValue,
+                    step: needValue / time * intervalTime,
+                    isDone: function (b) {
+                        return this.step > 0 && target[b] >= this.targetValue || this.step < 0 && target[b] <= this.targetValue;
                     }
                 }
             }
-            var l = new b(function () {
-                var b = !0;
-                for (var d in attr)h[d].isDone(d) || (target[d] += h[d].step, b = !1);
-                if (b) {
-                    if (!e)return this.stop();
-                    for (var d in attr)if (f) {
-                        var g = h[d].targetValue;
-                        h[d].targetValue = h[d].oldValue, h[d].oldValue = g, h[d].step = -h[d].step
-                    } else target[d] = h[d].oldValue
+            return new AnimateObject(function () {
+                var notDone = !0;
+                for (var config in configs) {
+                    if (!temp[config].isDone(config)) {
+                        target[config] += temp[config].step;
+                        notDone = !1;
+                    }
+                }
+                if (notDone) {
+                    if (!e) {
+                        return this.stop();
+                    }
+                    for (var item in configs) {
+                        if (f) {
+                            var g = temp[item].targetValue;
+                            temp[item].targetValue = temp[item].oldValue;
+                            temp[item].oldValue = g;
+                            temp[item].step = -temp[item].step;
+                        } else {
+                            target[item] = temp[item].oldValue;
+                        }
+                    }
                 }
                 return this
-            }, g);
-            return l
+            }, intervalTime);
         }
 
-        function ef_spring(a) {
-            null == a && (a = {});
-            var b = a.spring || .1, c = a.friction || .8, d = a.grivity || 0, e = (a.wind || 0, a.minLength || 0);
+        function ef_spring(config) {
+            config = config || {};
+            var sping = config.spring || .1; // 弹性系数
+            var friction = config.friction || .8;// 摩擦系数
+            var grivity = config.grivity || 0; // 引力大小
+            var wind = config.minLength || 0;
             return {
-                items: [], timer: null, isPause: !1, addNode: function (a, b) {
-                    var c = {node: a, target: b, vx: 0, vy: 0};
-                    return this.items.push(c), this
-                }, play: function (a) {
-                    this.stop(), a = null == a ? 1e3 / 24 : a;
-                    var b = this;
-                    this.timer = setInterval(function () {
-                        b.nextFrame()
-                    }, a)
-                }, stop: function () {
-                    null != this.timer && window.clearInterval(this.timer)
-                }, nextFrame: function () {
-                    for (var a = 0; a < this.items.length; a++) {
-                        var f = this.items[a], g = f.node, h = f.target, i = f.vx, j = f.vy, k = h.x - g.x, l = h.y - g.y, m = Math.atan2(l, k);
-                        if (0 != e) {
-                            var n = h.x - Math.cos(m) * e, o = h.y - Math.sin(m) * e;
-                            i += (n - g.x) * b, j += (o - g.y) * b
-                        } else i += k * b, j += l * b;
-                        i *= c, j *= c, j += d, g.x += i, g.y += j, f.vx = i, f.vy = j
+                items: [],
+                id: null,
+                isPause: !1,
+                addNode: function (node, target) {
+                    var item = {
+                        node: node,
+                        target: target,
+                        vx: 0,
+                        vy: 0
+                    };
+                    this.items.push(item);
+                    return this
+                },
+                play: function (interval) {
+                    this.stop();
+                    interval = interval || 1e3 / 24;
+                    var self = this;
+                    this.id = setInterval(function () {
+                        self.nextFrame()
+                    }, interval)
+                },
+                stop: function () {
+                    window.clearInterval(this.id);
+                    this.id = null;
+                },
+                nextFrame: function () {
+                    for (var i = 0; i < this.items.length; i++) {
+                        var item = this.items[i],
+                            node = item.node,
+                            target = item.target,
+                            vx = item.vx,
+                            vy = item.vy,
+                            disX = target.x - node.x,
+                            disY = target.y - node.y,
+                            angle = Math.atan2(disY, disX);
+                        if (0 != wind) {
+                            var n = target.x - Math.cos(angle) * wind,
+                                o = target.y - Math.sin(angle) * wind;
+                            vx += (n - node.x) * sping;
+                            vy += (o - node.y) * sping;
+                        } else {
+                            vx += disX * sping;
+                            vy += disY * sping;
+                        }
+                        vx *= friction;
+                        vy *= friction;
+                        vy += grivity;
+                        node.x += vx;
+                        node.y += vy;
+                        item.vx = vx;
+                        item.vy = vy;
                     }
                 }
             }
@@ -2857,7 +2958,7 @@
         function an_rotate(a, b) {
             function c() {
                 return e = setInterval(function () {
-                    return o ? void f.stop() : (a.rotate += g || .2, void(a.rotate > 2 * Math.PI && (a.rotate = 0)))
+                    return stopAnimate ? void f.stop() : (a.rotate += g || .2, void(a.rotate > 2 * Math.PI && (a.rotate = 0)))
                 }, 100), f
             }
 
@@ -2879,7 +2980,7 @@
             function d() {
                 var d = b.dx || 0, i = b.dy || 2;
                 return g = setInterval(function () {
-                    return o ? void h.stop() : (i += f, void(a.y + a.height < e.stage.canvas.height ? a.setLocation(a.x + d, a.y + i) : (i = 0, c())))
+                    return stopAnimate ? void h.stop() : (i += f, void(a.y + a.height < e.stage.canvas.height ? a.setLocation(a.x + d, a.y + i) : (i = 0, c())))
                 }, 20), h
             }
 
@@ -2927,7 +3028,7 @@
 
             function d() {
                 return c(a), h = setInterval(function () {
-                    return o ? void i.stop() : (a.vy += f, a.x += a.vx, a.y += a.vy, void((a.x < 0 || a.x > g.stage.canvas.width || a.y > g.stage.canvas.height) && (i.onStop && i.onStop(a), c(a))))
+                    return stopAnimate ? void i.stop() : (a.vy += f, a.x += a.vx, a.y += a.vy, void((a.x < 0 || a.x > g.stage.canvas.width || a.y > g.stage.canvas.height) && (i.onStop && i.onStop(a), c(a))))
                 }, 50), i
             }
 
@@ -2942,17 +3043,17 @@
         }
 
         function an_stopAll() {
-            o = !0
+            stopAnimate = !0
         }
 
         function an_startAll() {
-            o = !1
+            stopAnimate = !1
         }
 
         function an_cycle(b, c) {
             function d() {
                 return n = setInterval(function () {
-                    if (o)return void m.stop();
+                    if (stopAnimate)return void m.stop();
                     var a = f.y + h + Math.sin(k) * j;
                     b.setLocation(b.x, a), k += l
                 }, 100), m
@@ -2966,23 +3067,42 @@
             return m.run = d, m.stop = e, m
         }
 
-        function an_move(a, b) {
-            function c() {
-                return h = setInterval(function () {
-                    if (o)return void g.stop();
-                    var b = e.x - a.x, c = e.y - a.y, h = b * f, i = c * f;
-                    a.x += h, a.y += i, .01 > h && .1 > i && d()
-                }, 100), g
-            }
-
-            function d() {
-                window.clearInterval(h)
-            }
-
-            var e = b.position, f = (b.context, b.easing || .2), g = {}, h = null;
-            return g.onStop = function (a) {
-                return g.onStop = a, g
-            }, g.run = c, g.stop = d, g
+        function an_move(element, config) {
+            config = config || {};
+            var position = config.position;
+            var easing = config.easing || 0.2;
+            return {
+                id: null,
+                run: function () {
+                    var self = this;
+                    if (self.id == null) {
+                        self.id = setInterval(function () {
+                            if (!stopAnimate) {
+                                var totalX = position.x - element.x;
+                                var totalY = position.y - element.y;
+                                var stepX = totalX * easing;
+                                var stepY = totalY * easing;
+                                element.x += stepX;
+                                element.y += stepY;
+                                if (0.1 > stepX && 0.1 > stepY) {
+                                    self.stop();
+                                }
+                            } else {
+                                self.stop()
+                            }
+                        }, 100);
+                    }
+                    return self;
+                },
+                stop: function () {
+                    window.clearInterval(this.id);
+                    this.id = null;
+                    if (this.onStop && typeof this.onStop == 'function') {
+                        this.onStop();
+                    }
+                    return this;
+                }
+            };
         }
 
         function an_scale(a, b) {
@@ -3003,7 +3123,7 @@
         }
 
         jtopo.Animate = {}, jtopo.Effect = {};
-        var o = !1;
+        var stopAnimate = !1;
         jtopo.Effect.spring = ef_spring;
         jtopo.Effect.gravity = ef_gravity;
         jtopo.Animate.stepByStep = an_stepByStep;
@@ -3016,8 +3136,8 @@
         jtopo.Animate.gravity = an_gravity;
         jtopo.Animate.startAll = an_startAll;
         jtopo.Animate.stopAll = an_stopAll;
-    }(JTopo),
-    function (jtopo) {
+    }(JTopo);//animate
+    !function (jtopo) {
         function b(a, b) {
             var c = [];
             if (0 == a.length)return c;
@@ -3100,8 +3220,8 @@
         var e = "click,mousedown,mouseup,mouseover,mouseout,mousedrag,keydown,keyup".split(",");
         jtopo.Stage.prototype.find = find;
         jtopo.Scene.prototype.find = find;
-    }(JTopo),
-    function (win) {
+    }(JTopo);//tools
+    !function (win) {
         function logObject(a, b) {
             this.x = a;
             this.y = b;
@@ -3196,4 +3316,4 @@
         Logo.star = star;
         Logo.scale = scale;
         win.Logo = Logo;
-    }(window);
+    }(window);//logo

@@ -1,7 +1,8 @@
 /**
  * @module QTopo
  */
-require("./core/jtopo/jtopo-min.js");
+//require("./core/jtopo/jtopo-min.js");
+require("./core/jtopo/index.js");
 if (typeof jQuery == "undefined") {
     throw new Error("need jquery");
 }
