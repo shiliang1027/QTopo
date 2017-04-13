@@ -247,44 +247,34 @@ Element.prototype.setDragable = function (dragable) {
 Element.prototype.setNamePosition = function (namePosition) {
     var jtopo = this.jtopo;
     jtopo.text = this.attr.name || "";
+    jtopo.textOffsetX = 0;
+    jtopo.textOffsetY = 0;
     switch (namePosition) {
         case 'hide':
             jtopo.text = '';
             this.attr.namePosition = "hide";
             break;
         case 'bottom':
-            jtopo.textOffsetX = 0;
-            jtopo.textOffsetY = 0;
             jtopo.textPosition = "Bottom_Center";
             this.attr.namePosition = "bottom";
             break;
         case 'top':
-            jtopo.textOffsetX = 0;
-            jtopo.textOffsetY = 0;
             jtopo.textPosition = "Top_Center";
             this.attr.namePosition = "top";
             break;
         case 'left':
-            jtopo.textOffsetX = -5;
-            jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Left";
             this.attr.namePosition = "left";
             break;
         case 'right':
-            jtopo.textOffsetX = 5;
-            jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Right";
             this.attr.namePosition = "right";
             break;
         case "center":
-            jtopo.textOffsetX = 0;
-            jtopo.textOffsetY = 0;
             jtopo.textPosition = "Middle_Center";
             this.attr.namePosition = "center";
             break;
         default:
-            jtopo.textOffsetX = 0;
-            jtopo.textOffsetY = 0;
             jtopo.textPosition = 'Bottom_Center';
             this.attr.namePosition = "bottom";
             QTopo.util.error(this, "set wrong namePosition,default is bottom");

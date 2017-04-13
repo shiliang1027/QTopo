@@ -40,46 +40,12 @@ function getDefault() {
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
-//----
-//支持自动换行
-var jtopoReset = {
-    paint: function (a) {
-        //自动换行
-        var texts = this.text.split("\n");
-        a.beginPath();
-        a.font = this.font;
-        var fontWidth = a.measureText("田").width;
-        this.width = 0;
-        for (var j = 0; j < texts.length; j++) {
-            var width = a.measureText(texts[j]).width;
-            if (width > this.width) {
-                this.width = width;
-            }
-        }
-        this.height = texts.length * fontWidth;
-        a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
-        a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
-        if (texts.length > 1) {
-            for (var i = 0; i < texts.length; i++) {
-                a.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
-            }
-        } else {
-            a.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
-        }
-        a.closePath();
-        this.paintBorder(a);
-        this.paintCtrl(a);
-        this.paintAlarmText(a);
-    }
-};
-//----
 function TextNode(config) {
     this.attr = QTopo.util.extend(getDefault(), config || {});
     Node.call(this, new JTopo.TextNode());
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
-    reset(this);
 }
 QTopo.util.inherits(TextNode, Node);
 //-
@@ -108,10 +74,6 @@ function setJTopo(config) {
         }
         this._setAttr(config);
     }
-}
-//重写源码
-function reset(node) {
-    node.jtopo.paint = jtopoReset.paint;
 }
 //-
 /**

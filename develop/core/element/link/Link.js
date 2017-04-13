@@ -10,15 +10,6 @@
  */
 var Element = require("../Element.js");
 module.exports = Link;
-var jtopoReset = {
-    //原选取后效果较暗，在暗色主题下不明显，重写为亮色
-    paintSelected: function (a) {
-        a.shadowBlur = 10;
-        a.shadowColor = "rgba(255,255,255,1)";
-        a.shadowOffsetX = 0;
-        a.shadowOffsetY = 0;
-    }
-};
 function Link(jtopo) {
     if (!jtopo) {
         QTopo.util.error("create Link without jtopo", this);
@@ -46,14 +37,8 @@ function Link(jtopo) {
             this.path.end.links.in.push(this);
         }
     }
-    reset(this.jtopo);
 }
 QTopo.util.inherits(Link, Element);
-
-function reset(jtopo) {
-    //被選中后的样式
-    jtopo.paintSelected = jtopoReset.paintSelected;
-}
 /**
  *  获取元素基本类型,详细参考QTopo.constant中的类型定义
  *  @method [L] getType

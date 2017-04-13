@@ -1,4 +1,4 @@
-module.exports=function (jtopo) {
+module.exports = function (jtopo) {
     function scene(c) {
         function d(a, b, c, d) {
             return function (e) {
@@ -152,12 +152,19 @@ module.exports=function (jtopo) {
         this.clearOperations = function () {
             return this.operations = [], this
         };
-        this.getElementByXY = function (b, c) {
-            for (var d = null, e = this.zIndexArray.length - 1; e >= 0; e--)for (var f = this.zIndexArray[e], g = this.zIndexMap[f], h = g.length - 1; h >= 0; h--) {
-                var i = g[h];
-                if (i instanceof jtopo.InteractiveElement && this.isVisiable(i) && i.isInBound(b, c))return d = i
+        this.getElementByXY = function (x, c) {
+            var element = null;
+            for (var i = this.zIndexArray.length - 1; i >= 0; i--) {
+                var zindex = this.zIndexArray[i];
+                var elements = this.zIndexMap[zindex];
+                for (var h = elements.length - 1; h >= 0; h--) {
+                    var el = elements[h];
+                    if (el instanceof jtopo.InteractiveElement && this.isVisiable(el) && el.isInBound(x, c)) {
+                        return el;
+                    }
+                }
             }
-            return d
+            return element
         };
         this.add = function (a) {
             this.childs.push(a);
@@ -213,16 +220,29 @@ module.exports=function (jtopo) {
             }
             return null != c.dx && (c.dx /= this.scaleX, c.dy /= this.scaleY), null != this.currentElement && (c.target = this.currentElement), c.scene = this, c
         };
-        this.selectElement = function (a) {
-            var b = scene_self.getElementByXY(a.x, a.y);
-            if (null != b)if (a.target = b, b.mousedownHander(a), b.selectedHandler(a), scene_self.notInSelectedNodes(b))a.ctrlKey || scene_self.cancleAllSelected(), scene_self.addToSelected(b); else {
-                1 == a.ctrlKey && (b.unselectedHandler(), this.removeFromSelected(b));
-                for (var c = 0; c < this.selectedElements.length; c++) {
-                    var d = this.selectedElements[c];
-                    d.selectedHandler(a)
+        this.selectElement = function (event) {
+            var element = scene_self.getElementByXY(event.x, event.y);
+            if (null != element) {
+                event.target = element;
+                element.mousedownHander(event);
+                element.selectedHandler(event);
+                if (scene_self.notInSelectedNodes(element)) {
+                    event.ctrlKey || scene_self.cancleAllSelected();
+                    scene_self.addToSelected(element);
+                } else {
+                    if(1 == event.ctrlKey){
+                        element.unselectedHandler();
+                        this.removeFromSelected(element);
+                    }
+                    for (var i = 0; i < this.selectedElements.length; i++) {
+                        var selectedElement = this.selectedElements[i];
+                        selectedElement.selectedHandler(event)
+                    }
                 }
-            } else a.ctrlKey || scene_self.cancleAllSelected();
-            this.currentElement = b
+            } else {
+                event.ctrlKey || scene_self.cancleAllSelected();
+            }
+            this.currentElement = element
         };
         this.mousedownHandler = function (b) {
             var c = this.toSceneEvent(b);
@@ -258,12 +278,12 @@ module.exports=function (jtopo) {
                 p.x > h && p.x + p.width < m && p.y > i && p.y + p.height < n && scene_self.notInSelectedNodes(p) && (p.selectedHandler(a), scene_self.addToSelected(p))
             }
         };
-        this.mousemoveHandler = function (b) {
+        this.mousemoveHandler = function (e) {
             this.mousecoord = {
-                x: b.x,
-                y: b.y
+                x: e.x,
+                y: e.y
             };
-            var c = this.toSceneEvent(b);
+            var event = this.toSceneEvent(e);
             if (this.mode == jtopo.SceneMode.drag) {
                 return void(this.stage.cursor = jtopo.MouseCursor.open_hand);
             }
@@ -273,87 +293,107 @@ module.exports=function (jtopo) {
                 this.stage.cursor = jtopo.MouseCursor.normal;
             }
 
-            var d = scene_self.getElementByXY(c.x, c.y);
-            if (null != d) {
-                if (scene_self.mouseOverelement && scene_self.mouseOverelement !== d) {
-                    c.target = d, scene_self.mouseOverelement.mouseoutHandler(c)
+            var element = scene_self.getElementByXY(event.x, event.y);
+            if (null != element) {
+                if (scene_self.mouseOverelement && scene_self.mouseOverelement !== element) {
+                    event.target = element;
+                    scene_self.mouseOverelement.mouseoutHandler(event);
                 }
-                scene_self.mouseOverelement = d;
-                if (0 == d.isMouseOver) {
-                    c.target = d;
-                    d.mouseoverHandler(c);
-                    scene_self.dispatchEvent("mouseover", c);
+                scene_self.mouseOverelement = element;
+                if (0 == element.isMouseOver) {
+                    event.target = element;
+                    element.mouseoverHandler(event);
+                    scene_self.dispatchEvent("mouseover", event);
                 } else {
-                    c.target = d;
-                    d.mousemoveHandler(c);
-                    scene_self.dispatchEvent("mousemove", c);
+                    event.target = element;
+                    element.mousemoveHandler(event);
+                    scene_self.dispatchEvent("mousemove", event);
                 }
             } else {
                 if (scene_self.mouseOverelement) {
-                    c.target = d;
-                    scene_self.mouseOverelement.mouseoutHandler(c);
+                    event.target = element;
+                    scene_self.mouseOverelement.mouseoutHandler(event);
                     scene_self.mouseOverelement = null;
-                    scene_self.dispatchEvent("mouseout", c);
+                    scene_self.dispatchEvent("mouseout", event);
                 } else {
-                    c.target = null;
-                    scene_self.dispatchEvent("mousemove", c)
+                    event.target = null;
+                    scene_self.dispatchEvent("mousemove", event)
                 }
             }
-        }, this.mouseoverHandler = function (a) {
+        };
+        this.mouseoverHandler = function (a) {
             var b = this.toSceneEvent(a);
             this.dispatchEvent("mouseover", b)
-        }, this.mouseoutHandler = function (a) {
+        };
+        this.mouseoutHandler = function (a) {
             var b = this.toSceneEvent(a);
             this.dispatchEvent("mouseout", b)
-        }, this.clickHandler = function (a) {
+        };
+        this.clickHandler = function (a) {
             var b = this.toSceneEvent(a);
             this.currentElement && (b.target = this.currentElement, this.currentElement.clickHandler(b)), this.dispatchEvent("click", b)
-        }, this.dbclickHandler = function (a) {
+        };
+        this.dbclickHandler = function (a) {
             var b = this.toSceneEvent(a);
             this.currentElement ? (b.target = this.currentElement, this.currentElement.dbclickHandler(b)) : scene_self.cancleAllSelected(), this.dispatchEvent("dbclick", b)
-        }, this.mousewheelHandler = function (a) {
+        };
+        this.mousewheelHandler = function (a) {
             var b = this.toSceneEvent(a);
             this.dispatchEvent("mousewheel", b)
-        }, this.touchstart = this.mousedownHander, this.touchmove = this.mousedragHandler, this.touchend = this.mousedownHander, this.keydownHandler = function (a) {
+        };
+        this.touchstart = this.mousedownHander, this.touchmove = this.mousedragHandler, this.touchend = this.mousedownHander, this.keydownHandler = function (a) {
             this.dispatchEvent("keydown", a)
-        }, this.keyupHandler = function (a) {
+        };
+        this.keyupHandler = function (a) {
             this.dispatchEvent("keyup", a)
-        }, this.addEventListener = function (eventName, fn) {
+        };
+        this.addEventListener = function (eventName, fn) {
             var self = this;
             var b = function (e) {
                 fn.call(self, e);
             };
             this.messageBus.subscribe(eventName, fn);
             return this;
-        }, this.removeEventListener = function (a, f) {
+        };
+        this.removeEventListener = function (a, f) {
             this.messageBus.unsubscribe(a, f)
-        }, this.removeAllEventListener = function () {
+        };
+        this.removeAllEventListener = function () {
             this.messageBus = new jtopo.util.MessageBus
-        }, this.dispatchEvent = function (a, b) {
+        };
+        this.dispatchEvent = function (a, b) {
             return this.messageBus.publish(a, b), this
         };
         var f = "click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel,touchstart,touchmove,touchend,keydown,keyup".split(","), g = this;
-        return f.forEach(function (a) {
+        f.forEach(function (a) {
             g[a] = function (b) {
                 null != b ? this.addEventListener(a, b) : this.dispatchEvent(a)
             }
-        }), this.zoom = function (a, b) {
+        });
+        this.zoom = function (a, b) {
             null != a && 0 != a && (this.scaleX = a), null != b && 0 != b && (this.scaleY = b)
-        }, this.zoomOut = function (a) {
+        };
+        this.zoomOut = function (a) {
             0 != a && (null == a && (a = .8), this.scaleX /= a, this.scaleY /= a)
-        }, this.zoomIn = function (a) {
+        };
+        this.zoomIn = function (a) {
             0 != a && (null == a && (a = .8), this.scaleX *= a, this.scaleY *= a)
-        }, this.getBound = function () {
+        };
+        this.getBound = function () {
             return {left: 0, top: 0, right: this.stage.canvas.width, bottom: this.stage.canvas.height, width: this.stage.canvas.width, height: this.stage.canvas.height}
-        }, this.getElementsBound = function () {
+        };
+        this.getElementsBound = function () {
             return jtopo.util.getElementsBound(this.childs)
-        }, this.translateToCenter = function (a) {
+        };
+        this.translateToCenter = function (a) {
             var b = this.getElementsBound(), c = this.stage.canvas.width / 2 - (b.left + b.right) / 2, d = this.stage.canvas.height / 2 - (b.top + b.bottom) / 2;
             a && (c = a.canvas.width / 2 - (b.left + b.right) / 2, d = a.canvas.height / 2 - (b.top + b.bottom) / 2), this.translateX = c, this.translateY = d
-        }, this.setCenter = function (a, b) {
+        };
+        this.setCenter = function (a, b) {
             var c = a - this.stage.canvas.width / 2, d = b - this.stage.canvas.height / 2;
             this.translateX = -c, this.translateY = -d
-        }, this.centerAndZoom = function (a, b, c) {
+        };
+        this.centerAndZoom = function (a, b, c) {
             if (this.translateToCenter(c), null == a || null == b) {
                 var d = this.getElementsBound(), e = d.right - d.left, f = d.bottom - d.top, g = this.stage.canvas.width / e, h = this.stage.canvas.height / f;
                 c && (g = c.canvas.width / e, h = c.canvas.height / f);
@@ -362,24 +402,14 @@ module.exports=function (jtopo) {
                 this.zoom(i, i)
             }
             this.zoom(a, b)
-        }, this.getCenterLocation = function () {
+        };
+        this.getCenterLocation = function () {
             return {x: scene_self.stage.canvas.width / 2, y: scene_self.stage.canvas.height / 2}
-        }, this.doLayout = function (a) {
+        };
+        this.doLayout = function (a) {
             a && a(this, this.childs)
-        }, this.toJson = function () {
-            {
-                var a = this, b = "{";
-                this.serializedProperties.length
-            }
-            this.serializedProperties.forEach(function (c) {
-                var d = a[c];
-                "background" == c && (d = a._background.src), "string" == typeof d && (d = '"' + d + '"'), b += '"' + c + '":' + d + ","
-            }), b += '"childs":[';
-            var c = this.childs.length;
-            return this.childs.forEach(function (a, d) {
-                b += a.toJson(), c > d + 1 && (b += ",")
-            }), b += "]", b += "}"
-        }, scene_self
+        };
+        return scene_self
     }
 
     scene.prototype = new jtopo.Element;

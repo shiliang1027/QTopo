@@ -1,46 +1,187 @@
-module.exports=function (jtopo) {
-    function baseNode(c) {
-        this.initialize = function (c) {
-            baseNode.prototype.initialize.apply(this, arguments), this.elementType = "node", this.zIndex = jtopo.zIndex_Node, this.text = c, this.font = "12px Consolas", this.fontColor = "255,255,255", this.borderWidth = 0, this.borderColor = "255,255,255", this.borderRadius = null, this.dragable = !0, this.textPosition = "Bottom_Center", this.textOffsetX = 0, this.textOffsetY = 0, this.transformAble = !0, this.inLinks = null, this.outLinks = null;
+module.exports = function (jtopo) {
+    var imageCache = {};
+    BaseNode.prototype = new jtopo.EditableElement();
+    Node.prototype = new BaseNode();
+    Object.defineProperties(Node.prototype, {
+        alarmColor: {
+            get: function () {
+                return this._alarmColor;
+            },
+            set: function (color) {
+                this._alarmColor = color;
+                if (null != this.image) {
+                    var c = jtopo.util.genImageAlarm(this.image, color);
+                    if (c) {
+                        this.alarmImage = c;
+                    }
+                }
+            }
+        }
+    });
+    TextNode.prototype = new Node();
+    LinkNode.prototype = new TextNode();
+    CircleNode.prototype = new Node();
+    Object.defineProperties(CircleNode.prototype, {
+        radius: {
+            get: function () {
+                return this._radius
+            },
+            set: function (a) {
+                this._radius = a;
+                var b = 2 * this.radius;
+                var c = 2 * this.radius;
+                this.width = b;
+                this.height = c;
+            }
+        }, width: {
+            get: function () {
+                return this._width
+            },
+            set: function (a) {
+                this._radius = a / 2;
+                this._width = a;
+            }
+        }, height: {
+            get: function () {
+                return this._height;
+            },
+            set: function (a) {
+                this._radius = a / 2;
+                this._height = a;
+            }
+        }
+    });
+    animateBaseNodeA.prototype = new Node();
+    animateBaseNodeB.prototype = new Node();
+    AnimateNode.prototype = new Node();
+    jtopo.Node = Node;
+    jtopo.TextNode = TextNode;
+    jtopo.LinkNode = LinkNode;
+    jtopo.CircleNode = CircleNode;
+    jtopo.AnimateNode = AnimateNode;
+
+    function BaseNode(text) {
+        this.initialize = function (text) {
+            BaseNode.prototype.initialize.apply(this, arguments);
+            this.elementType = "node";
+            this.zIndex = jtopo.zIndex_Node;
+            this.text = text;
+            this.font = "12px Consolas";
+            this.fontColor = "255,255,255";
+            this.borderWidth = 0;
+            this.borderColor = "255,255,255";
+            this.borderRadius = null;
+            this.dragable = !0;
+            this.textPosition = "Bottom_Center";
+            this.textOffsetX = 0;
+            this.textOffsetY = 0;
+            this.transformAble = !0;
+            this.inLinks = null;
+            this.outLinks = null;
             var d = "text,font,fontColor,textPosition,textOffsetX,textOffsetY,borderRadius".split(",");
-            this.serializedProperties = this.serializedProperties.concat(d)
-        }, this.initialize(c), this.paint = function (a) {
+            this.serializedProperties = this.serializedProperties.concat(d);
+        };
+        this.initialize(text);
+        this.paint = function (context) {
+            this.paintAlarmFlash(context);
             if (this.image) {
-                var b = a.globalAlpha;
-                a.globalAlpha = this.alpha, null != this.alarmImage && null != this.alarm ? a.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height) : a.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height), a.globalAlpha = b
-            } else a.beginPath(), a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")", null == this.borderRadius || 0 == this.borderRadius ? a.rect(-this.width / 2, -this.height / 2, this.width, this.height) : a.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius), a.fill(), a.closePath();
-            this.paintText(a), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
-        }, this.paintAlarmText = function (a) {
+                var gobalAlpha = context.globalAlpha;
+                context.globalAlpha = this.alpha;
+                if (null != this.alarmImage && null != this.alarm) {
+                    context.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height)
+                } else {
+                    context.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
+                }
+                context.globalAlpha = gobalAlpha;
+            } else {
+                context.beginPath();
+                context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
+                if (null == this.borderRadius || 0 == this.borderRadius) {
+                    context.rect(-this.width / 2, -this.height / 2, this.width, this.height)
+                } else {
+                    context.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
+                }
+                context.fill();
+                context.closePath();
+            }
+            this.paintText(context);
+            this.paintBorder(context);
+            this.paintCtrl(context);
+            this.paintAlarmText(context);
+        };
+        this.paintAlarmText = function (context) {
             if (null != this.alarm && "" != this.alarm) {
                 var b = this.alarmColor || "255,0,0", c = this.alarmAlpha || .5;
-                a.beginPath(), a.font = this.alarmFont || "10px 微软雅黑";
-                var d = a.measureText(this.alarm).width + 6, e = a.measureText("田").width + 6, f = this.width / 2 - d / 2, g = -this.height / 2 - e - 8;
-                a.strokeStyle = "rgba(" + b + ", " + c + ")", a.fillStyle = "rgba(" + b + ", " + c + ")", a.lineCap = "round", a.lineWidth = 1, a.moveTo(f, g), a.lineTo(f + d, g), a.lineTo(f + d, g + e), a.lineTo(f + d / 2 + 6, g + e), a.lineTo(f + d / 2, g + e + 8), a.lineTo(f + d / 2 - 6, g + e), a.lineTo(f, g + e), a.lineTo(f, g), a.fill(), a.stroke(), a.closePath(), a.beginPath(), a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", a.fillText(this.alarm, f + 2, g + e - 4), a.closePath()
+                context.beginPath(), context.font = this.alarmFont || "10px 微软雅黑";
+                var d = context.measureText(this.alarm).width + 6, e = context.measureText("田").width + 6, f = this.width / 2 - d / 2, g = -this.height / 2 - e - 8;
+                context.strokeStyle = "rgba(" + b + ", " + c + ")", context.fillStyle = "rgba(" + b + ", " + c + ")", context.lineCap = "round", context.lineWidth = 1, context.moveTo(f, g), context.lineTo(f + d, g), context.lineTo(f + d, g + e), context.lineTo(f + d / 2 + 6, g + e), context.lineTo(f + d / 2, g + e + 8), context.lineTo(f + d / 2 - 6, g + e), context.lineTo(f, g + e), context.lineTo(f, g), context.fill(), context.stroke(), context.closePath(), context.beginPath(), context.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", context.fillText(this.alarm, f + 2, g + e - 4), context.closePath()
             }
-        }, this.paintText = function (a) {
-            var b = this.text;
-            if (null != b && "" != b) {
-                a.beginPath(), a.font = this.font;
-                var c = a.measureText(b).width, d = a.measureText("田").width;
-                a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
-                var e = this.getTextPostion(this.textPosition, c, d);
-                a.fillText(b, e.x, e.y), a.closePath()
+        };
+        //自定义新增,启用告警后每次绘画执行修改阴影
+        this.paintAlarmFlash = function (context) {
+            if (this.shadow == 1 && this.allowAlarmFlash == 1) {
+                if (this.shadowDirection == null) {
+                    this.shadowDirection = true;
+                }
+                move(this);
+                context.shadowBlur = this.shadowBlur;
+                function move(node) {
+                    if (node.shadowDirection) {
+                        node.shadowBlur += 5;
+                        if (node.shadowBlur > 100) {
+                            node.shadowDirection = false;
+                        }
+                    }
+                    else {
+                        node.shadowBlur -= 5;
+                        if (node.shadowBlur <= 10) {
+                            node.shadowDirection = true;
+                        }
+                    }
+                }
             }
-        }, this.paintBorder = function (a) {
+        };
+        this.paintText = function (context) {
+            var text = this.text;
+            if (null != text && "" != text) {
+                context.beginPath();
+                context.font = this.font;
+                var fontWidth = context.measureText("田").width;
+                var maxWidth = fontWidth;
+                context.fillStyle = "rgba(" + this.fontColor + "," + this.alpha + ")";
+                //换行检测
+                var textlines = text.split("\n");
+                for (var i = 0; i < textlines.length; i++) {
+                    var width = context.measureText(textlines[i]).width;
+                    if (width > maxWidth) {
+                        maxWidth = width;
+                    }
+                }
+                var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth, textlines.length);
+                for (var j = 0; j < textlines.length; j++) {
+                    var textWidth = context.measureText(textlines[j]).width;
+                    context.fillText(textlines[j], e.x + (maxWidth - textWidth) / 2, e.y + j * fontWidth);
+                }
+
+                context.closePath();
+            }
+        };
+        this.paintBorder = function (context) {
             if (0 != this.borderWidth) {
-                a.beginPath();
-                a.lineWidth = this.borderWidth;
-                a.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
+                context.beginPath();
+                context.lineWidth = this.borderWidth;
+                context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
                 var b = this.borderWidth / 2;
                 if (null == this.borderRadius || 0 == this.borderRadius) {
-                    a.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth);
+                    context.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth);
                 } else {
-                    a.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
+                    context.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
                 }
-                a.stroke();
-                a.closePath();
+                context.stroke();
+                context.closePath();
             }
-        }, this.getTextPostion = function (position, maxWidth, fontWidth, height) {
+        };
+        this.getTextPostion = function (position, maxWidth, fontWidth, textLines) {
             var d = null;
             switch (position) {
                 case "Bottom_Center":
@@ -52,7 +193,7 @@ module.exports=function (jtopo) {
                 case "Top_Center":
                     d = {
                         x: -this.width / 2 + (this.width - maxWidth) / 2,
-                        y: -this.height / 2 - fontWidth / 2 - fontWidth * (height - 1)
+                        y: -this.height / 2 - fontWidth / 2 - fontWidth * (textLines - 1)
                     };
                     break;
                 case "Top_Right":
@@ -91,14 +232,8 @@ module.exports=function (jtopo) {
                         y: fontWidth / 2
                     };
                     break;
-                case "Middle_Left":
-                    d = {
-                        x: -this.width / 2 - maxWidth,
-                        y: fontWidth / 2
-                    };
-                    break;
                 default:
-                    d = {
+                    d = {//"Middle_Left"
                         x: -this.width / 2 - maxWidth,
                         y: fontWidth / 2
                     };
@@ -110,15 +245,32 @@ module.exports=function (jtopo) {
                 d.y += this.textOffsetY
             }
             return d;
-        }, this.setImage = function (a, b) {
-            if (null == a)throw new Error("Node.setImage(): 参数Image对象为空!");
-            var c = this;
-            if ("string" == typeof a) {
-                var d = j[a];
-                null == d ? (d = new Image, d.src = a, d.onload = function () {
-                    j[a] = d, 1 == b && c.setSize(d.width, d.height), c.image = d, c.alarmColor = null == c.alarmColor ? "255,0,0" : c.alarmColor
-                }) : (b && this.setSize(d.width, d.height), c.image = d, c.alarmColor = null == c.alarmColor ? "255,0,0" : c.alarmColor)
-            } else this.image = a, c.alarmColor = null == c.alarmColor ? "255,0,0" : c.alarmColor, 1 == b && this.setSize(a.width, a.height)
+        };
+        this.setImage = function (paramImage, asImageSize) {
+            if (null == paramImage)throw new Error("Node.setImage(): 参数Image对象为空!");
+            var self = this;
+            if ("string" == typeof paramImage) {
+                var image = imageCache[paramImage];
+                if (null == image) {
+                    image = new Image();
+                    image.src = paramImage;
+                    image.onload = function () {
+                        imageCache[paramImage] = image;
+                        initImage(image);
+                    }
+                } else {
+                    initImage(image);
+                }
+            } else {
+                initImage(paramImage)
+            }
+            function initImage(newImage){
+                self.image = newImage;
+                self.alarmColor = self.alarmColor || "255,0,0";
+                if (asImageSize==1) {
+                    self.setSize(newImage.width, newImage.height)
+                }
+            }
         };
         this.removeHandler = function (scene) {
             var self = this;
@@ -136,29 +288,86 @@ module.exports=function (jtopo) {
                 });
                 this.inLinks = null;
             }
-        }
+        };
     }
 
     function Node() {
         Node.prototype.initialize.apply(this, arguments)
     }
 
-    function TextNode(a) {
-        this.initialize(), this.text = a, this.elementType = "TextNode", this.paint = function (a) {
-            a.beginPath(), a.font = this.font, this.width = a.measureText(this.text).width, this.height = a.measureText("田").width, a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", a.fillText(this.text, -this.width / 2, this.height / 2), a.closePath(), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+    function TextNode(text) {
+        this.initialize();
+        this.text = text;
+        this.elementType = "TextNode";
+        this.paint = function (context) {
+            //自动换行
+            var texts = this.text.split("\n");
+            context.beginPath();
+            context.font = this.font;
+            var fontWidth = context.measureText("田").width;
+            this.width = 0;
+            for (var j = 0; j < texts.length; j++) {
+                var width = context.measureText(texts[j]).width;
+                if (width > this.width) {
+                    this.width = width;
+                }
+            }
+            this.height = texts.length * fontWidth;
+            context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+            if (texts.length > 1) {
+                for (var i = 0; i < texts.length; i++) {
+                    context.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
+                }
+            } else {
+                context.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
+            }
+            context.closePath();
+            this.paintBorder(context);
+            this.paintCtrl(context);
+            this.paintAlarmText(context);
         }
     }
 
     function LinkNode(a, b, c) {
-        this.initialize(), this.text = a, this.href = b, this.target = c, this.elementType = "LinkNode", this.isVisited = !1, this.visitedColor = null, this.paint = function (a) {
-            a.beginPath(), a.font = this.font, this.width = a.measureText(this.text).width, this.height = a.measureText("田").width, this.isVisited && null != this.visitedColor ? (a.strokeStyle = "rgba(" + this.visitedColor + ", " + this.alpha + ")", a.fillStyle = "rgba(" + this.visitedColor + ", " + this.alpha + ")") : (a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")"), a.fillText(this.text, -this.width / 2, this.height / 2), this.isMouseOver && (a.moveTo(-this.width / 2, this.height), a.lineTo(this.width / 2, this.height), a.stroke()), a.closePath(), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
-        }, this.mousemove(function () {
+        this.initialize();
+        this.text = a;
+        this.href = b;
+        this.target = c;
+        this.elementType = "LinkNode";
+        this.isVisited = !1;
+        this.visitedColor = null;
+        this.paint = function (a) {
+            a.beginPath();
+            a.font = this.font;
+            this.width = a.measureText(this.text).width;
+            this.height = a.measureText("田").width;
+            if (this.isVisited && null != this.visitedColor) {
+                a.strokeStyle = "rgba(" + this.visitedColor + ", " + this.alpha + ")";
+                a.fillStyle = "rgba(" + this.visitedColor + ", " + this.alpha + ")";
+            } else {
+                a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+                a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+            }
+            a.fillText(this.text, -this.width / 2, this.height / 2);
+            if (this.isMouseOver) {
+                a.moveTo(-this.width / 2, this.height);
+                a.lineTo(this.width / 2, this.height);
+                a.stroke();
+            }
+            a.closePath();
+            this.paintBorder(a);
+            this.paintCtrl(a);
+            this.paintAlarmText(a);
+        };
+        this.mousemove(function () {
             var a = document.getElementsByTagName("canvas");
             if (a && a.length > 0)for (var b = 0; b < a.length; b++)a[b].style.cursor = "pointer"
-        }), this.mouseout(function () {
+        });
+        this.mouseout(function () {
             var a = document.getElementsByTagName("canvas");
             if (a && a.length > 0)for (var b = 0; b < a.length; b++)a[b].style.cursor = "default"
-        }), this.click(function () {
+        });
+        this.click(function () {
             "_blank" == this.target ? window.open(this.href) : location = this.href, this.isVisited = !0
         })
     }
@@ -181,7 +390,8 @@ module.exports=function (jtopo) {
             this.paintBorder(context);
             this.paintCtrl(context);
             this.paintAlarmText(context);
-        }, this.paintSelected = function (context) {
+        };
+        this.paintSelected = function (context) {
             context.save();
             context.beginPath();
             context.strokeStyle = "rgba(168,202,255, 0.9)";
@@ -194,9 +404,9 @@ module.exports=function (jtopo) {
         }
     }
 
-    function g(a, b, c) {
+    function animateBaseNodeA(frameImages, b, c) {
         this.initialize();
-        this.frameImages = a || [];
+        this.frameImages = frameImages || [];
         this.frameIndex = 0;
         this.isStop = !0;
         var d = b || 1e3;
@@ -212,12 +422,12 @@ module.exports=function (jtopo) {
                 this.setImage(this.frameImages[this.frameIndex], c);
                 setTimeout(function () {
                     e.nextFrame();
-                }, d / a.length);
+                }, d / frameImages.length);
             }
         }
     }
 
-    function h(a, b, c, d, e) {
+    function animateBaseNodeB(a, b, c, d, e) {
         this.initialize();
         var f = this;
         this.setImage(a), this.frameIndex = 0, this.isPause = !0, this.repeatPlay = !1;
@@ -244,63 +454,19 @@ module.exports=function (jtopo) {
 
     function AnimateNode() {
         var a = null;
-        return a = arguments.length <= 3 ? new g(arguments[0], arguments[1], arguments[2]) : new h(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]), a.stop = function () {
+        if (arguments.length <= 3) {
+            a = new animateBaseNodeA(arguments[0], arguments[1], arguments[2]);
+        } else {
+            a = new animateBaseNodeB(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+        }
+        a.stop = function () {
             a.isStop = !0
-        }, a.play = function () {
-            a.isStop = !1, a.frameIndex = 0, a.nextFrame()
-        }, a
+        };
+        a.play = function () {
+            a.isStop = !1;
+            a.frameIndex = 0;
+            a.nextFrame();
+        };
+        return a
     }
-
-    var j = {};
-    baseNode.prototype = new jtopo.EditableElement;
-    Node.prototype = new baseNode;
-    Object.defineProperties(Node.prototype, {
-        alarmColor: {
-            get: function () {
-                return this._alarmColor
-            }, set: function (color) {
-                this._alarmColor = color;
-                if (null != this.image) {
-                    var c = jtopo.util.genImageAlarm(this.image, color);
-                    if (c) {
-                        this.alarmImage = c;
-                    }
-                }
-            }
-        }
-    });
-    TextNode.prototype = new Node;
-    LinkNode.prototype = new TextNode;
-    CircleNode.prototype = new Node;
-    Object.defineProperties(CircleNode.prototype, {
-        radius: {
-            get: function () {
-                return this._radius
-            }, set: function (a) {
-                this._radius = a;
-                var b = 2 * this.radius, c = 2 * this.radius;
-                this.width = b, this.height = c
-            }
-        }, width: {
-            get: function () {
-                return this._width
-            }, set: function (a) {
-                this._radius = a / 2, this._width = a
-            }
-        }, height: {
-            get: function () {
-                return this._height
-            }, set: function (a) {
-                this._radius = a / 2, this._height = a
-            }
-        }
-    });
-    g.prototype = new Node;
-    h.prototype = new Node;
-    AnimateNode.prototype = new Node;
-    jtopo.Node = Node;
-    jtopo.TextNode = TextNode;
-    jtopo.LinkNode = LinkNode;
-    jtopo.CircleNode = CircleNode;
-    jtopo.AnimateNode = AnimateNode;
-}
+};

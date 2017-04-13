@@ -1,12 +1,40 @@
-1.baseElement文件中MessageBus:
-    由原本函数内部this.function的定义方式优化为 prototype的方式
-2.baseElement文件中MessageBus.unsubscribe
-    增加参数，由原本对应事件名下的所有事件函数全部删除，改为可选删除对应事件名下对应的事件函数,同时修改所有调用的地方(removeEventListener)增加参数接口
-3.所有的this.addEventListener
-    将原有包装去除，配合removeEventListener的卸载事件功能
-4.node文件中baseNode.getTextPostion和baseNode.container
-    函数中的getTextPostion增加參數height表明多少行，改了top_center時的文字起始位置
-5.DisplayElement和container的setLocation同步属性
-6.container.AutoBoundLayout函数重写
-7.util文件中优化原有Array.prototype.del函数
-8.layout文件中getRootNodes,getRootChilds优化,删除无用util块里的$foreach,$for,mouseCoords,isIntsect,toJson
+* 所有的this.addEventListener
+        将原有包装去除，配合removeEventListener的卸载事件功能
+
+* baseElement
+        MessageBus:
+            (1)由原本函数内部this.function的定义方式优化为 prototype的方式
+            (2)unsubscribe增加参数，由原本对应事件名下的所有事件函数全部删除，
+                改为可选删除对应事件名下对应的事件函数,
+                同时修改所有调用的地方(removeEventListener)增加参数接口
+
+* DisplayElement
+        (1)setLocation同步属性到this.qtopo.attr.postion上
+
+* container:
+        (1)所需的AutoBoundLayout函数重写,更合理
+        (2)改写paintText函数，支持名称以\n为换行标记换行显示
+        (3)getTextPostion增加參數textLines表明共多少行，改了top_center時的文字起始位置,保证文字居中位置在文字换行时始终居中
+        (4)setLocation同步属性到this.qtopo.attr.postion上
+* util
+        优化原有Array.prototype.del函数
+
+* layout:
+        getRootNodes,getRootChilds优化,删除无用util块里的$foreach,$for,mouseCoords,isIntsect,toJson
+
+* node:
+        BaseNode:
+            (1)新增paintAlarmFlash函数且paint函数中增加paintAlarmFlash调用,实现告警的阴影渲染的效果
+            (2)改写paintText函数，支持名称以\n为换行标记换行显示
+            (3)getTextPostion增加參數textLines表明共多少行，改了top_center時的文字起始位置,保证文字居中位置在文字换行时始终居中
+        TextNode:
+            (1)改写paint函数，支持换行
+
+* link:
+        Link:
+            (1)paintSelect 改选取颜色
+            (2)paintPath 改写，加入双向箭头
+            (3)getStartPosition 修改起点位置获取
+            (4)getEndPosition
+        CurveLink:
+            (1)重写

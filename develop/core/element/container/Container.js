@@ -11,34 +11,6 @@
 
 var Element = require("../Element.js");
 module.exports = Container;
-var jtopoReset = {
-    //重写名称绘制，用以换行显示
-    paintText: function (a) {
-        var text = this.text;
-        if (null != text && "" != text) {
-            a.beginPath();
-            a.font = this.font;
-            var fontWidth = a.measureText("田").width;
-            var maxWidth = fontWidth;
-            a.fillStyle = "rgba(" + this.fontColor + ",1)"; //", " + this.alpha + ")";名称永远不透明
-            //换行检测
-            var texts = text.split("\n");
-            for (var i = 0; i < texts.length; i++) {
-                var width = a.measureText(texts[i]).width;
-                if (width > maxWidth) {
-                    maxWidth = width;
-                }
-            }
-            var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth,texts.length);
-            for (var j = 0; j < texts.length; j++) {
-                var textWidth = a.measureText(texts[j]).width;
-                a.fillText(texts[j], e.x + (maxWidth - textWidth) / 2, e.y + j * fontWidth);
-            }
-
-            a.closePath();
-        }
-    }
-};
 function Container(jtopo) {
     if (jtopo) {
         Element.call(this, jtopo);
@@ -60,12 +32,8 @@ function Container(jtopo) {
         in: [],
         out: []
     };
-    reset(this);
 }
 QTopo.util.inherits(Container, Element);
-function reset(element) {
-    element.jtopo.paintText = jtopoReset.paintText;
-}
 /**
  *  设置容器名称
  *  @method [C] setName

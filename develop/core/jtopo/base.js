@@ -4,30 +4,29 @@
 function Element() {
     this.initialize = function () {
         this.elementType = "element", this.serializedProperties = ["elementType"], this.propertiesStack = [], this._id = "" + (new Date).getTime()
-    }, this.distroy = function () {
-    }, this.removeHandler = function () {
-    }, this.attr = function (a, b) {
+    };
+    this.distroy = function () {
+    };
+    this.removeHandler = function () {
+    };
+    this.attr = function (a, b) {
         if (null != a && null != b)this[a] = b; else if (null != a)return this[a];
         return this
-    }, this.save = function () {
+    };
+    this.save = function () {
         var a = this, b = {};
         this.serializedProperties.forEach(function (c) {
             b[c] = a[c]
         }), this.propertiesStack.push(b)
-    }, this.restore = function () {
+    };
+    this.restore = function () {
         if (null != this.propertiesStack && 0 != this.propertiesStack.length) {
             var a = this, b = this.propertiesStack.pop();
             this.serializedProperties.forEach(function (c) {
                 a[c] = b[c]
             })
         }
-    }, this.toJson = function () {
-        var a = this, b = "{", c = this.serializedProperties.length;
-        return this.serializedProperties.forEach(function (d, e) {
-            var f = a[d];
-            "string" == typeof f && (f = '"' + f + '"'), b += '"' + d + '":' + f, c > e + 1 && (b += ",")
-        }), b += "}"
-    }
+    };
 }
 
 /*a=this.x - this.borderWidth / 2 b=this.y - this.borderWidth / 2,*/
@@ -87,23 +86,6 @@ var JTopo = {
         move: "move",
         open_hand: "default",
         closed_hand: "default"
-    },
-    createStageFromJson: function (jsonStr, canvas) {
-        eval("var jsonObj = " + jsonStr);
-        var stage = new JTopo.Stage(canvas);
-        for (var k in jsonObj)"childs" != k && (stage[k] = jsonObj[k]);
-        var scenes = jsonObj.childs;
-        return scenes.forEach(function (a) {
-            var b = new JTopo.Scene(stage);
-            for (var c in a)"childs" != c && (b[c] = a[c]), "background" == c && (b.background = a[c]);
-            var d = a.childs;
-            d.forEach(function (a) {
-                var c = null, d = a.elementType;
-                "node" == d ? c = new JTopo.Node : "CircleNode" == d && (c = new JTopo.CircleNode);
-                for (var e in a)c[e] = a[e];
-                b.add(c)
-            })
-        }), stage
     }
 };
 JTopo.Element = Element;

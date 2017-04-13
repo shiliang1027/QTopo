@@ -54,37 +54,6 @@ function getDefault(){
 }
 //-
 //------
-    var jtopoReset={
-        //重写绘制函数，优化告警效果
-        paint:function (cx) {
-            alarmFlash.call(this,cx);
-            if (this.image) {
-                var b = cx.globalAlpha;
-                cx.globalAlpha = this.alpha;
-                if(null != this.alarmImage&& null != this.alarm ){
-                    cx.drawImage(this.alarmImage, -this.width / 2, -this.height / 2, this.width, this.height)
-                }else{
-                    cx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
-                }
-                cx.globalAlpha = b;
-            } else{
-                cx.beginPath();
-                cx.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
-                if(null == this.borderRadius || 0 == this.borderRadius){
-                    cx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-                }else{
-                    cx.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
-                }
-                cx.fill();
-                cx.closePath();
-            }
-            this.paintText(cx);
-            this.paintBorder(cx);
-            this.paintCtrl(cx);
-            this.paintAlarmText(cx);
-        }
-    };
-//------
 function ImageNode(config) {
     this.attr = QTopo.util.extend(getDefault(), config || {});
     Node.call(this,new JTopo.Node());
@@ -92,7 +61,6 @@ function ImageNode(config) {
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
-    reset(this);
 }
 QTopo.util.inherits(ImageNode,Node);
 //-
@@ -118,10 +86,6 @@ function setJTopo(config) {
         //处理特殊属性的设置
     }
 }
-function reset(node){
-    node.jtopo.paint=jtopoReset.paint;
-}
-
 //-
 /**
  *  设置节点图片,与setColor冲突，设了图片则颜色无效
@@ -242,30 +206,6 @@ function toggleAlarmFlash(node,show){
         node.shadowColor="rgba(0,0,0,0.1)";
         node.shadowBlur = 10;
         node.allowAlarmFlash=false;
-    }
-}
-//插入源码部分,启用告警后每次绘画执行修改阴影
-function alarmFlash(cx) {
-    if(this.shadow&&this.allowAlarmFlash){
-        if(typeof this.shadowDirection=="undefined"){
-            this.shadowDirection=true;
-        }
-        move(this);
-        cx.shadowBlur = this.shadowBlur;
-        function move(node){
-            if (node.shadowDirection) {
-                node.shadowBlur += 5;
-                if(node.shadowBlur>100){
-                    node.shadowDirection=false;
-                }
-            }
-            else {
-                node.shadowBlur -= 5;
-                if(node.shadowBlur<=10){
-                    node.shadowDirection=true;
-                }
-            }
-        }
     }
 }
 //--

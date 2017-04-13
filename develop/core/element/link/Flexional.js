@@ -25,7 +25,7 @@ var DEFAULT = {
         start: false,
         end: false
     },
-    jsonId:"",
+    jsonId: "",
     radius: 0,
     gap: 20,
     width: 2,
@@ -47,43 +47,6 @@ function getDefault() {
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
-//-----
-var jtopoReset = {
-    paintPath: function (cx, path) {
-        var attr = this.qtopo.attr;
-        if (this.nodeA === this.nodeZ)return void this.paintLoop(cx);
-        var start = path[0];
-        var end = path[path.length - 1];
-        cx.beginPath();
-        cx.moveTo(start.x, start.y);
-        for (var i = 1; i < path.length; i++) {
-            if (null == this.dashedPattern) {
-                if (attr.radius > 0) {
-                    if (i < path.length - 1) {
-                        cx.arcTo(path[i].x, path[i].y,path[i + 1].x, path[i + 1].y,attr.radius);//增加折线弧度
-                    } else {
-                        cx.lineTo(path[i].x, path[i].y);
-                    }
-                } else {
-                    cx.lineTo(path[i].x, path[i].y);
-                }
-            } else {
-                cx.JTopoDashedLineTo(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y, this.dashedPattern);
-            }
-        }
-        cx.stroke();
-        cx.closePath();
-        if (null != this.arrowsRadius) {
-            if (attr.arrow.end) {
-                this.paintArrow(cx, path[path.length - 2], path[path.length - 1]);
-            }
-            if (attr.arrow.start) {
-                this.paintArrow(cx, path[1], path[0]);//添加双向箭头
-            }
-        }
-    }
-};
-//-----
 function FlexionalLink(config) {
     if (!config.start || !config.end || !config.start.jtopo || !config.end.jtopo) {
         QTopo.util.error("Create Link need start and end");
@@ -95,8 +58,6 @@ function FlexionalLink(config) {
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
-    //修改源码
-    reset(this);
 }
 QTopo.util.inherits(FlexionalLink, Link);
 /**
@@ -119,10 +80,6 @@ function setJTopo(config) {
         var self = this;
         this._setAttr(config);
     }
-}
-function reset(link) {
-    //双向箭头
-    link.jtopo.paintPath = jtopoReset.paintPath;
 }
 /**
  *  两端折线线段的长度
@@ -198,31 +155,3 @@ FlexionalLink.prototype.setRadius = function (radius) {
                         };
  */
 FlexionalLink.prototype.getDefault = getDefault;
-/*一种绘制固定在节点右侧的二次线*/
-//resetFold.jtopo.getPath =poinst;
-function poinst() {
-    //重写线的绘制路径
-    var littleSize = 50;
-    var startRight = {
-        x: start.x + start.width,
-        y: start.y + start.height / 2
-    };
-    var endRight = {
-        x: end.x + end.width,
-        y: end.y + end.height / 2
-    };
-    var middleA = {};
-    var middleB = {};
-    if (startRight.x > endRight.x) {
-        middleA.x = startRight.x + littleSize;
-        middleA.y = startRight.y;
-        middleB.x = startRight.x + littleSize;
-        middleB.y = endRight.y;
-    } else {
-        middleA.x = endRight.x + littleSize;
-        middleA.y = startRight.y;
-        middleB.x = endRight.x + littleSize;
-        middleB.y = endRight.y;
-    }
-    return [startRight, middleA, middleB, endRight];
-}

@@ -1,4 +1,4 @@
-module.exports=function (JTopo) {
+module.exports = function (JTopo) {
     function MessageBus(a) {
         this.name = a;
         this.messageMap = {};
@@ -248,12 +248,18 @@ module.exports=function (JTopo) {
     }
 
     function lineF(x1, y1, x2, y2) {
+        var tan = (y2 - y1) / (x2 - x1);
+        var g = y1 - x1 * tan;
+        e.k = tan;
+        e.b = g;
+        e.x1 = x1;
+        e.x2 = x2;
+        e.y1 = y1;
+        e.y2 = y2;
+        return e;
         function e(a) {
-            return a * f + g
+            return a * tan + g
         }
-
-        var f = (y2 - y1) / (x2 - x1), g = y1 - x1 * f;
-        return e.k = f, e.b = g, e.x1 = x1, e.x2 = x2, e.y1 = y1, e.y2 = y2, e
     }
 
     function inRange(a, b, c) {
@@ -265,26 +271,41 @@ module.exports=function (JTopo) {
         return inRange(a, c.x1, c.x2) && inRange(b, c.y1, c.y2)
     }
 
-    function intersection(a, b) {
+    function intersection(lineFn, lineFnB) {
         var c, d;
-        return a.k == b.k ? null : (1 / 0 == a.k || a.k == -1 / 0 ? (c = a.x1, d = b(a.x1)) : 1 / 0 == b.k || b.k == -1 / 0 ? (c = b.x1, d = a(b.x1)) : (c = (b.b - a.b) / (a.k - b.k), d = a(c)), 0 == isPointInLineSeg(c, d, a) ? null : 0 == isPointInLineSeg(c, d, b) ? null : {
-            x: c,
-            y: d
-        })
+        if (lineFn.k != lineFnB.k) {
+            if(1 / 0 == lineFn.k || lineFn.k == -1 / 0){
+                c = lineFn.x1;
+                d = lineFnB(lineFn.x1);
+            }else if(1 / 0 == lineFnB.k || lineFnB.k == -1 / 0){
+                c = lineFnB.x1;
+                d = lineFn(lineFnB.x1);
+            }else{
+                c = (lineFnB.b - lineFn.b) / (lineFn.k - lineFnB.k);
+                d = lineFn(c)
+            }
+            if(0!= isPointInLineSeg(c, d, lineFn)&&0!= isPointInLineSeg(c, d, lineFnB)){
+                return {
+                    x: c,
+                    y: d
+                }
+            }
+        }
+        return null;
     }
 
-    function intersectionLineBound(link, bound) {
-        var c = JTopo.util.lineF(bound.left, bound.top, bound.left, bound.bottom);
-        var d = JTopo.util.intersection(link, c);
+    function intersectionLineBound(lineFn, bound) {
+        var newLineFn = JTopo.util.lineF(bound.left, bound.top, bound.left, bound.bottom);
+        var d = JTopo.util.intersection(lineFn, newLineFn);
         if (null == d) {
-            c = JTopo.util.lineF(bound.left, bound.top, bound.right, bound.top);
-            d = JTopo.util.intersection(link, c);
+            newLineFn = JTopo.util.lineF(bound.left, bound.top, bound.right, bound.top);
+            d = JTopo.util.intersection(lineFn, newLineFn);
             if (null == d) {
-                c = JTopo.util.lineF(bound.right, bound.top, bound.right, bound.bottom);
-                d = JTopo.util.intersection(link, c);
+                newLineFn = JTopo.util.lineF(bound.right, bound.top, bound.right, bound.bottom);
+                d = JTopo.util.intersection(lineFn, newLineFn);
                 if (null == d) {
-                    c = JTopo.util.lineF(bound.left, bound.bottom, bound.right, bound.bottom);
-                    d = JTopo.util.intersection(link, c);
+                    newLineFn = JTopo.util.lineF(bound.left, bound.bottom, bound.right, bound.bottom);
+                    d = JTopo.util.intersection(lineFn, newLineFn);
                 }
             }
         }

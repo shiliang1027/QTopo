@@ -103,6 +103,7 @@ body {
 .qtopo-windows .w-width{
     display: inline-block;
     width: 60%;
+    height: 100%;
     position: absolute;
     right:0;
     top:0;
@@ -178,6 +179,7 @@ body {
     flex-flow:row wrap;
     align-items:center;
     width: 50%;
+    height:100%;
     float: left;
 }
 .qtopo-windows .link-chk div{

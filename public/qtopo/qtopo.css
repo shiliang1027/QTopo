@@ -1,43 +1,4 @@
 /*
-    右键菜单栏显示
-*/
-.qtopo-rightMenu ul.dropdown-menu{
-    background-color: rgba(6,36,62,0.8);
-    min-width: 120px;
-    border-radius: 0;
-    -moz-box-shadow: 2px 2px 2px #000000;
-    box-shadow: 2px 2px 2px #000000;
-}
-.qtopo-rightMenu .dropdown-menu li{
-    font-size: 13px;
-    position: relative;
-    cursor: pointer;
-    height: 20px;
-}
-.qtopo-rightMenu .dropdown-menu>li>a:focus,.qtopo-rightMenu .dropdown-menu>li>a:hover {
-    text-decoration: none;
-    background-color: #3d6cd6;
-    box-shadow: 0 0 10px #3d6cd6;
-}
-.qtopo-rightMenu .dropdown-menu li a{
-    color:white;
-}
-.qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
-    display: block;
-    left:95%;
-    top:-7px;
-}
-/*
-    子菜单栏箭头
-*/
-.qtopo-rightMenu .subMenu:after{
-    content: "";
-    border: 5px solid transparent;
-    border-left-color: white;
-    position: absolute;
-    top: 5px;
-    right: 10px;
-}/*
 工具栏
 */
 .qtopo-toolBar .t-body{
@@ -60,6 +21,7 @@
     display: none;
     position: absolute;
     left:45px;
+    top: 30px;
     margin-top: 5px;
 }
 .modal-btns{
@@ -80,7 +42,7 @@
     float: left;
     border-radius:0;
 }
-.qtopo-toolBar .search-group select{
+.qtopo-toolBar .search-group select[name=search_mode]{
     display: none;
 }
 .qtopo-toolBar .t-search-input{
@@ -102,9 +64,9 @@
     opacity: 0;
 }
 .qtopo-toolBar .t-search-input input{
-    opacity: 1;
+    display: none;
     width: 100%;
-    padding:0;
+    padding:6px 15px 6px 12px;
     -webkit-transition: 1.5s width,padding;
     -moz-transition:  1.5s width,padding;
     -ms-transition:  1.5s width,padding;
@@ -114,18 +76,17 @@
     border:none;
     border-radius: 0;
 }
+.qtopo-toolBar .search-group,.qtopo-toolBar .search-group button[name=search]{
+    float: right;
+}
 .qtopo-toolBar .search-group:hover .clear-input{
     opacity: 1;
 }
-.qtopo-toolBar .search-group:hover select{
+.qtopo-toolBar .search-group:hover select[name=search_mode],.qtopo-toolBar .search-group:hover .t-search-input input{
     display: block;
 }
 .qtopo-toolBar .search-group:hover .t-search-input{
     width: 180px;
-    opacity: 1;
-}
-.qtopo-toolBar .search-group:hover .t-search-input input{
-    padding:6px 15px 6px 12px;
 }
 .qtopo-toolBar .t-search-mode{
     width:90px;
@@ -657,6 +618,7 @@ body {
 .qtopo-windows .w-width{
     display: inline-block;
     width: 60%;
+    height: 100%;
     position: absolute;
     right:0;
     top:0;
@@ -732,6 +694,7 @@ body {
     flex-flow:row wrap;
     align-items:center;
     width: 50%;
+    height:100%;
     float: left;
 }
 .qtopo-windows .link-chk div{
@@ -901,3 +864,43 @@ input[type=range]::-ms-fill-upper {
     background: #ffffff;
 }
 /**/
+/*
+    右键菜单栏显示
+*/
+.qtopo-rightMenu ul.dropdown-menu{
+    background-color: rgba(6,36,62,0.8);
+    min-width: 120px;
+    border-radius: 0;
+    -moz-box-shadow: 2px 2px 2px #000000;
+    box-shadow: 2px 2px 2px #000000;
+}
+.qtopo-rightMenu .dropdown-menu li{
+    font-size: 13px;
+    position: relative;
+    cursor: pointer;
+    height: 20px;
+}
+.qtopo-rightMenu .dropdown-menu>li>a:focus,.qtopo-rightMenu .dropdown-menu>li>a:hover {
+    text-decoration: none;
+    background-color: #3d6cd6;
+    box-shadow: 0 0 10px #3d6cd6;
+}
+.qtopo-rightMenu .dropdown-menu li a{
+    color:white;
+}
+.qtopo-rightMenu .dropdown-menu li:hover>.dropdown-menu{
+    display: block;
+    left:95%;
+    top:-7px;
+}
+/*
+    子菜单栏箭头
+*/
+.qtopo-rightMenu .subMenu:after{
+    content: "";
+    border: 5px solid transparent;
+    border-left-color: white;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}

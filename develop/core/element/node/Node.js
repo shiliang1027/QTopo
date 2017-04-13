@@ -27,40 +27,8 @@ function Node(jtopo) {
         in:[],
         out:[]
     };
-    reset(this);
 }
 QTopo.util.inherits(Node,Element);
-function reset(element){
-    var jtopoReset={
-        //对节点名的绘制重写，让名称可以换行
-        paintText:function (cx) {
-            var text = this.text;
-            if (null != text && "" != text) {
-                cx.beginPath();
-                cx.font = this.font;
-                var fontWidth = cx.measureText("田").width;
-                var maxWidth = fontWidth;
-                cx.fillStyle = "rgba(" + this.fontColor + "," + this.alpha + ")";//;名称永远不透明
-                //换行检测
-                var texts = text.split("\n");
-                for (var i = 0; i < texts.length; i++) {
-                    var width = cx.measureText(texts[i]).width;
-                    if (width > maxWidth) {
-                        maxWidth = width;
-                    }
-                }
-                var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth,texts.length);
-                for(var j = 0; j < texts.length; j++){
-                    var textWidth=cx.measureText(texts[j]).width;
-                    cx.fillText(texts[j], e.x+(maxWidth-textWidth)/2, e.y+j*fontWidth);
-                }
-
-                cx.closePath();
-            }
-        }
-    };
-    element.jtopo.paintText = jtopoReset.paintText;
-}
 /**
  *  获取元素基本类型,详细参考QTopo.constant中的类型定义
  *  @method [N] getType

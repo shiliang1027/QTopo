@@ -1,4 +1,4 @@
-module.exports=function (jtopo) {
+module.exports = function (jtopo) {
     function initEagleEye(stage) {
         return {
             hgap: 16,
@@ -116,7 +116,7 @@ module.exports=function (jtopo) {
     function stage(canvas) {
         function getEventObject(event) {
             var eventPosition = jtopo.util.getEventPosition(event);
-            var offsetPosition = jtopo.util.getOffsetPosition(theStage.canvas);
+            var offsetPosition = jtopo.util.getOffsetPosition(self.canvas);
             eventPosition.offsetLeft = eventPosition.pageX - offsetPosition.left;
             eventPosition.offsetTop = eventPosition.pageY - offsetPosition.top;
             eventPosition.x = eventPosition.offsetLeft;
@@ -130,7 +130,7 @@ module.exports=function (jtopo) {
                 return !1
             }, this.mouseOver = !0;
             var b = getEventObject(event);
-            theStage.dispatchEventToScenes("mouseover", b), theStage.dispatchEvent("mouseover", b)
+            self.dispatchEventToScenes("mouseover", b), self.dispatchEvent("mouseover", b)
         }
 
         function mouseOut(a) {
@@ -140,17 +140,17 @@ module.exports=function (jtopo) {
                 return !0
             };
             var b = getEventObject(a);
-            theStage.dispatchEventToScenes("mouseout", b), theStage.dispatchEvent("mouseout", b), theStage.needRepaint = 0 == theStage.animate ? !1 : !0
+            self.dispatchEventToScenes("mouseout", b), self.dispatchEvent("mouseout", b), self.needRepaint = 0 == self.animate ? !1 : !0
         }
 
         function mouseDown(a) {
             var b = getEventObject(a);
-            theStage.mouseDown = !0, theStage.mouseDownX = b.x, theStage.mouseDownY = b.y, theStage.dispatchEventToScenes("mousedown", b), theStage.dispatchEvent("mousedown", b)
+            self.mouseDown = !0, self.mouseDownX = b.x, self.mouseDownY = b.y, self.dispatchEventToScenes("mousedown", b), self.dispatchEvent("mousedown", b)
         }
 
         function mouseUp(a) {
             var b = getEventObject(a);
-            theStage.dispatchEventToScenes("mouseup", b), theStage.dispatchEvent("mouseup", b), theStage.mouseDown = !1, theStage.needRepaint = 0 == theStage.animate ? !1 : !0
+            self.dispatchEventToScenes("mouseup", b), self.dispatchEvent("mouseup", b), self.mouseDown = !1, self.needRepaint = 0 == self.animate ? !1 : !0
         }
 
         function mouseMove(event) {
@@ -160,35 +160,35 @@ module.exports=function (jtopo) {
             }
             o = !1;
             var b = getEventObject(event);
-            if (theStage.mouseDown) {
+            if (self.mouseDown) {
                 if (0 == event.button) {
-                    b.dx = b.x - theStage.mouseDownX;
-                    b.dy = b.y - theStage.mouseDownY;
-                    theStage.dispatchEventToScenes("mousedrag", b);
-                    theStage.dispatchEvent("mousedrag", b);
-                    if (1 == theStage.eagleEye.visible) {
-                        theStage.eagleEye.update();
+                    b.dx = b.x - self.mouseDownX;
+                    b.dy = b.y - self.mouseDownY;
+                    self.dispatchEventToScenes("mousedrag", b);
+                    self.dispatchEvent("mousedrag", b);
+                    if (1 == self.eagleEye.visible) {
+                        self.eagleEye.update();
                     }
                 }
             } else {
-                theStage.dispatchEventToScenes("mousemove", b);
-                theStage.dispatchEvent("mousemove", b);
+                self.dispatchEventToScenes("mousemove", b);
+                self.dispatchEvent("mousemove", b);
             }
         }
 
         function click(a) {
             var b = getEventObject(a);
-            theStage.dispatchEventToScenes("click", b), theStage.dispatchEvent("click", b)
+            self.dispatchEventToScenes("click", b), self.dispatchEvent("click", b)
         }
 
         function dbclick(a) {
             var b = getEventObject(a);
-            theStage.dispatchEventToScenes("dbclick", b), theStage.dispatchEvent("dbclick", b)
+            self.dispatchEventToScenes("dbclick", b), self.dispatchEvent("dbclick", b)
         }
 
         function mouseWheel(a) {
             var b = getEventObject(a);
-            theStage.dispatchEventToScenes("mousewheel", b), theStage.dispatchEvent("mousewheel", b), null != theStage.wheelZoom && (a.preventDefault ? a.preventDefault() : (a = a || window.event, a.returnValue = !1), 1 == theStage.eagleEye.visible && theStage.eagleEye.update())
+            self.dispatchEventToScenes("mousewheel", b), self.dispatchEvent("mousewheel", b), null != self.wheelZoom && (a.preventDefault ? a.preventDefault() : (a = a || window.event, a.returnValue = !1), 1 == self.eagleEye.visible && self.eagleEye.update())
         }
 
         function addEventInCanvas(canvas) {
@@ -220,7 +220,7 @@ module.exports=function (jtopo) {
             }
             if (window.addEventListener) {
                 window.addEventListener("keydown", function (event) {
-                    theStage.dispatchEventToScenes("keydown", jtopo.util.cloneEvent(event));
+                    self.dispatchEventToScenes("keydown", jtopo.util.cloneEvent(event));
                     var keyCode = event.keyCode;
                     if (37 == keyCode || 38 == keyCode || 39 == keyCode || 40 == keyCode) {
                         if (event.preventDefault) {
@@ -232,7 +232,7 @@ module.exports=function (jtopo) {
                     }
                 }, !0);
                 window.addEventListener("keyup", function (event) {
-                    theStage.dispatchEventToScenes("keyup", jtopo.util.cloneEvent(event));
+                    self.dispatchEventToScenes("keyup", jtopo.util.cloneEvent(event));
                     var keyCode = event.keyCode;
                     if (37 == keyCode || 38 == keyCode || 39 == keyCode || 40 == keyCode) {
                         if (event.preventDefault) {
@@ -247,7 +247,6 @@ module.exports=function (jtopo) {
         }
 
         jtopo.stage = this;
-        var theStage = this;
         var self = this;
         this.initialize = function (canvas) {
             addEventInCanvas(canvas);
@@ -285,13 +284,24 @@ module.exports=function (jtopo) {
                 }
             })
         };
-        this.add = function (a) {
-            for (var b = 0; b < this.childs.length; b++)if (this.childs[b] === a)return;
-            a.addTo(this), this.childs.push(a)
+        this.add = function (scene) {
+            for (var i = 0; i < this.childs.length; i++){
+                if (this.childs[i] === scene){
+                    return;
+                }
+            }
+            scene.addTo(this);
+            this.childs.push(scene);
         };
-        this.remove = function (a) {
-            if (null == a)throw new Error("Stage.remove出错: 参数为null!");
-            for (var b = 0; b < this.childs.length; b++)if (this.childs[b] === a)return a.stage = null, this.childs = this.childs.del(b), this;
+        this.remove = function (scene) {
+            if (null == scene)throw new Error("Stage.remove出错: 参数为null!");
+            for (var i = 0; i < this.childs.length; i++){
+                if (this.childs[i] === scene){
+                    scene.stage = null;
+                    this.childs = this.childs.del(i);
+                    return  this;
+                }
+            }
             return this
         };
         this.clear = function () {
@@ -309,7 +319,7 @@ module.exports=function (jtopo) {
             this.messageBus.unsubscribe(a, f)
         };
         this.removeAllEventListener = function () {
-            this.messageBus = new jtopo.util.MessageBus
+            this.messageBus = new jtopo.util.MessageBus();
         };
         this.dispatchEvent = function (a, b) {
             this.messageBus.publish(a, b);
@@ -331,7 +341,7 @@ module.exports=function (jtopo) {
         };
         this.paint = function () {
             null != this.canvas && (this.graphics.save(), this.graphics.clearRect(0, 0, this.width, this.height), this.childs.forEach(function (a) {
-                1 == a.visible && a.repaint(theStage.graphics)
+                1 == a.visible && a.repaint(self.graphics)
             }), 1 == this.eagleEye.visible && this.eagleEye.paint(this), this.graphics.restore())
         };
         this.repaint = function () {
@@ -365,53 +375,57 @@ module.exports=function (jtopo) {
             })
         };
         this.getBound = function () {
-            var a = {left: Number.MAX_VALUE, right: Number.MIN_VALUE, top: Number.MAX_VALUE, bottom: Number.MIN_VALUE};
-            return this.childs.forEach(function (b) {
-                var c = b.getElementsBound();
-                c.left < a.left && (a.left = c.left, a.leftNode = c.leftNode), c.top < a.top && (a.top = c.top, a.topNode = c.topNode), c.right > a.right && (a.right = c.right, a.rightNode = c.rightNode), c.bottom > a.bottom && (a.bottom = c.bottom, a.bottomNode = c.bottomNode)
-            }), a.width = a.right - a.left, a.height = a.bottom - a.top, a
-        };
-        this.toJson = function () {
-            {
-                var b = this, c = '{"version":"' + jtopo.version + '",';
-                this.serializedProperties.length
-            }
-            return this.serializedProperties.forEach(function (a) {
-                var d = b[a];
-                "string" == typeof d && (d = '"' + d + '"'), c += '"' + a + '":' + d + ","
-            }), c += '"childs":[', this.childs.forEach(function (a) {
-                c += a.toJson()
-            }), c += "]", c += "}"
-        }, function () {
-            if (0 == theStage.frames) {
-                setTimeout(arguments.callee, 100);
-            } else if (theStage.frames < 0) {
-                theStage.repaint();
-                setTimeout(arguments.callee, 1e3 / -theStage.frames);
-            } else {
-                theStage.repaint();
-                setTimeout(arguments.callee, 1e3 / theStage.frames);
-            }
-        }();
-        setTimeout(function () {
-            theStage.mousewheel(function (a) {
-                var direction = null == a.wheelDelta ? a.detail : a.wheelDelta;
-                if (null != self.wheelZoom) {
-                    if (direction < 0) {
-                        self.zoomIn(self.wheelZoom);
-                    } else {
-                        self.zoomOut(self.wheelZoom);
-                    }
+            var bound = {
+                left: Number.MAX_VALUE,
+                right: Number.MIN_VALUE,
+                top: Number.MAX_VALUE,
+                bottom: Number.MIN_VALUE
+            };
+            this.childs.forEach(function (child) {
+                var childBound = child.getElementsBound();
+                if (childBound.left < bound.left) {
+                    bound.left = childBound.left;
+                    bound.leftNode = childBound.leftNode
+                }
+                if (childBound.top < bound.top) {
+                    bound.top = childBound.top;
+                    bound.topNode = childBound.topNode
+                }
+                if (childBound.right > bound.right) {
+                    bound.right = childBound.right;
+                    bound.rightNode = childBound.rightNode
+                }
+                if (childBound.bottom > bound.bottom) {
+                    bound.bottom = childBound.bottom;
+                    bound.bottomNode = childBound.bottomNode;
                 }
             });
-            theStage.paint();
-        }, 300);
-        setTimeout(function () {
-            theStage.paint()
-        }, 1e3);
-        setTimeout(function () {
-            theStage.paint()
-        }, 3e3);
+            bound.width = bound.right - bound.left;
+            bound.height = bound.bottom - bound.top;
+            return bound;
+        };
+        !function () {
+            if (0 == self.frames) {
+                setTimeout(arguments.callee, 100);
+            } else if (self.frames < 0) {
+                self.repaint();
+                setTimeout(arguments.callee, 1e3 / -self.frames);
+            } else {
+                self.repaint();
+                setTimeout(arguments.callee, 1e3 / self.frames);
+            }
+        }();
+        self.mousewheel(function (a) {
+            var direction = null == a.wheelDelta ? a.detail : a.wheelDelta;
+            if (null != self.wheelZoom) {
+                if (direction < 0) {
+                    self.zoomIn(self.wheelZoom);
+                } else {
+                    self.zoomOut(self.wheelZoom);
+                }
+            }
+        });
+        self.paint();
     }
 
     stage.prototype = {

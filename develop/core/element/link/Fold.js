@@ -45,42 +45,6 @@ function setDefault(config){
 function getDefault(){
     return QTopo.util.deepClone(DEFAULT);
 }
-//---------
-var jtopoReset={
-    //双向箭头
-    paintPath:function (cx, path) {
-        var attr=this.qtopo.attr;
-        if (this.nodeA === this.nodeZ)return void this.paintLoop(cx);
-        cx.beginPath();
-        cx.moveTo(path[0].x, path[0].y);
-        for (var i = 1; i < path.length; i++){
-            if(null == this.dashedPattern){
-                if (attr.radius > 0) {
-                    if (i < path.length - 1) {
-                        cx.arcTo(path[i].x, path[i].y,path[i + 1].x, path[i + 1].y,attr.radius);//增加折线弧度
-                    } else {
-                        cx.lineTo(path[i].x, path[i].y);
-                    }
-                } else {
-                    cx.lineTo(path[i].x, path[i].y);
-                }
-            }else{
-                cx.JTopoDashedLineTo(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y, this.dashedPattern);
-            }
-        }
-        cx.stroke();
-        cx.closePath();
-        if (null != this.arrowsRadius) {
-            if (attr.arrow.end) {
-                this.paintArrow(cx, path[path.length - 2], path[path.length - 1]);
-            }
-            if (attr.arrow.start) {
-                this.paintArrow(cx, path[1], path[0]);//添加双向箭头
-            }
-        }
-    }
-};
-//---------
 //-
 function FoldLink(config){
     if(!config.start||!config.end||!config.start.jtopo||!config.end.jtopo){
@@ -93,8 +57,6 @@ function FoldLink(config){
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
-    //修改源码
-    reset(this);
 }
 QTopo.util.inherits(FoldLink,Link);
 //-
@@ -118,9 +80,6 @@ function setJTopo(config) {
         var self=this;
         this._setAttr(config);
     }
-}
-function reset(link){
-    link.jtopo.paintPath = jtopoReset.paintPath;
 }
 //-
 /**

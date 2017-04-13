@@ -1,4 +1,4 @@
-module.exports=function (jtopo) {
+module.exports = function (jtopo) {
     function getNodesCenter(a) {
         var b = 0, c = 0;
         a.forEach(function (a) {
@@ -10,15 +10,12 @@ module.exports=function (jtopo) {
 
     function circleLayoutNodes(nodeArray, animateConfig) {
         null == animateConfig && (animateConfig = {});
-        {
-            var e = animateConfig.cx,
-                f = animateConfig.cy,
-                g = animateConfig.minRadius,
-                h = animateConfig.nodeDiameter,
-                i = animateConfig.hScale || 1,
-                j = animateConfig.vScale || 1;
-            animateConfig.beginAngle || 0, animateConfig.endAngle || 2 * Math.PI
-        }
+        var e = animateConfig.cx,
+            f = animateConfig.cy,
+            g = animateConfig.minRadius,
+            h = animateConfig.nodeDiameter,
+            i = animateConfig.hScale || 1,
+            j = animateConfig.vScale || 1;
         if (null == e || null == f) {
             var k = getNodesCenter(nodeArray);
             e = k.x, f = k.y

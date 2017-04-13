@@ -163,9 +163,6 @@ function editWindow(win, target,scene) {
     util.setFormInput(win.find("form"), {
         number: attr.number,
         type: type,
-        color: attr.color,
-        direction: attr.direction,
-        curveOffset: attr.curveOffset,
         arrow_start: attr.arrow.start + "",
         arrow_end: attr.arrow.end + ""
     });
@@ -189,6 +186,7 @@ function openStyle(win,scene){
 }
 function setStyle(attr,type){
     var data={
+        width:attr.width,
         fontColor:attr.font.color,
         fontSize:attr.font.size,
         linkGap:attr.gap,
@@ -219,6 +217,7 @@ function setStyle(attr,type){
 function getStyle(data,type){
     if(data){
         var result={
+            width:data.width,
             font:{
                 color:data.fontColor,
                 size:data.fontSize
