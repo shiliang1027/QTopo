@@ -181,6 +181,14 @@
                     
                        <li>
                             
+                           <a href="../classes/ShapeNode.html">ShapeNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
                            <a href="../classes/TextNode.html">TextNode</a>
                            <ul>
                                 
@@ -297,15 +305,6 @@
  */
 var Element = require(&quot;../Element.js&quot;);
 module.exports = Link;
-var jtopoReset = {
-    //原选取后效果较暗，在暗色主题下不明显，重写为亮色
-    paintSelected: function (a) {
-        a.shadowBlur = 10;
-        a.shadowColor = &quot;rgba(255,255,255,1)&quot;;
-        a.shadowOffsetX = 0;
-        a.shadowOffsetY = 0;
-    }
-};
 function Link(jtopo) {
     if (!jtopo) {
         QTopo.util.error(&quot;create Link without jtopo&quot;, this);
@@ -333,14 +332,8 @@ function Link(jtopo) {
             this.path.end.links.in.push(this);
         }
     }
-    reset(this.jtopo);
 }
 QTopo.util.inherits(Link, Element);
-
-function reset(jtopo) {
-    //被選中后的样式
-    jtopo.paintSelected = jtopoReset.paintSelected;
-}
 /**
  *  获取元素基本类型,详细参考QTopo.constant中的类型定义
  *  @method [L] getType
@@ -413,10 +406,12 @@ Link.prototype.setArrow = function (arrow) {
         if(typeof arrow.offset!=&#x27;undefined&#x27;){
             this.jtopo.arrowsOffset = $.isNumeric(arrow.offset) ? parseInt(arrow.offset) : 0;
         }
+        if(typeof arrow.type!=&#x27;undefined&#x27;){
+            this.jtopo.arrowsType = arrow.type;
+        }
         if (!this.attr.arrow) {
             this.attr.arrow = {};
         }
-
         if (typeof arrow.start!=&#x27;undefined&#x27;) {
             this.attr.arrow.start = typeof arrow.start == &quot;boolean&quot; ? arrow.start : arrow.start == &quot;true&quot;;
         }
@@ -424,6 +419,7 @@ Link.prototype.setArrow = function (arrow) {
             this.attr.arrow.end = typeof arrow.end == &quot;boolean&quot; ? arrow.end : arrow.end == &quot;true&quot;;
         }
     }
+    this.attr.arrow.type=this.jtopo.arrowsType;
     this.attr.arrow.size = this.jtopo.arrowsRadius;
     this.attr.arrow.offset = this.jtopo.arrowsOffset;
 };
@@ -436,9 +432,21 @@ Link.prototype.setArrow = function (arrow) {
  */
 Link.prototype.setGap = function (gap) {
     if (gap) {
-        this.jtopo.bundleGap = $.isNumeric(gap) ? parseInt(gap) : 0; // 线条之间的间隔
+        this.jtopo.gap = $.isNumeric(gap) ? parseInt(gap) : 0; // 线条之间的间隔
     }
-    this.attr.gap = this.jtopo.bundleGap;
+    this.attr.gap = this.jtopo.gap;
+};
+/**
+ *  折线类链路两端的偏移线段长度，或曲线相对中轴线的偏移量
+ *
+ *  @method setOffset
+ *  @param offset {number}
+ */
+Link.prototype.setOffset = function (offset) {
+    if ($.isNumeric(offset)) {
+        this.jtopo.offset = parseInt(offset);
+    }
+    this.attr.offset = this.jtopo.offset;
 };
 /**
  *  设置链路的虚线线段长度

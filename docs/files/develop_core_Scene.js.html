@@ -181,6 +181,14 @@
                     
                        <li>
                             
+                           <a href="../classes/ShapeNode.html">ShapeNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
                            <a href="../classes/TextNode.html">TextNode</a>
                            <ul>
                                 
@@ -291,7 +299,8 @@
 //-
 var Node = {
     Image: require(&quot;./element/node/Image.js&quot;),
-    Text: require(&quot;./element/node/Text.js&quot;)
+    Text: require(&quot;./element/node/Text.js&quot;),
+    Shape: require(&quot;./element/node/Shape.js&quot;)
 };
 var Link = {
     Curve: require(&quot;./element/link/Curve.js&quot;),
@@ -700,6 +709,9 @@ Scene.prototype.createNode = function (config) {
     switch (config.type) {
         case constant.TEXT:
             newNode = new Node.Text.constructor(config);
+            break;
+        case constant.SHAPE:
+            newNode = new Node.Shape.constructor(config);
             break;
         default:
             newNode = new Node.Image.constructor(config);

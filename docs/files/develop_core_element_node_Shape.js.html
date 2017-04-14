@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\core\element\link\Curve.js - QTopo</title>
+    <title>develop\core\element\node\Shape.js - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -288,7 +288,7 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>develop\core\element\link\Curve.js <small>File</small></h1>
+    <h1>develop\core\element\node\Shape.js <small>File</small></h1>
 </div>
 
 <div class="file">
@@ -296,64 +296,58 @@
 /**
  * @module core
  */
-/**
- * 曲线链路
- * @class  CurveLink
- * @constructor
- * @extends [L] Link
- * @param [config] 配置参数，无参则按全局配置创建
- */
-var Link = require(&quot;./Link.js&quot;);
+var Node=require(&quot;./Node.js&quot;);
 module.exports = {
-    constructor: CurveLink,
-    setDefault: setDefault,
-    getDefault: getDefault
+    constructor:ShapeNode,
+    setDefault:setDefault,
+    getDefault:getDefault
 };
 //-
-var DEFAULT = {
-    number: 1,
+var DEFAULT= {
+    size: [200, 100],
+    name: &quot;shape&quot;,
     alpha: 1,
-    color: &#x27;22,124,255&#x27;,
-    arrow: {
-        type:&#x27;close&#x27;,
-        size: 10,
-        offset: 2,
-        start: false,
-        end: false
-    },
-    jsonId:&quot;&quot;,
-    gap: 20,
-    width: 2,
-    dashed: null,
-    zIndex: 100,
+    position: [0, 0],
     font: {
         size: 16,
-        type: &quot;微软雅黑&quot;,
-        color: &#x27;255,255,255&#x27;
+        type: &#x27;微软雅黑&#x27;,
+        color: &quot;255,255,255&quot;
     },
-    useType: QTopo.constant.link.CURVE,
-    offset: 200    //可由curveOffset指定弧度
+    jsonId:&quot;&quot;,
+    border:{
+        width:0,
+        radius:0,//最大160 最小0
+        color:&quot;255,0,0&quot;
+    },
+    shapeType:&#x27;ellipse&#x27;,
+    zIndex: 200,//层级(10-999)
+    color: JTopo.util.randomColor(),
+    namePosition: &#x27;bottom&#x27;,
+    useType: QTopo.constant.node.SHAPE
 };
-function setDefault(config) {
+function setDefault(config){
     QTopo.util.extend(DEFAULT, config || {});
 }
-function getDefault() {
+function getDefault(){
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
-function CurveLink(config) {
-    if (!config.start || !config.end || !config.start.jtopo || !config.end.jtopo) {
-        QTopo.util.error(&quot;Create Link need start and end&quot;);
-        return;
-    }
+/**
+ * 形状节点
+ * @class  ShapeNode
+ * @constructor
+ * @extends [N] Node
+ * @param [config] 配置参数，无参则按全局配置创建
+ */
+function ShapeNode(config) {
     this.attr = QTopo.util.extend(getDefault(), config || {});
-    Link.call(this, new JTopo.CurveLink(config.start.jtopo, config.end.jtopo));
+    Node.call(this,new JTopo.Node());
     //函数
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
 }
-QTopo.util.inherits(CurveLink, Link);
+QTopo.util.inherits(ShapeNode,Node);
 //-
 /**
  *  元素对属性的统一设置函数，推荐使用
@@ -372,41 +366,82 @@ QTopo.util.inherits(CurveLink, Link);
  */
 function setJTopo(config) {
     if (config) {
-        var self = this;
-        self._setAttr(config);
+        //处理一般属性的设置
+        this._setAttr(config);
+        //处理特殊属性的设置
     }
 }
+
 //-
 /**
- * 获取元素全局样式
- * @method getDefault
- * @return {object}
- * @example
- *          var DEFAULT = {
-                                number: 1,
-                                alpha: 1,
-                                color: &#x27;22,124,255&#x27;,
-                                arrow: {
-                                    size: 10,
-                                    offset: 0,
-                                    start: false,
-                                    end: false
-                                },
-                                jsonId:&quot;&quot;,
-                                gap: 20,
-                                width: 2,
-                                dashed: null,
-                                zIndex: 100,
-                                font: {
-                                    size: 16,
-                                    type: &quot;微软雅黑&quot;,
-                                    color: &#x27;255,255,255&#x27;
-                                },
-                                useType: QTopo.constant.link.CURVE,
-                                offset: 200
-                            };
+ *  获取全局设置
+ *  @method getDefault
+ *  @return config {object} 全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault
+ *  @example
+ *          默认全局参数:
+ *              var DEFAULT= {
+                        image: &quot;&quot;,
+                        size: [60, 60],
+                        name: &quot;node&quot;,
+                        alpha: 1,
+                        position: [0, 0],
+                        font: {
+                            size: 16,
+                            type: &#x27;微软雅黑&#x27;,
+                            color: &quot;255,255,255&quot;
+                        },
+                        jsonId:&quot;&quot;,
+                        border:{
+                            width:0,
+                            radius:0,//最大160 最小0
+                            color:&quot;255,0,0&quot;
+                        },
+                        zIndex: 200,//层级(10-999)
+                        color: JTopo.util.randomColor(),
+                        namePosition: &#x27;bottom&#x27;,
+                        useType: QTopo.constant.node.IMAGE,
+                        alarm: {
+                            show: false,
+                            text: &quot;&quot;,
+                            color: &quot;255,255,255&quot;,
+                            font: {
+                                size: 16,
+                                type: &quot;微软雅黑&quot;
+                            }
+                        }
+                    };
  */
-CurveLink.prototype.getDefault = getDefault;
+ShapeNode.prototype.getDefault=getDefault;
+//-
+ShapeNode.prototype.setShapeType=function(type){
+    var jtopo=this.jtopo;
+    switch (type){
+        case &#x27;ellipse&#x27;:
+            this.attr.shapeType=&#x27;ellipse&#x27;;
+            jtopo.paint=paintEllipse;
+            break;
+    }
+};
+function paintEllipse(ctx){
+    ctx.save();
+    ctx.beginPath();
+    var radiusX = (this.width/0.75)/2,
+        radiusY = this.height/2;
+    ctx.moveTo(0, -radiusY);
+    ctx.bezierCurveTo(radiusX, -radiusY, radiusX, radiusY, 0, radiusY);//右半边
+    ctx.bezierCurveTo(-radiusX, radiusY, -radiusX, -radiusY, 0, -radiusY);//左半边
+    ctx.closePath();
+    if(this.jtopo.gradien){
+        ctx.fillStyle=this.jtopo.gradien;
+    }else{
+        ctx.fillStyle = &#x27;rgba(&#x27;+this.fillColor+&quot;,&quot; + this.alpha + &quot;)&quot;;
+    }
+    ctx.fill();
+    ctx.restore();
+    this.paintCtrl(ctx);
+    this.paintAlarmText(ctx);
+    this.paintText(ctx);
+}
 //-
     </pre>
 </div>

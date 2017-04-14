@@ -181,6 +181,14 @@
                     
                        <li>
                             
+                           <a href="../classes/ShapeNode.html">ShapeNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
                            <a href="../classes/TextNode.html">TextNode</a>
                            <ul>
                                 
@@ -331,7 +339,7 @@ var DEFAULT={
             color:&#x27;255,255,255&#x27;
         },
         useType: QTopo.constant.line.DIRECT,
-        bundleOffset:60// 多条直线时，线条折线拐角处的长度
+        offset:60// 多条直线时，线条折线拐角处的长度
 };
 function setDefault(config){
     QTopo.util.extend(DEFAULT, config || {});
@@ -340,41 +348,6 @@ function getDefault(){
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
-//----
-var jtopoReset={
-    //双向箭头
-    getStartPosition:function () {
-        var a;
-        return null != this.arrowsRadius &amp;&amp; (a = (function (thisl) {
-            var b = thisl.nodeA, c = thisl.nodeZ;
-            var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy);
-            var e = b.getBound();
-            return f = JTopo.util.intersectionLineBound(d, e);
-        })(this)), null == a &amp;&amp; (a = {
-            x: this.nodeA.cx,
-            y: this.nodeA.cy
-        }), a;
-    },
-    paintPath:function (a, b) {
-        if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
-        a.beginPath(),
-            a.moveTo(b[0].x, b[0].y);
-        for (var c = 1; c &lt; b.length; c++) {
-            null == this.dashedPattern ? (
-                (null == this.PointPathColor ? a.lineTo(b[c].x, b[c].y) : a.JtopoDrawPointPath(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, a.strokeStyle, this.PointPathColor))
-            ) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
-        }
-        if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
-            if (this.qtopo.attr.arrow.end) {
-                this.paintArrow(a, b[0], b[b.length - 1]);
-            }//终点箭头
-            if (this.qtopo.attr.arrow.start) {
-                this.paintArrow(a, b[b.length - 1], b[0]);
-            }//起点箭头
-        }
-    }
-};
-//----
 function DirectLine(config) {
     this.attr =  QTopo.util.extend(getDefault(), config || {});
     //line基于不加入画布的节点之间的线生成
@@ -383,8 +356,6 @@ function DirectLine(config) {
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
-    //源码修改
-    reset(this);
 }
 QTopo.util.inherits(DirectLine,Line);
 /**
@@ -408,23 +379,6 @@ function setJTopo(config) {
         self._setAttr(config);
     }
 }
-function reset(Line){
-    Line.jtopo.getStartPosition = jtopoReset.getStartPosition;
-    Line.jtopo.paintPath = jtopoReset.paintPath;
-}
-/**
- *  设置直线两端的线段长度
- *
- *  当一条链路的两端元素之间有多条链路时，链路将会分成三段绘制并偏移，以区分其他链路
- *  @method setBundleOffset
- *  @param bundleOffset {number}
- */
-DirectLine.prototype.setBundleOffset=function(bundleOffset){
-    if($.isNumeric(bundleOffset)){
-        this.jtopo.bundleOffset=parseInt(bundleOffset);
-    }
-    this.attr.bundleOffset=this.jtopo.bundleOffset;
-};
 /**
  * 获取元素全局样式
  * @method getDefault
@@ -456,7 +410,7 @@ DirectLine.prototype.setBundleOffset=function(bundleOffset){
                                 },
                                 expendAble: true,
                                 useType: QTopo.constant.line.DIRECT,
-                                bundleOffset: 60// 多条直线时，线条折线拐角处的长度
+                                offset: 60
                             };
  */
 DirectLine.prototype.getDefault=getDefault;

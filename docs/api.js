@@ -13,6 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "QTopo.util",
         "QTopo.windowUtil",
         "Scene",
+        "ShapeNode",
         "TextNode",
         "[C] Container",
         "[E] Element",
@@ -80,6 +81,9 @@ YUI.add("yuidoc-meta", function(Y) {
                 },
                 {
                     "name": "[N] Node"
+                },
+                {
+                    "name": "ShapeNode"
                 },
                 {
                     "name": "TextNode"

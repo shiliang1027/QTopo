@@ -181,6 +181,14 @@
                     
                        <li>
                             
+                           <a href="../classes/ShapeNode.html">ShapeNode</a>
+                           <ul>
+                                
+                           </ul>
+                       </li>
+                    
+                       <li>
+                            
                            <a href="../classes/TextNode.html">TextNode</a>
                            <ul>
                                 
@@ -327,46 +335,12 @@ function getDefault() {
     return QTopo.util.deepClone(DEFAULT);
 }
 //-
-//----
-//支持自动换行
-var jtopoReset = {
-    paint: function (a) {
-        //自动换行
-        var texts = this.text.split(&quot;\n&quot;);
-        a.beginPath();
-        a.font = this.font;
-        var fontWidth = a.measureText(&quot;田&quot;).width;
-        this.width = 0;
-        for (var j = 0; j &lt; texts.length; j++) {
-            var width = a.measureText(texts[j]).width;
-            if (width &gt; this.width) {
-                this.width = width;
-            }
-        }
-        this.height = texts.length * fontWidth;
-        a.strokeStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;;
-        a.fillStyle = &quot;rgba(&quot; + this.fontColor + &quot;, &quot; + this.alpha + &quot;)&quot;;
-        if (texts.length &gt; 1) {
-            for (var i = 0; i &lt; texts.length; i++) {
-                a.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
-            }
-        } else {
-            a.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
-        }
-        a.closePath();
-        this.paintBorder(a);
-        this.paintCtrl(a);
-        this.paintAlarmText(a);
-    }
-};
-//----
 function TextNode(config) {
     this.attr = QTopo.util.extend(getDefault(), config || {});
     Node.call(this, new JTopo.TextNode());
     this.set = setJTopo;
     //初始化
     this.set(this.attr);
-    reset(this);
 }
 QTopo.util.inherits(TextNode, Node);
 //-
@@ -395,10 +369,6 @@ function setJTopo(config) {
         }
         this._setAttr(config);
     }
-}
-//重写源码
-function reset(node) {
-    node.jtopo.paint = jtopoReset.paint;
 }
 //-
 /**

@@ -219,6 +219,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "develop\\core\\element\\node\\Shape.js": {
+            "name": "develop\\core\\element\\node\\Shape.js",
+            "modules": {},
+            "classes": {
+                "ShapeNode": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "develop\\core\\element\\node\\Text.js": {
             "name": "develop\\core\\element\\node\\Text.js",
             "modules": {},
@@ -237,8 +246,15 @@
             "fors": {},
             "namespaces": {}
         },
-        "develop\\core\\jtopo\\jtopo-min.js": {
-            "name": "develop\\core\\jtopo\\jtopo-min.js",
+        "develop\\core\\jtopo\\tools\\layout.js": {
+            "name": "develop\\core\\jtopo\\tools\\layout.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\jtopo\\base.js": {
+            "name": "develop\\core\\jtopo\\base.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -334,6 +350,7 @@
                 "[L] Link": 1,
                 "ImageNode": 1,
                 "[N] Node": 1,
+                "ShapeNode": 1,
                 "TextNode": 1,
                 "[E] Element": 1,
                 "Scene": 1
@@ -417,7 +434,7 @@
             "module": "QTopo",
             "namespace": "",
             "file": "develop\\main.js",
-            "line": 8,
+            "line": 9,
             "static": 1,
             "description": "主入口,window.QTopo"
         },
@@ -432,7 +449,7 @@
             "module": "QTopo",
             "namespace": "",
             "file": "develop\\main.js",
-            "line": 56,
+            "line": 57,
             "static": 1,
             "description": "QTopo初始化的topo实例,QTopo.init后的返回对象，或是QTopo.instance数组内保存的对象"
         },
@@ -682,6 +699,29 @@
                 {
                     "name": "jtopo",
                     "description": "元素核心的jtopo对象"
+                }
+            ]
+        },
+        "ShapeNode": {
+            "name": "ShapeNode",
+            "shortname": "ShapeNode",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "develop\\core\\element\\node\\Shape.js",
+            "line": 40,
+            "description": "形状节点",
+            "is_constructor": 1,
+            "extends": "[N] Node",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "配置参数，无参则按全局配置创建",
+                    "optional": true
                 }
             ]
         },
@@ -1318,7 +1358,7 @@
             "params": [
                 {
                     "name": "config",
-                    "description": "无值则全部展示 ,\n\n键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :\n\n         支持属性有:\n         width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap , curveOffset ,\n         arrowSize , arrowOffset , fontColor , color , borderColor",
+                    "description": "无值则全部展示 ,\n\n键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :\n\n         支持属性有:\n         width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap ,\n         arrowSize , arrowOffset , fontColor , color , borderColor",
                     "type": "Object",
                     "optional": true
                 }
@@ -1695,7 +1735,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 48,
+            "line": 20,
             "description": "记录容器内的元素",
             "itemtype": "property",
             "name": "[C] children",
@@ -1705,7 +1745,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 53,
+            "line": 25,
             "description": "记录容器上的链路",
             "itemtype": "property",
             "name": "[C] links",
@@ -1725,7 +1765,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 69,
+            "line": 37,
             "description": "设置容器名称",
             "itemtype": "method",
             "name": "[C] setName",
@@ -1741,7 +1781,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 82,
+            "line": 50,
             "description": "将元素加入容器内",
             "itemtype": "method",
             "name": "[C] add",
@@ -1757,7 +1797,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 114,
+            "line": 82,
             "description": "将子元素从容器中删除",
             "itemtype": "method",
             "name": "[C] remove",
@@ -1773,7 +1813,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 128,
+            "line": 96,
             "description": "获取容器基本类型",
             "itemtype": "method",
             "name": "[C] getType",
@@ -1785,7 +1825,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 136,
+            "line": 104,
             "description": "设置容器背景色",
             "itemtype": "method",
             "name": "[C] setColor",
@@ -1801,14 +1841,14 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 148,
+            "line": 116,
             "description": "设置容器内子元素一般行为,未完全实现",
             "itemtype": "method",
             "name": "[C] setChildren",
             "params": [
                 {
                     "name": "children",
-                    "description": "\n         children={\n                 dragble:是否可移动{boolean}\n         }",
+                    "description": "\n         children={\n                 draggable:是否可移动{boolean}\n         }",
                     "type": "Object"
                 }
             ],
@@ -1817,7 +1857,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 168,
+            "line": 136,
             "description": "容器缩放切换,在scene创建时可选是否提供切换\n\n可在创建时增加参数 toggle:{close:true}来创建一个不可切换的容器\n\n若无切换对象，则该方法无动作",
             "itemtype": "method",
             "name": "[C] toggle",
@@ -1833,7 +1873,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 195,
+            "line": 163,
             "description": "判断元素是否已是子元素",
             "itemtype": "method",
             "name": "[C] isChild",
@@ -1852,7 +1892,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 212,
+            "line": 180,
             "description": "判断元素是否在分组覆盖的范围内,临时元素不考虑",
             "itemtype": "method",
             "name": "[C] isInside",
@@ -1871,7 +1911,7 @@
         },
         {
             "file": "develop\\core\\element\\container\\Container.js",
-            "line": 226,
+            "line": 194,
             "description": "分组属性提取",
             "itemtype": "method",
             "name": "[C] toJson",
@@ -1945,14 +1985,14 @@
                 "type": "Object"
             },
             "example": [
-                "\n        默认全局参数:\n            var DEFAULT = {\n                              name: 'group',\n                              font:{\n                                  size:16,\n                                  type:\"微软雅黑\",\n                                  color:'255,255,255'\n                              },\n                              color: '10,10,100',\n                              alpha: 0.5,\n                              dragable: true,\n                              zIndex: 10,\n                              jsonId:\"\",\n                              border:{\n                                  width:0,\n                                  radius:30,//最大160 最小0\n                                  color:\"255,0,0\"\n                              },\n                              size:[500,500],\n                              position:[0,0],\n                              namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,\n                              layout: {\n                                  type:\"default\"\n                              },\n                              children:{//待定设置，未完全实现\n                                  showLink: false,\n                                  showName: true,\n                                  dragble: true\n                              },\n                              useType:QTopo.constant.container.GROUP\n                      };"
+                "\n        默认全局参数:\n            var DEFAULT = {\n                              name: 'group',\n                              font:{\n                                  size:16,\n                                  type:\"微软雅黑\",\n                                  color:'255,255,255'\n                              },\n                              color: '10,10,100',\n                              alpha: 0.5,\n                              draggable: true,\n                              zIndex: 10,\n                              jsonId:\"\",\n                              border:{\n                                  width:0,\n                                  radius:30,//最大160 最小0\n                                  color:\"255,0,0\"\n                              },\n                              size:[500,500],\n                              position:[0,0],\n                              namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,\n                              layout: {\n                                  type:\"default\"\n                              },\n                              children:{//待定设置，未完全实现\n                                  showLink: false,\n                                  showName: true,\n                                  draggable: true\n                              },\n                              useType:QTopo.constant.container.GROUP\n                      };"
             ],
             "class": "Group",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\line\\Direct.js",
-            "line": 103,
+            "line": 66,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "set",
@@ -1970,23 +2010,7 @@
         },
         {
             "file": "develop\\core\\element\\line\\Direct.js",
-            "line": 128,
-            "description": "设置直线两端的线段长度\n\n当一条链路的两端元素之间有多条链路时，链路将会分成三段绘制并偏移，以区分其他链路",
-            "itemtype": "method",
-            "name": "setBundleOffset",
-            "params": [
-                {
-                    "name": "bundleOffset",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "DirectLine",
-            "module": "core"
-        },
-        {
-            "file": "develop\\core\\element\\line\\Direct.js",
-            "line": 141,
+            "line": 87,
             "description": "获取元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -1995,7 +2019,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               position:{\n                                   start:[0,0],\n                                   end:[0,100]\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.line.DIRECT,\n                               bundleOffset: 60// 多条直线时，线条折线拐角处的长度\n                           };"
+                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               position:{\n                                   start:[0,0],\n                                   end:[0,100]\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.line.DIRECT,\n                               offset: 60\n                           };"
             ],
             "class": "DirectLine",
             "module": "core"
@@ -2162,7 +2186,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Curve.js",
-            "line": 210,
+            "line": 63,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "set",
@@ -2180,23 +2204,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Curve.js",
-            "line": 240,
-            "description": "设置曲线偏移量",
-            "itemtype": "method",
-            "name": "setCurveOffset",
-            "params": [
-                {
-                    "name": "curveOffset",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "CurveLink",
-            "module": "core"
-        },
-        {
-            "file": "develop\\core\\element\\link\\Curve.js",
-            "line": 251,
+            "line": 85,
             "description": "获取元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -2205,14 +2213,14 @@
                 "type": "Object"
             },
             "example": [
-                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 2,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               useType: QTopo.constant.link.CURVE,\n                               curveOffset: 200\n                           };"
+                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 2,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               useType: QTopo.constant.link.CURVE,\n                               offset: 200\n                           };"
             ],
             "class": "CurveLink",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\link\\Direct.js",
-            "line": 99,
+            "line": 65,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "set",
@@ -2230,23 +2238,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Direct.js",
-            "line": 124,
-            "description": "设置直线两端的线段长度\n\n当一条链路的两端元素之间有多条链路时，链路将会分成三段绘制并偏移，以区分其他链路",
-            "itemtype": "method",
-            "name": "setBundleOffset",
-            "params": [
-                {
-                    "name": "bundleOffset",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "DirectLink",
-            "module": "core"
-        },
-        {
-            "file": "develop\\core\\element\\link\\Direct.js",
-            "line": 137,
+            "line": 86,
             "description": "获取元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -2255,14 +2247,14 @@
                 "type": "Object"
             },
             "example": [
-                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.link.DIRECT,\n                               bundleOffset: 60// 多条直线时，线条折线拐角处的长度\n                           };"
+                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.link.DIRECT,\n                               offset: 60\n                           };"
             ],
             "class": "DirectLink",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\link\\Direct.js",
-            "line": 168,
+            "line": 117,
             "description": "开启链路展开模式,为链路生成toggle函数",
             "itemtype": "method",
             "name": "openToggle",
@@ -2278,7 +2270,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Direct.js",
-            "line": 176,
+            "line": 125,
             "description": "链路展开/合并切换",
             "itemtype": "method",
             "name": "toggle",
@@ -2295,7 +2287,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Flexional.js",
-            "line": 102,
+            "line": 64,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "set",
@@ -2313,23 +2305,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Flexional.js",
-            "line": 127,
-            "description": "两端折线线段的长度",
-            "itemtype": "method",
-            "name": "setOffsetGap",
-            "params": [
-                {
-                    "name": "offsetGap",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "FlexionalLink",
-            "module": "core"
-        },
-        {
-            "file": "develop\\core\\element\\link\\Flexional.js",
-            "line": 139,
+            "line": 85,
             "description": "设置折线方向",
             "itemtype": "method",
             "name": "setDirection",
@@ -2345,7 +2321,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Flexional.js",
-            "line": 152,
+            "line": 98,
             "description": "设置折角弧度",
             "itemtype": "method",
             "name": "setRadius",
@@ -2361,7 +2337,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Flexional.js",
-            "line": 169,
+            "line": 115,
             "description": "获取元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -2370,14 +2346,14 @@
                 "type": "Object"
             },
             "example": [
-                "\n        var DEFAULT = {\n                           number: 1,\n                           alpha: 1,\n                           color: '22,124,255',\n                           arrow: {\n                               size: 10,\n                               offset: 0,\n                               start: false,\n                               end: false\n                           },\n                           jsonId:\"\",\n                           radius: 0,\n                           gap: 20,\n                           width: 2,\n                           dashed: null,\n                           zIndex: 100,\n                           font: {\n                               size: 16,\n                               type: \"微软雅黑\",\n                               color: '255,255,255'\n                           },\n                           useType: QTopo.constant.link.FLEXIONAL,\n                           direction: \"horizontal\",\n                           offsetGap: 60//两端折线线段的长度\n                       };"
+                "\n        var DEFAULT = {\n                           number: 1,\n                           alpha: 1,\n                           color: '22,124,255',\n                           arrow: {\n                               size: 10,\n                               offset: 0,\n                               start: false,\n                               end: false\n                           },\n                           jsonId:\"\",\n                           radius: 0,\n                           gap: 20,\n                           width: 2,\n                           dashed: null,\n                           zIndex: 100,\n                           font: {\n                               size: 16,\n                               type: \"微软雅黑\",\n                               color: '255,255,255'\n                           },\n                           useType: QTopo.constant.link.FLEXIONAL,\n                           direction: \"horizontal\",\n                           offset: 60//两端折线线段的长度\n                       };"
             ],
             "class": "FlexionalLink",
             "module": "core"
         },
         {
             "file": "develop\\core\\element\\link\\Fold.js",
-            "line": 101,
+            "line": 64,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "set",
@@ -2395,7 +2371,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Fold.js",
-            "line": 126,
+            "line": 86,
             "description": "设置折线方向",
             "itemtype": "method",
             "name": "setDirection",
@@ -2411,7 +2387,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Fold.js",
-            "line": 138,
+            "line": 98,
             "description": "获取元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -2427,7 +2403,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Fold.js",
-            "line": 169,
+            "line": 129,
             "description": "设置折角弧度",
             "itemtype": "method",
             "name": "setRadius",
@@ -2443,7 +2419,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 28,
+            "line": 19,
             "description": "记录链路的首尾元素",
             "itemtype": "property",
             "name": "[L] path",
@@ -2465,7 +2441,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 57,
+            "line": 42,
             "description": "获取元素基本类型,详细参考QTopo.constant中的类型定义",
             "itemtype": "method",
             "name": "[L] getType",
@@ -2477,7 +2453,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 65,
+            "line": 50,
             "description": "设置颜色",
             "itemtype": "method",
             "name": "[L] setColor",
@@ -2493,7 +2469,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 76,
+            "line": 61,
             "description": "计数设置\n\n计数大于1时在链路上显示(+number)\n\nQTopo.constant.link.DIRECT类型的链路可以基于此数展开",
             "itemtype": "method",
             "name": "[L] setNumber",
@@ -2509,7 +2485,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 97,
+            "line": 82,
             "description": "设置链路宽度,小于0则默认为1",
             "itemtype": "method",
             "name": "[L] setWidth",
@@ -2525,7 +2501,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 109,
+            "line": 94,
             "description": "设置链路两端的箭头属性",
             "itemtype": "method",
             "name": "[L] setArrow",
@@ -2541,13 +2517,29 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 143,
+            "line": 131,
             "description": "设置相同起点和终点的链路之间的间隔大小\n\n常用于设置QTopo.constant.link.DIRECT类型的链路展开时,其子链路之间的间距大小",
             "itemtype": "method",
             "name": "[L] setGap",
             "params": [
                 {
                     "name": "gap",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "[L] Link",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\link\\Link.js",
+            "line": 144,
+            "description": "折线类链路两端的偏移线段长度，或曲线相对中轴线的偏移量",
+            "itemtype": "method",
+            "name": "setOffset",
+            "params": [
+                {
+                    "name": "offset",
                     "description": "",
                     "type": "Number"
                 }
@@ -2586,7 +2578,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Image.js",
-            "line": 99,
+            "line": 68,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "set",
@@ -2604,7 +2596,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Image.js",
-            "line": 126,
+            "line": 91,
             "description": "设置节点图片,与setColor冲突，设了图片则颜色无效\n\n未设置图片则显示方形节点，内部填充颜色",
             "itemtype": "method",
             "name": "setImage",
@@ -2620,7 +2612,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Image.js",
-            "line": 139,
+            "line": 104,
             "description": "获取全局设置",
             "itemtype": "method",
             "name": "getDefault",
@@ -2636,7 +2628,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Image.js",
-            "line": 179,
+            "line": 144,
             "description": "设置告警\n\n参数可设置一项或多项,未设置部分参考全局配置",
             "itemtype": "method",
             "name": "setAlarm",
@@ -2677,7 +2669,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Node.js",
-            "line": 64,
+            "line": 32,
             "description": "获取元素基本类型,详细参考QTopo.constant中的类型定义",
             "itemtype": "method",
             "name": "[N] getType",
@@ -2689,7 +2681,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Node.js",
-            "line": 72,
+            "line": 40,
             "description": "设置颜色,一般为设置自身填充颜色，节点有图片设置或为文字节点时无效",
             "itemtype": "method",
             "name": "[N] setColor",
@@ -2705,7 +2697,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Node.js",
-            "line": 84,
+            "line": 52,
             "description": "设置显示名称,删减首尾空格符\n\n文字节点应调用setText处理文字显示\n\n其他节点应用该函数处理名称，否则会出现隐藏后再显示而名称不符的Bug",
             "itemtype": "method",
             "name": "[N] setName",
@@ -2721,7 +2713,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Node.js",
-            "line": 101,
+            "line": 69,
             "description": "单个对象的属性提取",
             "itemtype": "method",
             "name": "[N] toJson",
@@ -2733,8 +2725,42 @@
             "module": "core"
         },
         {
+            "file": "develop\\core\\element\\node\\Shape.js",
+            "line": 57,
+            "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "config",
+                    "description": ""
+                }
+            ],
+            "example": [
+                "\n        实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置\n        如:name 对应 setName(\"..\")\n        参数格式如下\n        config={\n            xx:...,\n            xx:...\n        }"
+            ],
+            "class": "ShapeNode",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\element\\node\\Shape.js",
+            "line": 81,
+            "description": "获取全局设置",
+            "itemtype": "method",
+            "name": "getDefault",
+            "return": {
+                "description": "config  全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault",
+                "type": "Object"
+            },
+            "example": [
+                "\n        默认全局参数:\n            var DEFAULT= {\n                      image: \"\",\n                      size: [60, 60],\n                      name: \"node\",\n                      alpha: 1,\n                      position: [0, 0],\n                      font: {\n                          size: 16,\n                          type: '微软雅黑',\n                          color: \"255,255,255\"\n                      },\n                      jsonId:\"\",\n                      border:{\n                          width:0,\n                          radius:0,//最大160 最小0\n                          color:\"255,0,0\"\n                      },\n                      zIndex: 200,//层级(10-999)\n                      color: JTopo.util.randomColor(),\n                      namePosition: 'bottom',\n                      useType: QTopo.constant.node.IMAGE,\n                      alarm: {\n                          show: false,\n                          text: \"\",\n                          color: \"255,255,255\",\n                          font: {\n                              size: 16,\n                              type: \"微软雅黑\"\n                          }\n                      }\n                  };"
+            ],
+            "class": "ShapeNode",
+            "module": "core"
+        },
+        {
             "file": "develop\\core\\element\\node\\Text.js",
-            "line": 86,
+            "line": 52,
             "description": "元素对属性的统一设置函数，推荐使用\n\n参数可设置一项或多项,未设置部分参考全局配置\n\n若传入参数的text未配置，则显示为  \"not set text\"",
             "itemtype": "method",
             "name": "set",
@@ -2752,7 +2778,7 @@
         },
         {
             "file": "develop\\core\\element\\node\\Text.js",
-            "line": 117,
+            "line": 79,
             "description": "获取全局设置",
             "itemtype": "method",
             "name": "getDefault",
@@ -3019,10 +3045,10 @@
             "line": 228,
             "description": "元素是否锁定位置",
             "itemtype": "method",
-            "name": "[E] setDragable",
+            "name": "[E] setDraggable",
             "params": [
                 {
-                    "name": "dragable",
+                    "name": "draggable",
                     "description": "",
                     "type": "Boolean"
                 }
@@ -3049,7 +3075,7 @@
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 294,
+            "line": 284,
             "description": "私有函数,设置元素属性,只要有对应函数则传入参数设置,不应直接调用\n\n实际元素中应重写set函数，在set函数中对特殊参数做处理后再调用该函数",
             "itemtype": "method",
             "name": "[E] _setAttr",
@@ -3065,7 +3091,7 @@
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 314,
+            "line": 304,
             "description": "获取元素基本属性",
             "itemtype": "method",
             "name": "[E] get",
@@ -3084,7 +3110,7 @@
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 325,
+            "line": 315,
             "description": "获取元素的属性,修改/赋值元素额外属性",
             "itemtype": "method",
             "name": "[E] val",
@@ -3109,7 +3135,7 @@
         },
         {
             "file": "develop\\core\\element\\Element.js",
-            "line": 417,
+            "line": 407,
             "description": "获取元素中心坐标",
             "itemtype": "method",
             "name": "[E] getCenterPosition",
@@ -3121,15 +3147,22 @@
             "module": "core"
         },
         {
-            "file": "develop\\core\\jtopo\\jtopo-min.js",
-            "line": 2232,
+            "file": "develop\\core\\jtopo\\tools\\layout.js",
+            "line": 141,
             "description": "找到可以作为根的节点",
             "class": "Scene",
             "module": "core"
         },
         {
+            "file": "develop\\core\\jtopo\\base.js",
+            "line": 1,
+            "description": "Created by qiyc on 2017/4/12.",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
             "file": "develop\\core\\Scene.js",
-            "line": 41,
+            "line": 42,
             "description": "核心Jtopo对象",
             "itemtype": "property",
             "name": "jtopo",
@@ -3139,7 +3172,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 47,
+            "line": 48,
             "description": "图层中有效记录的元素",
             "itemtype": "property",
             "name": "children",
@@ -3171,7 +3204,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 61,
+            "line": 62,
             "description": "图层的主要属性",
             "itemtype": "property",
             "name": "attr",
@@ -3201,7 +3234,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 69,
+            "line": 70,
             "description": "图层的额外属性",
             "itemtype": "property",
             "name": "extra",
@@ -3211,7 +3244,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 92,
+            "line": 93,
             "description": "获取图层的基本属性",
             "itemtype": "method",
             "name": "get",
@@ -3234,7 +3267,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 103,
+            "line": 104,
             "description": "获取图层的属性,或添加/修改额外属性",
             "itemtype": "method",
             "name": "val",
@@ -3263,7 +3296,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 151,
+            "line": 152,
             "description": "配置图层中元素全局样式",
             "itemtype": "method",
             "name": "setDefault",
@@ -3284,7 +3317,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 188,
+            "line": 189,
             "description": "获取图层中元素全局样式",
             "itemtype": "method",
             "name": "getDefault",
@@ -3304,7 +3337,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 227,
+            "line": 228,
             "description": "设置图层背景图片，与setBackgroundColor冲突",
             "itemtype": "method",
             "name": "setBackgroundImage",
@@ -3320,7 +3353,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 236,
+            "line": 237,
             "description": "设置图层背景颜色，与setBackgroundImage冲突",
             "itemtype": "method",
             "name": "setBackgroundColor",
@@ -3336,7 +3369,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 246,
+            "line": 247,
             "description": "设置图层模式",
             "itemtype": "method",
             "name": "setMode",
@@ -3352,7 +3385,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 259,
+            "line": 260,
             "description": "图层清空，清除图层内所有元素",
             "itemtype": "method",
             "name": "clear",
@@ -3361,7 +3394,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 273,
+            "line": 274,
             "description": "获取类型，常用在右键菜单上对触发对象的识别",
             "itemtype": "method",
             "name": "getType",
@@ -3373,7 +3406,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 281,
+            "line": 282,
             "description": "获取使用类型，常用在右键菜单上对触发对象的识别",
             "itemtype": "method",
             "name": "getUseType",
@@ -3385,7 +3418,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 289,
+            "line": 290,
             "description": "绑定事件，可用off删除对应事件",
             "itemtype": "method",
             "name": "on",
@@ -3406,7 +3439,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 301,
+            "line": 302,
             "description": "删除事件，可删除on绑定的事件",
             "itemtype": "method",
             "name": "off",
@@ -3428,7 +3461,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 313,
+            "line": 314,
             "description": "根据搜索当前图层，查找基本属性或额外属性满足条件的元素",
             "itemtype": "method",
             "name": "find",
@@ -3454,7 +3487,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 371,
+            "line": 372,
             "description": "获取当前图层在正常视角下(未放大缩小)最左上角的坐标",
             "itemtype": "method",
             "name": "getOrigin",
@@ -3467,7 +3500,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 397,
+            "line": 398,
             "description": "根据配置在当前图层上绘制节点",
             "itemtype": "method",
             "name": "createNode",
@@ -3488,7 +3521,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 429,
+            "line": 433,
             "description": "根据配置在两个元素之间绘制新的链接",
             "itemtype": "method",
             "name": "createLink",
@@ -3509,7 +3542,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 467,
+            "line": 471,
             "description": "根据配置在两个元素之间创建链接,若两元素已有链接则原链接计数上加1,\n可操作于有展开功能的链接上，可自适应选择添加新链接或计数+1",
             "itemtype": "method",
             "name": "addLink",
@@ -3535,7 +3568,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 509,
+            "line": 513,
             "description": "获取两元素之间所有的链接",
             "itemtype": "method",
             "name": "linksBetween",
@@ -3560,7 +3593,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 540,
+            "line": 544,
             "description": "在图层上绘制不可以移动的线元素",
             "itemtype": "method",
             "name": "createLine",
@@ -3581,7 +3614,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 565,
+            "line": 569,
             "description": "在图层上绘制分组元素",
             "itemtype": "method",
             "name": "createContainer",
@@ -3602,7 +3635,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 607,
+            "line": 611,
             "description": "删除图层内元素,元素删除其上的链接也会删除和更新",
             "itemtype": "method",
             "name": "remove",
@@ -3618,7 +3651,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 723,
+            "line": 727,
             "description": "图层信息转化为json",
             "itemtype": "method",
             "name": "toJson",
@@ -3631,7 +3664,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 734,
+            "line": 738,
             "description": "判断元素是否在当前图层内",
             "itemtype": "method",
             "name": "isChildren",
@@ -3651,7 +3684,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 753,
+            "line": 757,
             "description": "图层缩放,元素一屏显示",
             "itemtype": "method",
             "name": "goCenter",
@@ -3660,7 +3693,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 763,
+            "line": 767,
             "description": "图层缩放",
             "itemtype": "method",
             "name": "resize",
@@ -3676,7 +3709,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 775,
+            "line": 779,
             "description": "启用/禁用鼠标缩放",
             "itemtype": "method",
             "name": "toggleZoom",
@@ -3685,7 +3718,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 787,
+            "line": 791,
             "description": "启用/禁用鹰眼",
             "itemtype": "method",
             "name": "toggleEagleEye",
@@ -3694,7 +3727,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 795,
+            "line": 799,
             "description": "获取当前图层的png格式图片在新的窗口打开",
             "itemtype": "method",
             "name": "getPicture",
@@ -3703,7 +3736,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 812,
+            "line": 816,
             "description": "切换元素的层次",
             "itemtype": "method",
             "name": "toggleZIndex",
@@ -3723,7 +3756,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 850,
+            "line": 854,
             "description": "获取被选中的元素",
             "itemtype": "method",
             "name": "getSelected",
@@ -3736,7 +3769,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 872,
+            "line": 876,
             "description": "高亮目标隐藏其他",
             "itemtype": "method",
             "name": "toggleLight",
@@ -3757,7 +3790,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 939,
+            "line": 943,
             "description": "正常尺寸展示，并将视角移动到以参数节点为中心的位置",
             "itemtype": "method",
             "name": "moveToNode",
@@ -3772,7 +3805,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 966,
+            "line": 970,
             "description": "自动布局",
             "itemtype": "method",
             "name": "autoLayout",
@@ -3851,6 +3884,11 @@
                     "type": "String"
                 },
                 {
+                    "name": "node.SHAPE",
+                    "description": "",
+                    "type": "String"
+                },
+                {
                     "name": "container.GROUP",
                     "description": "",
                     "type": "String"
@@ -3904,7 +3942,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 14,
+            "line": 15,
             "description": "存放当前页面中所初始化的topo实例",
             "itemtype": "property",
             "name": "instance",
@@ -3914,7 +3952,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 19,
+            "line": 20,
             "description": "一系列工具函数,详细内容参考 QTopo.util",
             "itemtype": "property",
             "name": "util",
@@ -3924,7 +3962,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 25,
+            "line": 26,
             "description": "可开启或屏蔽控制台日志,对应用QTopo.util.info以及QTopo.util.error函数输出的日志",
             "itemtype": "property",
             "name": "log",
@@ -3946,7 +3984,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 38,
+            "line": 39,
             "description": "初始化Qtopo实例,创建并将其保存在QTopo.instance数组内,实例api参考QTopo.instance",
             "itemtype": "method",
             "name": "init",
@@ -3974,7 +4012,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 62,
+            "line": 63,
             "description": "topo实例化的图层对象",
             "itemtype": "property",
             "name": "scene",
@@ -3984,7 +4022,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 68,
+            "line": 69,
             "description": "topo实例所在dom",
             "itemtype": "property",
             "name": "document",
@@ -3994,7 +4032,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 81,
+            "line": 82,
             "description": "图层绘制主函数\n\n可以随时使用setOption生成一个或多个元素,或配置告警，也可以一次性全局配置\n\n相关的全局样式请参考各元素自身的attr属性,或通过 元素的getDefault() / scene.getDefault(type)来获取对应元素的全局样式\n\n前端绘图过程可以用工具栏和右键菜单绘制完成后,配合实例的toJson函数取得图层数据,(实例通过QTopo.init初始化且保存在QTopo.instance数组内)\n\n直接将返回对象的option属性传入setOption可复制绘图\n\n每个元素配置的data数组内成员的属性可以是样式也可以是额外属性,自适应取值配置，过滤的额外属性自动分配到元素的extra属性中保存,可以通过node.val('id')的形式获取\n\n和样式重名的额外属性可以放在extra中，extra中的属性将默认全部覆盖到元素的extra属性内",
             "itemtype": "method",
             "name": "setOption",
@@ -4122,7 +4160,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 219,
+            "line": 220,
             "description": "实例自适应大小",
             "itemtype": "method",
             "name": "resize",
@@ -4137,7 +4175,7 @@
         },
         {
             "file": "develop\\main.js",
-            "line": 235,
+            "line": 236,
             "description": "当前图层数据转化为json结构",
             "itemtype": "method",
             "name": "toJson",
@@ -4606,27 +4644,27 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\core\\Scene.js:92"
+            "line": " develop\\core\\Scene.js:93"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\core\\Scene.js:103"
+            "line": " develop\\core\\Scene.js:104"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:38"
+            "line": " develop\\main.js:39"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:81"
+            "line": " develop\\main.js:82"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:219"
+            "line": " develop\\main.js:220"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " develop\\main.js:235"
+            "line": " develop\\main.js:236"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -4650,7 +4688,11 @@
         },
         {
             "message": "Missing item type\n找到可以作为根的节点",
-            "line": " develop\\core\\jtopo\\jtopo-min.js:2232"
+            "line": " develop\\core\\jtopo\\tools\\layout.js:141"
+        },
+        {
+            "message": "Missing item type\nCreated by qiyc on 2017/4/12.",
+            "line": " develop\\core\\jtopo\\base.js:1"
         }
     ]
 }

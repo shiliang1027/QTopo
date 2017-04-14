@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\core\element\link\Curve.js - QTopo</title>
+    <title>develop\core\jtopo\base.js - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -288,126 +288,110 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>develop\core\element\link\Curve.js <small>File</small></h1>
+    <h1>develop\core\jtopo\base.js <small>File</small></h1>
 </div>
 
 <div class="file">
     <pre class="prettyprint linenums" id='src_code'>
 /**
- * @module core
+ * Created by qiyc on 2017/4/12.
  */
-/**
- * 曲线链路
- * @class  CurveLink
- * @constructor
- * @extends [L] Link
- * @param [config] 配置参数，无参则按全局配置创建
- */
-var Link = require(&quot;./Link.js&quot;);
-module.exports = {
-    constructor: CurveLink,
-    setDefault: setDefault,
-    getDefault: getDefault
-};
-//-
-var DEFAULT = {
-    number: 1,
-    alpha: 1,
-    color: &#x27;22,124,255&#x27;,
-    arrow: {
-        type:&#x27;close&#x27;,
-        size: 10,
-        offset: 2,
-        start: false,
-        end: false
-    },
-    jsonId:&quot;&quot;,
-    gap: 20,
-    width: 2,
-    dashed: null,
-    zIndex: 100,
-    font: {
-        size: 16,
-        type: &quot;微软雅黑&quot;,
-        color: &#x27;255,255,255&#x27;
-    },
-    useType: QTopo.constant.link.CURVE,
-    offset: 200    //可由curveOffset指定弧度
-};
-function setDefault(config) {
-    QTopo.util.extend(DEFAULT, config || {});
+function Element() {
+    this.initialize = function () {
+        this.elementType = &quot;element&quot;;
+        this.serializedProperties = [&quot;elementType&quot;];
+        this.propertiesStack = [];
+        this._id = &quot;&quot; + (new Date).getTime();
+    };
+    this.distroy = function () {
+    };
+    this.removeHandler = function () {
+    };
+    this.attr = function (a, b) {
+        if (null != a &amp;&amp; null != b)this[a] = b; else if (null != a)return this[a];
+        return this
+    };
+    this.save = function () {
+        var a = this;
+        var b = {};
+        this.serializedProperties.forEach(function (properties) {
+            b[properties] = a[properties];
+        });
+        this.propertiesStack.push(b);
+    };
+    this.restore = function () {
+        if (null != this.propertiesStack &amp;&amp; 0 != this.propertiesStack.length) {
+            var a = this, b = this.propertiesStack.pop();
+            this.serializedProperties.forEach(function (c) {
+                a[c] = b[c]
+            })
+        }
+    };
 }
-function getDefault() {
-    return QTopo.util.deepClone(DEFAULT);
-}
-//-
-function CurveLink(config) {
-    if (!config.start || !config.end || !config.start.jtopo || !config.end.jtopo) {
-        QTopo.util.error(&quot;Create Link need start and end&quot;);
-        return;
+
+/*a=this.x - this.borderWidth / 2 b=this.y - this.borderWidth / 2,*/
+CanvasRenderingContext2D.prototype.JTopoRoundRect = function (startX, startY, w_borderWidth, h_borderWidth, borderRadius) {
+    //画元素圆角边框
+    if (&quot;undefined&quot; == typeof borderRadius) {
+        borderRadius = 5;
     }
-    this.attr = QTopo.util.extend(getDefault(), config || {});
-    Link.call(this, new JTopo.CurveLink(config.start.jtopo, config.end.jtopo));
-    //函数
-    this.set = setJTopo;
-    //初始化
-    this.set(this.attr);
-}
-QTopo.util.inherits(CurveLink, Link);
-//-
-/**
- *  元素对属性的统一设置函数，推荐使用
- *
- *  参数可设置一项或多项,未设置部分参考全局配置
- *  @method set
- *  @param config
- *  @example
- *          实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
- *          如:name 对应 setName(&quot;..&quot;)
- *          参数格式如下
- *          config={
- *              xx:...,
- *              xx:...
- *          }
- */
-function setJTopo(config) {
-    if (config) {
-        var self = this;
-        self._setAttr(config);
+    this.beginPath();
+    this.moveTo(startX + borderRadius, startY);
+    this.lineTo(startX + w_borderWidth - borderRadius, startY);
+    this.quadraticCurveTo(startX + w_borderWidth, startY, startX + w_borderWidth, startY + borderRadius);
+    this.lineTo(startX + w_borderWidth, startY + h_borderWidth - borderRadius);
+    this.quadraticCurveTo(startX + w_borderWidth, startY + h_borderWidth, startX + w_borderWidth - borderRadius, startY + h_borderWidth);
+    this.lineTo(startX + borderRadius, startY + h_borderWidth);
+    this.quadraticCurveTo(startX, startY + h_borderWidth, startX, startY + h_borderWidth - borderRadius);
+    this.lineTo(startX, startY + borderRadius);
+    this.quadraticCurveTo(startX, startY, startX + borderRadius, startY);
+    this.closePath();
+};
+CanvasRenderingContext2D.prototype.JTopoDashedLineTo = function (sX, sY, eX, eY, dashedPattern) {
+    //画虚线
+    if (&quot;undefined&quot; == typeof dashedPattern) {
+        dashedPattern = 5;
     }
-}
-//-
-/**
- * 获取元素全局样式
- * @method getDefault
- * @return {object}
- * @example
- *          var DEFAULT = {
-                                number: 1,
-                                alpha: 1,
-                                color: &#x27;22,124,255&#x27;,
-                                arrow: {
-                                    size: 10,
-                                    offset: 0,
-                                    start: false,
-                                    end: false
-                                },
-                                jsonId:&quot;&quot;,
-                                gap: 20,
-                                width: 2,
-                                dashed: null,
-                                zIndex: 100,
-                                font: {
-                                    size: 16,
-                                    type: &quot;微软雅黑&quot;,
-                                    color: &#x27;255,255,255&#x27;
-                                },
-                                useType: QTopo.constant.link.CURVE,
-                                offset: 200
-                            };
- */
-CurveLink.prototype.getDefault = getDefault;
-//-
+    var dX = eX - sX;
+    var dY = eY - sY;
+    var length = Math.floor(Math.sqrt(dX * dX + dY * dY));
+    var dashL = 0 &gt;= dashedPattern ? length : length / dashedPattern;
+    var tY = dY / length * dashedPattern;
+    var tX = dX / length * dashedPattern;
+    this.beginPath();
+    for (var m = 0; dashL &gt; m; m++) {
+        if (m % 2) {
+            this.lineTo(sX + m * tX, sY + m * tY);
+        } else {
+            this.moveTo(sX + m * tX, sY + m * tY);
+        }
+    }
+    this.stroke();
+};
+var JTopo = {
+    version: &quot;0.4.8_01&quot;,
+    zIndex_Container: 1,
+    zIndex_Link: 2,
+    zIndex_Node: 3,
+    SceneMode: {normal: &quot;normal&quot;, drag: &quot;drag&quot;, edit: &quot;edit&quot;, select: &quot;select&quot;},
+    MouseCursor: {
+        normal: &quot;default&quot;,
+        pointer: &quot;pointer&quot;,
+        top_left: &quot;nw-resize&quot;,
+        top_center: &quot;n-resize&quot;,
+        top_right: &quot;ne-resize&quot;,
+        middle_left: &quot;e-resize&quot;,
+        middle_right: &quot;e-resize&quot;,
+        bottom_left: &quot;ne-resize&quot;,
+        bottom_center: &quot;n-resize&quot;,
+        bottom_right: &quot;nw-resize&quot;,
+        move: &quot;move&quot;,
+        open_hand: &quot;default&quot;,
+        closed_hand: &quot;default&quot;
+    }
+};
+JTopo.Element = Element;
+module.exports = JTopo;
     </pre>
 </div>
 

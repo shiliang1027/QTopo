@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>[N] Node - QTopo</title>
+    <title>ShapeNode - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -288,10 +288,10 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>[N] Node <small>Class</small></h1>
+    <h1>ShapeNode <small>Class</small></h1>
 </div>
  <div class="well well-small sign-left3">
-      <div class="stdoc-code"><p>节点基类,用以继承 [E]开头继承于Element,[N]开头为自身api</p>
+      <div class="stdoc-code"><p>形状节点</p>
 </div>
  </div>
 
@@ -443,29 +443,43 @@
                         
                     </li>
                 
-                    <li class="index-item method">
+                    <li class="index-item method inherited">
                         <a href="#" data-tabid="#method" data-anchor="#method_[N] getType" data-tablink="[N] getType">[N] getType</a>
 
                         
                         
                     </li>
                 
-                    <li class="index-item method">
+                    <li class="index-item method inherited">
                         <a href="#" data-tabid="#method" data-anchor="#method_[N] setColor" data-tablink="[N] setColor">[N] setColor</a>
 
                         
                         
                     </li>
                 
-                    <li class="index-item method">
+                    <li class="index-item method inherited">
                         <a href="#" data-tabid="#method" data-anchor="#method_[N] setName" data-tablink="[N] setName">[N] setName</a>
 
                         
                         
                     </li>
                 
-                    <li class="index-item method">
+                    <li class="index-item method inherited">
                         <a href="#" data-tabid="#method" data-anchor="#method_[N] toJson" data-tablink="[N] toJson">[N] toJson</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_getDefault" data-tablink="getDefault">getDefault</a>
+
+                        
+                        
+                    </li>
+                
+                    <li class="index-item method">
+                        <a href="#" data-tabid="#method" data-anchor="#method_set" data-tablink="set">set</a>
 
                         
                         
@@ -501,7 +515,7 @@
                         
                     </li>
                 
-                    <li class="index-item property">
+                    <li class="index-item property inherited">
                         <a href="#" data-tabid="#property" data-anchor="#property_[N] links" data-tablink="[N] links">[N] links</a>
 
                         
@@ -538,13 +552,13 @@
 
             
                 <div class="extends">
-                    Extends E Element
+                    Extends N Node
                 </div>
             
 
             
                 <div class="foundat">
-                    Defined in: <a href="../files/develop_core_element_node_Node.js.html#l4"><code>develop\core\element\node\Node.js:4</code></a>
+                    Defined in: <a href="../files/develop_core_element_node_Shape.js.html#l40"><code>develop\core\element\node\Shape.js:40</code></a>
                 </div>
             
 
@@ -561,17 +575,17 @@
             
                 <div class="constructor">
                     <h2>Constructor</h2>
-                    <div id="method_[N] Node" class="method item">
-    <h3 class="name">[N] Node</h3>
+                    <div id="method_ShapeNode" class="method item">
+    <h3 class="name">ShapeNode</h3>
     <code>
-    [N] Node
+    ShapeNode
     
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
             
                 <li class="arg">
                     
-                        jtopo
+                        [config]
                     
                 </li>
             
@@ -605,7 +619,7 @@
             
         
         
-        <a href="../files/develop_core_element_node_Node.js.html#l4"><code>develop\core\element\node\Node.js:4</code></a>
+        <a href="../files/develop_core_element_node_Shape.js.html#l40"><code>develop\core\element\node\Shape.js:40</code></a>
         
         </p>
 
@@ -628,15 +642,16 @@
             
                 <tr class="param">
                     
-                       <td> <code class="param-name">jtopo</code>
-                       <td> <span class="type">Object</span>
-                       <td>
+                    <td>
+                        <code class="param-name optional">[config]</code></td>
+                    <td><span class="type">Object</span></td>
+                    <td><span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
                     </td>
                     <td><div class="param-description">
-                        <p>元素核心的jtopo对象</p>
+                        <p>配置参数，无参则按全局配置创建</p>
 
                     </div>
 
@@ -735,7 +750,7 @@
                     
                     </td>
                     <td><div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -1535,7 +1550,7 @@
                     
                     </td>
                     <td><div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -2078,7 +2093,7 @@ size:大小</p>
                     
                     </td>
                     <td><div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -2167,7 +2182,7 @@ size:大小</p>
                     
                     </td>
                     <td><div class="param-description">
-                         
+                        
                     </div>
 
                     
@@ -2469,7 +2484,7 @@ size:大小</p>
 </div>
 
                 
-                    <div id="method_[N] getType" class="method item">
+                    <div id="method_[N] getType" class="method item inherited">
     <h3 class="name">[N] getType</h3>
     <code>
     [N] getType
@@ -2499,11 +2514,8 @@ size:大小</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\N Node.html#method_[N] getType">[N] Node</a>:
             
         
         
@@ -2542,7 +2554,7 @@ size:大小</p>
 </div>
 
                 
-                    <div id="method_[N] setColor" class="method item">
+                    <div id="method_[N] setColor" class="method item inherited">
     <h3 class="name">[N] setColor</h3>
     <code>
     [N] setColor
@@ -2578,11 +2590,8 @@ size:大小</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\N Node.html#method_[N] setColor">[N] Node</a>:
             
         
         
@@ -2635,7 +2644,7 @@ size:大小</p>
 </div>
 
                 
-                    <div id="method_[N] setName" class="method item">
+                    <div id="method_[N] setName" class="method item inherited">
     <h3 class="name">[N] setName</h3>
     <code>
     [N] setName
@@ -2671,11 +2680,8 @@ size:大小</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\N Node.html#method_[N] setName">[N] Node</a>:
             
         
         
@@ -2713,7 +2719,7 @@ size:大小</p>
                     
                     </td>
                     <td><div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -2729,7 +2735,7 @@ size:大小</p>
 </div>
 
                 
-                    <div id="method_[N] toJson" class="method item">
+                    <div id="method_[N] toJson" class="method item inherited">
     <h3 class="name">[N] toJson</h3>
     <code>
     [N] toJson
@@ -2759,11 +2765,8 @@ size:大小</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\N Node.html#method_[N] toJson">[N] Node</a>:
             
         
         
@@ -2798,6 +2801,241 @@ size:大小</p>
         </div>
     
 
+    
+</div>
+
+                
+                    <div id="method_getDefault" class="method item">
+    <h3 class="name">getDefault</h3>
+    <code>
+    getDefault
+    
+        <span class="paren">()</span>
+    
+    </code>
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_core_element_node_Shape.js.html#l81"><code>develop\core\element\node\Shape.js:81</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>获取全局设置</p>
+</div>
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        [<span class="type">Object</span>]
+                    
+                    <p>config  全局配置的克隆对象[只读]，修改该对象不会直接修改全局配置，若要修改全局配置请使用scene.setDefault</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code>    默认全局参数:
+        var DEFAULT= {
+                  image: "",
+                  size: [60, 60],
+                  name: "node",
+                  alpha: 1,
+                  position: [0, 0],
+                  font: {
+                      size: 16,
+                      type: &#39;微软雅黑&#39;,
+                      color: "255,255,255"
+                  },
+                  jsonId:"",
+                  border:{
+                      width:0,
+                      radius:0,//最大160 最小0
+                      color:"255,0,0"
+                  },
+                  zIndex: 200,//层级(10-999)
+                  color: JTopo.util.randomColor(),
+                  namePosition: &#39;bottom&#39;,
+                  useType: QTopo.constant.node.IMAGE,
+                  alarm: {
+                      show: false,
+                      text: "",
+                      color: "255,255,255",
+                      font: {
+                          size: 16,
+                          type: "微软雅黑"
+                      }
+                  }
+              };</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
+    
+</div>
+
+                
+                    <div id="method_set" class="method item">
+    <h3 class="name">set</h3>
+    <code>
+    set
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        config
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+    </code>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/develop_core_element_node_Shape.js.html#l57"><code>develop\core\element\node\Shape.js:57</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description well well-small sign-left3">
+        <div class="stdoc-code"><p>元素对属性的统一设置函数，推荐使用</p>
+<p>参数可设置一项或多项,未设置部分参考全局配置</p>
+</div>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <table class="table table-bordered">
+            <tr class='active'><th>name</th><th>type</th><th>flag</th><th>description</th></tr>
+            
+                <tr class="param">
+                    
+                       <td> <code class="param-name">config</code>
+                       <td> <span class="type">Object</span>
+                       <td>
+                    
+
+                    
+                    </td>
+                    <td><div class="param-description">
+                         
+                    </div>
+
+                    
+                </tr>
+            
+            </table>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+            <ul class="nav nav-tabs example-list">
+                
+            </ul>
+
+            <div class="example-content ">
+                <div class="stdoc-code"><pre class="code prettyprint"><code>    实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置
+    如:name 对应 setName("..")
+    参数格式如下
+    config={
+        xx:...,
+        xx:...
+    }</code></pre>
+</div>
+            </div>
+
+             <button class="btn btn-info btn-viewDemo" type="button">view demo</button>
+            <button class="btn btn-info btn-editDemo" type="button">edit code</button>
+        </div>
     
 </div>
 
@@ -2936,7 +3174,7 @@ size:大小</p>
 </div>
 
                 
-                    <div id="property_[N] links" class="property item">
+                    <div id="property_[N] links" class="property item inherited">
     <h3 class="name"><code>[N] links</code></h3>
     <span class="type">Object</span>
 
@@ -2951,11 +3189,8 @@ size:大小</p>
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="..\classes\N Node.html#property_[N] links">[N] Node</a>:
             
         
         
