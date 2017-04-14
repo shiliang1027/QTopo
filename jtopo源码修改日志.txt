@@ -1,6 +1,6 @@
-* 所有的this.addEventListener
-        将原有包装去除，配合removeEventListener的卸载事件功能
-
+* 所有
+        (1)this.addEventListener将原有包装去除，配合removeEventListener的卸载事件功能
+        (2)修复dragable以及分组的childDragble的错误..
 * baseElement
         MessageBus:
             (1)由原本函数内部this.function的定义方式优化为 prototype的方式
@@ -34,7 +34,10 @@
         Link:
             (1)paintSelect 改选取颜色
             (2)paintPath 改写，加入双向箭头
-            (3)getStartPosition 修改起点位置获取
-            (4)getEndPosition
+            (3)getStartPosition和getEndPosition 修改
+            (4)增加一种属性,arrowType且paintArrow函数重写，添加类型,未来扩展
+            (5)bundleOffset属性替换为offset，
+                FlexionalLink的折线段, link多条时的出现的折线段，以及曲线的弧度都由offset属性决定
+            (6)bundleGap属性替换为gap
         CurveLink:
-            (1)重写
+            (1)重写绘制

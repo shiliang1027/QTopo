@@ -193,18 +193,19 @@ function setStyle(attr,type){
         linkDash:attr.dashed,
         color:attr.color,
         arrowSize:attr.arrow.size,
-        arrowOffset:attr.arrow.offset
+        arrowOffset:attr.arrow.offset,
+        arrowType:attr.arrow.type
     };
     switch (type){
         case "direct" :
-            data.linkOffset=attr.bundleOffset;
+            data.linkOffset=attr.offset;
             break;
         case "curve":
-            data.curveOffset=attr.curveOffset;
+            data.linkOffset=attr.offset;
             break;
         case "flexional":
+            data.linkOffset=attr.offset;
             data.linkRadius=attr.radius;
-            data.linkOffset=attr.offsetGap;
             data.direction=attr.direction;
             break;
         case "fold":
@@ -227,19 +228,20 @@ function getStyle(data,type){
             color:data.color,
             arrow:{
                 size:data.arrowSize,
-                offset:data.arrowOffset
+                offset:data.arrowOffset,
+                type:data.arrowType
             }
         };
         switch (type){
             case "direct" :
-                result.bundleOffset=data.linkOffset;
+                result.offset=data.linkOffset;
                 break;
             case "curve":
-                result.curveOffset=data.curveOffset;
+                result.offset=data.linkOffset;
                 break;
             case "flexional":
+                result.offset=data.linkOffset;
                 result.radius=data.linkRadius;
-                result.offsetGap=data.linkOffset;
                 result.direction=data.direction;
                 break;
             case "fold":
@@ -247,7 +249,7 @@ function getStyle(data,type){
                 result.direction=data.direction;
                 break;
             default:
-                result.bundleOffset=data.linkOffset;
+                result.offset=data.linkOffset;
         }
         return result;
     }

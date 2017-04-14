@@ -340,12 +340,29 @@ module.exports = function (jtopo) {
             return c.replace("image/png", "image/octet-stream"), window.location.href = c, this
         };
         this.paint = function () {
-            null != this.canvas && (this.graphics.save(), this.graphics.clearRect(0, 0, this.width, this.height), this.childs.forEach(function (a) {
-                1 == a.visible && a.repaint(self.graphics)
-            }), 1 == this.eagleEye.visible && this.eagleEye.paint(this), this.graphics.restore())
+            if(null != this.canvas){
+                this.graphics.save();
+                this.graphics.clearRect(0, 0, this.width, this.height);
+                this.childs.forEach(function (scene) {
+                    if(1 == scene.visible){
+                        scene.repaint(self.graphics);
+                    }
+                });
+                if(1 == this.eagleEye.visible){
+                    this.eagleEye.paint(this)
+                }
+                this.graphics.restore();
+            }
         };
         this.repaint = function () {
-            0 != this.frames && (this.frames < 0 && 0 == this.needRepaint || (this.paint(), this.frames < 0 && (this.needRepaint = !1)))
+            if(0 != this.frames){
+                if(this.frames > 0 || 1 == this.needRepaint){
+                    this.paint();
+                    if(this.frames < 0){
+                        this.needRepaint = !1;
+                    }
+                }
+            }
         };
         this.zoom = function (a) {
             this.childs.forEach(function (b) {

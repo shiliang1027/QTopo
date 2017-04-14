@@ -69,9 +69,9 @@ Container.prototype.add = function (element) {
             self.children.push(element);
             element.parent = self;
             self.jtopo.add(element.jtopo);
-            if (self.attr.children && typeof self.attr.children.dragble == "boolean") {
+            if (self.attr.children && typeof self.attr.children.draggable == "boolean") {
                 //若分组不允许移动组内元素，手动设置元素不可移动
-                element.setDragable(self.attr.children.dragble);
+                element.setDraggable(self.attr.children.draggable);
             }
         }
     }
@@ -90,7 +90,7 @@ Container.prototype.remove = function (element) {
         delete element.parent;
         this.jtopo.remove(element.jtopo);
         //移除元素，应手动设回元素可移动
-        element.setDragable(true);
+        element.setDraggable(true);
     }
 };
 /**
@@ -118,20 +118,20 @@ Container.prototype.setColor = function (color) {
  * @method [C] setChildren
  * @param children {object}
  *          children={
- *                  dragble:是否可移动{boolean}
+ *                  draggable:是否可移动{boolean}
  *          }
  */
 Container.prototype.setChildren = function (children) {
     var jtopo = this.jtopo;
     if (children) {
-        if (typeof children.dragble == "boolean") {
-            this.jtopo.childDragble = children.dragble;
+        if (typeof children.draggable == "boolean") {
+            this.jtopo.childDraggable = children.draggable;
             for (var i = 0; i < this.children.length; i++) {
-                this.children[i].setDragable(children.dragble);
+                this.children[i].setDraggable(children.draggable);
             }
         }
     }
-    this.attr.children.dragble = jtopo.childDragble;
+    this.attr.children.draggable = jtopo.childDraggable;
 };
 /**
  * 容器缩放切换,在scene创建时可选是否提供切换

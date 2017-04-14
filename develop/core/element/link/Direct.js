@@ -20,8 +20,9 @@ var DEFAULT = {
     alpha: 1,
     color: '22,124,255',
     arrow: {
+        type:'close',
         size: 10,
-        offset: 0,
+        offset: 2,
         start: false,
         end: false
     },
@@ -37,7 +38,7 @@ var DEFAULT = {
     },
     expendAble: true,
     useType: QTopo.constant.link.DIRECT,
-    bundleOffset: 60// 多条直线时，线条折线拐角处的长度
+    offset: 60// 多条直线时，线条折线拐角处的长度
 };
 function setDefault(config) {
     QTopo.util.extend(DEFAULT, config || {});
@@ -83,19 +84,6 @@ function setJTopo(config) {
     }
 }
 /**
- *  设置直线两端的线段长度
- *
- *  当一条链路的两端元素之间有多条链路时，链路将会分成三段绘制并偏移，以区分其他链路
- *  @method setBundleOffset
- *  @param bundleOffset {number}
- */
-DirectLink.prototype.setBundleOffset = function (bundleOffset) {
-    if ($.isNumeric(bundleOffset)) {
-        this.jtopo.bundleOffset = parseInt(bundleOffset);
-    }
-    this.attr.bundleOffset = this.jtopo.bundleOffset;
-};
-/**
  * 获取元素全局样式
  * @method getDefault
  * @return {object}
@@ -122,7 +110,7 @@ DirectLink.prototype.setBundleOffset = function (bundleOffset) {
                                 },
                                 expendAble: true,
                                 useType: QTopo.constant.link.DIRECT,
-                                bundleOffset: 60// 多条直线时，线条折线拐角处的长度
+                                offset: 60
                             };
  */
 DirectLink.prototype.getDefault = getDefault;

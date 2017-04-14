@@ -1,4 +1,4 @@
-module.exports=function (jtopo) {
+module.exports = function (jtopo) {
     function DisplayElement() {
         this.initialize = function () {
             DisplayElement.prototype.initialize.apply(this, arguments);
@@ -140,27 +140,25 @@ module.exports=function (jtopo) {
         this.initialize = function () {
             interactiveElement.prototype.initialize.apply(this, arguments);
             this.elementType = "interactiveElement";
-            this.dragable = !1;
+            this.draggable = !1;
             this.selected = !1;
             this.showSelected = !0;
             this.selectedLocation = null;
             this.isMouseOver = !1;
-            var a = "dragable,selected,showSelected,isMouseOver".split(",");
+            var a = "draggable,selected,showSelected,isMouseOver".split(",");
             this.serializedProperties = this.serializedProperties.concat(a);
         };
         this.initialize();
         this.paintSelected = function (a) {
-            if (0 != this.showSelected) {
-                a.save();
-                a.beginPath();
-                a.strokeStyle = "rgba(168,202,255, 0.9)";
-                a.fillStyle = "rgba(168,202,236,0.7)";
-                a.rect(-this.width / 2 - 3, -this.height / 2 - 3, this.width + 6, this.height + 6);
-                a.fill();
-                a.stroke();
-                a.closePath();
-                a.restore();
-            }
+            a.save();
+            a.beginPath();
+            a.strokeStyle = "rgba(168,202,255, 0.9)";
+            a.fillStyle = "rgba(168,202,236,0.7)";
+            a.rect(-this.width / 2 - 3, -this.height / 2 - 3, this.width + 6, this.height + 6);
+            a.fill();
+            a.stroke();
+            a.closePath();
+            a.restore();
             return this;
         };
         this.paintMouseover = function (a) {

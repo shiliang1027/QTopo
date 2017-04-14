@@ -111,10 +111,12 @@ Link.prototype.setArrow = function (arrow) {
         if(typeof arrow.offset!='undefined'){
             this.jtopo.arrowsOffset = $.isNumeric(arrow.offset) ? parseInt(arrow.offset) : 0;
         }
+        if(typeof arrow.type!='undefined'){
+            this.jtopo.arrowsType = arrow.type;
+        }
         if (!this.attr.arrow) {
             this.attr.arrow = {};
         }
-
         if (typeof arrow.start!='undefined') {
             this.attr.arrow.start = typeof arrow.start == "boolean" ? arrow.start : arrow.start == "true";
         }
@@ -122,6 +124,7 @@ Link.prototype.setArrow = function (arrow) {
             this.attr.arrow.end = typeof arrow.end == "boolean" ? arrow.end : arrow.end == "true";
         }
     }
+    this.attr.arrow.type=this.jtopo.arrowsType;
     this.attr.arrow.size = this.jtopo.arrowsRadius;
     this.attr.arrow.offset = this.jtopo.arrowsOffset;
 };
@@ -134,9 +137,21 @@ Link.prototype.setArrow = function (arrow) {
  */
 Link.prototype.setGap = function (gap) {
     if (gap) {
-        this.jtopo.bundleGap = $.isNumeric(gap) ? parseInt(gap) : 0; // 线条之间的间隔
+        this.jtopo.gap = $.isNumeric(gap) ? parseInt(gap) : 0; // 线条之间的间隔
     }
-    this.attr.gap = this.jtopo.bundleGap;
+    this.attr.gap = this.jtopo.gap;
+};
+/**
+ *  折线类链路两端的偏移线段长度，或曲线相对中轴线的偏移量
+ *
+ *  @method setOffset
+ *  @param offset {number}
+ */
+Link.prototype.setOffset = function (offset) {
+    if ($.isNumeric(offset)) {
+        this.jtopo.offset = parseInt(offset);
+    }
+    this.attr.offset = this.jtopo.offset;
 };
 /**
  *  设置链路的虚线线段长度

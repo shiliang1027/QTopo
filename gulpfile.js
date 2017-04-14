@@ -8,10 +8,10 @@ var uglify = require('gulp-uglify');//压缩
 var runSequence=require("run-sequence");//同步执行gulp任务
 //var webpack = require('gulp-webpack');
 //var homePage = "./public/index.html";
-var homePage = "./topo_iposs/index2.html";
+var homePage = "./public/index.html";
 var scss = "./develop/scss/Qtopo.scss";
 var dCss = "./public/css/";
-var root = './topo_iposs';
+var root = './';
 
 gulp.task('default', ['watch', 'serve']);
 //gulp.task('webpack', function () {
@@ -85,6 +85,10 @@ gulp.task('serve', function () {
     });
 });
 gulp.task("copy",function(){
-    return gulp.src(['topo_iposs/qtopo/qtopo.component.min.js','topo_iposs/qtopo/qtopo.core.min.js'])
+    return gulp.src([
+        'topo_iposs/qtopo/qtopo.component.min.js',
+        'topo_iposs/qtopo/qtopo.core.min.js',
+        'qtopo.css'
+    ])
         .pipe(gulp.dest('public/qtopo'));
 });

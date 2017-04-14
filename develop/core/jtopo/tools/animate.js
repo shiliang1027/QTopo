@@ -191,7 +191,7 @@ module.exports=function (jtopo) {
     function an_dividedTwoPiece(b, c) {
         function d(c, d, e, f, g) {
             var h = new jtopo.Node;
-            return h.setImage(b.image), h.setSize(b.width, b.height), h.setLocation(c, d), h.showSelected = !1, h.dragable = !1, h.paint = function (a) {
+            return h.setImage(b.image), h.setSize(b.width, b.height), h.setLocation(c, d), h.showSelected = !1, h.draggable = !1, h.paint = function (a) {
                 a.save(), a.arc(0, 0, e, f, g), a.clip(), a.beginPath(), null != this.image ? a.drawImage(this.image, -this.width / 2, -this.height / 2) : (a.fillStyle = "rgba(" + this.style.fillStyle + "," + this.alpha + ")", a.rect(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2), a.fill()), a.closePath(), a.restore()
             }, h
         }

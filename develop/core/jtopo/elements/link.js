@@ -40,8 +40,9 @@ module.exports = function (jtopo) {
     function getNums(a, b) {
         return getLinksBetween(a, b).length
     }
+
     /*计算二次线的右侧固定坐标,待定*/
-    function getfixedRight(start,end) {
+    function getfixedRight(start, end) {
         //重写线的绘制路径
         var littleSize = 50;
         var startRight = {
@@ -68,13 +69,39 @@ module.exports = function (jtopo) {
         return [startRight, middleA, middleB, endRight];
     }
 
-    function Link(start, end, text) {
-        function getBorderPoint(start, end) {
-            var lineFn = jtopo.util.lineF(start.cx, start.cy, end.cx, end.cy);
-            var bound = start.getBound();
-            return jtopo.util.intersectionLineBound(lineFn, bound);
-        }
+    function getBorderPoint(start, end) {
+        var lineFn = jtopo.util.lineF(start.cx, start.cy, end.cx, end.cy);
+        var bound = start.getBound();
+        return jtopo.util.intersectionLineBound(lineFn, bound);
+    }
 
+    function linkArrow(context, startPoint, endPoint, radius, offset, type) {
+        var atanAngle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
+        var length = jtopo.util.getDistance(startPoint, endPoint) - radius;
+        var COS = startPoint.x + (length + offset) * Math.cos(atanAngle);
+        var SIN = startPoint.y + (length + offset) * Math.sin(atanAngle);
+        var m = endPoint.x + offset * Math.cos(atanAngle);
+        var n = endPoint.y + offset * Math.sin(atanAngle);
+        atanAngle -= Math.PI / 2;
+        var o = {
+            x: COS + (radius / 2) * Math.cos(atanAngle),
+            y: SIN + (radius / 2) * Math.sin(atanAngle)
+        };
+        var p = {
+            x: COS + (radius / 2) * Math.cos(atanAngle - Math.PI),
+            y: SIN + (radius / 2) * Math.sin(atanAngle - Math.PI)
+        };
+        context.moveTo(o.x, o.y);
+        context.lineTo(m, n);
+        context.lineTo(p.x, p.y);
+        if (type) {
+            context.fill();
+        } else {
+            context.stroke();
+        }
+    }
+
+    function Link(start, end, text) {
         this.initialize = function (start, end, text) {
             Link.prototype.initialize.apply(this, arguments);
             this.elementType = "link";
@@ -95,12 +122,13 @@ module.exports = function (jtopo) {
                 this.lineWidth = 2;
                 this.lineJoin = "miter";
                 this.transformAble = !1;
-                this.bundleOffset = 20;
-                this.bundleGap = 12;
+                this.offset = 20;
+                this.gap = 12;
                 this.textOffsetX = 0;
                 this.textOffsetY = 0;
                 this.arrowsRadius = null;
                 this.arrowsOffset = 0;
+                this.arrowsType = "close";
                 this.dashedPattern = null;
                 this.path = [];
                 var e = "text,font,fontColor,lineWidth,lineJoin".split(",");
@@ -128,37 +156,41 @@ module.exports = function (jtopo) {
             })
         };
         this.getStartPosition = function () {
-            return getBorderPoint(this.nodeA,this.nodeZ);
+            return getBorderPoint(this.nodeA, this.nodeZ);
         };
         this.getEndPosition = function () {
             return getBorderPoint(this.nodeZ, this.nodeA);
         };
         this.getPath = function () {
+            var path=[];
             var self = this;
             var start = this.getStartPosition();
             var end = this.getEndPosition();
-            if (this.nodeA === this.nodeZ)return [start, end];
-            var NUMS = getNums(this.nodeA, this.nodeZ);
-            if (1 == NUMS) {
-                return [start, end];
+            if(start&&end){
+                var NUMS = getNums(this.nodeA, this.nodeZ);
+                if ((this.nodeA === this.nodeZ)||1 == NUMS){
+                    path.push(start);
+                    path.push(end);
+                }else{
+                    getPathWidthGap(path);
+                }
             }
-            return getPathWidthGap();
+            return path;
 
-            function getPathWidthGap() {
-                var path = [];
+            function getPathWidthGap(path) {
                 var tanAngle = Math.atan2(end.y - start.y, end.x - start.x);
                 var offsetStart = {
-                    x: start.x + self.bundleOffset * Math.cos(tanAngle),
-                    y: start.y + self.bundleOffset * Math.sin(tanAngle)
+                    x: start.x + self.offset * Math.cos(tanAngle),
+                    y: start.y + self.offset * Math.sin(tanAngle)
                 };
                 var offsetEnd = {
-                    x: end.x + self.bundleOffset * Math.cos(tanAngle - Math.PI),
-                    y: end.y + self.bundleOffset * Math.sin(tanAngle - Math.PI)
+                    x: end.x + self.offset * Math.cos(tanAngle - Math.PI),
+                    y: end.y + self.offset * Math.sin(tanAngle - Math.PI)
                 };
                 var i = tanAngle - Math.PI / 2;
                 var j = tanAngle - Math.PI / 2;
-                var gap = NUMS * self.bundleGap / 2 - self.bundleGap / 2;
-                var beginGap = self.bundleGap * self.nodeIndex;
+                var gap = NUMS * self.gap / 2 - self.gap / 2;
+                var beginGap = self.gap * self.nodeIndex;
                 var firstMiddle = {
                     x: offsetStart.x + beginGap * Math.cos(i),
                     y: offsetStart.y + beginGap * Math.sin(i)
@@ -191,7 +223,6 @@ module.exports = function (jtopo) {
                     x: end.x,
                     y: end.y
                 });
-                return path;
             }
         };
         this.paintPath = function (context, path) {
@@ -229,36 +260,25 @@ module.exports = function (jtopo) {
         };
         this.paintLoop = function (a) {
             a.beginPath();
-            var radius = this.bundleGap * (this.nodeIndex + 1) / 2;
+            var radius = this.gap * (this.nodeIndex + 1) / 2;
             a.arc(this.nodeA.x, this.nodeA.y, radius, Math.PI / 2, 2 * Math.PI);
             a.stroke();
             a.closePath();
         };
         this.paintArrow = function (context, startPoint, endPoint) {
-            var offset = this.arrowsOffset;
-            var raidus = this.arrowsRadius / 2;
-            var atanAngle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
-            var length = jtopo.util.getDistance(startPoint, endPoint) - this.arrowsRadius;
-            var k = startPoint.x + (length + offset) * Math.cos(atanAngle);
-            var l = startPoint.y + (length + offset) * Math.sin(atanAngle);
-            var m = endPoint.x + offset * Math.cos(atanAngle);
-            var n = endPoint.y + offset * Math.sin(atanAngle);
-            atanAngle -= Math.PI / 2;
-            var o = {
-                x: k + raidus * Math.cos(atanAngle),
-                y: l + raidus * Math.sin(atanAngle)
-            };
-            var p = {
-                x: k + raidus * Math.cos(atanAngle - Math.PI),
-                y: l + raidus * Math.sin(atanAngle - Math.PI)
-            };
+            context.save();
             context.beginPath();
             context.fillStyle = "rgba(" + this.strokeColor + "," + this.alpha + ")";
-            context.moveTo(o.x, o.y);
-            context.lineTo(m, n);
-            context.lineTo(p.x, p.y);
-            context.stroke();
+            switch (this.arrowsType) {
+                case'close':
+                    linkArrow(context, startPoint, endPoint, this.arrowsRadius, this.arrowsOffset, true);
+                    break;
+                default:
+                    linkArrow(context, startPoint, endPoint, this.arrowsRadius, this.arrowsOffset, false);
+                    this.arrowsType = 'open';
+            }
             context.closePath();
+            context.restore();
         };
         this.paint = function (context) {
             if (null != this.nodeA && null != !this.nodeZ) {
@@ -266,24 +286,40 @@ module.exports = function (jtopo) {
                 this.path = path;
                 context.strokeStyle = "rgba(" + this.strokeColor + "," + this.alpha + ")";
                 context.lineWidth = this.lineWidth;
-                this.paintPath(context, path);
                 if (path && path.length > 0) {
+                    this.paintPath(context, path);
                     this.paintText(context, path);
                 }
             }
         };
         var i = -(Math.PI / 2 + Math.PI / 4);
-        this.paintText = function (a, b) {
-            var c = b[0], d = b[b.length - 1];
-            if (4 == b.length && (c = b[1], d = b[2]), this.text && this.text.length > 0) {
-                var e = (d.x + c.x) / 2 + this.textOffsetX, f = (d.y + c.y) / 2 + this.textOffsetY;
-                a.save(), a.beginPath(), a.font = this.font;
-                var g = a.measureText(this.text).width, h = a.measureText("田").width;
-                if (a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", this.nodeA === this.nodeZ) {
-                    var j = this.bundleGap * (this.nodeIndex + 1) / 2, e = this.nodeA.x + j * Math.cos(i), f = this.nodeA.y + j * Math.sin(i);
-                    a.fillText(this.text, e, f)
-                } else a.fillText(this.text, e - g / 2, f - h / 2);
-                a.stroke(), a.closePath(), a.restore()
+        this.paintText = function (context, path) {
+            var textStart = path[0];
+            var textEnd = path[path.length - 1];
+            if (4 == path.length) {
+                textStart = path[1];
+                textEnd = path[2];
+            }
+            if (this.text && this.text.length > 0) {
+                var textX = (textEnd.x + textStart.x) / 2 + this.textOffsetX;
+                var textY = (textEnd.y + textStart.y) / 2 + this.textOffsetY;
+                context.save();
+                context.beginPath();
+                context.font = this.font;
+                var totalWidth = context.measureText(this.text).width;
+                var fontWidth = context.measureText("田").width;
+                context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+                if (this.nodeA === this.nodeZ) {
+                    var GAP = this.gap * (this.nodeIndex + 1) / 2;
+                    textX = this.nodeA.x + GAP * Math.cos(i);
+                    textY = this.nodeA.y + GAP * Math.sin(i);
+                    context.fillText(this.text, textX, textY);
+                } else {
+                    context.fillText(this.text, textX - totalWidth / 2, textY - fontWidth / 2);
+                }
+                context.stroke();
+                context.closePath();
+                context.restore();
             }
         };
         this.paintSelected = function (context) {
@@ -294,7 +330,7 @@ module.exports = function (jtopo) {
         };
         this.isInBound = function (mouseX, mouseY) {
             if (this.nodeA === this.nodeZ) {
-                var d = this.bundleGap * (this.nodeIndex + 1) / 2;
+                var d = this.gap * (this.nodeIndex + 1) / 2;
                 var e = jtopo.util.getDistance(this.nodeA, {
                         x: mouseX,
                         y: mouseY
@@ -325,16 +361,16 @@ module.exports = function (jtopo) {
                 x: this.nodeA.cx,
                 y: this.nodeA.cy
             };
-            if("horizontal" == this.direction){
-                if(this.nodeZ.cx > position.x ){
+            if ("horizontal" == this.direction) {
+                if (this.nodeZ.cx > position.x) {
                     position.x += this.nodeA.width / 2;
-                }else{
+                } else {
                     position.x -= this.nodeA.width / 2;
                 }
-            }else{
-                if(this.nodeZ.cy > position.y){
+            } else {
+                if (this.nodeZ.cy > position.y) {
                     position.y += this.nodeA.height / 2;
-                }else{
+                } else {
                     position.y -= this.nodeA.height / 2;
                 }
             }
@@ -370,8 +406,8 @@ module.exports = function (jtopo) {
             var middleX;
             var middleY;
             var NUMS = getNums(this.nodeA, this.nodeZ);
-            var benginGap = (NUMS - 1) * this.bundleGap;
-            var totalGap = this.bundleGap * Index - benginGap / 2;
+            var benginGap = (NUMS - 1) * this.gap;
+            var totalGap = this.gap * Index - benginGap / 2;
             if ("horizontal" == this.direction) {
                 middleX = end.x + totalGap;
                 middleY = start.y - totalGap;
@@ -387,103 +423,168 @@ module.exports = function (jtopo) {
             }
             return path
         };
-        this.paintText = function (a, b) {
+        this.paintText = function (context, path) {
             if (this.text && this.text.length > 0) {
-                var c = b[1], d = c.x + this.textOffsetX, e = c.y + this.textOffsetY;
-                a.save(), a.beginPath(), a.font = this.font;
-                var f = a.measureText(this.text).width, g = a.measureText("田").width;
-                a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", a.fillText(this.text, d - f / 2, e - g / 2), a.stroke(), a.closePath(), a.restore()
+                var textStart = path[1];
+                var textX = textStart.x + this.textOffsetX;
+                var textY = textStart.y + this.textOffsetY;
+                context.save();
+                context.beginPath();
+                context.font = this.font;
+                var totalWidth = context.measureText(this.text).width;
+                var fontWidth = context.measureText("田").width;
+                context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+                context.fillText(this.text, textX - totalWidth / 2, textY - fontWidth / 2);
+                context.stroke();
+                context.closePath();
+                context.restore();
             }
         }
     }
 
     function FlexionalLink(a, b, c) {
         this.initialize = function () {
-            FlexionalLink.prototype.initialize.apply(this, arguments), this.direction = "vertical", this.offsetGap = 44
-        }, this.initialize(a, b, c), this.getStartPosition = function () {
-            var a = {x: this.nodeA.cx, y: this.nodeA.cy};
-            return "horizontal" == this.direction ? a.x = this.nodeZ.cx < a.x ? this.nodeA.x : this.nodeA.x + this.nodeA.width : a.y = this.nodeZ.cy < a.y ? this.nodeA.y : this.nodeA.y + this.nodeA.height, a
-        }, this.getEndPosition = function () {
-            var a = {x: this.nodeZ.cx, y: this.nodeZ.cy};
-            return "horizontal" == this.direction ? a.x = this.nodeA.cx < a.x ? this.nodeZ.x : this.nodeZ.x + this.nodeZ.width : a.y = this.nodeA.cy < a.y ? this.nodeZ.y : this.nodeZ.y + this.nodeZ.height, a
-        }, this.getPath = function (a) {
-            var b = this.getStartPosition(), c = this.getEndPosition();
-            if (this.nodeA === this.nodeZ)return [b, c];
-            var d = [], f = getNums(this.nodeA, this.nodeZ), g = (f - 1) * this.bundleGap, h = this.bundleGap * a - g / 2, i = this.offsetGap;
-            return "horizontal" == this.direction ? (this.nodeA.cx > this.nodeZ.cx && (i = -i), d.push({x: b.x, y: b.y + h}), d.push({x: b.x + i, y: b.y + h}), d.push({
-                x: c.x - i,
-                y: c.y + h
-            }), d.push({x: c.x, y: c.y + h})) : (this.nodeA.cy > this.nodeZ.cy && (i = -i), d.push({x: b.x + h, y: b.y}), d.push({x: b.x + h, y: b.y + i}), d.push({
-                x: c.x + h,
-                y: c.y - i
-            }), d.push({x: c.x + h, y: c.y})), d
+            FlexionalLink.prototype.initialize.apply(this, arguments);
+            this.direction = "vertical";
+            this.offset = 44;
+        };
+        this.initialize(a, b, c);
+        this.getStartPosition = function () {
+            var position = {
+                x: this.nodeA.cx,
+                y: this.nodeA.cy
+            };
+            if ("horizontal" == this.direction) {
+                if (this.nodeZ.cx < position.x) {
+                    position.x = this.nodeA.x;
+                } else {
+                    position.x = this.nodeA.x + this.nodeA.width
+                }
+            } else {
+                if (this.nodeZ.cy < position.y) {
+                    position.y = this.nodeA.y;
+                } else {
+                    position.y = this.nodeA.y + this.nodeA.height;
+                }
+            }
+            return position;
+        };
+        this.getEndPosition = function () {
+            var position = {
+                x: this.nodeZ.cx,
+                y: this.nodeZ.cy
+            };
+            if ("horizontal" == this.direction) {
+                if (this.nodeA.cx < position.x) {
+                    position.x = this.nodeZ.x;
+                } else {
+                    position.x = this.nodeZ.x + this.nodeZ.width;
+                }
+            } else {
+                if (this.nodeA.cy < position.y) {
+                    position.y = this.nodeZ.y;
+                } else {
+                    position.y = this.nodeZ.y + this.nodeZ.height;
+                }
+            }
+            return position;
+        };
+        this.getPath = function (index) {
+            var start = this.getStartPosition();
+            var end = this.getEndPosition();
+            if (this.nodeA === this.nodeZ) {
+                return [start, end];
+            }
+            var path = [];
+            var totalLinks = getNums(this.nodeA, this.nodeZ);
+            var totalGap = (totalLinks - 1) * this.gap;
+            var gap = this.gap * index - totalGap / 2;
+            var linkOffset = this.offset;
+            if ("horizontal" == this.direction) {
+                if (this.nodeA.cx > this.nodeZ.cx) {
+                    linkOffset = -linkOffset
+                }
+                path.push({x: start.x, y: start.y + gap});
+                path.push({x: start.x + linkOffset, y: start.y + gap});
+                path.push({x: end.x - linkOffset, y: end.y + gap});
+                path.push({x: end.x, y: end.y + gap})
+            } else {
+                if (this.nodeA.cy > this.nodeZ.cy) {
+                    linkOffset = -linkOffset
+                }
+                path.push({x: start.x + gap, y: start.y});
+                path.push({x: start.x + gap, y: start.y + linkOffset});
+                path.push({x: end.x + gap,y: end.y - linkOffset});
+                path.push({x: end.x + gap, y: end.y});
+            }
+            return path;
         }
     }
-
-
 
 
     //制造一个二次贝塞尔曲线的阶段点
-    function curve_makePoint(s, m, e, t) {
+    function makeQuadraticPoint(start, middle, end, time) {
         return {
-            x: (1 - t) * (1 - t) * s.x + 2 * t * (1 - t) * m.x + t * t * e.x,
-            y: (1 - t) * (1 - t) * s.y + 2 * t * (1 - t) * m.y + t * t * e.y
+            x: (1 - time) * (1 - time) * start.x + 2 * time * (1 - time) * middle.x + time * time * end.x,
+            y: (1 - time) * (1 - time) * start.y + 2 * time * (1 - time) * middle.y + time * time * end.y
         }
     }
-    //改写源码绘制曲线,可由curveOffset指定弧度
+
     function CurveLink(a, b, c) {
         this.initialize = function () {
             CurveLink.prototype.initialize.apply(this, arguments)
         };
         this.initialize(a, b, c);
-        this.paintPath = function (cx, path) {
-            if (this.nodeA === this.nodeZ)return void this.paintLoop(cx);
+        this.paintPath = function (context, path) {
+            if (this.nodeA === this.nodeZ)return void this.paintLoop(context);
             var start = path[0];
-            var end = path[path.length-1];
+            var end = path[path.length - 1];
             var middle = path.middle;
             if (start && end && middle) {
-                cx.beginPath();
-                cx.moveTo(start.x, start.y);
-                cx.strokeStyle = "rgba(" + this.strokeColor + "," + this.alpha + ")";
-                cx.lineWidth = this.lineWidth;
-                cx.moveTo(start.x, start.y);
-                cx.quadraticCurveTo(middle.x, middle.y, end.x, end.y);
-                cx.stroke();
-                cx.closePath();
-                if ( null != this.arrowsRadius) {
+                context.beginPath();
+                context.moveTo(start.x, start.y);
+                context.strokeStyle = "rgba(" + this.strokeColor + "," + this.alpha + ")";
+                context.lineWidth = this.lineWidth;
+                context.moveTo(start.x, start.y);
+                context.quadraticCurveTo(middle.x, middle.y, end.x, end.y);
+                context.stroke();
+                context.closePath();
+                if (null != this.arrowsRadius) {
                     if (this.qtopo.attr.arrow.end) {
-                        this.paintArrow(cx, start, end);
+                        this.paintArrow(context, start, end);
                     }
                     if (this.qtopo.attr.arrow.start) {
-                        this.paintArrow(cx, end, start);
+                        this.paintArrow(context, end, start);
                     }
                 }
             }
         };
-        this.getPath=function () {
+        this.getPath = function () {
             var path = [];
             var start = this.getStartPosition();
             var end = this.getEndPosition();
-            if (this.nodeA === this.nodeZ){
-                return [start, end];
-            }
             if (start && end) {
-                var angle = Math.atan(Math.abs(end.y - start.y) / Math.abs(end.x - start.x));
-                path.middle = {
-                    x: (start.x + end.x) / 2 + this.qtopo.attr.curveOffset * Math.cos(angle - Math.PI / 2),
-                    y: (start.y + end.y) / 2 + this.qtopo.attr.curveOffset * Math.sin(angle - Math.PI / 2)
-                };
-                path.text =  curve_makePoint(start,path.middle, end, 1/2);
-                path.angle = angle;
-                path.push(start);
-                for (var i = 1; i <= 5; i++) {
-                    path.push(curve_makePoint(start, path.middle, end, i / 5));//取样份与选取难度相关
+                if (this.nodeA === this.nodeZ) {
+                    path.push(start);
+                    path.push(end);
+                }else{
+                    var angle = Math.atan(Math.abs(end.y - start.y) / Math.abs(end.x - start.x));
+                    path.middle = {
+                        x: (start.x + end.x) / 2 + this.offset * Math.cos(angle - Math.PI / 2),
+                        y: (start.y + end.y) / 2 + this.offset * Math.sin(angle - Math.PI / 2)
+                    };
+                    path.text = makeQuadraticPoint(start, path.middle, end, 1 / 2);
+                    path.angle = angle;
+                    path.push(start);
+                    for (var i = 1; i <= 5; i++) {
+                        path.push(makeQuadraticPoint(start, path.middle, end, i / 5));//取样份与选取难度相关
+                    }
+                    path.push(end);
                 }
-                path.push(end);
             }
             return path
         };
-        this.paintText=function (cx, path) {
+        this.paintText = function (cx, path) {
             if (this.text && this.text.length > 0) {
                 var textX = path.text.x + this.textOffsetX;
                 var textY = path.text.y + this.textOffsetY;

@@ -26,6 +26,7 @@ var DEFAULT= {
         type: '微软雅黑',
         color: "255,255,255"
     },
+    draggable: true,
     jsonId:"",
     border:{
         width:0,

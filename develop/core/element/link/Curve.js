@@ -20,8 +20,9 @@ var DEFAULT = {
     alpha: 1,
     color: '22,124,255',
     arrow: {
+        type:'close',
         size: 10,
-        offset: 0,
+        offset: 2,
         start: false,
         end: false
     },
@@ -36,7 +37,7 @@ var DEFAULT = {
         color: '255,255,255'
     },
     useType: QTopo.constant.link.CURVE,
-    curveOffset: 200    //可由curveOffset指定弧度
+    offset: 200    //可由curveOffset指定弧度
 };
 function setDefault(config) {
     QTopo.util.extend(DEFAULT, config || {});
@@ -82,17 +83,6 @@ function setJTopo(config) {
 }
 //-
 /**
- *  设置曲线偏移量
- *
- *  @method setCurveOffset
- *  @param curveOffset {number}
- */
-CurveLink.prototype.setCurveOffset = function (curveOffset) {
-    if ($.isNumeric(curveOffset)) {
-        this.attr.curveOffset = parseInt(curveOffset);
-    }
-};
-/**
  * 获取元素全局样式
  * @method getDefault
  * @return {object}
@@ -118,7 +108,7 @@ CurveLink.prototype.setCurveOffset = function (curveOffset) {
                                     color: '255,255,255'
                                 },
                                 useType: QTopo.constant.link.CURVE,
-                                curveOffset: 200
+                                offset: 200
                             };
  */
 CurveLink.prototype.getDefault = getDefault;

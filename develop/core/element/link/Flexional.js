@@ -20,6 +20,7 @@ var DEFAULT = {
     alpha: 1,
     color: '22,124,255',
     arrow: {
+        type:'close',
         size: 10,
         offset: 0,
         start: false,
@@ -38,7 +39,7 @@ var DEFAULT = {
     },
     useType: QTopo.constant.link.FLEXIONAL,
     direction: "horizontal",
-    offsetGap: 60//折线处长度
+    offset: 60//折线处长度
 };
 function setDefault(config) {
     QTopo.util.extend(DEFAULT, config || {});
@@ -81,18 +82,6 @@ function setJTopo(config) {
         this._setAttr(config);
     }
 }
-/**
- *  两端折线线段的长度
- *
- *  @method setOffsetGap
- *  @param offsetGap {number}
- */
-FlexionalLink.prototype.setOffsetGap = function (offsetGap) {
-    if ($.isNumeric(offsetGap)) {
-        this.jtopo.offsetGap = parseInt(offsetGap);
-    }
-    this.attr.offsetGap = this.jtopo.offsetGap;
-};
 /**
  *  设置折线方向
  *
@@ -151,7 +140,7 @@ FlexionalLink.prototype.setRadius = function (radius) {
                             },
                             useType: QTopo.constant.link.FLEXIONAL,
                             direction: "horizontal",
-                            offsetGap: 60//两端折线线段的长度
+                            offset: 60//两端折线线段的长度
                         };
  */
 FlexionalLink.prototype.getDefault = getDefault;

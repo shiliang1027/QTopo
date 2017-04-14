@@ -227,14 +227,14 @@ Element.prototype.setSize = function (size) {
 };
 /**
  *  元素是否锁定位置
- *  @method [E] setDragable
- *  @param dragable {boolean}
+ *  @method [E] setDraggable
+ *  @param draggable {boolean}
  */
-Element.prototype.setDragable = function (dragable) {
-    if (typeof dragable == 'boolean') {
-        this.jtopo.dragable = dragable;
+Element.prototype.setDraggable = function (draggable) {
+    if (typeof draggable == 'boolean') {
+        this.jtopo.draggable = draggable;
     }
-    this.attr.dragable = this.jtopo.dragable;
+    this.attr.draggable = this.jtopo.draggable;
 };
 /**
  *  设置元素文字位置

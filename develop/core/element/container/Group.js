@@ -24,7 +24,7 @@ var DEFAULT = {
         },
         color: '10,10,100',
         alpha: 0.5,
-        dragable: true,
+        draggable: true,
         zIndex: 10,
         jsonId:"",
         border:{
@@ -41,7 +41,7 @@ var DEFAULT = {
         children:{
             showLink: false,
             showName: true,
-            dragble: true
+            draggable: true
         },
         useType:QTopo.constant.container.GROUP
 };
@@ -182,7 +182,7 @@ Group.prototype.setLayout=function(layout){
                                 },
                                 color: '10,10,100',
                                 alpha: 0.5,
-                                dragable: true,
+                                draggable: true,
                                 zIndex: 10,
                                 jsonId:"",
                                 border:{
@@ -199,7 +199,7 @@ Group.prototype.setLayout=function(layout){
                                 children:{//待定设置，未完全实现
                                     showLink: false,
                                     showName: true,
-                                    dragble: true
+                                    draggable: true
                                 },
                                 useType:QTopo.constant.container.GROUP
                         };

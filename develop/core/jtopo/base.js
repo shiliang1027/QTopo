@@ -3,7 +3,10 @@
  */
 function Element() {
     this.initialize = function () {
-        this.elementType = "element", this.serializedProperties = ["elementType"], this.propertiesStack = [], this._id = "" + (new Date).getTime()
+        this.elementType = "element";
+        this.serializedProperties = ["elementType"];
+        this.propertiesStack = [];
+        this._id = "" + (new Date).getTime();
     };
     this.distroy = function () {
     };
@@ -14,10 +17,12 @@ function Element() {
         return this
     };
     this.save = function () {
-        var a = this, b = {};
-        this.serializedProperties.forEach(function (c) {
-            b[c] = a[c]
-        }), this.propertiesStack.push(b)
+        var a = this;
+        var b = {};
+        this.serializedProperties.forEach(function (properties) {
+            b[properties] = a[properties];
+        });
+        this.propertiesStack.push(b);
     };
     this.restore = function () {
         if (null != this.propertiesStack && 0 != this.propertiesStack.length) {
@@ -30,20 +35,22 @@ function Element() {
 }
 
 /*a=this.x - this.borderWidth / 2 b=this.y - this.borderWidth / 2,*/
-CanvasRenderingContext2D.prototype.JTopoRoundRect = function (a, b, w_borderWidth, h_borderWidth, borderRadius) {
+CanvasRenderingContext2D.prototype.JTopoRoundRect = function (startX, startY, w_borderWidth, h_borderWidth, borderRadius) {
     //画元素圆角边框
-    "undefined" == typeof borderRadius && (borderRadius = 5),
-        this.beginPath(),
-        this.moveTo(a + borderRadius, b),
-        this.lineTo(a + w_borderWidth - borderRadius, b),
-        this.quadraticCurveTo(a + w_borderWidth, b, a + w_borderWidth, b + borderRadius),
-        this.lineTo(a + w_borderWidth, b + h_borderWidth - borderRadius),
-        this.quadraticCurveTo(a + w_borderWidth, b + h_borderWidth, a + w_borderWidth - borderRadius, b + h_borderWidth),
-        this.lineTo(a + borderRadius, b + h_borderWidth),
-        this.quadraticCurveTo(a, b + h_borderWidth, a, b + h_borderWidth - borderRadius),
-        this.lineTo(a, b + borderRadius),
-        this.quadraticCurveTo(a, b, a + borderRadius, b),
-        this.closePath()
+    if ("undefined" == typeof borderRadius) {
+        borderRadius = 5;
+    }
+    this.beginPath();
+    this.moveTo(startX + borderRadius, startY);
+    this.lineTo(startX + w_borderWidth - borderRadius, startY);
+    this.quadraticCurveTo(startX + w_borderWidth, startY, startX + w_borderWidth, startY + borderRadius);
+    this.lineTo(startX + w_borderWidth, startY + h_borderWidth - borderRadius);
+    this.quadraticCurveTo(startX + w_borderWidth, startY + h_borderWidth, startX + w_borderWidth - borderRadius, startY + h_borderWidth);
+    this.lineTo(startX + borderRadius, startY + h_borderWidth);
+    this.quadraticCurveTo(startX, startY + h_borderWidth, startX, startY + h_borderWidth - borderRadius);
+    this.lineTo(startX, startY + borderRadius);
+    this.quadraticCurveTo(startX, startY, startX + borderRadius, startY);
+    this.closePath();
 };
 CanvasRenderingContext2D.prototype.JTopoDashedLineTo = function (sX, sY, eX, eY, dashedPattern) {
     //画虚线
@@ -89,4 +96,4 @@ var JTopo = {
     }
 };
 JTopo.Element = Element;
-module.exports=JTopo;
+module.exports = JTopo;

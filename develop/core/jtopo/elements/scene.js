@@ -1,14 +1,20 @@
 module.exports = function (jtopo) {
-    function scene(c) {
+    function Scene(c) {
         function d(a, b, c, d) {
-            return function (e) {
-                e.beginPath(), e.strokeStyle = "rgba(0,0,236,0.5)", e.fillStyle = "rgba(0,0,236,0.1)", e.rect(a, b, c, d), e.fill(), e.stroke(), e.closePath()
+            return function (context) {
+                context.beginPath();
+                context.strokeStyle = "rgba(0,0,236,0.5)";
+                context.fillStyle = "rgba(0,0,236,0.1)";
+                context.rect(a, b, c, d);
+                context.fill();
+                context.stroke();
+                context.closePath();
             }
         }
 
         var scene_self = this;
         this.initialize = function () {
-            scene.prototype.initialize.apply(this, arguments);
+            Scene.prototype.initialize.apply(this, arguments);
             this.messageBus = new jtopo.util.MessageBus;
             this.elementType = "scene";
             this.childs = [];
@@ -49,13 +55,22 @@ module.exports = function (jtopo) {
         this.hide = function () {
             this.visible = !1
         };
-        this.paint = function (a) {
+        this.paint = function (context) {
             if (0 != this.visible && null != this.stage) {
-                if (a.save(), this.paintBackgroud(a), a.restore(), a.save(), a.scale(this.scaleX, this.scaleY), 1 == this.translate) {
-                    var b = this.getOffsetTranslate(a);
-                    a.translate(b.translateX, b.translateY)
+                context.save();
+                this.paintBackgroud(context);
+                context.restore();
+                context.save();
+                context.scale(this.scaleX, this.scaleY);
+                if (1 == this.translate) {
+                    var b = this.getOffsetTranslate();
+                    context.translate(b.translateX, b.translateY)
                 }
-                this.paintChilds(a), a.restore(), a.save(), this.paintOperations(a, this.operations), a.restore()
+                this.paintChilds(context);
+                context.restore();
+                context.save();
+                this.paintOperations(context, this.operations);
+                context.restore();
             }
         };
         this.repaint = function (a) {
@@ -120,37 +135,61 @@ module.exports = function (jtopo) {
                 }
             }
         };
-        this.getOffsetTranslate = function (a) {
-            var b = this.stage.canvas.width, c = this.stage.canvas.height;
-            null != a && "move" != a && (b = a.canvas.width, c = a.canvas.height);
-            var d = b / this.scaleX / 2, e = c / this.scaleY / 2, f = {translateX: this.translateX + (d - d * this.scaleX), translateY: this.translateY + (e - e * this.scaleY)};
-            return f
+        this.getOffsetTranslate = function () {
+            var width = this.stage.canvas.width;
+            var height = this.stage.canvas.height;
+            var centerX = width / this.scaleX / 2;
+            var centerY = height / this.scaleY / 2;
+            return {
+                translateX: this.translateX + (centerX - centerX * this.scaleX),
+                translateY: this.translateY + (centerY - centerY * this.scaleY)
+            };
         };
-        this.isVisiable = function (b) {
-            if (1 != b.visible)return !1;
-            if (b instanceof jtopo.Link)return !0;
-            var c = this.getOffsetTranslate(), d = b.x + c.translateX, e = b.y + c.translateY;
-            d *= this.scaleX, e *= this.scaleY;
-            var f = d + b.width * this.scaleX, g = e + b.height * this.scaleY;
-            return d > this.stage.canvas.width || e > this.stage.canvas.height || 0 > f || 0 > g ? !1 : !0
+        this.isVisiable = function (element) {
+            if (1 != element.visible) {
+                return !1;
+            }
+            if (element instanceof jtopo.Link) {
+                return !0;
+            }
+            var sceneOffset = this.getOffsetTranslate();
+            var positionX = element.x + sceneOffset.translateX;
+            var positionY = element.y + sceneOffset.translateY;
+            positionX *= this.scaleX;
+            positionY *= this.scaleY;
+            var rightX = positionX + element.width * this.scaleX;
+            var rightY = positionY + element.height * this.scaleY;
+            if (positionX > this.stage.canvas.width || positionY > this.stage.canvas.height || 0 > rightX || 0 > rightY) {
+                return !1
+            }
+            return !0
         };
-        this.paintOperations = function (a, b) {
-            for (var c = 0; c < b.length; c++)b[c](a)
+        this.paintOperations = function (context, options) {
+            for (var i = 0; i < options.length; i++) {
+                options[i](context);
+            }
         };
-        this.findElements = function (a) {
-            for (var b = [], c = 0; c < this.childs.length; c++)1 == a(this.childs[c]) && b.push(this.childs[c]);
-            return b
+        this.findElements = function (fn) {
+            var result = [];
+            for (var i = 0; i < this.childs.length; i++) {
+                if (1 == fn(this.childs[i])) {
+                    result.push(this.childs[i]);
+                }
+            }
+            return result
         };
-        this.getElementsByClass = function (a) {
-            return this.findElements(function (b) {
-                return b instanceof a
+        this.getElementsByClass = function (clazz) {
+            return this.findElements(function (element) {
+                return element instanceof clazz
             })
         };
         this.addOperation = function (a) {
-            return this.operations.push(a), this
+            this.operations.push(a);
+            return this;
         };
         this.clearOperations = function () {
-            return this.operations = [], this
+            this.operations = [];
+            return this;
         };
         this.getElementByXY = function (x, c) {
             var element = null;
@@ -195,30 +234,48 @@ module.exports = function (jtopo) {
             this.zIndexArray = [];
             this.zIndexMap = {};
         };
-        this.addToSelected = function (a) {
-            this.selectedElements.push(a)
+        this.addToSelected = function (element) {
+            this.selectedElements.push(element);
         };
-        this.cancleAllSelected = function (a) {
-            for (var b = 0; b < this.selectedElements.length; b++)this.selectedElements[b].unselectedHandler(a);
+        this.cancleAllSelected = function (context) {
+            for (var i = 0; i < this.selectedElements.length; i++) {
+                this.selectedElements[i].unselectedHandler(context);
+            }
             this.selectedElements = []
         };
-        this.notInSelectedNodes = function (a) {
-            for (var b = 0; b < this.selectedElements.length; b++)if (a === this.selectedElements[b])return !1;
+        this.notInSelectedNodes = function (element) {
+            for (var i = 0; i < this.selectedElements.length; i++) {
+                if (element === this.selectedElements[i]) {
+                    return !1;
+                }
+            }
             return !0
         };
-        this.removeFromSelected = function (a) {
-            for (var b = 0; b < this.selectedElements.length; b++) {
-                var c = this.selectedElements[b];
-                a === c && (this.selectedElements = this.selectedElements.del(b))
+        this.removeFromSelected = function (element) {
+            for (var i = 0; i < this.selectedElements.length; i++) {
+                if (element === this.selectedElements[i]) {
+                    this.selectedElements = this.selectedElements.del(i);
+                }
             }
         };
-        this.toSceneEvent = function (b) {
-            var c = jtopo.util.clone(b);
-            if (c.x /= this.scaleX, c.y /= this.scaleY, 1 == this.translate) {
+        this.toSceneEvent = function (event) {
+            event = jtopo.util.clone(event);
+            event.x /= this.scaleX;
+            event.y /= this.scaleY;
+            if (1 == this.translate) {
                 var d = this.getOffsetTranslate();
-                c.x -= d.translateX, c.y -= d.translateY
+                event.x -= d.translateX;
+                event.y -= d.translateY;
             }
-            return null != c.dx && (c.dx /= this.scaleX, c.dy /= this.scaleY), null != this.currentElement && (c.target = this.currentElement), c.scene = this, c
+            if (null != event.dx) {
+                event.dx /= this.scaleX;
+                event.dy /= this.scaleY;
+            }
+            if (null != this.currentElement) {
+                event.target = this.currentElement;
+            }
+            event.scene = this;
+            return event
         };
         this.selectElement = function (event) {
             var element = scene_self.getElementByXY(event.x, event.y);
@@ -230,7 +287,7 @@ module.exports = function (jtopo) {
                     event.ctrlKey || scene_self.cancleAllSelected();
                     scene_self.addToSelected(element);
                 } else {
-                    if(1 == event.ctrlKey){
+                    if (1 == event.ctrlKey) {
                         element.unselectedHandler();
                         this.removeFromSelected(element);
                     }
@@ -244,34 +301,121 @@ module.exports = function (jtopo) {
             }
             this.currentElement = element
         };
-        this.mousedownHandler = function (b) {
-            var c = this.toSceneEvent(b);
-            if (this.mouseDown = !0, this.mouseDownX = c.x, this.mouseDownY = c.y, this.mouseDownEvent = c, this.mode == jtopo.SceneMode.normal)this.selectElement(c), (null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate && (this.lastTranslateX = this.translateX, this.lastTranslateY = this.translateY); else {
-                if (this.mode == jtopo.SceneMode.drag && 1 == this.translate)return this.lastTranslateX = this.translateX, void(this.lastTranslateY = this.translateY);
-                this.mode == jtopo.SceneMode.select ? this.selectElement(c) : this.mode == jtopo.SceneMode.edit && (this.selectElement(c), (null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate && (this.lastTranslateX = this.translateX, this.lastTranslateY = this.translateY))
+        this.mousedownHandler = function (event) {
+            event = this.toSceneEvent(event);
+            this.mouseDown = !0;
+            this.mouseDownX = event.x;
+            this.mouseDownY = event.y;
+            this.mouseDownEvent = event;
+            switch (this.mode) {
+                case jtopo.SceneMode.normal:
+                    this.selectElement(event);
+                    if ((null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate) {
+                        this.lastTranslateX = this.translateX;
+                        this.lastTranslateY = this.translateY;
+                    }
+                    break;
+                case jtopo.SceneMode.drag:
+                    if (1 == this.translate) {
+                        this.lastTranslateX = this.translateX;
+                        this.lastTranslateY = this.translateY;
+                    }
+                    break;
+                case jtopo.SceneMode.select:
+                    this.selectElement(event);
+                    break;
+                case jtopo.SceneMode.edit:
+                    if ((null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate) {
+                        this.lastTranslateX = this.translateX;
+                        this.lastTranslateY = this.translateY;
+                    }
+                    break;
             }
-            scene_self.dispatchEvent("mousedown", c)
+            scene_self.dispatchEvent("mousedown", event)
         };
-        this.mouseupHandler = function (b) {
-            this.stage.cursor != jtopo.MouseCursor.normal && (this.stage.cursor = jtopo.MouseCursor.normal), scene_self.clearOperations();
-            var c = this.toSceneEvent(b);
-            null != this.currentElement && (c.target = scene_self.currentElement, this.currentElement.mouseupHandler(c)), this.dispatchEvent("mouseup", c), this.mouseDown = !1
+        this.mouseupHandler = function (event) {
+            if (this.stage.cursor != jtopo.MouseCursor.normal) {
+                this.stage.cursor = jtopo.MouseCursor.normal;
+            }
+            scene_self.clearOperations();
+            event = this.toSceneEvent(event);
+            if (null != this.currentElement) {
+                event.target = scene_self.currentElement;
+                this.currentElement.mouseupHandler(event);
+            }
+            this.dispatchEvent("mouseup", event);
+            this.mouseDown = !1;
         };
-        this.dragElements = function (b) {
-            if (null != this.currentElement && 1 == this.currentElement.dragable)for (var c = 0; c < this.selectedElements.length; c++) {
-                var d = this.selectedElements[c];
-                if (0 != d.dragable) {
-                    var e = jtopo.util.clone(b);
-                    e.target = d, d.mousedragHandler(e)
+        this.dragElements = function (event) {
+            if (null != this.currentElement && 1 == this.currentElement.draggable) {
+                for (var i = 0; i < this.selectedElements.length; i++) {
+                    var element = this.selectedElements[i];
+                    if (0 != element.draggable) {
+                        var elEvent = jtopo.util.clone(event);
+                        elEvent.target = element;
+                        element.mousedragHandler(elEvent);
+                    }
                 }
             }
         };
-        this.mousedragHandler = function (b) {
-            var c = this.toSceneEvent(b);
-            this.mode == jtopo.SceneMode.normal ? null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.dragElements(c) : this.mode == jtopo.SceneMode.drag ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.mode == jtopo.SceneMode.select ? null != this.currentElement ? 1 == this.currentElement.dragable && this.dragElements(c) : 1 == this.areaSelect && this.areaSelectHandle(c) : this.mode == jtopo.SceneMode.edit && (null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.dragElements(c)), this.dispatchEvent("mousedrag", c)
+        this.mousedragHandler = function (event) {
+            var c = this.toSceneEvent(event);
+            if (this.mode == jtopo.SceneMode.normal) {
+                if (null == this.currentElement || this.currentElement instanceof jtopo.Link) {
+                    if (1 == this.translate) {
+                        this.stage.cursor = jtopo.MouseCursor.closed_hand;
+                        this.translateX = this.lastTranslateX + c.dx;
+                        this.translateY = this.lastTranslateY + c.dy;
+                    }
+                } else {
+                    this.dragElements(c);
+                }
+            } else {
+                if (this.mode == jtopo.SceneMode.drag) {
+                    if (1 == this.translate) {
+                        this.stage.cursor = jtopo.MouseCursor.closed_hand;
+                        this.translateX = this.lastTranslateX + c.dx;
+                        this.translateY = this.lastTranslateY + c.dy;
+                    }
+                } else {
+                    if (this.mode == jtopo.SceneMode.select) {
+                        if (null != this.currentElement) {
+                            1 == this.currentElement.draggable && this.dragElements(c);
+                        } else {
+                            1 == this.areaSelect && this.areaSelectHandle(c);
+                        }
+                    } else {
+                        if (this.mode == jtopo.SceneMode.edit) {
+                            if (null == this.currentElement || this.currentElement instanceof jtopo.Link) {
+                                if (1 == this.translate) {
+                                    this.stage.cursor = jtopo.MouseCursor.closed_hand;
+                                    this.translateX = this.lastTranslateX + c.dx;
+                                    this.translateY = this.lastTranslateY + c.dy;
+                                }
+                            } else {
+                                this.dragElements(c)
+                            }
+                        }
+                    }
+                }
+            }
+            this.dispatchEvent("mousedrag", c);
+            //this.mode == jtopo.SceneMode.normal ?
+            //    null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy)
+            //    : this.dragElements(c)
+            //    : this.mode == jtopo.SceneMode.drag ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.mode == jtopo.SceneMode.select ? null != this.currentElement ? 1 == this.currentElement.draggable && this.dragElements(c) : 1 == this.areaSelect && this.areaSelectHandle(c) : this.mode == jtopo.SceneMode.edit && (null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.dragElements(c)), this.dispatchEvent("mousedrag", c)
+            //
         };
         this.areaSelectHandle = function (a) {
-            var b = a.offsetLeft, c = a.offsetTop, f = this.mouseDownEvent.offsetLeft, g = this.mouseDownEvent.offsetTop, h = b >= f ? f : b, i = c >= g ? g : c, j = Math.abs(a.dx) * this.scaleX, k = Math.abs(a.dy) * this.scaleY, l = new d(h, i, j, k);
+            var b = a.offsetLeft;
+            var c = a.offsetTop;
+            var f = this.mouseDownEvent.offsetLeft;
+            var g = this.mouseDownEvent.offsetTop;
+            var h = b >= f ? f : b;
+            var i = c >= g ? g : c;
+            var j = Math.abs(a.dx) * this.scaleX;
+            var k = Math.abs(a.dy) * this.scaleY;
+            var l = new d(h, i, j, k);
             scene_self.clearOperations().addOperation(l), b = a.x, c = a.y, f = this.mouseDownEvent.x, g = this.mouseDownEvent.y, h = b >= f ? f : b, i = c >= g ? g : c, j = Math.abs(a.dx), k = Math.abs(a.dy);
             for (var m = h + j, n = i + k, o = 0; o < scene_self.childs.length; o++) {
                 var p = scene_self.childs[o];
@@ -412,13 +556,14 @@ module.exports = function (jtopo) {
         return scene_self
     }
 
-    scene.prototype = new jtopo.Element;
+    Scene.prototype = new jtopo.Element;
     var c = {};
-    Object.defineProperties(scene.prototype, {
+    Object.defineProperties(Scene.prototype, {
         background: {
             get: function () {
                 return this._background
-            }, set: function (a) {
+            },
+            set: function (a) {
                 if ("string" == typeof a) {
                     var b = c[a];
                     null == b && (b = new Image, b.src = a, b.onload = function () {
@@ -427,5 +572,6 @@ module.exports = function (jtopo) {
                 } else this._background = a
             }
         }
-    }), jtopo.Scene = scene
+    });
+    jtopo.Scene = Scene
 }

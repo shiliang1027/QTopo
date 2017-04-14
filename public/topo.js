@@ -28,6 +28,8 @@ $(document).ready(function () {
     var topo = QTopo.init(document.getElementById("topo_base"),{
         backgroundColor:"#06243e"
     });
+    window.test=topo;
+    window.scene=topo.scene;
     QTopo.initComponent(topo);
     //QTopo.log.info=false;//关闭日志
     var scene=topo.scene;
@@ -92,12 +94,12 @@ $(document).ready(function () {
         data.link.push({
             start:11111,
             end:22222,
-            width:10,
+            width:5,
             radius:25,
             arrow:{
                 end:true,
                 start:true,
-                size:10
+                size:15
             },
             extra:{
                 type:1

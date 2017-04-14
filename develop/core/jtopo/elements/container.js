@@ -8,8 +8,8 @@ module.exports = function (jtopo) {
             this.height = 100;
             this.childs = [];
             this.alpha = .5;
-            this.dragable = !0;
-            this.childDragble = !0;
+            this.draggable = !0;
+            this.childDraggable = !0;
             this.visible = !0;
             this.fillColor = "10,100,80";
             this.borderWidth = 0;
@@ -24,9 +24,9 @@ module.exports = function (jtopo) {
             this.layout = new jtopo.layout.AutoBoundLayout;
         };
         this.initialize(c);
-        this.add = function (a) {
-            this.childs.push(a);
-            a.dragable = this.childDragble;
+        this.add = function (element) {
+            this.childs.push(element);
+            element.draggable = this.childDraggable;
         };
         this.remove = function (a) {
             for (var b = 0; b < this.childs.length; b++)if (this.childs[b] === a) {
