@@ -308,13 +308,6 @@ module.exports = function (jtopo) {
             this.mouseDownY = event.y;
             this.mouseDownEvent = event;
             switch (this.mode) {
-                case jtopo.SceneMode.normal:
-                    this.selectElement(event);
-                    if ((null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate) {
-                        this.lastTranslateX = this.translateX;
-                        this.lastTranslateY = this.translateY;
-                    }
-                    break;
                 case jtopo.SceneMode.drag:
                     if (1 == this.translate) {
                         this.lastTranslateX = this.translateX;
@@ -324,14 +317,14 @@ module.exports = function (jtopo) {
                 case jtopo.SceneMode.select:
                     this.selectElement(event);
                     break;
-                case jtopo.SceneMode.edit:
+                default://jtopo.SceneMode.normal || jtopo.SceneMode.edit
+                    this.selectElement(event);
                     if ((null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate) {
                         this.lastTranslateX = this.translateX;
                         this.lastTranslateY = this.translateY;
                     }
-                    break;
             }
-            scene_self.dispatchEvent("mousedown", event)
+            scene_self.dispatchEvent("mousedown", event);
         };
         this.mouseupHandler = function (event) {
             if (this.stage.cursor != jtopo.MouseCursor.normal) {
@@ -359,52 +352,34 @@ module.exports = function (jtopo) {
             }
         };
         this.mousedragHandler = function (event) {
-            var c = this.toSceneEvent(event);
-            if (this.mode == jtopo.SceneMode.normal) {
-                if (null == this.currentElement || this.currentElement instanceof jtopo.Link) {
+            event = this.toSceneEvent(event);
+            switch (this.mode) {
+                case jtopo.SceneMode.drag:
                     if (1 == this.translate) {
                         this.stage.cursor = jtopo.MouseCursor.closed_hand;
-                        this.translateX = this.lastTranslateX + c.dx;
-                        this.translateY = this.lastTranslateY + c.dy;
+                        this.translateX = this.lastTranslateX + event.dx;
+                        this.translateY = this.lastTranslateY + event.dy;
                     }
-                } else {
-                    this.dragElements(c);
-                }
-            } else {
-                if (this.mode == jtopo.SceneMode.drag) {
-                    if (1 == this.translate) {
-                        this.stage.cursor = jtopo.MouseCursor.closed_hand;
-                        this.translateX = this.lastTranslateX + c.dx;
-                        this.translateY = this.lastTranslateY + c.dy;
+                    break;
+                case jtopo.SceneMode.select:
+                    if (null != this.currentElement) {
+                        1 == this.currentElement.draggable && this.dragElements(event);
+                    } else {
+                        1 == this.areaSelect && this.areaSelectHandle(event);
                     }
-                } else {
-                    if (this.mode == jtopo.SceneMode.select) {
-                        if (null != this.currentElement) {
-                            1 == this.currentElement.draggable && this.dragElements(c);
-                        } else {
-                            1 == this.areaSelect && this.areaSelectHandle(c);
+                    break;
+                default://jtopo.SceneMode.normal || jtopo.SceneMode.edit
+                    if (null == this.currentElement || this.currentElement instanceof jtopo.Link) {
+                        if (1 == this.translate) {
+                            this.stage.cursor = jtopo.MouseCursor.closed_hand;
+                            this.translateX = this.lastTranslateX + event.dx;
+                            this.translateY = this.lastTranslateY + event.dy;
                         }
                     } else {
-                        if (this.mode == jtopo.SceneMode.edit) {
-                            if (null == this.currentElement || this.currentElement instanceof jtopo.Link) {
-                                if (1 == this.translate) {
-                                    this.stage.cursor = jtopo.MouseCursor.closed_hand;
-                                    this.translateX = this.lastTranslateX + c.dx;
-                                    this.translateY = this.lastTranslateY + c.dy;
-                                }
-                            } else {
-                                this.dragElements(c)
-                            }
-                        }
+                        this.dragElements(event);
                     }
-                }
             }
-            this.dispatchEvent("mousedrag", c);
-            //this.mode == jtopo.SceneMode.normal ?
-            //    null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy)
-            //    : this.dragElements(c)
-            //    : this.mode == jtopo.SceneMode.drag ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.mode == jtopo.SceneMode.select ? null != this.currentElement ? 1 == this.currentElement.draggable && this.dragElements(c) : 1 == this.areaSelect && this.areaSelectHandle(c) : this.mode == jtopo.SceneMode.edit && (null == this.currentElement || this.currentElement instanceof jtopo.Link ? 1 == this.translate && (this.stage.cursor = jtopo.MouseCursor.closed_hand, this.translateX = this.lastTranslateX + c.dx, this.translateY = this.lastTranslateY + c.dy) : this.dragElements(c)), this.dispatchEvent("mousedrag", c)
-            //
+            this.dispatchEvent("mousedrag", event);
         };
         this.areaSelectHandle = function (a) {
             var b = a.offsetLeft;
@@ -416,7 +391,15 @@ module.exports = function (jtopo) {
             var j = Math.abs(a.dx) * this.scaleX;
             var k = Math.abs(a.dy) * this.scaleY;
             var l = new d(h, i, j, k);
-            scene_self.clearOperations().addOperation(l), b = a.x, c = a.y, f = this.mouseDownEvent.x, g = this.mouseDownEvent.y, h = b >= f ? f : b, i = c >= g ? g : c, j = Math.abs(a.dx), k = Math.abs(a.dy);
+            scene_self.clearOperations().addOperation(l);
+            b = a.x;
+            c = a.y;
+            f = this.mouseDownEvent.x;
+            g = this.mouseDownEvent.y;
+            h = b >= f ? f : b;
+            i = c >= g ? g : c;
+            j = Math.abs(a.dx);
+            k = Math.abs(a.dy);
             for (var m = h + j, n = i + k, o = 0; o < scene_self.childs.length; o++) {
                 var p = scene_self.childs[o];
                 p.x > h && p.x + p.width < m && p.y > i && p.y + p.height < n && scene_self.notInSelectedNodes(p) && (p.selectedHandler(a), scene_self.addToSelected(p))
