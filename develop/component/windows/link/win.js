@@ -190,7 +190,8 @@ function setStyle(attr,type){
         fontColor:attr.font.color,
         fontSize:attr.font.size,
         linkGap:attr.gap,
-        linkDash:attr.dashed,
+        linkDashLength:(attr.dashed&&attr.dashed.length>0)?attr.dashed[0]:0,
+        linkDashGap:(attr.dashed&&attr.dashed.length>1)?attr.dashed[1]:0,
         color:attr.color,
         arrowSize:attr.arrow.size,
         arrowOffset:attr.arrow.offset,
@@ -224,7 +225,7 @@ function getStyle(data,type){
                 size:data.fontSize
             },
             gap:data.linkGap,
-            dashed:data.linkDash,
+            dashed:[data.linkDashLength,data.linkDashGap],
             color:data.color,
             arrow:{
                 size:data.arrowSize,

@@ -1,4 +1,4 @@
-var JTopo=require('./base.js');
+var JTopo=require('./main.js');
 require('./tools/util.js')(JTopo);
 require('./tools/layout.js')(JTopo);
 require('./tools/animate.js')(JTopo);

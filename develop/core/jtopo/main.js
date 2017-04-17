@@ -6,14 +6,15 @@ function Element() {
         this.elementType = "element";
         this.serializedProperties = ["elementType"];
         this.propertiesStack = [];
-        this._id = "" + (new Date).getTime();
-    };
-    this.distroy = function () {
     };
     this.removeHandler = function () {
     };
-    this.attr = function (a, b) {
-        if (null != a && null != b)this[a] = b; else if (null != a)return this[a];
+    this.attr = function (name, value) {
+        if (null != name && null != value){
+            this[name] = value;
+        }else if (null != name){
+            return this[name];
+        }
         return this
     };
     this.save = function () {
@@ -52,48 +53,12 @@ CanvasRenderingContext2D.prototype.JTopoRoundRect = function (startX, startY, w_
     this.quadraticCurveTo(startX, startY, startX + borderRadius, startY);
     this.closePath();
 };
-CanvasRenderingContext2D.prototype.JTopoDashedLineTo = function (sX, sY, eX, eY, dashedPattern) {
-    //画虚线
-    if ("undefined" == typeof dashedPattern) {
-        dashedPattern = 5;
-    }
-    var dX = eX - sX;
-    var dY = eY - sY;
-    var length = Math.floor(Math.sqrt(dX * dX + dY * dY));
-    var dashL = 0 >= dashedPattern ? length : length / dashedPattern;
-    var tY = dY / length * dashedPattern;
-    var tX = dX / length * dashedPattern;
-    this.beginPath();
-    for (var m = 0; dashL > m; m++) {
-        if (m % 2) {
-            this.lineTo(sX + m * tX, sY + m * tY);
-        } else {
-            this.moveTo(sX + m * tX, sY + m * tY);
-        }
-    }
-    this.stroke();
-};
 var JTopo = {
     version: "0.4.8_01",
     zIndex_Container: 1,
     zIndex_Link: 2,
     zIndex_Node: 3,
-    SceneMode: {normal: "normal", drag: "drag", edit: "edit", select: "select"},
-    MouseCursor: {
-        normal: "default",
-        pointer: "pointer",
-        top_left: "nw-resize",
-        top_center: "n-resize",
-        top_right: "ne-resize",
-        middle_left: "e-resize",
-        middle_right: "e-resize",
-        bottom_left: "ne-resize",
-        bottom_center: "n-resize",
-        bottom_right: "nw-resize",
-        move: "move",
-        open_hand: "default",
-        closed_hand: "default"
-    }
+    SceneMode: {normal: "normal", drag: "drag", edit: "edit", select: "select"}
 };
 JTopo.Element = Element;
 module.exports = JTopo;

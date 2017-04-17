@@ -143,11 +143,22 @@ module.exports = function (jtopo) {
             self.dispatchEventToScenes("mouseout", b), self.dispatchEvent("mouseout", b), self.needRepaint = 0 == self.animate ? !1 : !0
         }
 
-        function mouseDown(a) {
-            var b = getEventObject(a);
-            self.mouseDown = !0, self.mouseDownX = b.x, self.mouseDownY = b.y, self.dispatchEventToScenes("mousedown", b), self.dispatchEvent("mousedown", b)
+        function mouseDown(event) {
+            event = getEventObject(event);
+            self.mouseDown = !0;
+            self.mouseDownX = event.x;
+            self.mouseDownY = event.y;
+            self.dispatchEventToScenes("mousedown", event);
+            self.dispatchEvent("mousedown", event);
         }
-
+        function touchStart(event){
+            event = getEventObject(event);
+            self.mouseDown = !0;
+            self.mouseDownX = event.x;
+            self.mouseDownY = event.y;
+            self.dispatchEventToScenes("touchstart", event);
+            self.dispatchEvent("touchstart", event);
+        }
         function mouseUp(a) {
             var b = getEventObject(a);
             self.dispatchEventToScenes("mouseup", b), self.dispatchEvent("mouseup", b), self.mouseDown = !1, self.needRepaint = 0 == self.animate ? !1 : !0
@@ -178,12 +189,14 @@ module.exports = function (jtopo) {
 
         function click(a) {
             var b = getEventObject(a);
-            self.dispatchEventToScenes("click", b), self.dispatchEvent("click", b)
+            self.dispatchEventToScenes("click", b);
+            self.dispatchEvent("click", b);
         }
 
         function dbclick(a) {
             var b = getEventObject(a);
-            self.dispatchEventToScenes("dbclick", b), self.dispatchEvent("dbclick", b)
+            self.dispatchEventToScenes("dbclick", b);
+            self.dispatchEvent("dbclick", b);
         }
 
         function mouseWheel(a) {
@@ -201,7 +214,7 @@ module.exports = function (jtopo) {
                 canvas.onclick = click;
                 canvas.ondblclick = dbclick;
                 canvas.onmousewheel = mouseWheel;
-                canvas.touchstart = mouseDown;
+                canvas.touchstart = touchStart;
                 canvas.touchmove = mouseMove;
                 canvas.touchend = mouseUp;
             } else {
@@ -271,16 +284,22 @@ module.exports = function (jtopo) {
         document.oncontextmenu = function () {
             return o
         };
-        this.dispatchEventToScenes = function (a, b) {
-            if (0 != this.frames && (this.needRepaint = !0), 1 == this.eagleEye.visible && -1 != a.indexOf("mouse")) {
-                var c = b.x, d = b.y;
-                if (c > this.width - this.eagleEye.width && d > this.height - this.eagleEye.height)return void this.eagleEye.eventHandler(a, b, this)
+        this.dispatchEventToScenes = function (name, event) {
+            if(0 != this.frames){
+                this.needRepaint = !0;
             }
-            this.childs.forEach(function (c) {
-                if (1 == c.visible) {
-                    var d = c[a + "Handler"];
-                    if (null == d)throw new Error("Function not found:" + a + "Handler");
-                    d.call(c, b)
+            if (1 == this.eagleEye.visible && -1 != name.indexOf("mouse")) {
+                var eventX = event.x;
+                var eventY = event.y;
+                if (eventX > this.width - this.eagleEye.width && eventY > this.height - this.eagleEye.height){
+                    return void this.eagleEye.eventHandler(name, event, this);
+                }
+            }
+            this.childs.forEach(function (scene) {
+                if (1 == scene.visible) {
+                    var handler = scene[name + "Handler"];
+                    if (null == handler)throw new Error("Function not found:" + name + "Handler");
+                    handler.call(scene, event)
                 }
             })
         };
@@ -290,7 +309,7 @@ module.exports = function (jtopo) {
                     return;
                 }
             }
-            scene.addTo(this);
+            scene.stage = this;
             this.childs.push(scene);
         };
         this.remove = function (scene) {

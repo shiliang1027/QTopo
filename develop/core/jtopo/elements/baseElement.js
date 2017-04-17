@@ -136,9 +136,9 @@ module.exports = function (jtopo) {
         };
     }
 
-    function interactiveElement() {
+    function InteractiveElement() {
         this.initialize = function () {
-            interactiveElement.prototype.initialize.apply(this, arguments);
+            InteractiveElement.prototype.initialize.apply(this, arguments);
             this.elementType = "interactiveElement";
             this.draggable = !1;
             this.selected = !1;
@@ -266,12 +266,13 @@ module.exports = function (jtopo) {
                 bottom: d.y + c
             }
         };
-        this.selectedHandler = function (b) {
-            EditableElement.prototype.selectedHandler.apply(this, arguments), this.selectedSize = {
+        this.selectedHandler = function (event) {
+            EditableElement.prototype.selectedHandler.apply(this, arguments);
+            this.selectedSize = {
                 width: this.width,
                 height: this.height
             };
-            if (b.scene.mode == jtopo.SceneMode.edit) {
+            if (event.scene.mode == jtopo.SceneMode.edit) {
                 this.editAble = !0
             }
         };
@@ -352,7 +353,8 @@ module.exports = function (jtopo) {
         }
     }
 
-    DisplayElement.prototype = new jtopo.Element, Object.defineProperties(DisplayElement.prototype, {
+    DisplayElement.prototype = new jtopo.Element;
+    Object.defineProperties(DisplayElement.prototype, {
         cx: {
             get: function () {
                 return this.x + this.width / 2
@@ -367,9 +369,9 @@ module.exports = function (jtopo) {
             }
         }
     });
-    interactiveElement.prototype = new DisplayElement;
-    EditableElement.prototype = new interactiveElement;
+    InteractiveElement.prototype = new DisplayElement;
+    EditableElement.prototype = new InteractiveElement;
     jtopo.DisplayElement = DisplayElement;
-    jtopo.InteractiveElement = interactiveElement;
+    jtopo.InteractiveElement = InteractiveElement;
     jtopo.EditableElement = EditableElement;
-}
+};

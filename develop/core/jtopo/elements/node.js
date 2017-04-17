@@ -51,8 +51,8 @@ module.exports = function (jtopo) {
             }
         }
     });
-    animateBaseNodeA.prototype = new Node();
-    animateBaseNodeB.prototype = new Node();
+    ImagesNode.prototype = new Node();
+    OneImageGif.prototype = new Node();
     AnimateNode.prototype = new Node();
     jtopo.Node = Node;
     jtopo.TextNode = TextNode;
@@ -111,10 +111,39 @@ module.exports = function (jtopo) {
         };
         this.paintAlarmText = function (context) {
             if (null != this.alarm && "" != this.alarm) {
-                var b = this.alarmColor || "255,0,0", c = this.alarmAlpha || .5;
-                context.beginPath(), context.font = this.alarmFont || "10px 微软雅黑";
-                var d = context.measureText(this.alarm).width + 6, e = context.measureText("田").width + 6, f = this.width / 2 - d / 2, g = -this.height / 2 - e - 8;
-                context.strokeStyle = "rgba(" + b + ", " + c + ")", context.fillStyle = "rgba(" + b + ", " + c + ")", context.lineCap = "round", context.lineWidth = 1, context.moveTo(f, g), context.lineTo(f + d, g), context.lineTo(f + d, g + e), context.lineTo(f + d / 2 + 6, g + e), context.lineTo(f + d / 2, g + e + 8), context.lineTo(f + d / 2 - 6, g + e), context.lineTo(f, g + e), context.lineTo(f, g), context.fill(), context.stroke(), context.closePath(), context.beginPath(), context.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", context.fillText(this.alarm, f + 2, g + e - 4), context.closePath()
+                context.font = this.alarmFont || "12px 微软雅黑";
+                var lineWidth = context.measureText(this.alarm).width + 6;
+                var fontWidth = context.measureText("田").width + 6;
+                var startX = this.width / 2 - lineWidth / 2;
+                var startY = -this.height / 2 - fontWidth - 8;
+                paintAlarmPanel(
+                    startX,startY,
+                    this.alarmColor || "255,0,0",
+                    this.alarmAlpha || .5,
+                    lineWidth,fontWidth
+                );
+                context.beginPath();
+                context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
+                context.fillText(this.alarm, startX + 2, startY + fontWidth - 4);
+                context.closePath();
+            }
+            function paintAlarmPanel(x,y,color,alpha,lineWidth,fontWidth){
+                context.beginPath();
+                context.strokeStyle = "rgba(" + color + ", " + alpha + ")";
+                context.fillStyle = "rgba(" + color + ", " + alpha + ")";
+                context.lineCap = "round";
+                context.lineWidth = 1;
+                context.moveTo(x, y);
+                context.lineTo(x + lineWidth, y);
+                context.lineTo(x + lineWidth, y + fontWidth);
+                context.lineTo(x + lineWidth / 2 + 6, y + fontWidth);
+                context.lineTo(x + lineWidth / 2, y + fontWidth + 8);
+                context.lineTo(x + lineWidth / 2 - 6, y + fontWidth);
+                context.lineTo(x, y + fontWidth);
+                context.lineTo(x, y);
+                context.fill();
+                context.stroke();
+                context.closePath();
             }
         };
         //自定义新增,启用告警后每次绘画执行修改阴影
@@ -151,18 +180,16 @@ module.exports = function (jtopo) {
                 context.fillStyle = "rgba(" + this.fontColor + "," + this.alpha + ")";
                 //换行检测
                 var textlines = text.split("\n");
-                for (var i = 0; i < textlines.length; i++) {
-                    var width = context.measureText(textlines[i]).width;
+                textlines.forEach(function(line){
+                    var width = context.measureText(line).width;
                     if (width > maxWidth) {
                         maxWidth = width;
                     }
-                }
+                });
                 var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth, textlines.length);
-                for (var j = 0; j < textlines.length; j++) {
-                    var textWidth = context.measureText(textlines[j]).width;
-                    context.fillText(textlines[j], e.x + (maxWidth - textWidth) / 2, e.y + j * fontWidth);
-                }
-
+                textlines.forEach(function(line,i){
+                    context.fillText(line, e.x + (maxWidth - context.measureText(line).width) / 2, e.y + i * fontWidth);
+                });
                 context.closePath();
             }
         };
@@ -301,23 +328,24 @@ module.exports = function (jtopo) {
         this.elementType = "TextNode";
         this.paint = function (context) {
             //自动换行
+            var self=this;
             var texts = this.text.split("\n");
             context.beginPath();
             context.font = this.font;
             var fontWidth = context.measureText("田").width;
             this.width = 0;
-            for (var j = 0; j < texts.length; j++) {
-                var width = context.measureText(texts[j]).width;
-                if (width > this.width) {
-                    this.width = width;
+            texts.forEach(function(text){
+                var width = context.measureText(text).width;
+                if (width > self.width) {
+                    self.width = width;
                 }
-            }
+            });
             this.height = texts.length * fontWidth;
             context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
             if (texts.length > 1) {
-                for (var i = 0; i < texts.length; i++) {
-                    context.fillText(texts[i], -this.width / 2 + 0.15 * fontWidth, this.height / 2 + (i - texts.length + 0.85) * fontWidth);
-                }
+                texts.forEach(function(text,i){
+                    context.fillText(text, -self.width / 2 + 0.15 * fontWidth, self.height / 2 + (i - texts.length + 0.85) * fontWidth);
+                });
             } else {
                 context.fillText(texts, -this.width / 2 + 0.03 * fontWidth, this.height / 2 - 0.15 * fontWidth);
             }
@@ -359,16 +387,9 @@ module.exports = function (jtopo) {
             this.paintCtrl(a);
             this.paintAlarmText(a);
         };
-        this.mousemove(function () {
-            var a = document.getElementsByTagName("canvas");
-            if (a && a.length > 0)for (var b = 0; b < a.length; b++)a[b].style.cursor = "pointer"
-        });
-        this.mouseout(function () {
-            var a = document.getElementsByTagName("canvas");
-            if (a && a.length > 0)for (var b = 0; b < a.length; b++)a[b].style.cursor = "default"
-        });
         this.click(function () {
-            "_blank" == this.target ? window.open(this.href) : location = this.href, this.isVisited = !0
+            "_blank" == this.target ? window.open(this.href) : location = this.href;
+            this.isVisited = !0;
         })
     }
 
@@ -404,12 +425,12 @@ module.exports = function (jtopo) {
         }
     }
 
-    function animateBaseNodeA(frameImages, b, c) {
+    function ImagesNode(frameImages, times, asImageSize) {
         this.initialize();
         this.frameImages = frameImages || [];
         this.frameIndex = 0;
         this.isStop = !0;
-        var d = b || 1e3;
+        times = times || 1e3;
         this.repeatPlay = !1;
         var e = this;
         this.nextFrame = function () {
@@ -419,54 +440,75 @@ module.exports = function (jtopo) {
                     if (!this.repeatPlay)return;
                     this.frameIndex = 0;
                 }
-                this.setImage(this.frameImages[this.frameIndex], c);
+                this.setImage(this.frameImages[this.frameIndex], asImageSize);
                 setTimeout(function () {
                     e.nextFrame();
-                }, d / frameImages.length);
+                }, times / frameImages.length);
             }
         }
     }
-
-    function animateBaseNodeB(a, b, c, d, e) {
+    // 1行4列，1000毫秒播放一轮，行偏移量
+    function OneImageGif(image, rows, columns, times, rowOffset) {
         this.initialize();
-        var f = this;
-        this.setImage(a), this.frameIndex = 0, this.isPause = !0, this.repeatPlay = !1;
-        var g = d || 1e3;
-        e = e || 0, this.paint = function (a) {
+        var self = this;
+        this.setImage(image);
+        this.frameIndex = 0;
+        this.isPause = !0;
+        this.repeatPlay = !1;
+        times = times || 1e3;
+        rowOffset = rowOffset || 0;
+        this.paint = function (context) {
             if (this.image) {
-                var b = this.width, d = this.height;
-                a.save(), a.beginPath(), a.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
-                var f = (Math.floor(this.frameIndex / c) + e) * d, g = Math.floor(this.frameIndex % c) * b;
-                a.drawImage(this.image, g, f, b, d, -b / 2, -d / 2, b, d), a.fill(), a.closePath(), a.restore(), this.paintText(a), this.paintBorder(a), this.paintCtrl(a), this.paintAlarmText(a)
+                var width = this.width;
+                var height = this.height;
+                context.save();
+                context.beginPath();
+                context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
+                var y = (Math.floor(this.frameIndex / columns) + rowOffset) * height;
+                var x = Math.floor(this.frameIndex % columns) * width;
+                context.drawImage(this.image, x, y, width, height, -width / 2, -height / 2, width, height);
+                context.fill();
+                context.closePath();
+                context.restore();
+                this.paintText(context);
+                this.paintBorder(context);
+                this.paintCtrl(context);
+                this.paintAlarmText(context);
             }
-        }, this.nextFrame = function () {
+        };
+        this.nextFrame = function () {
             if (!this.isStop) {
-                if (this.frameIndex++, this.frameIndex >= b * c) {
-                    if (!this.repeatPlay)return;
+                this.frameIndex++;
+                if (this.frameIndex >= rows * columns) {
+                    if (!this.repeatPlay){
+                        return;
+                    }
                     this.frameIndex = 0
                 }
                 setTimeout(function () {
-                    f.isStop || f.nextFrame()
-                }, g / (b * c))
+                    if(!self.isStop){
+                        self.nextFrame();
+                    }
+                }, times / (rows * columns))
             }
         }
     }
 
     function AnimateNode() {
-        var a = null;
+        var node = null;
         if (arguments.length <= 3) {
-            a = new animateBaseNodeA(arguments[0], arguments[1], arguments[2]);
+            node = new ImagesNode(arguments[0], arguments[1], arguments[2]);
         } else {
-            a = new animateBaseNodeB(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+            node = new OneImageGif(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         }
-        a.stop = function () {
-            a.isStop = !0
+        node.stop = function () {
+            node.isStop = !0
         };
-        a.play = function () {
-            a.isStop = !1;
-            a.frameIndex = 0;
-            a.nextFrame();
+        node.play = function () {
+            node.isStop = !1;
+            node.frameIndex = 0;
+            node.nextFrame();
         };
-        return a
+        return node
     }
 };

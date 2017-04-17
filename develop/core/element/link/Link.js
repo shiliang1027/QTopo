@@ -159,13 +159,15 @@ Link.prototype.setOffset = function (offset) {
  *  设置不为number类型或小于0时，则认为不要虚线
  *
  *  @method [L] setDashed
- *  @param dashedPattern {number|null}
+ *  @param dashedPattern {array} [虚线长度,虚线间隔]
  */
 Link.prototype.setDashed = function (dashedPattern) {
-    if ($.isNumeric(dashedPattern) && dashedPattern > 0) {
-        this.jtopo.dashedPattern = parseInt(dashedPattern);
+    if ($.isArray(dashedPattern) && dashedPattern.length == 2) {
+        dashedPattern[0]=$.isNumeric(dashedPattern[0])&&dashedPattern[0]>0?parseInt(dashedPattern[0]):0;
+        dashedPattern[1]=$.isNumeric(dashedPattern[1])&&dashedPattern[1]>0?parseInt(dashedPattern[1]):0;
+        this.jtopo.dashedPattern = dashedPattern;
     } else {
-        this.jtopo.dashedPattern = null;
+        this.jtopo.dashedPattern = [0,0];
     }
     this.attr.dashed = this.jtopo.dashedPattern;
 };

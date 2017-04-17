@@ -8,10 +8,10 @@
  */
 function cached(fn) {
     var cache = Object.create(null);
-    return (function cachedFn(str) {
+    return function cachedFn(str) {
         var hit = cache[str];
         return hit || (cache[str] = fn(str))
-    })
+    };
 }
 
 var util = {
@@ -201,22 +201,22 @@ var util = {
         /**
          * 构造类继承关系
          * @method inherits
-         * @param {Function} clazz 源类
-         * @param {Function} baseClazz 基类
+         * @param {Function} childClazz 子类
+         * @param {Function} FatherClazz 父类
          */
-        inherits: function (clazz, baseClazz) {
-            var clazzPrototype = clazz.prototype;
+        inherits: function (childClazz, FatherClazz) {
+            var clazzPrototype = childClazz.prototype;
 
             function F() {
             }
 
-            F.prototype = baseClazz.prototype;
-            clazz.prototype = new F();
+            F.prototype = FatherClazz.prototype;
+            childClazz.prototype = new F();
 
             for (var prop in clazzPrototype) {
-                clazz.prototype[prop] = clazzPrototype[prop];
+                childClazz.prototype[prop] = clazzPrototype[prop];
             }
-            clazz.constructor = clazz;
+            childClazz.constructor = childClazz;
         },
         /**
          * 深度克隆对象

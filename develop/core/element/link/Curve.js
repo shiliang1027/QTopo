@@ -29,7 +29,7 @@ var DEFAULT = {
     jsonId:"",
     gap: 20,
     width: 2,
-    dashed: null,
+    dashed: [],
     zIndex: 100,
     font: {
         size: 16,

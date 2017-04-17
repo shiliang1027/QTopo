@@ -129,7 +129,7 @@ module.exports = function (jtopo) {
                 this.arrowsRadius = null;
                 this.arrowsOffset = 0;
                 this.arrowsType = "close";
-                this.dashedPattern = null;
+                this.dashedPattern = [];
                 this.path = [];
                 var e = "text,font,fontColor,lineWidth,lineJoin".split(",");
                 this.serializedProperties = this.serializedProperties.concat(e)
@@ -162,16 +162,16 @@ module.exports = function (jtopo) {
             return getBorderPoint(this.nodeZ, this.nodeA);
         };
         this.getPath = function () {
-            var path=[];
+            var path = [];
             var self = this;
             var start = this.getStartPosition();
             var end = this.getEndPosition();
-            if(start&&end){
+            if (start && end) {
                 var NUMS = getNums(this.nodeA, this.nodeZ);
-                if ((this.nodeA === this.nodeZ)||1 == NUMS){
+                if ((this.nodeA === this.nodeZ) || 1 == NUMS) {
                     path.push(start);
                     path.push(end);
-                }else{
+                } else {
                     getPathWidthGap(path);
                 }
             }
@@ -232,19 +232,20 @@ module.exports = function (jtopo) {
             }
             context.beginPath();
             context.moveTo(path[0].x, path[0].y);
+            if (this.dashedPattern instanceof Array&&this.dashedPattern.length==2) {
+                if(this.dashedPattern[0]>0&&this.dashedPattern[1]>0) {
+                    context.setLineDash(this.dashedPattern);
+                }
+            }
             for (var i = 1; i < path.length; i++) {
-                if (null == this.dashedPattern) {
-                    if (attr.radius > 0) {
-                        if (i < path.length - 1) {
-                            context.arcTo(path[i].x, path[i].y, path[i + 1].x, path[i + 1].y, attr.radius);//增加折线弧度
-                        } else {
-                            context.lineTo(path[i].x, path[i].y);
-                        }
+                if (attr.radius > 0) {
+                    if (i < path.length - 1) {
+                        context.arcTo(path[i].x, path[i].y, path[i + 1].x, path[i + 1].y, attr.radius);//增加折线弧度
                     } else {
                         context.lineTo(path[i].x, path[i].y);
                     }
                 } else {
-                    context.JTopoDashedLineTo(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y, this.dashedPattern);
+                    context.lineTo(path[i].x, path[i].y);
                 }
             }
             context.stroke();
@@ -514,7 +515,7 @@ module.exports = function (jtopo) {
                 }
                 path.push({x: start.x + gap, y: start.y});
                 path.push({x: start.x + gap, y: start.y + linkOffset});
-                path.push({x: end.x + gap,y: end.y - linkOffset});
+                path.push({x: end.x + gap, y: end.y - linkOffset});
                 path.push({x: end.x + gap, y: end.y});
             }
             return path;
@@ -542,6 +543,11 @@ module.exports = function (jtopo) {
             var middle = path.middle;
             if (start && end && middle) {
                 context.beginPath();
+                if (this.dashedPattern instanceof Array&&this.dashedPattern.length==2) {
+                    if(this.dashedPattern[0]>0&&this.dashedPattern[1]>0){
+                        context.setLineDash(this.dashedPattern);
+                    }
+                }
                 context.moveTo(start.x, start.y);
                 context.strokeStyle = "rgba(" + this.strokeColor + "," + this.alpha + ")";
                 context.lineWidth = this.lineWidth;
@@ -567,7 +573,7 @@ module.exports = function (jtopo) {
                 if (this.nodeA === this.nodeZ) {
                     path.push(start);
                     path.push(end);
-                }else{
+                } else {
                     var angle = Math.atan(Math.abs(end.y - start.y) / Math.abs(end.x - start.x));
                     path.middle = {
                         x: (start.x + end.x) / 2 + this.offset * Math.cos(angle - Math.PI / 2),

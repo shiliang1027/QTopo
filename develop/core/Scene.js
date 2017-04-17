@@ -967,6 +967,7 @@ Scene.prototype.moveToNode = function (node) {
         }
     }
 };
+
 /**
  * 自动布局
  * @method autoLayout

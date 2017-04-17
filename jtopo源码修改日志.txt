@@ -10,8 +10,9 @@
 
 * DisplayElement
         (1)setLocation同步属性到this.qtopo.attr.postion上
-
-* container:
+* scene
+        (1)修改areaSelectHandle,防止线被选择模式下的选择框选中
+* container
         (1)所需的AutoBoundLayout函数重写,更合理
         (2)改写paintText函数，支持名称以\n为换行标记换行显示
         (3)getTextPostion增加參數textLines表明共多少行，改了top_center時的文字起始位置,保证文字居中位置在文字换行时始终居中
@@ -19,10 +20,10 @@
 * util
         优化原有Array.prototype.del函数
 
-* layout:
+* layout
         getRootNodes,getRootChilds优化,删除无用util块里的$foreach,$for,mouseCoords,isIntsect,toJson
 
-* node:
+* node
         BaseNode:
             (1)新增paintAlarmFlash函数且paint函数中增加paintAlarmFlash调用,实现告警的阴影渲染的效果
             (2)改写paintText函数，支持名称以\n为换行标记换行显示
@@ -30,7 +31,7 @@
         TextNode:
             (1)改写paint函数，支持换行
 
-* link:
+* link
         Link:
             (1)paintSelect 改选取颜色
             (2)paintPath 改写，加入双向箭头
@@ -39,5 +40,6 @@
             (5)bundleOffset属性替换为offset，
                 FlexionalLink的折线段, link多条时的出现的折线段，以及曲线的弧度都由offset属性决定
             (6)bundleGap属性替换为gap
+            (7)dashedPattern属性为数组，[虚线长度，虚线间隔],虚线绘制采用原生setLineDash函数,删除原CanvasRenderingContext2D.prototype.JTopoDashedLineTo
         CurveLink:
             (1)重写绘制

@@ -153,12 +153,9 @@ module.exports = function (JTopo) {
     }
 
     function removeFromArray(arr, item) {
-        for (var c = 0; c < arr.length; c++) {
-            var d = arr[c];
-            if (d === item) {
-                arr = arr.del(c);
-                break
-            }
+        var index=arr.indexOf(item);
+        if(index>-1){
+            arr.splice(index,1);
         }
         return arr
     }
@@ -313,8 +310,8 @@ module.exports = function (JTopo) {
         return d;
     }
 
-    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (a) {
-            setTimeout(a, 1e3 / 24)
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (fn) {
+            return setTimeout(fn, 1e3 / 24);
         };
     Array.prototype.del = function (item) {
         if ("number" != typeof item) {
