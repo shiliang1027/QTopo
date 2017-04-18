@@ -232,29 +232,44 @@ function initSearchMode(instance, scene, toolBar, resultWin) {
         if ($.isFunction(searchConfig.search)) {
             var results = searchConfig.search(input.val());
             if (!searchConfig.hideResult) {
-                addResult(results, searchConfig.clickResult);
+                addResult(results, searchConfig.clickResult,searchConfig.ajaxData);
             }
         }
     }
 
-    function addResult(results, click) {
-        if ($.isArray(results) && results.length > 0) {
-            resultShow.empty();
-            $.each(results, function (i, result) {
-                var li = $("<li title='" + result.content + "'>" + result.content + "</li>")
-                    .data('doResult', function () {
-                        if ($.isFunction(click)) {
-                            click(result);
-                        }
-                    });
-                resultShow.append(li);
+    function addResult(results, click,ajaxData) {
+        if ($.isArray(results)) {
+            appendResultArr(results);
+        } else if(typeof results !='undefined'&& $.isFunction(results.state)&&$.isFunction(ajaxData)){//为deferred对象
+            results.done(function(data){
+                data=ajaxData(data);
+                if($.isArray(data)){
+                    appendResultArr(data);
+                }else{
+                    QTopo.util.error("searchResult error ,should be Array :"+arr);
+                }
             });
-            resultWin.show();
-        } else {
-            instance.open("view", {
-                content: "无查询结果!",
-                width: 200
-            });
+        }
+
+        function appendResultArr(results){
+            if(results.length > 0){
+                resultShow.empty();
+                $.each(results, function (i, result) {
+                    var li = $("<li title='" + result.content + "'>" + result.content + "</li>")
+                        .data('doResult', function () {
+                            if ($.isFunction(click)) {
+                                click(result);
+                            }
+                        });
+                    resultShow.append(li);
+                });
+                resultWin.show();
+            }else{
+                instance.open("view", {
+                    content: "无查询结果!",
+                    width: 200
+                });
+            }
         }
     }
     var showTime;
