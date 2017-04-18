@@ -349,9 +349,9 @@ Element.prototype.val = function (key, value) {
     } else {
         if (typeof value == 'undefined') {
             var result;
-            if (this.extra[key]) {
+            if (typeof this.extra[key]!='undefined') {
                 result = this.extra[key];
-            } else if (this.attr[key]) {
+            } else if (typeof this.attr[key]!='undefined') {
                 result = this.attr[key];
             } else {
                 result = this[key];
