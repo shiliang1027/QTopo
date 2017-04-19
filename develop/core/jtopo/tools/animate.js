@@ -1,4 +1,4 @@
-module.exports=function (jtopo) {
+module.exports = function (jtopo) {
     jtopo.Animate = {};
     jtopo.Effect = {};
     var stopAnimate = !1;
@@ -45,24 +45,6 @@ module.exports=function (jtopo) {
         }
     }
 
-    function ef_gravity(element, config) {
-        config = config || {};
-        var gravity = config.gravity || 0.1;
-        var DX = config.dx || 0;
-        var DY = config.dy || 5;
-        var stop = config.stop;
-        var h = config.interval || 30;
-        return new AnimateObject(function () {
-            if (stop && stop()) {
-                DY = 0.5;
-                this.stop();
-            } else {
-                DY += gravity;
-                element.setLocation(element.x + DX, element.y + DY);
-            }
-        }, h);
-    }
-
     function stepByStep(target, configs, time, e, f) {
         var intervalTime = 1e3 / 24;
         var temp = {};
@@ -107,10 +89,10 @@ module.exports=function (jtopo) {
 
     function spring(config) {
         config = config || {};
-        var sping = config.spring || .1; // 弹性系数
+        var spring = config.spring || .1; // 弹性系数
         var friction = config.friction || .8;// 摩擦系数
-        var grivity = config.grivity || 0; // 引力大小
-        var wind = config.minLength || 0;
+        var grivity = config.grivity || 0; // 重力大小
+        var minLength = config.minLength || 0;   // 节点之间最终距离
         return {
             items: [],
             id: null,
@@ -138,24 +120,22 @@ module.exports=function (jtopo) {
                 this.id = null;
             },
             nextFrame: function () {
-                for (var i = 0; i < this.items.length; i++) {
-                    var item = this.items[i],
-                        node = item.node,
-                        target = item.target,
-                        vx = item.vx,
-                        vy = item.vy,
-                        disX = target.x - node.x,
-                        disY = target.y - node.y,
-                        angle = Math.atan2(disY, disX);
-                    if (0 != wind) {
-                        var n = target.x - Math.cos(angle) * wind,
-                            o = target.y - Math.sin(angle) * wind;
-                        vx += (n - node.x) * sping;
-                        vy += (o - node.y) * sping;
-                    } else {
-                        vx += disX * sping;
-                        vy += disY * sping;
+                this.items.forEach(function (item) {
+                    var node = item.node;
+                    var vx = item.vx;
+                    var vy = item.vy;
+                    var root = item.target;
+                    var distanceX = root.x - node.x;
+                    var distanceY = root.y - node.y;
+                    var angle = Math.atan2(disY, disX);
+                    if (0 != minLength) {
+                        var targetX = root.x - Math.cos(angle) * minLength;
+                        var targetY = root.y - Math.sin(angle) * minLength;
+                        distanceX = targetX - node.x;
+                        distanceY = targetY - node.y;
                     }
+                    vx += distanceX * spring;
+                    vy += distanceY * spring;
                     vx *= friction;
                     vy *= friction;
                     vy += grivity;
@@ -163,7 +143,7 @@ module.exports=function (jtopo) {
                     node.y += vy;
                     item.vx = vx;
                     item.vy = vy;
-                }
+                });
             }
         }
     }
@@ -185,22 +165,61 @@ module.exports=function (jtopo) {
         }, f
     }
 
-    function an_gravity(a, b) {
-        function c() {
-            return window.clearInterval(g), h.onStop && h.onStop(a), h
+    function an_gravity(element, config) {
+        var stage;
+        if (config.context instanceof jtopo.Stage) {
+            stage = config.context;
+        } else if (config.context instanceof jtopo.Scene) {
+            stage = config.context.stage;
         }
+        var gravity = config.gravity || 0.1;
+        var intervalId = null;
+        return {
+            run: function () {
+                var stepX = config.stepX || 0;
+                var stepY = config.stepY || 2;
+                intervalId = setInterval(function () {
+                    if (stopAnimate || typeof stage == 'undefined') {
+                        this.stop();
+                    } else {
+                        stepY += gravity;
+                        if (element.y + element.height < stage.canvas.height) {
+                            element.setLocation(element.x + stepX, element.y + stepY)
+                        } else {
+                            stepY = 0;
+                            this.stop();
+                        }
+                    }
+                }, 20);
+                return this;
+            },
+            stop: function () {
+                window.clearInterval(intervalId);
+                if (typeof this.onStop == 'function') {
+                    this.onStop(element);
+                }
+                return this;
+            },
+            onStop: null
+        };
+    }
 
-        function d() {
-            var d = b.dx || 0, i = b.dy || 2;
-            return g = setInterval(function () {
-                return stopAnimate ? void h.stop() : (i += f, void(a.y + a.height < e.stage.canvas.height ? a.setLocation(a.x + d, a.y + i) : (i = 0, c())))
-            }, 20), h
-        }
-
-        var e = b.context, f = b.gravity || .1, g = null, h = {};
-        return h.run = d, h.stop = c, h.onStop = function (a) {
-            return h.onStop = a, h
-        }, h
+    function ef_gravity(element, config) {
+        config = config || {};
+        var gravity = config.gravity || 0.1;
+        var DX = config.dx || 0;
+        var DY = config.dy || 5;
+        var stop = config.stop;
+        var times = config.interval || 30;
+        return new AnimateObject(function () {
+            if (stop && stop()) {
+                DY = 0.5;
+                this.stop();
+            } else {
+                DY += gravity;
+                element.setLocation(element.x + DX, element.y + DY);
+            }
+        }, times);
     }
 
     function dividedTwoPiece(b, c) {
