@@ -1,4 +1,4 @@
-module.exports=function initEagleEye(stage) {
+module.exports = function initEagleEye(stage) {
     return {
         hgap: 16,
         visible: !1,
@@ -26,24 +26,24 @@ module.exports=function initEagleEye(stage) {
             if (stage.childs.length > 0) {
                 g.save();
                 g.clearRect(0, 0, this.exportCanvas.width, this.exportCanvas.height);
-                stage.childs.forEach(function (a) {
-                    if (1 == a.visible) {
-                        a.save();
-                        a.translateX = 0;
-                        a.translateY = 0;
-                        a.scaleX = 1;
-                        a.scaleY = 1;
+                stage.childs.forEach(function (scene) {
+                    if (1 == scene.visible) {
+                        scene.save();
+                        scene.translateX = 0;
+                        scene.translateY = 0;
+                        scene.scaleX = 1;
+                        scene.scaleY = 1;
                         g.scale(e, f);
                         if (d.left < 0) {
-                            a.translateX = Math.abs(d.left)
+                            scene.translateX = Math.abs(d.left)
                         }
                         if (d.top < 0) {
-                            a.translateY = Math.abs(d.top)
+                            scene.translateY = Math.abs(d.top)
                         }
-                        a.paintAll = !0;
-                        a.repaint(g);
-                        a.paintAll = !1;
-                        a.restore();
+                        scene.paintAll = !0;
+                        scene.paint(g);
+                        scene.paintAll = !1;
+                        scene.restore();
                     }
                 });
                 g.restore();
@@ -65,16 +65,23 @@ module.exports=function initEagleEye(stage) {
             }
 
             null != j && null != k ? this.setSize(b, c) : this.setSize(200, 160);
-            var e = this.canvas.getContext("2d");
+            var context = this.canvas.getContext("2d");
             if (stage.childs.length > 0) {
-                e.save(), e.clearRect(0, 0, this.canvas.width, this.canvas.height), stage.childs.forEach(function (a) {
-                    1 == a.visible && (a.save(), a.centerAndZoom(null, null, e), a.repaint(e), a.restore())
+                context.save();
+                context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                stage.childs.forEach(function (scene) {
+                    if (1 == scene.visible) {
+                        scene.save();
+                        scene.centerAndZoom(null, null, context);
+                        scene.paint(context);
+                        scene.restore();
+                    }
                 });
                 var f = d(stage.childs[0]), g = f.translateX * (this.canvas.width / stage.canvas.width) * stage.childs[0].scaleX, h = f.translateY * (this.canvas.height / stage.canvas.height) * stage.childs[0].scaleY, i = stage.getBound(), j = stage.canvas.width / stage.childs[0].scaleX / i.width, k = stage.canvas.height / stage.childs[0].scaleY / i.height;
-                j > 1 && (j = 1), k > 1 && (j = 1), g *= j, h *= k, i.left < 0 && (g -= Math.abs(i.left) * (this.width / i.width)), i.top < 0 && (h -= Math.abs(i.top) * (this.height / i.height)), e.save(), e.lineWidth = 1, e.strokeStyle = "rgba(255,0,0,1)", e.strokeRect(-g, -h, e.canvas.width * j, e.canvas.height * k), e.restore();
+                j > 1 && (j = 1), k > 1 && (j = 1), g *= j, h *= k, i.left < 0 && (g -= Math.abs(i.left) * (this.width / i.width)), i.top < 0 && (h -= Math.abs(i.top) * (this.height / i.height)), context.save(), context.lineWidth = 1, context.strokeStyle = "rgba(255,0,0,1)", context.strokeRect(-g, -h, context.canvas.width * j, context.canvas.height * k), context.restore();
                 var l = null;
                 try {
-                    l = e.getImageData(0, 0, e.canvas.width, e.canvas.height)
+                    l = context.getImageData(0, 0, context.canvas.width, context.canvas.height)
                 } catch (m) {
                 }
                 return l

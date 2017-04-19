@@ -3,7 +3,7 @@
  */
 /**
  * 文本节点
- * @class  TextNode
+ * @class  initTextNode
  * @constructor
  * @extends [N] Node
  * @param [config] 配置参数，无参则按全局配置创建
@@ -25,10 +25,10 @@ var DEFAULT = {
     jsonId:"",
     border: {
         width: 0,
-        radius: 0,//最大160 最小0
+        radius: 0,
         color: "255,0,0"
     },
-    zIndex: 200,//层级(10-999)
+    zIndex: 3,
     alpha: 1,
     text: 'no text here',
     useType: QTopo.constant.node.TEXT
@@ -95,7 +95,7 @@ function setJTopo(config) {
                         radius: 0,//最大160 最小0
                         color: "255,0,0"
                     },
-                    zIndex: 200,//层级(10-999)
+                    zIndex: 3,
                     alpha: 1,
                     text: 'no text here',
                     useType: QTopo.constant.node.TEXT

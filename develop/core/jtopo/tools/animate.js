@@ -1,4 +1,19 @@
 module.exports=function (jtopo) {
+    jtopo.Animate = {};
+    jtopo.Effect = {};
+    var stopAnimate = !1;
+    jtopo.Effect.spring = spring;
+    jtopo.Effect.gravity = ef_gravity;
+    jtopo.Animate.stepByStep = stepByStep;
+    jtopo.Animate.rotate = rotate;
+    jtopo.Animate.scale = scale;
+    jtopo.Animate.move = move;
+    jtopo.Animate.cycle = cycle;
+    jtopo.Animate.repeatThrow = repeatThrow;
+    jtopo.Animate.dividedTwoPiece = dividedTwoPiece;
+    jtopo.Animate.gravity = an_gravity;
+    jtopo.Animate.startAll = startAll;
+    jtopo.Animate.stopAll = stopAll;
     function AnimateObject(fn, time) {
         var intervalId;
         var messageBus = null;
@@ -48,7 +63,7 @@ module.exports=function (jtopo) {
         }, h);
     }
 
-    function an_stepByStep(target, configs, time, e, f) {
+    function stepByStep(target, configs, time, e, f) {
         var intervalTime = 1e3 / 24;
         var temp = {};
         for (var config in configs) {
@@ -90,7 +105,7 @@ module.exports=function (jtopo) {
         }, intervalTime);
     }
 
-    function ef_spring(config) {
+    function spring(config) {
         config = config || {};
         var sping = config.spring || .1; // 弹性系数
         var friction = config.friction || .8;// 摩擦系数
@@ -153,7 +168,7 @@ module.exports=function (jtopo) {
         }
     }
 
-    function an_rotate(a, b) {
+    function rotate(a, b) {
         function c() {
             return e = setInterval(function () {
                 return stopAnimate ? void f.stop() : (a.rotate += g || .2, void(a.rotate > 2 * Math.PI && (a.rotate = 0)))
@@ -188,7 +203,7 @@ module.exports=function (jtopo) {
         }, h
     }
 
-    function an_dividedTwoPiece(b, c) {
+    function dividedTwoPiece(b, c) {
         function d(c, d, e, f, g) {
             var h = new jtopo.Node;
             return h.setImage(b.image), h.setSize(b.width, b.height), h.setLocation(c, d), h.showSelected = !1, h.draggable = !1, h.paint = function (a) {
@@ -217,7 +232,7 @@ module.exports=function (jtopo) {
         }, i.run = f, i.stop = g, i
     }
 
-    function an_repeatThrow(a, b) {
+    function repeatThrow(a, b) {
         function c(a) {
             a.visible = !0, a.rotate = Math.random();
             var b = g.stage.canvas.width / 2;
@@ -240,15 +255,15 @@ module.exports=function (jtopo) {
         }, i.run = d, i.stop = e, i
     }
 
-    function an_stopAll() {
+    function stopAll() {
         stopAnimate = !0
     }
 
-    function an_startAll() {
+    function startAll() {
         stopAnimate = !1
     }
 
-    function an_cycle(b, c) {
+    function cycle(b, c) {
         function d() {
             return n = setInterval(function () {
                 if (stopAnimate)return void m.stop();
@@ -265,7 +280,7 @@ module.exports=function (jtopo) {
         return m.run = d, m.stop = e, m
     }
 
-    function an_move(element, config) {
+    function move(element, config) {
         config = config || {};
         var position = config.position;
         var easing = config.easing || 0.2;
@@ -303,7 +318,7 @@ module.exports=function (jtopo) {
         };
     }
 
-    function an_scale(a, b) {
+    function scale(a, b) {
         function c() {
             return j = setInterval(function () {
                 a.scaleX += f, a.scaleY += f, a.scaleX >= e && d()
@@ -319,19 +334,4 @@ module.exports=function (jtopo) {
             return i.onStop = a, i
         }, i.run = c, i.stop = d, i
     }
-
-    jtopo.Animate = {}, jtopo.Effect = {};
-    var stopAnimate = !1;
-    jtopo.Effect.spring = ef_spring;
-    jtopo.Effect.gravity = ef_gravity;
-    jtopo.Animate.stepByStep = an_stepByStep;
-    jtopo.Animate.rotate = an_rotate;
-    jtopo.Animate.scale = an_scale;
-    jtopo.Animate.move = an_move;
-    jtopo.Animate.cycle = an_cycle;
-    jtopo.Animate.repeatThrow = an_repeatThrow;
-    jtopo.Animate.dividedTwoPiece = an_dividedTwoPiece;
-    jtopo.Animate.gravity = an_gravity;
-    jtopo.Animate.startAll = an_startAll;
-    jtopo.Animate.stopAll = an_stopAll;
-}
+};

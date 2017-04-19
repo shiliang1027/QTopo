@@ -1,4 +1,45 @@
 module.exports = function (JTopo) {
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (fn) {
+            return setTimeout(fn, 1e3 / 24);
+        };
+    Array.prototype.del = function (item) {
+        if ("number" != typeof item) {
+            var index = this.indexOf(item);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+            return this
+        } else {
+            if (item > -1) {
+                this.splice(item, 1);
+            }
+            return this;
+        }
+    };
+    var canvas = document.createElement("canvas"), graphics = canvas.getContext("2d"), alarmImageCache = {};
+    JTopo.util = {
+        rotatePoint: rotatePoint,
+        rotatePoints: rotatePoints,
+        getDistance: getDistance,
+        getEventPosition: getEventPosition,
+        MessageBus: MessageBus,
+        isFirefox: navigator.userAgent.indexOf("Firefox") > 0,
+        isIE: !(!window.attachEvent || -1 !== navigator.userAgent.indexOf("Opera")),
+        isChrome: null != navigator.userAgent.toLowerCase().match(/chrome/),
+        clone: clone,
+        isPointInRect: isPointInRect,
+        isPointInLine: isPointInLine,
+        removeFromArray: removeFromArray,
+        cloneEvent: cloneEvent,
+        randomColor: randomColor,
+        loadStageFromJson: loadStageFromJson,
+        getElementsBound: getElementsBound,
+        genImageAlarm: genImageAlarm,
+        getOffsetPosition: getOffsetPosition,
+        inherits:inherits
+    };
+
+
     function MessageBus(a) {
         this.name = a;
         this.messageMap = {};
@@ -243,112 +284,18 @@ module.exports = function (JTopo) {
         }
         return {left: c, top: b}
     }
+    function inherits(childClazz, FatherClazz) {
+        var clazzPrototype = childClazz.prototype;
 
-    function lineF(x1, y1, x2, y2) {
-        var tan = (y2 - y1) / (x2 - x1);
-        var g = y1 - x1 * tan;
-        e.k = tan;
-        e.b = g;
-        e.x1 = x1;
-        e.x2 = x2;
-        e.y1 = y1;
-        e.y2 = y2;
-        return e;
-        function e(a) {
-            return a * tan + g
-        }
-    }
-
-    function inRange(a, b, c) {
-        var d = Math.abs(b - c), e = Math.abs(b - a), f = Math.abs(c - a), g = Math.abs(d - (e + f));
-        return 1e-6 > g ? !0 : !1
-    }
-
-    function isPointInLineSeg(a, b, c) {
-        return inRange(a, c.x1, c.x2) && inRange(b, c.y1, c.y2)
-    }
-
-    function intersection(lineFn, lineFnB) {
-        var c, d;
-        if (lineFn.k != lineFnB.k) {
-            if(1 / 0 == lineFn.k || lineFn.k == -1 / 0){
-                c = lineFn.x1;
-                d = lineFnB(lineFn.x1);
-            }else if(1 / 0 == lineFnB.k || lineFnB.k == -1 / 0){
-                c = lineFnB.x1;
-                d = lineFn(lineFnB.x1);
-            }else{
-                c = (lineFnB.b - lineFn.b) / (lineFn.k - lineFnB.k);
-                d = lineFn(c)
-            }
-            if(0!= isPointInLineSeg(c, d, lineFn)&&0!= isPointInLineSeg(c, d, lineFnB)){
-                return {
-                    x: c,
-                    y: d
-                }
-            }
-        }
-        return null;
-    }
-
-    function intersectionLineBound(lineFn, bound) {
-        var newLineFn = JTopo.util.lineF(bound.left, bound.top, bound.left, bound.bottom);
-        var d = JTopo.util.intersection(lineFn, newLineFn);
-        if (null == d) {
-            newLineFn = JTopo.util.lineF(bound.left, bound.top, bound.right, bound.top);
-            d = JTopo.util.intersection(lineFn, newLineFn);
-            if (null == d) {
-                newLineFn = JTopo.util.lineF(bound.right, bound.top, bound.right, bound.bottom);
-                d = JTopo.util.intersection(lineFn, newLineFn);
-                if (null == d) {
-                    newLineFn = JTopo.util.lineF(bound.left, bound.bottom, bound.right, bound.bottom);
-                    d = JTopo.util.intersection(lineFn, newLineFn);
-                }
-            }
+        function F() {
         }
 
-        return d;
-    }
+        F.prototype = FatherClazz.prototype;
+        childClazz.prototype = new F();
 
-    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (fn) {
-            return setTimeout(fn, 1e3 / 24);
-        };
-    Array.prototype.del = function (item) {
-        if ("number" != typeof item) {
-            var index = this.indexOf(item);
-            if (index > -1) {
-                this.splice(index, 1);
-            }
-            return this
-        } else {
-            if (item > -1) {
-                this.splice(item, 1);
-            }
-            return this;
+        for (var prop in clazzPrototype) {
+            childClazz.prototype[prop] = clazzPrototype[prop];
         }
-    };
-    var canvas = document.createElement("canvas"), graphics = canvas.getContext("2d"), alarmImageCache = {};
-    JTopo.util = {
-        rotatePoint: rotatePoint,
-        rotatePoints: rotatePoints,
-        getDistance: getDistance,
-        getEventPosition: getEventPosition,
-        MessageBus: MessageBus,
-        isFirefox: navigator.userAgent.indexOf("Firefox") > 0,
-        isIE: !(!window.attachEvent || -1 !== navigator.userAgent.indexOf("Opera")),
-        isChrome: null != navigator.userAgent.toLowerCase().match(/chrome/),
-        clone: clone,
-        isPointInRect: isPointInRect,
-        isPointInLine: isPointInLine,
-        removeFromArray: removeFromArray,
-        cloneEvent: cloneEvent,
-        randomColor: randomColor,
-        loadStageFromJson: loadStageFromJson,
-        getElementsBound: getElementsBound,
-        genImageAlarm: genImageAlarm,
-        getOffsetPosition: getOffsetPosition,
-        lineF: lineF,
-        intersection: intersection,
-        intersectionLineBound: intersectionLineBound
+        childClazz.constructor = childClazz;
     }
 };

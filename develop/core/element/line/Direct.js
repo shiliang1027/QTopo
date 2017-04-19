@@ -37,7 +37,7 @@ var DEFAULT={
         },
         width: 2,
         dashed:  null,
-        zIndex : 80,
+        zIndex : 2,
         font:{
             size:16,
             type:"微软雅黑",
@@ -107,7 +107,7 @@ function setJTopo(config) {
                                 gap: 20,
                                 width: 3,
                                 dashed: null,
-                                zIndex: 100,
+                                zIndex: 2,
                                 font: {
                                     size: 16,
                                     type: "微软雅黑",

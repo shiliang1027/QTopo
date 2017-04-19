@@ -1,4 +1,19 @@
 module.exports = function (jtopo) {
+    jtopo.layout = jtopo.Layout = {
+        layoutNode: layoutNode,
+        getNodeChilds: getRootChilds,
+        adjustPosition: adjustPosition,
+        springLayout: springLayout,
+        getTreeDeep: getTreeDeep,
+        getRootNodes: getRootNodes,
+        GridLayout: GridLayout,
+        FlowLayout: FlowLayout,
+        AutoBoundLayout: AutoBoundLayout,
+        CircleLayout: CircleLayout,
+        TreeLayout: TreeLayout,
+        getNodesCenter: getNodesCenter,
+        circleLayoutNodes: circleLayoutNodes
+    }
     function getNodesCenter(a) {
         var b = 0, c = 0;
         a.forEach(function (a) {
@@ -265,7 +280,12 @@ module.exports = function (jtopo) {
     }
 
     function m(a, b, c, d, e, f) {
-        for (var g = [], h = 0; c > h; h++)for (var i = 0; d > i; i++)g.push({x: a + i * e, y: b + h * f});
+        var g = [];
+        for (var h = 0; c > h; h++){
+            for (var i = 0; d > i; i++){
+                g.push({x: a + i * e, y: b + h * f});
+            }
+        }
         return g
     }
 
@@ -368,7 +388,6 @@ module.exports = function (jtopo) {
                 }
             }
         }
-        return null
     }
 
     function springLayout(root, scene) {
@@ -420,21 +439,5 @@ module.exports = function (jtopo) {
         var d = 0;
         reDeep(childs, root, 0);
         return d;
-    }
-
-    jtopo.layout = jtopo.Layout = {
-        layoutNode: layoutNode,
-        getNodeChilds: getRootChilds,
-        adjustPosition: adjustPosition,
-        springLayout: springLayout,
-        getTreeDeep: getTreeDeep,
-        getRootNodes: getRootNodes,
-        GridLayout: GridLayout,
-        FlowLayout: FlowLayout,
-        AutoBoundLayout: AutoBoundLayout,
-        CircleLayout: CircleLayout,
-        TreeLayout: TreeLayout,
-        getNodesCenter: getNodesCenter,
-        circleLayoutNodes: circleLayoutNodes
     }
 }

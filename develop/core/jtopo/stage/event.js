@@ -1,7 +1,12 @@
 /**
  * Created by qiyc on 2017/4/18.
  */
-module.exports=function(self,canvas){
+module.exports=function(self,canvas,jtopo){
+    var innerTimeOutId = null;
+    var flag = !0;
+    document.oncontextmenu = function () {
+        return flag
+    };
     init(canvas);
     function init(canvas) {
         if (jtopo.util.isIE || !window.addEventListener) {
@@ -80,15 +85,14 @@ module.exports=function(self,canvas){
 
     function mouseOut(a) {
         innerTimeOutId = setTimeout(function () {
-            flag = !0;
+            flag = true;
         }, 500);
         document.onselectstart = function () {
-            return !0;
+            return true;
         };
         var b = getEventObject(a);
         self.dispatchEventToScenes("mouseout", b);
         self.dispatchEvent("mouseout", b);
-        self.needRepaint = 0 == self.animate ? !1 : !0;
     }
 
     function mouseDown(event) {
@@ -109,10 +113,9 @@ module.exports=function(self,canvas){
     }
     function mouseUp(a) {
         var b = getEventObject(a);
+        self.mouseDown = !1;
         self.dispatchEventToScenes("mouseup", b);
         self.dispatchEvent("mouseup", b);
-        self.mouseDown = !1;
-        self.needRepaint = 0 == self.animate ? !1 : !0;
     }
 
     function mouseMove(event) {

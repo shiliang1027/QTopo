@@ -25,11 +25,11 @@ var DEFAULT = {
         color: '10,10,100',
         alpha: 0.5,
         draggable: true,
-        zIndex: 10,
+        zIndex: 1,
         jsonId:"",
         border:{
             width:0,
-            radius:30,//最大160 最小0
+            radius:30,
             color:"255,0,0"
         },
         size:[500,500],
@@ -65,7 +65,7 @@ function Group(config) {
 QTopo.util.inherits(Group,Container);
 //-
 var fixedLayout=function(group, children){
-    if(this.qtopo){
+    if(group.qtopo){
         if(group.width==0||group.height==0){
             group.width=this.qtopo.attr.size[0];
             group.height=this.qtopo.attr.size[1];
@@ -80,7 +80,7 @@ var fixedLayout=function(group, children){
             JTopo.Layout.AutoBoundLayout()(group, children);
         }
     }else{
-        QTopo.util.error("the container not wrap with qtopo",this);
+        QTopo.util.error("the container not wrap with qtopo",group);
     }
 };
 function resetLocation(groupBound,child){
@@ -183,11 +183,11 @@ Group.prototype.setLayout=function(layout){
                                 color: '10,10,100',
                                 alpha: 0.5,
                                 draggable: true,
-                                zIndex: 10,
+                                zIndex: 1,
                                 jsonId:"",
                                 border:{
                                     width:0,
-                                    radius:30,//最大160 最小0
+                                    radius:30,
                                     color:"255,0,0"
                                 },
                                 size:[500,500],

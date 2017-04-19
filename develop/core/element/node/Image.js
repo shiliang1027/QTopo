@@ -30,10 +30,10 @@ var DEFAULT= {
     jsonId:"",
     border:{
         width:0,
-        radius:0,//最大160 最小0
+        radius:0,
         color:"255,0,0"
     },
-    zIndex: 200,//层级(10-999)
+    zIndex: 3,
     color: JTopo.util.randomColor(),
     namePosition: 'bottom',
     useType: QTopo.constant.node.IMAGE,
@@ -121,10 +121,10 @@ ImageNode.prototype.setImage=function(image) {
                         jsonId:"",
                         border:{
                             width:0,
-                            radius:0,//最大160 最小0
+                            radius:0,
                             color:"255,0,0"
                         },
-                        zIndex: 200,//层级(10-999)
+                        zIndex: 3,
                         color: JTopo.util.randomColor(),
                         namePosition: 'bottom',
                         useType: QTopo.constant.node.IMAGE,

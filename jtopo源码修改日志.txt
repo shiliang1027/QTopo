@@ -1,7 +1,8 @@
 * 所有
         (1)this.addEventListener将原有包装去除，配合removeEventListener的卸载事件功能
         (2)修复dragable以及分组的childDragble的错误..
-* baseElement
+        (3)修改了继承方式，全部转化为oop形式，并进行了webpack分块
+* util
         MessageBus:
             (1)由原本函数内部this.function的定义方式优化为 prototype的方式
             (2)unsubscribe增加参数，由原本对应事件名下的所有事件函数全部删除，
